@@ -25,8 +25,19 @@ import(
 ## Usage
 
 ```go
+import(
+	"github.com/grokify/go-aha"
+	ou "github.com/grokify/oauth2util"
+)
 
+func main() {
+	client := ou.NewClientAccessToken(os.Getenv("AHA_API_KEY"))
 
+	api := aha.NewFeaturesApiWithBasePath(os.Getenv("AHA_API_BASE_URL"))
+	api.Configuration.Transport = client.Transport
+
+	info, resp, err := api.FeaturesGet("")
+}
 ```
 
 ## Documentation for API Endpoints
