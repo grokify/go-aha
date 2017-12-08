@@ -1,4 +1,4 @@
-# Release
+# InlineResponse2002Releases
 
 ## Properties
 Name | Type | Description | Notes
@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **Name** | **string** | Release name. | [optional] [default to null]
 **StartDate** | [**time.Time**](time.Time.md) | Start date in YYYY-MM-DD format. | [optional] [default to null]
 **ReleaseDate** | [**time.Time**](time.Time.md) | Release date in YYYY-MM-DD format. | [optional] [default to null]
-**ExternalReleaseDate** | [**time.Time**](time.Time.md) | External release date in YYYY-MM-DD format. | [optional] [default to null]
 **Released** | **bool** |  | [optional] [default to null]
 **ParkingLot** | **bool** |  | [optional] [default to null]
 **Url** | **string** | Web URL for release. | [optional] [default to null]

@@ -14,13 +14,7 @@ import (
 	"github.com/grokify/gotilla/time/timeutil"
 )
 
-type Release struct {
-
-	// A unique identifier for the release.
-	Id string `json:"id,omitempty"`
-
-	// Release referenence number.
-	ReferenceNum string `json:"reference_num,omitempty"`
+type ReleaseUpdate struct {
 
 	// Release name.
 	Name string `json:"name,omitempty"`
@@ -31,16 +25,11 @@ type Release struct {
 	// Release date in YYYY-MM-DD format.
 	ReleaseDate timeutil.RFC3339YMDTime `json:"release_date,omitempty"`
 
-	// External release date in YYYY-MM-DD format.
+	// Date Development started in format YYYY-MM-DD
+	DevelopmentStartedOn timeutil.RFC3339YMDTime `json:"development_started_on,omitempty"`
+
+	// The external release date for this feature in format YYYY-MM-DD
 	ExternalReleaseDate timeutil.RFC3339YMDTime `json:"external_release_date,omitempty"`
 
-	Released bool `json:"released,omitempty"`
-
 	ParkingLot bool `json:"parking_lot,omitempty"`
-
-	// Web URL for release.
-	Url string `json:"url,omitempty"`
-
-	// API URL for release.
-	Resource string `json:"resource,omitempty"`
 }

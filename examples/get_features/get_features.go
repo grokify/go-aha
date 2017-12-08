@@ -4,39 +4,46 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
-	"github.com/grokify/go-aha"
 	"github.com/grokify/gotilla/fmt/fmtutil"
-	ou "github.com/grokify/oauth2util"
+	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/joho/godotenv"
+
+	"github.com/grokify/go-aha/ahautil"
+	au "github.com/grokify/oauth2util/aha"
 )
 
 func main() {
-	err := godotenv.Load()
+	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		panic(err)
 	}
 
-	ahaServerURL := "https://mysubdomain.aha.io/api/v1"
-	if len(strings.TrimSpace(os.Getenv("AHA_API_BASE_URL"))) > 0 {
-		ahaServerURL = os.Getenv("AHA_API_BASE_URL")
-	}
+	client := au.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis := ahautil.ClientAPIs{Client: client}
+	api := apis.FeaturesApi()
 
-	apiKey := os.Getenv("AHA_API_KEY")
-
-	client := ou.NewClientAccessToken(apiKey)
-
-	api := aha.NewFeaturesApiWithBasePath(ahaServerURL)
-	api.Configuration.Transport = client.Transport
-
-	info, resp, err := api.FeaturesGet("")
+	info, resp, err := api.FeaturesGet("", timeutil.TimeRFC3339Zero(), "", "", 1, 500)
 	if err != nil {
 		log.Fatal("Error retrieving features")
 	}
 
 	fmt.Println(resp.StatusCode)
 	fmtutil.PrintJSON(info)
+	fmt.Println("===")
+
+	for _, f := range info.Features {
+		fmtutil.PrintJSON(f)
+
+		feat, resp, err := api.FeaturesFeatureIdGet(f.Id)
+		if err != nil {
+			log.Fatal("Error retrieving feature")
+		}
+
+		fmt.Println(resp.StatusCode)
+		fmtutil.PrintJSON(feat)
+		break
+	}
 
 	fmt.Println("DONE")
 }

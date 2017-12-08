@@ -42,14 +42,14 @@ func NewReleasesApiWithBasePath(basePath string) *ReleasesApi {
  * Create a release
  *
  * @param productId The id of the company being queried
- * @return *Releases
+ * @return *ReleasesResponse
  */
-func (a ReleasesApi) ProductsProductIdReleasesGet(productId string) (*Releases, *APIResponse, error) {
+func (a ReleasesApi) ProductsProductIdReleasesGet(productId string) (*ReleasesResponse, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/products/{productId}/releases"
-	localVarPath = strings.Replace(localVarPath, "{"+"productId"+"}", fmt.Sprintf("%v", productId), -1)
+	localVarPath := a.Configuration.BasePath + "/products/{product_id}/releases"
+	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", fmt.Sprintf("%v", productId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -80,7 +80,7 @@ func (a ReleasesApi) ProductsProductIdReleasesGet(productId string) (*Releases, 
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(Releases)
+	var successPayload = new(ReleasesResponse)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
@@ -99,18 +99,84 @@ func (a ReleasesApi) ProductsProductIdReleasesGet(productId string) (*Releases, 
 }
 
 /**
+ * Update a release
+ * Update a release
+ *
+ * @param productId Numeric ID, or key of the product to create the release in
+ * @param releaseId Numeric ID, or key of the release to be updated
+ * @param release Release properties to update
+ * @return *ReleaseWrap
+ */
+func (a ReleasesApi) ProductsProductIdReleasesReleaseIdPut(productId string, releaseId string, release ReleaseUpdateWrap) (*ReleaseWrap, *APIResponse, error) {
+
+	var localVarHttpMethod = strings.ToUpper("Put")
+	// create path and map variables
+	localVarPath := a.Configuration.BasePath + "/products/{product_id}/releases/{release_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", fmt.Sprintf("%v", productId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", fmt.Sprintf("%v", releaseId), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// add default headers if any
+	for key := range a.Configuration.DefaultHeader {
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
+	}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{ "application/json",  }
+
+	// set Content-Type header
+	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{
+		"application/json",
+		}
+
+	// set Accept header
+	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &release
+	var successPayload = new(ReleaseWrap)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "ProductsProductIdReleasesReleaseIdPut", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+	if err != nil {
+		return successPayload, localVarAPIResponse, err
+	}
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, localVarAPIResponse, err
+}
+
+/**
  * 
  * Get a specific release
  *
- * @param id Numeric ID, or key of the release to be retrieved
- * @return *Release
+ * @param releaseId Numeric ID, or key of the release to be retrieved
+ * @return *ReleaseWrap
  */
-func (a ReleasesApi) ReleasesIdGet(id string) (*Release, *APIResponse, error) {
+func (a ReleasesApi) ReleasesReleaseIdGet(releaseId string) (*ReleaseWrap, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/releases/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", fmt.Sprintf("%v", id), -1)
+	localVarPath := a.Configuration.BasePath + "/releases/{release_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", fmt.Sprintf("%v", releaseId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -141,12 +207,12 @@ func (a ReleasesApi) ReleasesIdGet(id string) (*Release, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(Release)
+	var successPayload = new(ReleaseWrap)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
 	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "ReleasesIdGet", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	var localVarAPIResponse = &APIResponse{Operation: "ReleasesReleaseIdGet", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
 	if localVarHttpResponse != nil {
 		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
 		localVarAPIResponse.Payload = localVarHttpResponse.Body()

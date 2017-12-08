@@ -11,12 +11,13 @@
 package aha
 
 import (
+	"regexp"
 	"time"
 
 	"github.com/grokify/gotilla/time/timeutil"
 )
 
-type Feature struct {
+type InlineResponse200Features struct {
 	Id string `json:"id,omitempty"`
 
 	ReferenceNum string `json:"reference_num,omitempty"`
@@ -25,15 +26,17 @@ type Feature struct {
 
 	CreatedAt time.Time `json:"created_at,omitempty"`
 
-	// Start date in YYYY-MM-DD format.
-	StartDate timeutil.RFC3339YMDTime `json:"start_date,omitempty"`
-
-	// Due date in YYYY-MM-DD format.
-	DueDate timeutil.RFC3339YMDTime `json:"due_date,omitempty"`
-
 	Url string `json:"url,omitempty"`
 
 	Resource string `json:"resource,omitempty"`
 
-	Tags []string `json:"tags,omitempty"`
+	Initiative InlineResponse200Initiative `json:"initiative,omitempty"`
+
+	DueDate         timeutil.RFC3339YMDTime `json:"due_date,omitempty"`
+	StartDate       timeutil.RFC3339YMDTime `json:"start_date,omitempty"`
+	ReferencePrefix string                  `json:"referece_prefix,omitempty"`
+}
+
+func (f *InlineResponse200Features) Inflate() {
+	f.ReferencePrefix = regexp.MustCompile(`-\d+$`).ReplaceAllString(f.ReferenceNum, "")
 }
