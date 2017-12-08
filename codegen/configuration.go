@@ -31,13 +31,13 @@ type Configuration struct {
 	DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 	UserAgent     string            `json:"userAgent,omitempty"`
 	APIClient     *APIClient
-	Transport     http.RoundTripper
+	Transport     *http.Transport
 	Timeout       *time.Duration `json:"timeout,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		BasePath:      "https://secure.aha.io/api/v1",
+		BasePath:      "https://ringcentral.aha.io/api/v1",
 		DefaultHeader: make(map[string]string),
 		APIKey:        make(map[string]string),
 		APIKeyPrefix:  make(map[string]string),

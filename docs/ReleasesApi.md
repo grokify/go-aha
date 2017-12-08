@@ -1,15 +1,16 @@
 # \ReleasesApi
 
-All URIs are relative to *https://ringcentral.aha.io/api/v1*
+All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ProductsProductIdReleasesGet**](ReleasesApi.md#ProductsProductIdReleasesGet) | **Get** /products/{productId}/releases | Releases API
-[**ReleasesIdGet**](ReleasesApi.md#ReleasesIdGet) | **Get** /releases/{id} | 
+[**ProductsProductIdReleasesGet**](ReleasesApi.md#ProductsProductIdReleasesGet) | **Get** /products/{product_id}/releases | Releases API
+[**ProductsProductIdReleasesReleaseIdPut**](ReleasesApi.md#ProductsProductIdReleasesReleaseIdPut) | **Put** /products/{product_id}/releases/{release_id} | Update a release
+[**ReleasesReleaseIdGet**](ReleasesApi.md#ReleasesReleaseIdGet) | **Get** /releases/{release_id} | 
 
 
 # **ProductsProductIdReleasesGet**
-> Releases ProductsProductIdReleasesGet($productId)
+> ReleasesResponse ProductsProductIdReleasesGet($productId)
 
 Releases API
 
@@ -24,7 +25,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Releases**](Releases.md)
+[**ReleasesResponse**](ReleasesResponse.md)
 
 ### Authorization
 
@@ -37,8 +38,39 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ReleasesIdGet**
-> Release ReleasesIdGet($id)
+# **ProductsProductIdReleasesReleaseIdPut**
+> ReleaseWrap ProductsProductIdReleasesReleaseIdPut($productId, $releaseId, $release)
+
+Update a release
+
+Update a release
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **productId** | **string**| Numeric ID, or key of the product to create the release in | 
+ **releaseId** | **string**| Numeric ID, or key of the release to be updated | 
+ **release** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md)| Release properties to update | 
+
+### Return type
+
+[**ReleaseWrap**](ReleaseWrap.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ReleasesReleaseIdGet**
+> ReleaseWrap ReleasesReleaseIdGet($releaseId)
 
 
 
@@ -49,11 +81,11 @@ Get a specific release
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **string**| Numeric ID, or key of the release to be retrieved | 
+ **releaseId** | **string**| Numeric ID, or key of the release to be retrieved | 
 
 ### Return type
 
-[**Release**](Release.md)
+[**ReleaseWrap**](ReleaseWrap.md)
 
 ### Authorization
 

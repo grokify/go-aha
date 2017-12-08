@@ -11,29 +11,34 @@
 package aha
 
 import (
-	"time"
-
 	"github.com/grokify/gotilla/time/timeutil"
+	//"time"
 )
 
-type Feature struct {
+type InlineResponse2002Releases struct {
+
+	// A unique identifier for the release.
 	Id string `json:"id,omitempty"`
 
+	// Release referenence number.
 	ReferenceNum string `json:"reference_num,omitempty"`
 
+	// Release name.
 	Name string `json:"name,omitempty"`
-
-	CreatedAt time.Time `json:"created_at,omitempty"`
 
 	// Start date in YYYY-MM-DD format.
 	StartDate timeutil.RFC3339YMDTime `json:"start_date,omitempty"`
 
-	// Due date in YYYY-MM-DD format.
-	DueDate timeutil.RFC3339YMDTime `json:"due_date,omitempty"`
+	// Release date in YYYY-MM-DD format.
+	ReleaseDate timeutil.RFC3339YMDTime `json:"release_date,omitempty"`
 
+	Released bool `json:"released,omitempty"`
+
+	ParkingLot bool `json:"parking_lot,omitempty"`
+
+	// Web URL for release.
 	Url string `json:"url,omitempty"`
 
+	// API URL for release.
 	Resource string `json:"resource,omitempty"`
-
-	Tags []string `json:"tags,omitempty"`
 }
