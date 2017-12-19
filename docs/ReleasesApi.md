@@ -10,18 +10,17 @@ Method | HTTP request | Description
 
 
 # **ProductsProductIdReleasesGet**
-> ReleasesResponse ProductsProductIdReleasesGet($productId)
-
+> ReleasesResponse ProductsProductIdReleasesGet(ctx, productId)
 Releases API
 
 Create a release
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **productId** | **string**| The id of the company being queried | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **productId** | **string**| The id of the company being queried | 
 
 ### Return type
 
@@ -39,20 +38,19 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ProductsProductIdReleasesReleaseIdPut**
-> ReleaseWrap ProductsProductIdReleasesReleaseIdPut($productId, $releaseId, $release)
-
+> ReleaseWrap ProductsProductIdReleasesReleaseIdPut(ctx, productId, releaseId, release)
 Update a release
 
 Update a release
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **productId** | **string**| Numeric ID, or key of the product to create the release in | 
- **releaseId** | **string**| Numeric ID, or key of the release to be updated | 
- **release** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md)| Release properties to update | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **productId** | **string**| Numeric ID, or key of the product to create the release in | 
+  **releaseId** | **string**| Numeric ID, or key of the release to be updated | 
+  **release** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md)| Release properties to update | 
 
 ### Return type
 
@@ -70,18 +68,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ReleasesReleaseIdGet**
-> ReleaseWrap ReleasesReleaseIdGet($releaseId)
-
+> ReleaseWrap ReleasesReleaseIdGet(ctx, releaseId)
 
 
 Get a specific release
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **releaseId** | **string**| Numeric ID, or key of the release to be retrieved | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **releaseId** | **string**| Numeric ID, or key of the release to be retrieved | 
 
 ### Return type
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -8,48 +9,48 @@ import (
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	hum "github.com/grokify/gotilla/net/httputilmore"
-	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha"
-	"github.com/grokify/go-aha/ahautil"
-	au "github.com/grokify/oauth2util/aha"
+	au "github.com/grokify/go-aha/ahautil"
 )
 
 func main() {
 	oldTag := "My Old Tag"
 	newTag := "My New Tag"
-	updateFeatureTag := true
+	updateFeatureTag := false
 
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	client := au.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
-	apis := ahautil.ClientAPIs{Client: client}
+	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	featuresApi := apis.APIClient.FeaturesApi
+	ctx := context.Background()
 
-	featuresApi := apis.FeaturesApi()
-
-	fsRes, res, err := featuresApi.FeaturesGet("", tu.TimeRFC3339Zero(), oldTag, "")
+	fsRes, resp, err := featuresApi.FeaturesGet(ctx, map[string]interface{}{
+		"tag":      oldTag,
+		"per_page": 500,
+	})
 	if err != nil {
 		panic(err)
 	}
-	if res.StatusCode >= 300 {
-		panic(fmt.Errorf("Status Code: %v", res.StatusCode))
+	if resp.StatusCode >= 300 {
+		panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
 	}
 
 	fmtutil.PrintJSON(fsRes)
-	hum.PrintResponse(res.Response, true)
+	hum.PrintResponse(resp, true)
 
 	for _, fThin := range fsRes.Features {
 		fmtutil.PrintJSON(fThin)
 
-		fFull, res, err := featuresApi.FeaturesFeatureIdGet(fThin.Id)
+		fFull, resp, err := featuresApi.FeaturesFeatureIdGet(ctx, fThin.Id)
 		if err != nil {
 			panic(err)
-		} else if res.StatusCode >= 300 {
-			panic(fmt.Errorf("Status Code: %v", res.StatusCode))
+		} else if resp.StatusCode >= 300 {
+			panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
 		}
 
 		fmtutil.PrintJSON(fFull)
@@ -68,11 +69,11 @@ func main() {
 			}
 			if hasOldTag {
 				fUpdate := aha.FeatureUpdate{Tags: strings.Join(newTags, ",")}
-				updateRes, res, err := featuresApi.FeaturesFeatureIdPut(fThin.Id, fUpdate)
+				updateRes, resp, err := featuresApi.FeaturesFeatureIdPut(ctx, fThin.Id, fUpdate)
 				if err != nil {
 					panic(err)
-				} else if res.StatusCode >= 300 {
-					panic(fmt.Errorf("Status Code: %v", res.StatusCode))
+				} else if resp.StatusCode >= 300 {
+					panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
 				}
 				fmtutil.PrintJSON(updateRes)
 			}
