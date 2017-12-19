@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/gotilla/time/timeutil"
@@ -19,7 +20,7 @@ import (
 
 	"github.com/grokify/go-aha"
 	"github.com/grokify/go-aha/ahautil"
-	au "github.com/grokify/oauth2util/aha"
+	ahaoauth "github.com/grokify/oauth2util/aha"
 )
 
 func createIndex(esClient elastirad.Client) {
@@ -28,8 +29,9 @@ func createIndex(esClient elastirad.Client) {
 			"feature": v5.Mapping{
 				All: v5.All{Enabled: true},
 				Properties: map[string]v5.Property{
-					"id":               v5.Property{Type: "string", Index: "not_analyzed"},
-					"reference_num":    v5.Property{Type: "keyword", Index: "not_analyzed"},
+					"id":            v5.Property{Type: "string", Index: "not_analyzed"},
+					"reference_num": v5.Property{Type: "keyword", Index: "not_analyzed"},
+					//"product_id":    v5.Property{Type: "keyword", Index: "not_analyzed"},
 					"reference_prefix": v5.Property{Type: "keyword", Index: "not_analyzed"},
 					"name":             v5.Property{Type: "string"},
 					"start_date":       v5.Property{Type: "date", Format: "yyyy-MM-dd"},
@@ -56,8 +58,8 @@ func createIndex(esClient elastirad.Client) {
 	fasthttp.ReleaseResponse(res)
 }
 
-func indexFeature(api *aha.FeaturesApi, esClient elastirad.Client, id string) error {
-	feat, resp, err := api.FeaturesFeatureIdGet(id)
+func indexFeature(api *aha.FeaturesApi, esClient elastirad.Client, featureId string) error {
+	feat, resp, err := api.FeaturesFeatureIdGet(featureId)
 	if err != nil {
 		return err
 	} else if resp.StatusCode >= 300 {
@@ -68,7 +70,7 @@ func indexFeature(api *aha.FeaturesApi, esClient elastirad.Client, id string) er
 
 	esReq := models.Request{
 		Method: "POST",
-		Path:   []interface{}{"/aha/feature", id, elastirad.UpdateSlug}}
+		Path:   []interface{}{"/aha/feature", featureId, elastirad.UpdateSlug}}
 
 	if update {
 		esReq.Body = models.UpdateIndexDoc{Doc: feat.Feature, DocAsUpsert: true}
@@ -126,31 +128,54 @@ func main() {
 	}
 
 	esClient := elastirad.NewClient(url.URL{})
-	ahaClient := au.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	ahaClient := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis := ahautil.ClientAPIs{Client: ahaClient}
 
-	if 1 == 1 {
+	doCreateIndex := false
+	doUpdateIndex := false
+	doUpdateIndexByLastUpdate := true
+
+	if doCreateIndex {
 		createIndex(esClient)
 	}
 
-	apis := ahautil.ClientAPIs{Client: ahaClient}
-	api := apis.FeaturesApi()
+	if doUpdateIndex {
+		api := apis.FeaturesApi()
+		nxtPage := int32(1)
+		maxPage := int32(1)
+		idx := 0
+		for nxtPage <= maxPage {
+			fmt.Printf("PAGE %v\n", nxtPage)
+			fmt.Printf("BEG %v NXT %v MAX %v\n", idx, nxtPage, maxPage)
+			features, resp, err := indexFeaturesPage(api, esClient, nxtPage)
+			if err != nil {
+				panic(err)
+			} else if resp.StatusCode >= 400 {
+				panic(resp.StatusCode)
+			}
+			nxtPage = int32(features.Pagination.CurrentPage) + 1
+			maxPage = int32(features.Pagination.TotalPages)
+			fmt.Printf("FIN %v NXT %v MAX %v\n", idx, nxtPage, maxPage)
+			idx += 1
+		}
+	}
 
-	nxtPage := int32(1)
-	maxPage := int32(1)
-	idx := 0
-	for nxtPage <= maxPage {
-		fmt.Printf("PAGE %v\n", nxtPage)
-		fmt.Printf("BEG %v NXT %v MAX %v\n", idx, nxtPage, maxPage)
-		features, resp, err := indexFeaturesPage(api, esClient, nxtPage)
+	if doUpdateIndexByLastUpdate {
+		ahaes := ahautil.AhaElasticsearch{
+			AhaAPIs:  &apis,
+			EsClient: &esClient,
+		}
+
+		t, err := timeutil.TimeDeltaDow(time.Now().UTC(), time.Sunday, -10, false, false)
 		if err != nil {
 			panic(err)
-		} else if resp.StatusCode >= 400 {
-			panic(resp.StatusCode)
 		}
-		nxtPage = int32(features.Pagination.CurrentPage) + 1
-		maxPage = int32(features.Pagination.TotalPages)
-		fmt.Printf("FIN %v NXT %v MAX %v\n", idx, nxtPage, maxPage)
-		idx += 1
+		fmt.Printf("%v\n", t.Format(time.RFC3339))
+
+		err = ahaes.IndexFeaturesUpdatedSince(t)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	fmt.Println("DONE")

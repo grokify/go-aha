@@ -11,18 +11,17 @@ Method | HTTP request | Description
 
 
 # **FeaturesFeatureIdGet**
-> FeatureWrap FeaturesFeatureIdGet($featureId)
-
+> FeatureWrap FeaturesFeatureIdGet(ctx, featureId)
 
 
 Get a specific feature
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
 
 ### Return type
 
@@ -40,19 +39,18 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FeaturesFeatureIdPut**
-> FeatureWrap FeaturesFeatureIdPut($featureId, $feature)
-
+> FeatureWrap FeaturesFeatureIdPut(ctx, featureId, feature)
 Update a feature's custom fields with tag-like value
 
 Update a feature's custom fields with tag-like value
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
- **feature** | [**FeatureUpdate**](FeatureUpdate.md)| Feature properties to update | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
+  **feature** | [**FeatureUpdate**](FeatureUpdate.md)| Feature properties to update | 
 
 ### Return type
 
@@ -70,23 +68,29 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FeaturesGet**
-> FeaturesResponse FeaturesGet($q, $updatedSince, $tag, $assignedToUser, $page, $perPage)
-
+> FeaturesResponse FeaturesGet(ctx, optional)
 Get all features
 
 Get all features
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **q** | **string**| Sub-string to match against feature name or ID | [optional] 
- **updatedSince** | **time.Time**| UTC timestamp (in ISO8601 format) that the updated_at field must be larger than. | [optional] 
- **tag** | **string**| A string tag value. | [optional] 
- **assignedToUser** | **string**| The ID or email address of user to return assigned features for. | [optional] 
- **page** | **int32**| A specific page of results. | [optional] 
- **perPage** | **int32**| Number of results per page. | [optional] 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **string**| Sub-string to match against feature name or ID | 
+ **updatedSince** | **time.Time**| UTC timestamp (in ISO8601 format) that the updated_at field must be larger than. | 
+ **tag** | **string**| A string tag value. | 
+ **assignedToUser** | **string**| The ID or email address of user to return assigned features for. | 
+ **page** | **int32**| A specific page of results. | 
+ **perPage** | **int32**| Number of results per page. | 
 
 ### Return type
 
@@ -104,18 +108,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ReleasesReleaseIdFeaturesGet**
-> FeaturesResponse ReleasesReleaseIdFeaturesGet($releaseId)
-
+> FeaturesResponse ReleasesReleaseIdFeaturesGet(ctx, releaseId)
 Get all features for a release
 
 Get all features for a release
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
 
 ### Return type
 
