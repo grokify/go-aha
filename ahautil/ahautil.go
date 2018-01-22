@@ -29,38 +29,7 @@ func NewClientAPIs(account, apiKey string) ClientAPIs {
 	return clientAPIs
 }
 
-/*
-func NewAPIClient(account, apiKey string) *aha.APIClient {
-	client := ao.NewClient(account, apiKey)
-	cfg := aha.NewConfiguration()
-	cfg.HTTPClient = client
-	return aha.NewAPIClient(cfg)
-}
-*/
-/*
-func (apis *ClientAPIs) FeaturesApi() *aha.FeaturesApi {
-	api := apis.APIClient.FeaturesApi
-	api.Configuration.Transport = apis.Client.Transport
-	return api
-}
-
-func (apis *ClientAPIs) ReleasesApi() *aha.ReleasesApi {
-	api := apis.APIClient.ReleasesApi
-	api.Configuration.Transport = apis.Client.Transport
-	return api
-}
-*/
-
-/*
-func (apis *ClientAPIs) ReleasesFeaturesApi() *aha.ReleasesFeaturesApi {
-	api := aha.NewReleasesFeaturesApi()
-	api.Configuration.Transport = apis.Client.Transport
-	return api
-}
-*/
-
 func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
-	//rel := &aha.Release{}
 	api := apis.APIClient.ReleasesApi
 	rinfo, resp, err := api.GetRelease(context.Background(), releaseId)
 	if err != nil {
@@ -73,8 +42,6 @@ func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
 }
 
 func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
-	//feat := &aha.Feature{}
-	//fapi := apis.FeaturesApi()
 	fapi := apis.APIClient.FeaturesApi
 	fthick, res, err := fapi.GetFeature(context.Background(), featureId)
 	if err != nil {
@@ -88,7 +55,6 @@ func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
 
 func (apis *ClientAPIs) GetFeaturesMetaByRelease(releaseId string) ([]aha.FeatureMeta, error) {
 	features := []aha.FeatureMeta{}
-	//frapi := apis.ReleasesFeaturesApi()
 	fapi := apis.APIClient.FeaturesApi
 	finfo, resp, err := fapi.GetReleaseFeatures(context.Background(), releaseId)
 	if err != nil {
