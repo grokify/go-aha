@@ -10,5 +10,6 @@
 package aha
 
 type ReleaseWrap struct {
+
 	Release *Release `json:"release,omitempty"`
 }

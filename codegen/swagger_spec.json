@@ -290,6 +290,52 @@
         }
       }
     },
+    "/products/{product_id}/releases":{
+      "get":{
+        "operationId":"getProductReleases",
+        "summary":"",
+        "description":"Get releases for a product release",
+        "tags":[
+          "Releases"
+        ],
+        "parameters":[
+          {
+            "name":"product_id",
+            "in":"path",
+            "description":"Numeric ID, or key of the product to retrieve releases for.",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A specific page of results.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of results per page.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "description":"Information for a specific release",
+            "schema":{
+              "$ref":"#/definitions/ReleasesResponse"
+            }
+          }
+        }
+      }
+    },
     "/products/{product_id}/releases/{release_id}":{
       "put":{
         "operationId":"updateProductRelease",
