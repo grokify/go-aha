@@ -179,7 +179,7 @@ func main() {
 			FilepathSrc: "./api_client.go",
 			FilepathOut: "api_client.mod.go",
 			Lines: [][]string{
-				[]string{`^\t+"gopkg\.in/go-resty/resty\.v0"`, "\t\"gopkg.in/go-resty/resty.v1\"\n"},
+				{`^\t+"gopkg\.in/go-resty/resty\.v0"`, "\t\"gopkg.in/go-resty/resty.v1\"\n"},
 			},
 		}
 		err := fm2.Modify()
@@ -193,7 +193,7 @@ func main() {
 			FilepathSrc: "./configuration.go",
 			FilepathOut: "configuration.mod.go",
 			Lines: [][]string{
-				[]string{`^\t+Transport\s+\*http\.Transport`, "\tTransport\thttp.RoundTripper\n"},
+				{`^\t+Transport\s+\*http\.Transport`, "\tTransport\thttp.RoundTripper\n"},
 			},
 		}
 		err := fm1.Modify()

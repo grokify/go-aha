@@ -26,16 +26,16 @@ import (
 func createIndex(esClient elastirad.Client) {
 	body := v5.CreateIndexBody{
 		Mappings: map[string]v5.Mapping{
-			"feature": v5.Mapping{
+			"feature": {
 				All: v5.All{Enabled: true},
 				Properties: map[string]v5.Property{
-					"id":            v5.Property{Type: "string", Index: "not_analyzed"},
-					"reference_num": v5.Property{Type: "keyword", Index: "not_analyzed"},
+					"id":            {Type: "string", Index: "not_analyzed"},
+					"reference_num": {Type: "keyword", Index: "not_analyzed"},
 					//"product_id":    v5.Property{Type: "keyword", Index: "not_analyzed"},
-					"reference_prefix": v5.Property{Type: "keyword", Index: "not_analyzed"},
-					"name":             v5.Property{Type: "string"},
-					"start_date":       v5.Property{Type: "date", Format: "yyyy-MM-dd"},
-					"due_date":         v5.Property{Type: "date", Format: "yyyy-MM-dd"},
+					"reference_prefix": {Type: "keyword", Index: "not_analyzed"},
+					"name":             {Type: "string"},
+					"start_date":       {Type: "date", Format: "yyyy-MM-dd"},
+					"due_date":         {Type: "date", Format: "yyyy-MM-dd"},
 				},
 			},
 		},
