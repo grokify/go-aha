@@ -14,7 +14,6 @@ import (
 )
 
 type FeatureMeta struct {
-
 	Id string `json:"id,omitempty"`
 
 	ReferenceNum string `json:"reference_num,omitempty"`

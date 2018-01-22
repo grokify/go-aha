@@ -10,13 +10,13 @@
 package aha
 
 import (
-	"io/ioutil"
-	"net/url"
-	"net/http"
-	"strings"
-	"golang.org/x/net/context"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
 )
 
 // Linger please
@@ -26,19 +26,18 @@ var (
 
 type ReleasesApiService service
 
-
-/* ReleasesApiService 
- Get a specific release
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param releaseId Numeric ID, or key of the release to be retrieved
- @return ReleaseWrap*/
-func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (ReleaseWrap,  *http.Response, error) {
+/* ReleasesApiService
+Get a specific release
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param releaseId Numeric ID, or key of the release to be retrieved
+@return ReleaseWrap*/
+func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (ReleaseWrap, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  ReleaseWrap
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     ReleaseWrap
 	)
 
 	// create path and map variables
@@ -49,9 +48,8 @@ func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -62,7 +60,7 @@ func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -88,24 +86,23 @@ func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* ReleasesApiService Update a release
- Update a release
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param productId Numeric ID, or key of the product to create the release in
- @param releaseId Numeric ID, or key of the release to be updated
- @param release Release properties to update
- @return ReleaseWrap*/
-func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId string, releaseId string, release ReleaseUpdateWrap) (ReleaseWrap,  *http.Response, error) {
+Update a release
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param productId Numeric ID, or key of the product to create the release in
+@param releaseId Numeric ID, or key of the release to be updated
+@param release Release properties to update
+@return ReleaseWrap*/
+func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId string, releaseId string, release ReleaseUpdateWrap) (ReleaseWrap, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  ReleaseWrap
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     ReleaseWrap
 	)
 
 	// create path and map variables
@@ -117,9 +114,8 @@ func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -130,7 +126,7 @@ func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -158,7 +154,5 @@ func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
-
