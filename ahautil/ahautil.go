@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/grokify/go-aha"
-	ao "github.com/grokify/oauth2util/aha"
+	"github.com/grokify/go-aha/client"
+	ao "github.com/grokify/oauth2more/aha"
 )
 
 type ClientAPIs struct {
@@ -62,7 +62,7 @@ func (apis *ClientAPIs) ReleasesFeaturesApi() *aha.ReleasesFeaturesApi {
 func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
 	//rel := &aha.Release{}
 	api := apis.APIClient.ReleasesApi
-	rinfo, resp, err := api.ReleasesReleaseIdGet(context.Background(), releaseId)
+	rinfo, resp, err := api.GetRelease(context.Background(), releaseId)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
 	//feat := &aha.Feature{}
 	//fapi := apis.FeaturesApi()
 	fapi := apis.APIClient.FeaturesApi
-	fthick, res, err := fapi.FeaturesFeatureIdGet(context.Background(), featureId)
+	fthick, res, err := fapi.GetFeature(context.Background(), featureId)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (apis *ClientAPIs) GetFeaturesMetaByRelease(releaseId string) ([]aha.Featur
 	features := []aha.FeatureMeta{}
 	//frapi := apis.ReleasesFeaturesApi()
 	fapi := apis.APIClient.FeaturesApi
-	finfo, resp, err := fapi.ReleasesReleaseIdFeaturesGet(context.Background(), releaseId)
+	finfo, resp, err := fapi.GetReleaseFeatures(context.Background(), releaseId)
 	if err != nil {
 		return features, err
 	}
@@ -125,7 +125,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 	fapi := apis.APIClient.FeaturesApi
 
 	for _, fthin := range featureMetas {
-		fthick, res, err := fapi.FeaturesFeatureIdGet(context.Background(), fthin.Id)
+		fthick, res, err := fapi.GetFeature(context.Background(), fthin.Id)
 		if err != nil {
 			return features, err
 		}
@@ -150,7 +150,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 			}
 
 			// Update Feature with Dates
-			_, res, err := fapi.FeaturesFeatureIdPut(context.Background(), featureId, featureUpdate)
+			_, res, err := fapi.UpdateFeature(context.Background(), featureId, featureUpdate)
 			if err != nil {
 				return features, err
 			}
@@ -179,7 +179,7 @@ func (apis *ClientAPIs) GetFeaturesByRelease(releaseId string) ([]*aha.Feature, 
 	fapi := apis.APIClient.FeaturesApi
 
 	for _, fthin := range featureMetas {
-		fthick, res, err := fapi.FeaturesFeatureIdGet(context.Background(), fthin.Id)
+		fthick, res, err := fapi.GetFeature(context.Background(), fthin.Id)
 		if err != nil {
 			return features, err
 		}

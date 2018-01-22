@@ -1,0 +1,304 @@
+{
+  "info": {
+    "name": "Aha.io API",
+    "description": "Articles that matter on social publishing platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Features",
+      "item": [
+        {
+          "name": "Get all features",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/features",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "features"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/features/:feature_id",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "features",
+                ":feature_id"
+              ],
+              "variable": [
+                {
+                  "id": "feature_id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Update a feature's custom fields with tag-like value",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/features/:feature_id",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "features",
+                ":feature_id"
+              ],
+              "variable": [
+                {
+                  "id": "feature_id"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get all features for a release",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/releases/:release_id/features",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "releases",
+                ":release_id",
+                "features"
+              ],
+              "variable": [
+                {
+                  "id": "release_id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Releases",
+      "item": [
+        {
+          "name": "Releases API",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/products/:product_id/releases",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":product_id",
+                "releases"
+              ],
+              "variable": [
+                {
+                  "id": "product_id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Update a release",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/products/:product_id/releases/:release_id",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":product_id",
+                "releases",
+                ":release_id"
+              ],
+              "variable": [
+                {
+                  "id": "product_id"
+                },
+                {
+                  "id": "release_id"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/releases/:release_id",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "releases",
+                ":release_id"
+              ],
+              "variable": [
+                {
+                  "id": "release_id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    }
+  ]
+}
