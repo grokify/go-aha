@@ -1,4 +1,4 @@
-# Go API client for Aha!
+# Go API client for Aha! (aha.io)
 
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
