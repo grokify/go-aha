@@ -10,7 +10,6 @@ import (
 )
 
 type ClientAPIs struct {
-	//Client    *http.Client
 	APIClient *aha.APIClient
 	Config    *aha.Configuration
 }
@@ -102,8 +101,6 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 		feat := fthick.Feature
 
 		featureId := fthick.Feature.Id
-		//if fthick.Feature.StartDate.Unix() == tu.RFC3339YMDZeroUnix ||
-		//	fthick.Feature.DueDate.Unix() == tu.RFC3339YMDZeroUnix {
 		if ymdIsNotSet(fthick.Feature.StartDate) || ymdIsNotSet(fthick.Feature.DueDate) {
 
 			featureUpdate := aha.FeatureUpdate{}
