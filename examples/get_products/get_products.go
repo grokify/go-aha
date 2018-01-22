@@ -48,7 +48,7 @@ func main() {
 		if err != nil {
 			log.Fatal("Error retrieving product")
 		} else if resp.StatusCode >= 300 {
-			log.Fatal("Error calling API: %v", resp.StatusCode)
+			log.Fatal(fmt.Sprintf("Error calling API: %v", resp.StatusCode))
 		}
 
 		fmtutil.PrintJSON(prod)

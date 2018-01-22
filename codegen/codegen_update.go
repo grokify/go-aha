@@ -41,26 +41,22 @@ func (gofmt *Gofmt) Inflate() error {
 }
 
 func (gofmt *Gofmt) Format(filepath string) error {
-	//panic("A0")
 	if gofmt.gofmtPath == "" {
 		err := gofmt.Inflate()
 		if err != nil {
 			return err
 		}
 	}
-	//panic("A01")
+
 	args := []string{"gofmt", "-w", filepath}
 
 	if 1 == 0 {
 		err := syscall.Exec(gofmt.gofmtPath, args, os.Environ())
-		panic("AZ")
 		if err != nil {
 			return err
 		}
-		panic("AZ")
 	}
 
-	//panic("A1")
 	cmd := exec.Command(gofmt.gofmtPath, fmt.Sprintf("-w %v", filepath)) //.Output()
 	var out bytes.Buffer
 	cmd.Stdout = &out
@@ -72,7 +68,6 @@ func (gofmt *Gofmt) Format(filepath string) error {
 	if err != nil {
 		panic(err)
 	}
-	//panic("A2")
 
 	return err
 }
