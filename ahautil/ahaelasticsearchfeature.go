@@ -19,7 +19,7 @@ import (
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)
 
-// Feature is struct with addtional properties to search on, notably ReferencePrefix.
+// Feature is struct with additional properties to search on, notably ReferencePrefix.
 type Feature struct {
 	Id string `json:"id,omitempty"`
 

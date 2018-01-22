@@ -96,7 +96,7 @@ func indexFeaturesPage(api *aha.FeaturesApi, esClient elastirad.Client, pageNum 
 	info, resp, err := api.FeaturesGet("", timeutil.TimeRFC3339Zero(), "", "", pageNum, 500)
 	if err != nil || resp.StatusCode >= 400 {
 		return info, resp, err
-		log.Fatal("Error retrieving features: %v", err.Error())
+		//log.Fatal("Error retrieving features: %v", err.Error())
 	}
 	for i, f := range info.Features {
 		fmt.Printf("PAGE %v IDX %v\n", pageNum, i)
