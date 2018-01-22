@@ -10,13 +10,13 @@
 package aha
 
 import (
-	"io/ioutil"
-	"net/url"
-	"net/http"
-	"strings"
-	"golang.org/x/net/context"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
 )
 
 // Linger please
@@ -26,19 +26,18 @@ var (
 
 type ProductsApiService service
 
-
 /* ProductsApiService Products API
- Get product info
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param productId Numeric ID, or key of the feature to be retrieved
- @return ProductResponse*/
-func (a *ProductsApiService) GetProduct(ctx context.Context, productId string) (ProductResponse,  *http.Response, error) {
+Get product info
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param productId Numeric ID, or key of the feature to be retrieved
+@return ProductResponse*/
+func (a *ProductsApiService) GetProduct(ctx context.Context, productId string) (ProductResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  ProductResponse
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     ProductResponse
 	)
 
 	// create path and map variables
@@ -49,9 +48,8 @@ func (a *ProductsApiService) GetProduct(ctx context.Context, productId string) (
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -62,7 +60,7 @@ func (a *ProductsApiService) GetProduct(ctx context.Context, productId string) (
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -88,24 +86,23 @@ func (a *ProductsApiService) GetProduct(ctx context.Context, productId string) (
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* ProductsApiService Products API
- Get products list
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param optional (nil or map[string]interface{}) with one or more of:
-     @param "page" (int32) A specific page of results.
-     @param "perPage" (int32) Number of results per page.
- @return ProductsResponse*/
-func (a *ProductsApiService) GetProducts(ctx context.Context, localVarOptionals map[string]interface{}) (ProductsResponse,  *http.Response, error) {
+Get products list
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param optional (nil or map[string]interface{}) with one or more of:
+    @param "page" (int32) A specific page of results.
+    @param "perPage" (int32) Number of results per page.
+@return ProductsResponse*/
+func (a *ProductsApiService) GetProducts(ctx context.Context, localVarOptionals map[string]interface{}) (ProductsResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  ProductsResponse
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     ProductsResponse
 	)
 
 	// create path and map variables
@@ -129,7 +126,7 @@ func (a *ProductsApiService) GetProducts(ctx context.Context, localVarOptionals 
 		localVarQueryParams.Add("per_page", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -140,7 +137,7 @@ func (a *ProductsApiService) GetProducts(ctx context.Context, localVarOptionals 
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -166,7 +163,5 @@ func (a *ProductsApiService) GetProducts(ctx context.Context, localVarOptionals 
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
-
