@@ -214,12 +214,12 @@ func AhaFeatureSearch(esClient elastirad.Client, refPrefix string, dt time.Time)
 	body := v5.QueryBody{
 		Query: v5.Query{
 			Match: map[string]v5.MatchQuery{
-				"reference_prefix": v5.MatchQuery{
+				"reference_prefix": {
 					Query: refPrefix,
 				},
 			},
 			Range: map[string]v5.Range{
-				"due_date": v5.Range{
+				"due_date": {
 					GTE: dt.Format(timeutil.RFC3339YMD),
 				},
 			},
