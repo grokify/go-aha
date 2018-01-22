@@ -27,6 +27,7 @@ Class | Method | HTTP request | Description
 *FeaturesApi* | [**UpdateFeature**](docs/FeaturesApi.md#updatefeature) | **Put** /features/{feature_id} | Update a feature&#39;s custom fields with tag-like value
 *ProductsApi* | [**GetProduct**](docs/ProductsApi.md#getproduct) | **Get** /products/{product_id} | Products API
 *ProductsApi* | [**GetProducts**](docs/ProductsApi.md#getproducts) | **Get** /products | Products API
+*ReleasesApi* | [**GetProductReleases**](docs/ReleasesApi.md#getproductreleases) | **Get** /products/{product_id}/releases | 
 *ReleasesApi* | [**GetRelease**](docs/ReleasesApi.md#getrelease) | **Get** /releases/{release_id} | 
 *ReleasesApi* | [**UpdateProductRelease**](docs/ReleasesApi.md#updateproductrelease) | **Put** /products/{product_id}/releases/{release_id} | Update a release
 

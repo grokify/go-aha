@@ -4,9 +4,48 @@ All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetProductReleases**](ReleasesApi.md#GetProductReleases) | **Get** /products/{product_id}/releases | 
 [**GetRelease**](ReleasesApi.md#GetRelease) | **Get** /releases/{release_id} | 
 [**UpdateProductRelease**](ReleasesApi.md#UpdateProductRelease) | **Put** /products/{product_id}/releases/{release_id} | Update a release
 
+
+# **GetProductReleases**
+> ReleasesResponse GetProductReleases(ctx, productId, optional)
+
+
+Get releases for a product release
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **productId** | **string**| Numeric ID, or key of the product to retrieve releases for. | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **productId** | **string**| Numeric ID, or key of the product to retrieve releases for. | 
+ **page** | **int32**| A specific page of results. | 
+ **perPage** | **int32**| Number of results per page. | 
+
+### Return type
+
+[**ReleasesResponse**](ReleasesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetRelease**
 > ReleaseWrap GetRelease(ctx, releaseId)

@@ -215,6 +215,41 @@ paths:
           description: "Information for a specific release"
           schema:
             $ref: "#/definitions/ReleaseWrap"
+  /products/{product_id}/releases:
+    get:
+      tags:
+      - "Releases"
+      summary: ""
+      description: "Get releases for a product release"
+      operationId: "getProductReleases"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "Numeric ID, or key of the product to retrieve releases for."
+        required: true
+        type: "string"
+        x-exportParamName: "ProductId"
+      - name: "page"
+        in: "query"
+        description: "A specific page of results."
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "Page"
+      - name: "per_page"
+        in: "query"
+        description: "Number of results per page."
+        required: false
+        type: "integer"
+        format: "int32"
+        x-exportParamName: "PerPage"
+      responses:
+        200:
+          description: "Information for a specific release"
+          schema:
+            $ref: "#/definitions/ReleasesResponse"
   /products/{product_id}/releases/{release_id}:
     put:
       tags:
@@ -323,6 +358,32 @@ definitions:
           $ref: "#/definitions/Release"
       pagination:
         $ref: "#/definitions/Pagination"
+    example:
+      pagination:
+        total_records: 0
+        total_pages: 6
+        current_page: 1
+      releases:
+      - reference_num: "reference_num"
+        release_date: "2000-01-23"
+        resource: "resource"
+        name: "name"
+        id: "id"
+        external_release_date: "2000-01-23"
+        released: true
+        parking_lot: true
+        url: "url"
+        start_date: "2000-01-23"
+      - reference_num: "reference_num"
+        release_date: "2000-01-23"
+        resource: "resource"
+        name: "name"
+        id: "id"
+        external_release_date: "2000-01-23"
+        released: true
+        parking_lot: true
+        url: "url"
+        start_date: "2000-01-23"
   Pagination:
     type: "object"
     properties:
