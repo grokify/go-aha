@@ -10,7 +10,6 @@
 package aha
 
 type Pagination struct {
-
 	TotalRecords int64 `json:"total_records,omitempty"`
 
 	TotalPages int64 `json:"total_pages,omitempty"`

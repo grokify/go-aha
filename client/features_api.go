@@ -10,14 +10,14 @@
 package aha
 
 import (
-	"io/ioutil"
-	"net/url"
-	"net/http"
-	"strings"
-	"golang.org/x/net/context"
-	"time"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
 )
 
 // Linger please
@@ -27,19 +27,18 @@ var (
 
 type FeaturesApiService service
 
-
-/* FeaturesApiService 
- Get a specific feature
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param featureId Numeric ID, or key of the feature to be retrieved
- @return FeatureWrap*/
-func (a *FeaturesApiService) GetFeature(ctx context.Context, featureId string) (FeatureWrap,  *http.Response, error) {
+/* FeaturesApiService
+Get a specific feature
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param featureId Numeric ID, or key of the feature to be retrieved
+@return FeatureWrap*/
+func (a *FeaturesApiService) GetFeature(ctx context.Context, featureId string) (FeatureWrap, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  FeatureWrap
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     FeatureWrap
 	)
 
 	// create path and map variables
@@ -50,9 +49,8 @@ func (a *FeaturesApiService) GetFeature(ctx context.Context, featureId string) (
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -63,7 +61,7 @@ func (a *FeaturesApiService) GetFeature(ctx context.Context, featureId string) (
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -89,28 +87,27 @@ func (a *FeaturesApiService) GetFeature(ctx context.Context, featureId string) (
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* FeaturesApiService Get all features
- Get all features
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param optional (nil or map[string]interface{}) with one or more of:
-     @param "q" (string) Sub-string to match against feature name or ID
-     @param "updatedSince" (time.Time) UTC timestamp (in ISO8601 format) that the updated_at field must be larger than.
-     @param "tag" (string) A string tag value.
-     @param "assignedToUser" (string) The ID or email address of user to return assigned features for.
-     @param "page" (int32) A specific page of results.
-     @param "perPage" (int32) Number of results per page.
- @return FeaturesResponse*/
-func (a *FeaturesApiService) GetFeatures(ctx context.Context, localVarOptionals map[string]interface{}) (FeaturesResponse,  *http.Response, error) {
+Get all features
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param optional (nil or map[string]interface{}) with one or more of:
+    @param "q" (string) Sub-string to match against feature name or ID
+    @param "updatedSince" (time.Time) UTC timestamp (in ISO8601 format) that the updated_at field must be larger than.
+    @param "tag" (string) A string tag value.
+    @param "assignedToUser" (string) The ID or email address of user to return assigned features for.
+    @param "page" (int32) A specific page of results.
+    @param "perPage" (int32) Number of results per page.
+@return FeaturesResponse*/
+func (a *FeaturesApiService) GetFeatures(ctx context.Context, localVarOptionals map[string]interface{}) (FeaturesResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  FeaturesResponse
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     FeaturesResponse
 	)
 
 	// create path and map variables
@@ -158,7 +155,7 @@ func (a *FeaturesApiService) GetFeatures(ctx context.Context, localVarOptionals 
 		localVarQueryParams.Add("per_page", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -169,7 +166,7 @@ func (a *FeaturesApiService) GetFeatures(ctx context.Context, localVarOptionals 
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -195,22 +192,21 @@ func (a *FeaturesApiService) GetFeatures(ctx context.Context, localVarOptionals 
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* FeaturesApiService Get all features for a release
- Get all features for a release
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param releaseId Numeric ID, or key of the release to retrieve features for
- @return FeaturesResponse*/
-func (a *FeaturesApiService) GetReleaseFeatures(ctx context.Context, releaseId string) (FeaturesResponse,  *http.Response, error) {
+Get all features for a release
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param releaseId Numeric ID, or key of the release to retrieve features for
+@return FeaturesResponse*/
+func (a *FeaturesApiService) GetReleaseFeatures(ctx context.Context, releaseId string) (FeaturesResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  FeaturesResponse
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     FeaturesResponse
 	)
 
 	// create path and map variables
@@ -221,9 +217,8 @@ func (a *FeaturesApiService) GetReleaseFeatures(ctx context.Context, releaseId s
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -234,7 +229,7 @@ func (a *FeaturesApiService) GetReleaseFeatures(ctx context.Context, releaseId s
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -260,23 +255,22 @@ func (a *FeaturesApiService) GetReleaseFeatures(ctx context.Context, releaseId s
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
 
 /* FeaturesApiService Update a feature&#39;s custom fields with tag-like value
- Update a feature&#39;s custom fields with tag-like value
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param featureId Numeric ID, or key of the feature to be retrieved
- @param feature Feature properties to update
- @return FeatureWrap*/
-func (a *FeaturesApiService) UpdateFeature(ctx context.Context, featureId string, feature FeatureUpdate) (FeatureWrap,  *http.Response, error) {
+Update a feature&#39;s custom fields with tag-like value
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@param featureId Numeric ID, or key of the feature to be retrieved
+@param feature Feature properties to update
+@return FeatureWrap*/
+func (a *FeaturesApiService) UpdateFeature(ctx context.Context, featureId string, feature FeatureUpdate) (FeatureWrap, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  FeatureWrap
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		successPayload     FeatureWrap
 	)
 
 	// create path and map variables
@@ -287,9 +281,8 @@ func (a *FeaturesApiService) UpdateFeature(ctx context.Context, featureId string
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json",  }
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -300,7 +293,7 @@ func (a *FeaturesApiService) UpdateFeature(ctx context.Context, featureId string
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-		}
+	}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -328,7 +321,5 @@ func (a *FeaturesApiService) UpdateFeature(ctx context.Context, featureId string
 		return successPayload, localVarHttpResponse, err
 	}
 
-
 	return successPayload, localVarHttpResponse, err
 }
-
