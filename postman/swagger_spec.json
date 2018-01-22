@@ -118,7 +118,6 @@
         }
       },
       "put":{
-        "operationId":"updateFeature",
         "summary":"Update a feature's custom fields with tag-like value",
         "description":"Update a feature's custom fields with tag-like value",
         "tags":[
@@ -160,7 +159,6 @@
     },
     "/releases/{release_id}/features":{
       "get":{
-        "operationId":"getReleaseFeatures",
         "summary":"Get all features for a release",
         "description":"Get all features for a release",
         "tags":[
@@ -191,58 +189,18 @@
         }
       }
     },
-    "/products":{
+    "/products/{product_id}/releases":{
       "get":{
-        "operationId":"getProducts",
-        "summary":"Products API",
-        "description":"Get products list",
+        "summary":"Releases API",
+        "description":"Create a release",
         "tags":[
-          "Products"
-        ],
-        "parameters":[
-          {
-            "name": "page",
-            "in": "query",
-            "description": "A specific page of results.",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "per_page",
-            "in": "query",
-            "description": "Number of results per page.",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "produces":[
-          "application/json"
-        ],
-        "responses":{
-          "200":{
-            "description":"A list of products objects within a data envelope.",
-            "schema":{
-              "$ref":"#/definitions/ProductsResponse"
-            }
-          }
-        }
-      }
-    },
-    "/products/{product_id}":{
-      "get":{
-        "operationId":"getProduct",
-        "summary":"Products API",
-        "description":"Get product info",
-        "tags":[
-          "Products"
+          "Releases"
         ],
         "parameters":[
           {
             "name":"product_id",
             "in":"path",
-            "description":"Numeric ID, or key of the feature to be retrieved",
+            "description":"The id of the company being queried",
             "required":true,
             "type":"string"
           }
@@ -252,9 +210,9 @@
         ],
         "responses":{
           "200":{
-            "description":"A list of products objects within a data envelope.",
+            "description":"A list of topic objects within a data envelope.",
             "schema":{
-              "$ref":"#/definitions/ProductResponse"
+              "$ref":"#/definitions/ReleasesResponse"
             }
           }
         }
@@ -262,7 +220,6 @@
     },
     "/releases/{release_id}":{
       "get":{
-        "operationId":"getRelease",
         "summary":"",
         "description":"Get a specific release",
         "tags":[
@@ -292,7 +249,6 @@
     },
     "/products/{product_id}/releases/{release_id}":{
       "put":{
-        "operationId":"updateProductRelease",
         "summary":"Update a release",
         "description":"Update a release",
         "tags":[
@@ -467,103 +423,6 @@
           "items":{
             "type":"string"
           }
-        }
-      }
-    },
-    "ProductResponse":{
-      "type":"object",
-      "properties":{
-        "product":{
-          "type":"object",
-          "$ref":"#/definitions/Product"
-        }
-      }
-    },
-    "ProductsResponse":{
-      "type":"object",
-      "properties":{
-        "products":{
-          "type":"array",
-          "items":{
-            "$ref":"#/definitions/ProductMeta"
-          }
-        },
-        "pagination":{
-          "type":"object",
-          "$ref":"#/definitions/Pagination"
-        }
-      }
-    },
-    "ProductMeta": {
-      "type":"object",
-      "properties":{
-        "id":{
-          "type":"string",
-          "description":"A unique identifier for the product."
-        },
-        "reference_prefix":{
-          "type":"string",
-          "description":"The reference prefix slug for the product."
-        },
-        "name":{
-          "type":"string",
-          "description":"The name for the product."
-        },
-        "product_line":{
-          "type":"boolean",
-          "description":"Whether the product is a product line or not."
-        },
-        "created_at":{
-          "type":"string",
-          "format":"date-time",
-          "description":"The date-time when the product was created."
-        }
-      }
-    },
-    "Product": {
-      "type":"object",
-      "properties":{
-        "id":{
-          "type":"string",
-          "description":"A unique identifier for the product."
-        },
-        "reference_prefix":{
-          "type":"string",
-          "description":"The reference prefix slug for the product."
-        },
-        "name":{
-          "type":"string",
-          "description":"The name for the product."
-        },
-        "product_line":{
-          "type":"boolean",
-          "description":"Whether the product is a product line or not."
-        },
-        "created_at":{
-          "type":"string",
-          "format":"date-time",
-          "description":"The date-time when the product was created."
-        },
-        "updated_at":{
-          "type":"string",
-          "format":"date-time",
-          "description":"The date-time when the product was updated."
-        },
-        "url":{
-          "type":"string",
-          "description":"User URL for the project."
-        },
-        "resource":{
-          "type":"string",
-          "description":"User URL for the project."
-        },
-        "has_ideas":{
-          "type":"boolean",
-          "description":"Whether the product has ideas or not."
-        },
-        "has_master_features":{
-          "type":"boolean",
-          "description":"Whether the product has master features or not."
         }
       }
     },

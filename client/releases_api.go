@@ -10,6 +10,7 @@
 package aha
 
 import (
+	"io/ioutil"
 	"net/url"
 	"net/http"
 	"strings"
@@ -26,23 +27,23 @@ var (
 type ReleasesApiService service
 
 
-/* ReleasesApiService Releases API
- Create a release
+/* ReleasesApiService 
+ Get a specific release
  * @param ctx context.Context for authentication, logging, tracing, etc.
- @param productId The id of the company being queried
- @return ReleasesResponse*/
-func (a *ReleasesApiService) ProductsProductIdReleasesGet(ctx context.Context, productId string) (ReleasesResponse,  *http.Response, error) {
+ @param releaseId Numeric ID, or key of the release to be retrieved
+ @return ReleaseWrap*/
+func (a *ReleasesApiService) GetRelease(ctx context.Context, releaseId string) (ReleaseWrap,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody interface{}
 		localVarFileName string
 		localVarFileBytes []byte
-	 	successPayload  ReleasesResponse
+	 	successPayload  ReleaseWrap
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/products/{product_id}/releases"
-	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", fmt.Sprintf("%v", productId), -1)
+	localVarPath := a.client.cfg.BasePath + "/releases/{release_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", fmt.Sprintf("%v", releaseId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -79,7 +80,8 @@ func (a *ReleasesApiService) ProductsProductIdReleasesGet(ctx context.Context, p
 	}
 	defer localVarHttpResponse.Body.Close()
 	if localVarHttpResponse.StatusCode >= 300 {
-		return successPayload, localVarHttpResponse, reportError(localVarHttpResponse.Status)
+		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
+		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
 	}
 
 	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
@@ -97,7 +99,7 @@ func (a *ReleasesApiService) ProductsProductIdReleasesGet(ctx context.Context, p
  @param releaseId Numeric ID, or key of the release to be updated
  @param release Release properties to update
  @return ReleaseWrap*/
-func (a *ReleasesApiService) ProductsProductIdReleasesReleaseIdPut(ctx context.Context, productId string, releaseId string, release ReleaseUpdateWrap) (ReleaseWrap,  *http.Response, error) {
+func (a *ReleasesApiService) UpdateProductRelease(ctx context.Context, productId string, releaseId string, release ReleaseUpdateWrap) (ReleaseWrap,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody interface{}
@@ -148,71 +150,8 @@ func (a *ReleasesApiService) ProductsProductIdReleasesReleaseIdPut(ctx context.C
 	}
 	defer localVarHttpResponse.Body.Close()
 	if localVarHttpResponse.StatusCode >= 300 {
-		return successPayload, localVarHttpResponse, reportError(localVarHttpResponse.Status)
-	}
-
-	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-		return successPayload, localVarHttpResponse, err
-	}
-
-
-	return successPayload, localVarHttpResponse, err
-}
-
-/* ReleasesApiService 
- Get a specific release
- * @param ctx context.Context for authentication, logging, tracing, etc.
- @param releaseId Numeric ID, or key of the release to be retrieved
- @return ReleaseWrap*/
-func (a *ReleasesApiService) ReleasesReleaseIdGet(ctx context.Context, releaseId string) (ReleaseWrap,  *http.Response, error) {
-	var (
-		localVarHttpMethod = strings.ToUpper("Get")
-		localVarPostBody interface{}
-		localVarFileName string
-		localVarFileBytes []byte
-	 	successPayload  ReleaseWrap
-	)
-
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/releases/{release_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", fmt.Sprintf("%v", releaseId), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
-
-	// set Content-Type header
-	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/json",
-		}
-
-	// set Accept header
-	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, nil, err
-	}
-
-	localVarHttpResponse, err := a.client.callAPI(r)
-	if err != nil || localVarHttpResponse == nil {
-		return successPayload, localVarHttpResponse, err
-	}
-	defer localVarHttpResponse.Body.Close()
-	if localVarHttpResponse.StatusCode >= 300 {
-		return successPayload, localVarHttpResponse, reportError(localVarHttpResponse.Status)
+		bodyBytes, _ := ioutil.ReadAll(localVarHttpResponse.Body)
+		return successPayload, localVarHttpResponse, reportError("Status: %v, Body: %s", localVarHttpResponse.Status, bodyBytes)
 	}
 
 	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {

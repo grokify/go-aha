@@ -14,7 +14,7 @@ import (
 	"github.com/grokify/elastirad-go/models"
 	"github.com/grokify/elastirad-go/models/v5"
 
-	"github.com/grokify/go-aha"
+	"github.com/grokify/go-aha/client"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)
