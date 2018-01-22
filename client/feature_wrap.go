@@ -10,6 +10,5 @@
 package aha
 
 type FeatureWrap struct {
-
 	Feature *Feature `json:"feature,omitempty"`
 }
