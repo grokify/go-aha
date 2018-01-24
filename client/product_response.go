@@ -10,6 +10,5 @@
 package aha
 
 type ProductResponse struct {
-
 	Product *Product `json:"product,omitempty"`
 }
