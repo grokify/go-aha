@@ -21,34 +21,6 @@ var (
 	updateDefaultFeatureDatesToRelease = false
 )
 
-func GetBeginData(feature aha.Feature) (time.Time, error) {
-	if PossibleDate(feature.StartDate) {
-		return time.Parse(tu.RFC3339YMD, feature.StartDate)
-	} else if PossibleDate(feature.Release.StartDate) {
-		return time.Parse(tu.RFC3339YMD, feature.Release.StartDate)
-	}
-	return time.Now(), fmt.Errorf("Date Not Found")
-}
-
-func GetEndDate(feature aha.Feature) (time.Time, error) {
-	if PossibleDate(feature.DueDate) {
-		return time.Parse(tu.RFC3339YMD, feature.DueDate)
-	} else if PossibleDate(feature.Release.ReleaseDate) {
-		return time.Parse(tu.RFC3339YMD, feature.Release.ReleaseDate)
-	}
-	return time.Now(), fmt.Errorf("Date Not Found")
-}
-
-func PossibleDate(dateString string) bool {
-	dateString = strings.TrimSpace(dateString)
-	if len(dateString) == 0 {
-		return false
-	} else if strings.Index(dateString, "0") == 0 {
-		return false
-	}
-	return true
-}
-
 func main() {
 	releases := []string{"API-R-1", "API-R-2"}
 
