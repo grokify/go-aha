@@ -3,6 +3,7 @@ package ahautil
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/grokify/go-aha/client"
@@ -14,18 +15,26 @@ type ClientAPIs struct {
 	Config    *aha.Configuration
 }
 
-func NewClientAPIs(account, apiKey string) ClientAPIs {
-	clientAPIs := ClientAPIs{}
-
+func NewClientAPIsHTTPClient(httpClient *http.Client) ClientAPIs {
 	cfg := aha.NewConfiguration()
-
-	httpClient := ao.NewClient(account, apiKey)
-
 	cfg.HTTPClient = httpClient
+	return ClientAPIs{
+		Config:    cfg,
+		APIClient: aha.NewAPIClient(cfg),
+	}
+}
 
-	clientAPIs.APIClient = aha.NewAPIClient(cfg)
+func NewClientAPIs(account, apiKey string) ClientAPIs {
+	httpClient := ao.NewClient(account, apiKey)
+	return NewClientAPIsHTTPClient(httpClient)
+	/*
+		cfg := aha.NewConfiguration()
+		cfg.HTTPClient = httpClient
 
-	return clientAPIs
+		return ClientAPIs{
+			Config:    cfg,
+			APIClient: aha.NewAPIClient(cfg),
+		}*/
 }
 
 func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
