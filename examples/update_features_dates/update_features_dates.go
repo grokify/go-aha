@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,8 +10,8 @@ import (
 	"github.com/grokify/gotilla/io/ioutilmore"
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/go-aha"
 	au "github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/client"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 )
 
 func main() {
-	releases := []string{"PROD-R-1"}
+	releases := []string{"API-R-1"}
 
 	updateDefaultFeatureDatesToRelease := false
 
@@ -32,13 +33,15 @@ func main() {
 
 	featureMap := map[string]*aha.Feature{}
 
+	ctx := context.Background()
+
 	for _, releaseId := range releases {
 		features := []*aha.Feature{}
 		var err error
 		if updateDefaultFeatureDatesToRelease {
-			features, err = apis.UpdateFeatureStartDueDatesToRelease(releaseId)
+			features, err = apis.UpdateFeatureStartDueDatesToRelease(ctx, releaseId)
 		} else {
-			features, err = apis.GetFeaturesByRelease(releaseId)
+			features, err = apis.GetFeaturesFullByReleaseId(ctx, releaseId)
 		}
 
 		if err != nil {
@@ -53,9 +56,11 @@ func main() {
 	fmtutil.PrintJSON(featureMap)
 	fmt.Println(len(featureMap))
 
-	err = ioutilmore.WriteJSON(outputFile, featureMap, 0644, true)
-	if err != nil {
-		panic(err)
+	if 1 == 0 {
+		err = ioutilmore.WriteJSON(outputFile, featureMap, 0644, true)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	fmt.Println("DONE")

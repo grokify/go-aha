@@ -14,6 +14,7 @@ import (
 )
 
 type Feature struct {
+
 	Id string `json:"id,omitempty"`
 
 	ReferenceNum string `json:"reference_num,omitempty"`
@@ -31,6 +32,8 @@ type Feature struct {
 	Url string `json:"url,omitempty"`
 
 	Resource string `json:"resource,omitempty"`
+
+	Release *Release `json:"release,omitempty"`
 
 	Tags []string `json:"tags,omitempty"`
 }

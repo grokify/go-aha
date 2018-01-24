@@ -27,14 +27,6 @@ func NewClientAPIsHTTPClient(httpClient *http.Client) ClientAPIs {
 func NewClientAPIs(account, apiKey string) ClientAPIs {
 	httpClient := ao.NewClient(account, apiKey)
 	return NewClientAPIsHTTPClient(httpClient)
-	/*
-		cfg := aha.NewConfiguration()
-		cfg.HTTPClient = httpClient
-
-		return ClientAPIs{
-			Config:    cfg,
-			APIClient: aha.NewAPIClient(cfg),
-		}*/
 }
 
 func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
@@ -55,20 +47,24 @@ func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
 	if err != nil {
 		return nil, err
 	}
-	if res.StatusCode > 299 {
+	if res.StatusCode >= 300 {
 		return nil, fmt.Errorf("Bad response: %v", res.StatusCode)
 	}
 	return fthick.Feature, nil
 }
 
-func (apis *ClientAPIs) GetFeaturesMetaByRelease(releaseId string) ([]aha.FeatureMeta, error) {
+func (apis *ClientAPIs) GetFeaturesMetaByReleaseId(ctx context.Context, releaseId string) ([]aha.FeatureMeta, error) {
 	features := []aha.FeatureMeta{}
 	fapi := apis.APIClient.FeaturesApi
-	finfo, resp, err := fapi.GetReleaseFeatures(context.Background(), releaseId)
+	params := map[string]interface{}{
+		"page":     int32(1),
+		"per_page": int32(500),
+	}
+	finfo, resp, err := fapi.GetReleaseFeatures(ctx, releaseId, params)
 	if err != nil {
 		return features, err
 	}
-	if resp.StatusCode > 299 {
+	if resp.StatusCode >= 300 {
 		return features, fmt.Errorf("API Bad Status: %v", resp.StatusCode)
 	}
 	return finfo.Features, nil
@@ -83,7 +79,7 @@ func ymdIsNotSet(ymd string) bool {
 	return false
 }
 
-func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([]*aha.Feature, error) {
+func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(ctx context.Context, releaseId string) ([]*aha.Feature, error) {
 	features := []*aha.Feature{}
 
 	rel, err := apis.GetReleaseById(releaseId)
@@ -91,7 +87,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 		return features, err
 	}
 
-	featureMetas, err := apis.GetFeaturesMetaByRelease(releaseId)
+	featureMetas, err := apis.GetFeaturesMetaByReleaseId(ctx, releaseId)
 	if err != nil {
 		return features, err
 	}
@@ -99,7 +95,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 	fapi := apis.APIClient.FeaturesApi
 
 	for _, fthin := range featureMetas {
-		fthick, res, err := fapi.GetFeature(context.Background(), fthin.Id)
+		fthick, res, err := fapi.GetFeature(ctx, fthin.Id)
 		if err != nil {
 			return features, err
 		}
@@ -140,10 +136,10 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(releaseId string) ([
 	return features, nil
 }
 
-func (apis *ClientAPIs) GetFeaturesByRelease(releaseId string) ([]*aha.Feature, error) {
+func (apis *ClientAPIs) GetFeaturesFullByReleaseId(ctx context.Context, releaseId string) ([]*aha.Feature, error) {
 	features := []*aha.Feature{}
 
-	featureMetas, err := apis.GetFeaturesMetaByRelease(releaseId)
+	featureMetas, err := apis.GetFeaturesMetaByReleaseId(ctx, releaseId)
 	if err != nil {
 		return features, err
 	}
@@ -151,7 +147,7 @@ func (apis *ClientAPIs) GetFeaturesByRelease(releaseId string) ([]*aha.Feature, 
 	fapi := apis.APIClient.FeaturesApi
 
 	for _, fthin := range featureMetas {
-		fthick, res, err := fapi.GetFeature(context.Background(), fthin.Id)
+		fthick, res, err := fapi.GetFeature(ctx, fthin.Id)
 		if err != nil {
 			return features, err
 		}

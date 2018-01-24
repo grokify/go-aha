@@ -10,6 +10,7 @@
 package aha
 
 type ProductsResponse struct {
+
 	Products []ProductMeta `json:"products,omitempty"`
 
 	Pagination *Pagination `json:"pagination,omitempty"`

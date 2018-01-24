@@ -79,7 +79,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetReleaseFeatures**
-> FeaturesResponse GetReleaseFeatures(ctx, releaseId)
+> FeaturesResponse GetReleaseFeatures(ctx, releaseId, optional)
 Get all features for a release
 
 Get all features for a release
@@ -90,6 +90,16 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
   **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
+ **page** | **int32**| A specific page of results. | 
+ **perPage** | **int32**| Number of results per page. | 
 
 ### Return type
 
