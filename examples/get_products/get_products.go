@@ -12,14 +12,7 @@ import (
 	au "github.com/grokify/go-aha/ahautil"
 )
 
-func main() {
-	err := godotenv.Load(os.Getenv("ENV_PATH"))
-	if err != nil {
-		panic(err)
-	}
-
-	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
-
+func getProducts(apis au.ClientAPIs) {
 	api := apis.APIClient.ProductsApi
 	ctx := context.Background()
 
@@ -36,9 +29,7 @@ func main() {
 
 	fmt.Println(resp.StatusCode)
 	fmtutil.PrintJSON(info)
-
 	fmt.Printf("Found %v products\n", len(info.Products))
-
 	fmt.Println("===")
 
 	for _, prod := range info.Products {
@@ -55,6 +46,17 @@ func main() {
 
 		break
 	}
+}
+
+func main() {
+	err := godotenv.Load(os.Getenv("ENV_PATH"))
+	if err != nil {
+		panic(err)
+	}
+
+	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+
+	getProducts(apis)
 
 	fmt.Println("DONE")
 }

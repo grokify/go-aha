@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/joho/godotenv"
@@ -15,48 +16,40 @@ import (
 func main() {
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
-		panic(err)
+		log.Fatal("$ENV_PATH not found")
 	}
 
 	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
-
-	api := apis.APIClient.ReleasesApi
 	ctx := context.Background()
 
-	params := map[string]interface{}{
-		"page":     int32(1),
-		"pagePage": int32(500),
-	}
-
-	info, resp, err := api.GetProductReleases(ctx, "GLIP", params)
-
-	if err != nil {
-		log.Fatal("Error retrieving features")
-	}
-
-	fmt.Println(resp.StatusCode)
-	fmtutil.PrintJSON(info)
-	fmt.Printf("Found %v releases\n", len(info.Releases))
-	fmt.Println("===")
-
-	/*
-		for _, f := range info.Features {
-			fmtutil.PrintJSON(f)
-
-			feat, resp, err := api.GetFeature(ctx, f.Id)
-			if err != nil {
-				log.Fatal("Error retrieving feature")
-			}
-
-			fmt.Println(resp.StatusCode)
-			fmtutil.PrintJSON(feat)
-
-			fmt.Println("ESFeature")
-			f2 := au.AhaToEsFeature(feat.Feature)
-			fmtutil.PrintJSON(f2)
-
-			break
+	rs := au.NewReleaseSet()
+	rs.ClientAPIs = apis
+	products := []string{"PROD"}
+	for _, prod := range products {
+		err := rs.LoadReleasesForProduct(ctx, prod)
+		if err != nil {
+			log.Fatal(err)
 		}
-	*/
+	}
+
+	fmtutil.PrintJSON(rs.ReleaseMap)
+
+	fmt.Println(len(rs.ReleaseMap))
+
+	dta, err := time.Parse(time.RFC3339, "2017-10-01T00:00:00Z")
+	if err != nil {
+		log.Fatal(err)
+	}
+	dtz, err := time.Parse(time.RFC3339, "2018-12-31T23:59:59Z")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rels, err := rs.GetReleasesForDates(ctx, dta, dtz)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmtutil.PrintJSON(rels)
+	fmt.Println(len(rels))
 	fmt.Println("DONE")
 }
