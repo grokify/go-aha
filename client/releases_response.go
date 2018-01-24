@@ -10,7 +10,6 @@
 package aha
 
 type ReleasesResponse struct {
-
 	Releases []Release `json:"releases,omitempty"`
 
 	Pagination *Pagination `json:"pagination,omitempty"`
