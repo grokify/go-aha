@@ -173,6 +173,22 @@
             "description":"Numeric ID, or key of the release to retrieve features for",
             "required":true,
             "type":"string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A specific page of results.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of results per page.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "produces":[
@@ -507,6 +523,10 @@
         },
         "resource":{
           "type":"string"
+        },
+        "release": {
+          "type":"object",
+          "$ref":"#/definitions/Release"
         },
         "tags": {
           "type":"array",

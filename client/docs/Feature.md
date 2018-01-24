@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **DueDate** | **string** | Due date in YYYY-MM-DD format. | [optional] [default to null]
 **Url** | **string** |  | [optional] [default to null]
 **Resource** | **string** |  | [optional] [default to null]
+**Release** | [***Release**](Release.md) |  | [optional] [default to null]
 **Tags** | **[]string** |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
