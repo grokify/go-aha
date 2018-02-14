@@ -2,6 +2,8 @@ package ahautil
 
 import (
 	"context"
+	"encoding/json"
+	"io/ioutil"
 	"strings"
 
 	"github.com/grokify/go-aha/client"
@@ -13,11 +15,30 @@ type FeatureSet struct {
 	TagFilterMap map[string]string
 }
 
-func NewFeatureSet() FeatureSet {
-	return FeatureSet{
+func NewFeatureSet() *FeatureSet {
+	return &FeatureSet{
 		FeatureMap:   map[string]*aha.Feature{},
 		TagFilterMap: map[string]string{},
 	}
+}
+
+func (fs *FeatureSet) ReadFile(featuresPath string) error {
+	fs.TrimSpaceTagFilterMap()
+	featuresMap := map[string]*aha.Feature{}
+	bytes, err := ioutil.ReadFile(featuresPath)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(bytes, &featuresMap)
+	if err != nil {
+		return err
+	}
+	for _, feature := range featuresMap {
+		if fs.LoadFeatureCheckTags(feature) {
+			fs.FeatureMap[feature.Id] = feature
+		}
+	}
+	return nil
 }
 
 func (fs *FeatureSet) TrimSpaceTagFilterMap() {
@@ -46,23 +67,66 @@ func (fs *FeatureSet) LoadFeaturesForRelease(ctx context.Context, releaseId stri
 	if err != nil {
 		return err
 	}
-	lenTagFilters := len(fs.TagFilterMap)
+	//lenTagFilters := len(fs.TagFilterMap)
 
 	for _, feature := range features {
-		if lenTagFilters == 0 {
+		if fs.LoadFeatureCheckTags(feature) {
 			fs.FeatureMap[feature.Id] = feature
-		} else {
-		FilterTag:
-			for filterTag, _ := range fs.TagFilterMap {
-				for _, featureTag := range feature.Tags {
-					featureTag = strings.TrimSpace(featureTag)
-					if filterTag == featureTag {
-						fs.FeatureMap[feature.Id] = feature
-						break FilterTag
+		}
+		/*
+			if lenTagFilters == 0 {
+				fs.FeatureMap[feature.Id] = feature
+			} else {
+			FilterTag:
+				for filterTag, _ := range fs.TagFilterMap {
+					for _, featureTag := range feature.Tags {
+						featureTag = strings.TrimSpace(featureTag)
+						if filterTag == featureTag {
+							fs.FeatureMap[feature.Id] = feature
+							break FilterTag
+						}
 					}
+				}
+			}
+		*/
+	}
+	return nil
+}
+
+func (fs *FeatureSet) LoadFeatureCheckTags(feature *aha.Feature) bool {
+	lenTagFilters := len(fs.TagFilterMap)
+	if lenTagFilters == 0 {
+		return true
+	} else {
+		for filterTag, _ := range fs.TagFilterMap {
+			for _, featureTag := range feature.Tags {
+				featureTag = strings.TrimSpace(featureTag)
+				if filterTag == featureTag {
+					return true
 				}
 			}
 		}
 	}
-	return nil
+	return false
+}
+
+func (fs *FeatureSet) GetFeaturesMapByTag() map[string]map[string]*aha.Feature {
+	fs.TrimSpaceTagFilterMap()
+	featuresMap2 := map[string]map[string]*aha.Feature{}
+
+FEATS:
+	for id, feat := range fs.FeatureMap {
+		for _, tagTry := range feat.Tags {
+			//tagTry = strings.ToLower(tagTry)
+			//if _, ok := filterMap[tagTry]; ok {
+			if _, ok := fs.TagFilterMap[tagTry]; ok {
+				if _, ok2 := featuresMap2[tagTry]; !ok2 {
+					featuresMap2[tagTry] = map[string]*aha.Feature{}
+				}
+				featuresMap2[tagTry][id] = feat
+				continue FEATS
+			}
+		}
+	}
+	return featuresMap2
 }
