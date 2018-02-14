@@ -67,28 +67,11 @@ func (fs *FeatureSet) LoadFeaturesForRelease(ctx context.Context, releaseId stri
 	if err != nil {
 		return err
 	}
-	//lenTagFilters := len(fs.TagFilterMap)
 
 	for _, feature := range features {
 		if fs.LoadFeatureCheckTags(feature) {
 			fs.FeatureMap[feature.Id] = feature
 		}
-		/*
-			if lenTagFilters == 0 {
-				fs.FeatureMap[feature.Id] = feature
-			} else {
-			FilterTag:
-				for filterTag, _ := range fs.TagFilterMap {
-					for _, featureTag := range feature.Tags {
-						featureTag = strings.TrimSpace(featureTag)
-						if filterTag == featureTag {
-							fs.FeatureMap[feature.Id] = feature
-							break FilterTag
-						}
-					}
-				}
-			}
-		*/
 	}
 	return nil
 }
@@ -117,8 +100,6 @@ func (fs *FeatureSet) GetFeaturesMapByTag() map[string]map[string]*aha.Feature {
 FEATS:
 	for id, feat := range fs.FeatureMap {
 		for _, tagTry := range feat.Tags {
-			//tagTry = strings.ToLower(tagTry)
-			//if _, ok := filterMap[tagTry]; ok {
 			if _, ok := fs.TagFilterMap[tagTry]; ok {
 				if _, ok2 := featuresMap2[tagTry]; !ok2 {
 					featuresMap2[tagTry] = map[string]*aha.Feature{}
