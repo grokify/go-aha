@@ -1,11 +1,12 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"log"
 
 	"github.com/grokify/swaggman"
 	"github.com/grokify/swaggman/postman2"
+	"github.com/jessevdk/go-flags"
 )
 
 const (
@@ -13,13 +14,19 @@ const (
 	EnvAhaApiKey  = "AHA_API_KEY"
 )
 
+type Options struct {
+	SwaggerPath string `short:"i" long:"in" description:"path to swagger.json"`
+	PostmanPath string `short:"o" long:"out" description:"Path to postman.json"`
+}
+
 func main() {
-	var swaggerPath = flag.String("in", "path/to/swagger.json", "Path to swagger.json")
-	var postmanPath = flag.String("out", "path/to/postman.json", "Path to postman.json")
+	opts := Options{}
+	_, err := flags.Parse(&opts)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	flag.Parse()
-
-	fmt.Println("in has value ", *swaggerPath)
+	fmt.Println("in has value ", opts.SwaggerPath)
 
 	// Instantiate a converter with default configuration
 	conv := swaggman.NewConverter(swaggman.Configuration{
@@ -33,7 +40,7 @@ func main() {
 	})
 
 	// Convert a Swagger spec
-	err := conv.Convert(*swaggerPath, *postmanPath)
+	err = conv.Convert(opts.SwaggerPath, opts.PostmanPath)
 	if err != nil {
 		panic(err)
 	}
