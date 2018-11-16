@@ -1,8 +1,17 @@
 language: go
-
+go_import_path: github.com/grokify/go-aha
+go:
+  - "1.11.x"
+  - "1.10.x"
+  - "1.9.x"
+  - "1.8.x"
+  - master
+matrix:
+  allow_failures:
+    - go: "1.8.x"
+    - go: master
+sudo: true
 install:
-  - go get -d -v .
-
+  - go get -t -v ./...
 script:
-  - go build -v ./
-
+  - go test -v ./...
