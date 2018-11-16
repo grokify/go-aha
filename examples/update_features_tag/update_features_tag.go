@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/antihax/optional"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/joho/godotenv"
@@ -29,10 +30,24 @@ func main() {
 	featuresApi := apis.APIClient.FeaturesApi
 	ctx := context.Background()
 
-	fsRes, resp, err := featuresApi.FeaturesGet(ctx, map[string]interface{}{
-		"tag":      oldTag,
-		"per_page": 500,
-	})
+	params := aha.GetFeaturesOpts{
+		Tag:     optional.NewString(oldTag),
+		PerPage: optional.NewInt32(int32(500))}
+	/*
+		   	Q              optional.String
+		   	UpdatedSince   optional.Time
+		   	Tag            optional.String
+		   	AssignedToUser optional.String
+		   	Page           optional.Int32
+		   	PerPage        optional.Int32
+		   }
+
+
+		fsRes, resp, err := featuresApi.FeaturesGet(ctx, map[string]interface{}{
+			"tag":      oldTag,
+			"per_page": 500,
+		})*/
+	fsRes, resp, err := featuresApi.GetFeatures(ctx, &params)
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +61,7 @@ func main() {
 	for _, fThin := range fsRes.Features {
 		fmtutil.PrintJSON(fThin)
 
-		fFull, resp, err := featuresApi.FeaturesFeatureIdGet(ctx, fThin.Id)
+		fFull, resp, err := featuresApi.GetFeature(ctx, fThin.Id)
 		if err != nil {
 			panic(err)
 		} else if resp.StatusCode >= 300 {
@@ -69,7 +84,7 @@ func main() {
 			}
 			if hasOldTag {
 				fUpdate := aha.FeatureUpdate{Tags: strings.Join(newTags, ",")}
-				updateRes, resp, err := featuresApi.FeaturesFeatureIdPut(ctx, fThin.Id, fUpdate)
+				updateRes, resp, err := featuresApi.UpdateFeature(ctx, fThin.Id, fUpdate)
 				if err != nil {
 					panic(err)
 				} else if resp.StatusCode >= 300 {

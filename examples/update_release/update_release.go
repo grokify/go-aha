@@ -29,7 +29,7 @@ func main() {
 	ctx := context.Background()
 
 	// Get Current Release Info
-	rel, resp, err := releasesApi.ReleasesReleaseIdGet(ctx, releaseId)
+	rel, resp, err := releasesApi.GetRelease(ctx, releaseId)
 	if err != nil {
 		panic(err)
 	} else if resp.StatusCode >= 300 {
@@ -42,7 +42,7 @@ func main() {
 	// Update Release
 	if updateRelease {
 		body := aha.ReleaseUpdateWrap{
-			Release: &aha.ReleaseUpdate{
+			Release: aha.ReleaseUpdate{
 				StartDate:            beginDate,
 				DevelopmentStartedOn: beginDate,
 				ReleaseDate:          endDate,
@@ -54,7 +54,7 @@ func main() {
 		fmt.Println("Release Request Body")
 		fmtutil.PrintJSON(body)
 
-		relUpdate, resp, err := releasesApi.ProductsProductIdReleasesReleaseIdPut(
+		relUpdate, resp, err := releasesApi.UpdateProductRelease(
 			ctx, productId, releaseId, body)
 		if err != nil {
 			panic(err)

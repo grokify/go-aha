@@ -21,8 +21,7 @@ func NewClientAPIsHTTPClient(httpClient *http.Client) ClientAPIs {
 	cfg.HTTPClient = httpClient
 	return ClientAPIs{
 		Config:    cfg,
-		APIClient: aha.NewAPIClient(cfg),
-	}
+		APIClient: aha.NewAPIClient(cfg)}
 }
 
 func NewClientAPIs(account, apiKey string) ClientAPIs {

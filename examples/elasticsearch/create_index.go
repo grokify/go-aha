@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/antihax/optional"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/swaggman/swagger2"
@@ -57,8 +60,8 @@ func createIndex(esClient elastirad.Client) {
 	fasthttp.ReleaseResponse(res)
 }
 
-func indexFeature(api *aha.FeaturesApi, esClient elastirad.Client, featureId string) error {
-	feat, resp, err := api.FeaturesFeatureIdGet(featureId)
+func indexFeature(api *aha.FeaturesApiService, esClient elastirad.Client, featureId string) error {
+	feat, resp, err := api.GetFeature(context.Background(), featureId)
 	if err != nil {
 		return err
 	} else if resp.StatusCode >= 300 {
@@ -91,10 +94,15 @@ func indexFeature(api *aha.FeaturesApi, esClient elastirad.Client, featureId str
 	return err
 }
 
-func indexFeaturesPage(api *aha.FeaturesApi, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
-	info, resp, err := api.FeaturesGet("", timeutil.TimeRFC3339Zero(), "", "", pageNum, 500)
+//func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
+func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
+	opts := aha.GetFeaturesOpts{
+		Page:    optional.NewInt32(pageNum),
+		PerPage: optional.NewInt32(int32(500))}
+
+	info, resp, err := api.GetFeatures(context.Background(), &opts)
 	if err != nil || resp.StatusCode >= 400 {
-		return info, resp, err
+		return &info, resp, err
 		//log.Fatal("Error retrieving features: %v", err.Error())
 	}
 	for i, f := range info.Features {
@@ -104,7 +112,7 @@ func indexFeaturesPage(api *aha.FeaturesApi, esClient elastirad.Client, pageNum 
 			panic(err)
 		}
 	}
-	return info, resp, err
+	return &info, resp, err
 }
 
 func main() {
@@ -127,8 +135,8 @@ func main() {
 	}
 
 	esClient := elastirad.NewClient(url.URL{})
-	ahaClient := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
-	apis := ahautil.ClientAPIs{Client: ahaClient}
+	ahaHttpClient := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis := ahautil.NewClientAPIsHTTPClient(ahaHttpClient)
 
 	doCreateIndex := false
 	doUpdateIndex := false
@@ -139,7 +147,7 @@ func main() {
 	}
 
 	if doUpdateIndex {
-		api := apis.FeaturesApi()
+		api := apis.APIClient.FeaturesApi
 		nxtPage := int32(1)
 		maxPage := int32(1)
 		idx := 0

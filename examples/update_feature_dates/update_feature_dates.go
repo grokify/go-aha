@@ -28,11 +28,10 @@ func main() {
 
 	featureUpdate := aha.FeatureUpdate{
 		StartDate: startDate,
-		DueDate:   dueDate,
-	}
+		DueDate:   dueDate}
 
 	// Update Feature with Dates
-	_, res, err := fapi.FeaturesFeatureIdPut(context.Background(), featureId, featureUpdate)
+	_, res, err := fapi.UpdateFeature(context.Background(), featureId, featureUpdate)
 	if err != nil {
 		panic(err)
 	}
