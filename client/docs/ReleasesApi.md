@@ -19,18 +19,18 @@ Get releases for a product release
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **productId** | **string**| Numeric ID, or key of the product to retrieve releases for. | 
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **optional** | ***GetProductReleasesOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a GetProductReleasesOpts struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **productId** | **string**| Numeric ID, or key of the product to retrieve releases for. | 
- **page** | **int32**| A specific page of results. | 
- **perPage** | **int32**| Number of results per page. | 
+
+ **page** | **optional.Int32**| A specific page of results. | 
+ **perPage** | **optional.Int32**| Number of results per page. | 
 
 ### Return type
 
@@ -57,7 +57,7 @@ Get a specific release
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **releaseId** | **string**| Numeric ID, or key of the release to be retrieved | 
 
 ### Return type
@@ -76,7 +76,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateProductRelease**
-> ReleaseWrap UpdateProductRelease(ctx, productId, releaseId, release)
+> ReleaseWrap UpdateProductRelease(ctx, productId, releaseId, releaseUpdateWrap)
 Update a release
 
 Update a release
@@ -85,10 +85,10 @@ Update a release
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **productId** | **string**| Numeric ID, or key of the product to create the release in | 
   **releaseId** | **string**| Numeric ID, or key of the release to be updated | 
-  **release** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md)| Release properties to update | 
+  **releaseUpdateWrap** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md)| Release properties to update | 
 
 ### Return type
 

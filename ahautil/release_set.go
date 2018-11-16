@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/client"
 	tu "github.com/grokify/gotilla/time/timeutil"
 )
@@ -39,10 +40,9 @@ func (rs *ReleaseSet) LoadReleasesForProducts(ctx context.Context, productSlugs 
 func (rs *ReleaseSet) LoadReleasesForProduct(ctx context.Context, productSlug string) error {
 	api := rs.ClientAPIs.APIClient.ReleasesApi
 
-	params := map[string]interface{}{
-		"page":     int32(1),
-		"pagePage": int32(500),
-	}
+	params := &aha.GetProductReleasesOpts{
+		Page:    optional.NewInt32(int32(1)),
+		PerPage: optional.NewInt32(int32(500))}
 
 	info, resp, err := api.GetProductReleases(ctx, productSlug, params)
 
@@ -68,7 +68,7 @@ func (rs *ReleaseSet) GetReleasesForDates(ctx context.Context, beg time.Time, en
 		gteDta := false
 		lteDtz := false
 		if len(dtaString) > 0 {
-			dta, err := time.Parse(tu.RFC3339YMD, dtaString)
+			dta, err := time.Parse(tu.RFC3339FullDate, dtaString)
 			if err != nil {
 				return rels, err
 			}
@@ -77,7 +77,7 @@ func (rs *ReleaseSet) GetReleasesForDates(ctx context.Context, beg time.Time, en
 			}
 		}
 		if len(dtzString) > 0 {
-			dtz, err := time.Parse(tu.RFC3339YMD, dtzString)
+			dtz, err := time.Parse(tu.RFC3339FullDate, dtzString)
 			if err != nil {
 				return rels, err
 			}

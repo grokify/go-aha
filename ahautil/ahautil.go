@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/client"
 	ao "github.com/grokify/oauth2more/aha"
 )
@@ -38,7 +39,7 @@ func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
 	if resp.StatusCode > 299 {
 		return nil, fmt.Errorf("Bad response: %v", resp.StatusCode)
 	}
-	return rinfo.Release, nil
+	return &rinfo.Release, nil
 }
 
 func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
@@ -50,16 +51,17 @@ func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
 	if res.StatusCode >= 300 {
 		return nil, fmt.Errorf("Bad response: %v", res.StatusCode)
 	}
-	return fthick.Feature, nil
+	return &fthick.Feature, nil
 }
 
 func (apis *ClientAPIs) GetFeaturesMetaByReleaseId(ctx context.Context, releaseId string) ([]aha.FeatureMeta, error) {
 	features := []aha.FeatureMeta{}
 	fapi := apis.APIClient.FeaturesApi
-	params := map[string]interface{}{
-		"page":     int32(1),
-		"per_page": int32(500),
-	}
+
+	params := &aha.GetReleaseFeaturesOpts{
+		Page:    optional.NewInt32(int32(1)),
+		PerPage: optional.NewInt32(int32(500))}
+
 	finfo, resp, err := fapi.GetReleaseFeatures(ctx, releaseId, params)
 	if err != nil {
 		return features, err
@@ -103,7 +105,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(ctx context.Context,
 			return features, fmt.Errorf("CODE %v", res.StatusCode)
 		}
 
-		feat := fthick.Feature
+		feat := &fthick.Feature
 
 		featureId := fthick.Feature.Id
 		if ymdIsNotSet(fthick.Feature.StartDate) || ymdIsNotSet(fthick.Feature.DueDate) {
@@ -154,7 +156,7 @@ func (apis *ClientAPIs) GetFeaturesFullByReleaseId(ctx context.Context, releaseI
 		if res.StatusCode > 299 {
 			return features, fmt.Errorf("API Bad Status: %v", res.StatusCode)
 		}
-		features = append(features, fthick.Feature)
+		features = append(features, &fthick.Feature)
 	}
 	return features, nil
 }

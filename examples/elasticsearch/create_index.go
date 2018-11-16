@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -18,9 +17,9 @@ import (
 	"github.com/grokify/elastirad-go/models"
 	"github.com/grokify/elastirad-go/models/v5"
 
-	"github.com/grokify/go-aha"
 	"github.com/grokify/go-aha/ahautil"
-	ahaoauth "github.com/grokify/oauth2util/aha"
+	"github.com/grokify/go-aha/client"
+	ahaoauth "github.com/grokify/oauth2more/aha"
 )
 
 func createIndex(esClient elastirad.Client) {

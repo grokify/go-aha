@@ -56,8 +56,8 @@ func main() {
 	fmtutil.PrintJSON(featureMap)
 	fmt.Println(len(featureMap))
 
-	if 1 == 0 {
-		err = ioutilmore.WriteJSON(outputFile, featureMap, 0644, true)
+	if 1 == 1 {
+		err = ioutilmore.WriteFileJSON(outputFile, featureMap, 0644, true)
 		if err != nil {
 			panic(err)
 		}

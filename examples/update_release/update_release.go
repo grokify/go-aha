@@ -8,8 +8,8 @@ import (
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/go-aha"
 	au "github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/client"
 )
 
 func main() {
