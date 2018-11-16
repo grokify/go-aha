@@ -3,6 +3,7 @@ package ahautil
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"regexp"
 	"time"
 
@@ -91,6 +92,9 @@ func AhaFeatureSearch(esClient elastirad.Client, refPrefix string, dt time.Time)
 		Body:   body}
 
 	res, req, err := esClient.SendFastRequest(esReq)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println(string(res.Body()))
 
