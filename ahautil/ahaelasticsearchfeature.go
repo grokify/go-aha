@@ -79,7 +79,7 @@ func AhaFeatureSearch(esClient elastirad.Client, refPrefix string, dt time.Time)
 			},
 			Range: map[string]v5.Range{
 				"due_date": {
-					GTE: dt.Format(timeutil.RFC3339YMD),
+					GTE: dt.Format(timeutil.RFC3339FullDate),
 				},
 			},
 		},

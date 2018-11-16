@@ -11,18 +11,18 @@ import (
 
 func GetBeginTimeForFeatureOrRelease(feature *aha.Feature) (time.Time, error) {
 	if possibleDate(feature.StartDate) {
-		return time.Parse(tu.RFC3339YMD, feature.StartDate)
+		return time.Parse(tu.RFC3339FullDate, feature.StartDate)
 	} else if possibleDate(feature.Release.StartDate) {
-		return time.Parse(tu.RFC3339YMD, feature.Release.StartDate)
+		return time.Parse(tu.RFC3339FullDate, feature.Release.StartDate)
 	}
 	return time.Now(), fmt.Errorf("Date Not Found")
 }
 
 func GetEndTimeForFeatureOrRelease(feature *aha.Feature) (time.Time, error) {
 	if possibleDate(feature.DueDate) {
-		return time.Parse(tu.RFC3339YMD, feature.DueDate)
+		return time.Parse(tu.RFC3339FullDate, feature.DueDate)
 	} else if possibleDate(feature.Release.ReleaseDate) {
-		return time.Parse(tu.RFC3339YMD, feature.Release.ReleaseDate)
+		return time.Parse(tu.RFC3339FullDate, feature.Release.ReleaseDate)
 	}
 	return time.Now(), fmt.Errorf("Date Not Found")
 }

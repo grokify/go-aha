@@ -18,7 +18,7 @@ Get product info
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **productId** | **string**| Numeric ID, or key of the feature to be retrieved | 
 
 ### Return type
@@ -46,16 +46,16 @@ Get products list
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***GetProductsOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a GetProductsOpts struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **page** | **int32**| A specific page of results. | 
- **perPage** | **int32**| Number of results per page. | 
+ **page** | **optional.Int32**| A specific page of results. | 
+ **perPage** | **optional.Int32**| Number of results per page. | 
 
 ### Return type
 

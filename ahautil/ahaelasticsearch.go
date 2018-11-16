@@ -19,7 +19,7 @@ type AhaElasticsearch struct {
 func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) error {
 	api := ae.AhaAPIs.APIClient.FeaturesApi
 
-	fres, res, err := api.GetFeatures(context.Background(), map[string]interface{}{})
+	fres, res, err := api.GetFeatures(context.Background(), nil)
 
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureId string) error {
 
 	update := true
 
-	esFeature := AhaToEsFeature(feat.Feature)
+	esFeature := AhaToEsFeature(&feat.Feature)
 
 	esReq := models.Request{
 		Method: "POST",

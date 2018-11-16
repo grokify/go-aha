@@ -20,7 +20,7 @@ Get a specific feature
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
 
 ### Return type
@@ -33,7 +33,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -48,20 +48,20 @@ Get all features
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***GetFeaturesOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a GetFeaturesOpts struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **q** | **string**| Sub-string to match against feature name or ID | 
- **updatedSince** | **time.Time**| UTC timestamp (in ISO8601 format) that the updated_at field must be larger than. | 
- **tag** | **string**| A string tag value. | 
- **assignedToUser** | **string**| The ID or email address of user to return assigned features for. | 
- **page** | **int32**| A specific page of results. | 
- **perPage** | **int32**| Number of results per page. | 
+ **q** | **optional.String**| Sub-string to match against feature name or ID | 
+ **updatedSince** | **optional.Time**| UTC timestamp (in ISO8601 format) that the updated_at field must be larger than. | 
+ **tag** | **optional.String**| A string tag value. | 
+ **assignedToUser** | **optional.String**| The ID or email address of user to return assigned features for. | 
+ **page** | **optional.Int32**| A specific page of results. | 
+ **perPage** | **optional.Int32**| Number of results per page. | 
 
 ### Return type
 
@@ -73,7 +73,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -88,18 +88,18 @@ Get all features for a release
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+ **optional** | ***GetReleaseFeaturesOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
+Optional parameters are passed through a pointer to a GetReleaseFeaturesOpts struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **releaseId** | **string**| Numeric ID, or key of the release to retrieve features for | 
- **page** | **int32**| A specific page of results. | 
- **perPage** | **int32**| Number of results per page. | 
+
+ **page** | **optional.Int32**| A specific page of results. | 
+ **perPage** | **optional.Int32**| Number of results per page. | 
 
 ### Return type
 
@@ -111,13 +111,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateFeature**
-> FeatureWrap UpdateFeature(ctx, featureId, feature)
+> FeatureWrap UpdateFeature(ctx, featureId, featureUpdate)
 Update a feature's custom fields with tag-like value
 
 Update a feature's custom fields with tag-like value
@@ -126,9 +126,9 @@ Update a feature's custom fields with tag-like value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **featureId** | **string**| Numeric ID, or key of the feature to be retrieved | 
-  **feature** | [**FeatureUpdate**](FeatureUpdate.md)| Feature properties to update | 
+  **featureUpdate** | [**FeatureUpdate**](FeatureUpdate.md)| Feature properties to update | 
 
 ### Return type
 
