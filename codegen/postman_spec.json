@@ -173,10 +173,84 @@
       ]
     },
     {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Products API",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/products",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Products API",
+          "request": {
+            "url": {
+              "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/products/:product_id",
+              "protocol": "https",
+              "auth": null,
+              "host": [
+                "{{AHA_ACCOUNT}}",
+                "aha",
+                "io"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":product_id"
+              ],
+              "variable": [
+                {
+                  "id": "product_id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{AHA_API_KEY}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "Releases",
       "item": [
         {
-          "name": "Releases API",
           "request": {
             "url": {
               "raw": "https://{{AHA_ACCOUNT}}.aha.io/api/v1/products/:product_id/releases",
