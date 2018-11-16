@@ -6,22 +6,23 @@ import (
 	"log"
 	"os"
 
+	"github.com/antihax/optional"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/joho/godotenv"
 
 	au "github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/client"
 )
 
 func getProducts(apis au.ClientAPIs) {
 	api := apis.APIClient.ProductsApi
 	ctx := context.Background()
 
-	params := map[string]interface{}{
-		"page":    int32(1),
-		"perPage": int32(500),
-	}
+	params := aha.GetProductsOpts{
+		Page:    optional.NewInt32(int32(1)),
+		PerPage: optional.NewInt32(int32(500))}
 
-	info, resp, err := api.GetProducts(ctx, params)
+	info, resp, err := api.GetProducts(ctx, &params)
 
 	if err != nil {
 		log.Fatal("Error retrieving features")
