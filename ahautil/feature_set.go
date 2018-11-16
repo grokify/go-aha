@@ -81,7 +81,7 @@ func (fs *FeatureSet) LoadFeatureCheckTags(feature *aha.Feature) bool {
 	if lenTagFilters == 0 {
 		return true
 	} else {
-		for filterTag, _ := range fs.TagFilterMap {
+		for filterTag := range fs.TagFilterMap {
 			for _, featureTag := range feature.Tags {
 				featureTag = strings.TrimSpace(featureTag)
 				if filterTag == featureTag {
