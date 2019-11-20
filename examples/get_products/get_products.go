@@ -7,11 +7,11 @@ import (
 	"os"
 
 	"github.com/antihax/optional"
+	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/joho/godotenv"
 
 	au "github.com/grokify/go-aha/ahautil"
-	"github.com/grokify/go-aha/client"
+	aha "github.com/grokify/go-aha/client"
 )
 
 func getProducts(apis au.ClientAPIs) {
@@ -50,7 +50,7 @@ func getProducts(apis au.ClientAPIs) {
 }
 
 func main() {
-	err := godotenv.Load(os.Getenv("ENV_PATH"))
+	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"))
 	if err != nil {
 		panic(err)
 	}

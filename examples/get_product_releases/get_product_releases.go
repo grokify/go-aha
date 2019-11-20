@@ -8,11 +8,31 @@ import (
 	"time"
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
+	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/joho/godotenv"
 
 	au "github.com/grokify/go-aha/ahautil"
 )
 
+type GetProductsFilter struct {
+	Slug    string
+	TimeGte time.Time
+	TimeLte time.Time
+}
+
+func (pf *GetProductsFilter) AddTimeGteQuarter(qtr int32) error {
+	t, err := tu.QuarterInt32StartTime(qtr)
+	if err != nil {
+		return err
+	}
+	pf.TimeGte = t
+	return nil
+}
+
+/*
+func GetProductsFiltered(filter GetProductsFilter) ([]aha.Product, error) {
+
+}*/
 func main() {
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
