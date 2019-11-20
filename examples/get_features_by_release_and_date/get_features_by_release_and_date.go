@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"log"
+	"io/ioutil"
 	"os"
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 
 	au "github.com/grokify/go-aha/ahautil"
 	//"github.com/grokify/go-aha/client"
@@ -37,6 +39,15 @@ func main() {
 	}
 	fmt.Println("---")
 	fmtutil.PrintJSON(featureSet.FeatureMap)
+	bytes, err := json.Marshal(featureSet)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Printf("LEN %v\n", len(featureSet.FeatureMap))
+	err = ioutil.WriteFile(outputFile, bytes, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Info(fmt.Sprintf("Wrote [%v]\n", outputFile))
 	fmt.Println("DONE")
 }

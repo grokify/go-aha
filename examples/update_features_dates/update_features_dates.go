@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 
 	au "github.com/grokify/go-aha/ahautil"
-	"github.com/grokify/go-aha/client"
+	aha "github.com/grokify/go-aha/client"
 )
 
 var (
@@ -57,7 +57,7 @@ func main() {
 	fmt.Println(len(featureMap))
 
 	if 1 == 1 {
-		err = ioutilmore.WriteFileJSON(outputFile, featureMap, 0644, true)
+		err = ioutilmore.WriteFileJSON(outputFile, featureMap, os.FileMode(0644), "", "  ")
 		if err != nil {
 			panic(err)
 		}

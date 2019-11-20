@@ -6,13 +6,13 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/grokify/go-aha/client"
+	aha "github.com/grokify/go-aha/client"
 )
 
 type FeatureSet struct {
-	ClientAPIs   ClientAPIs
-	FeatureMap   map[string]*aha.Feature
-	TagFilterMap map[string]string
+	ClientAPIs   ClientAPIs              `json:"-"`
+	FeatureMap   map[string]*aha.Feature `json:"featureMap,omitempty"`
+	TagFilterMap map[string]string       `json:"tagFilterMap,omitempty"`
 }
 
 func NewFeatureSet() *FeatureSet {
