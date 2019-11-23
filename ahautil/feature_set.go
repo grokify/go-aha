@@ -15,11 +15,41 @@ type FeatureSet struct {
 	TagFilterMap map[string]string       `json:"tagFilterMap,omitempty"`
 }
 
+func ReadFeatureSet(featuresPath string) (*FeatureSet, error) {
+	featuresSet := NewFeatureSet()
+	bytes, err := ioutil.ReadFile(featuresPath)
+	if err != nil {
+		return nil, err
+	}
+	return featuresSet, json.Unmarshal(bytes, featuresSet)
+}
+
+/*
+func ReadFeatures(featuresPath string) (map[string]aha.Feature, error) {
+	featuresMap := map[string]aha.Feature{}
+	bytes, err := ioutil.ReadFile(featuresPath)
+	if err != nil {
+		return featuresMap, err
+	}
+	err = json.Unmarshal(bytes, &featuresMap)
+	return featuresMap, err
+}
+*/
+
 func NewFeatureSet() *FeatureSet {
 	return &FeatureSet{
 		FeatureMap:   map[string]*aha.Feature{},
 		TagFilterMap: map[string]string{},
 	}
+}
+
+// NewFeatureSetForReleasesIds returns a new FeatureSet given a list of
+// ReleaseIds.
+func NewFeatureSetForReleasesIds(clientAPIs ClientAPIs, ids []string) (*FeatureSet, error) {
+	fs := NewFeatureSet()
+	fs.ClientAPIs = clientAPIs
+	err := fs.LoadFeaturesForReleases(context.Background(), ids)
+	return fs, err
 }
 
 func (fs *FeatureSet) ReadFile(featuresPath string) error {
@@ -34,7 +64,8 @@ func (fs *FeatureSet) ReadFile(featuresPath string) error {
 		return err
 	}
 	for _, feature := range featuresMap {
-		if fs.LoadFeatureCheckTags(feature) {
+		//if fs.LoadFeatureCheckTags(feature) {
+		if FeatureTagMatch(feature, fs.TagFilterMap) {
 			fs.FeatureMap[feature.Id] = feature
 		}
 	}
@@ -69,11 +100,32 @@ func (fs *FeatureSet) LoadFeaturesForRelease(ctx context.Context, releaseId stri
 	}
 
 	for _, feature := range features {
-		if fs.LoadFeatureCheckTags(feature) {
+		//if fs.LoadFeatureCheckTags(feature) {
+		if FeatureTagMatch(feature, fs.TagFilterMap) {
 			fs.FeatureMap[feature.Id] = feature
 		}
 	}
 	return nil
+}
+
+// FeatureTagMatch takes an `*aha.Feature` and cmopares it to a
+// tagFilterMap, returning `true` if there's a match and `false`
+// if there isn't.
+func FeatureTagMatch(feature *aha.Feature, tagFilterMap map[string]string) bool {
+	lenTagFilters := len(tagFilterMap)
+	if lenTagFilters == 0 {
+		return true
+	} else {
+		for filterTag := range tagFilterMap {
+			for _, featureTag := range feature.Tags {
+				featureTag = strings.TrimSpace(featureTag)
+				if filterTag == featureTag {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 func (fs *FeatureSet) LoadFeatureCheckTags(feature *aha.Feature) bool {
