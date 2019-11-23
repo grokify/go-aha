@@ -22,6 +22,7 @@ var (
 
 func main() {
 	releases := []string{"API-R-1", "API-R-2"}
+	releases = []string{"CCPLA-R-2", "CCPLA-R-4"}
 
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
@@ -38,16 +39,23 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("---")
-	fmtutil.PrintJSON(featureSet.FeatureMap)
-	bytes, err := json.Marshal(featureSet)
-	if err != nil {
-		log.Fatal(err)
+
+	if 1 == 1 {
+		fmtutil.PrintJSON(featureSet)
 	}
-	fmt.Printf("LEN %v\n", len(featureSet.FeatureMap))
-	err = ioutil.WriteFile(outputFile, bytes, 0644)
-	if err != nil {
-		log.Fatal(err)
+
+	if 1 == 1 {
+		bytes, err := json.MarshalIndent(featureSet, "", "  ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("LEN %v\n", len(featureSet.FeatureMap))
+
+		err = ioutil.WriteFile(outputFile, bytes, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Info(fmt.Sprintf("Wrote [%v]\n", outputFile))
 	}
-	log.Info(fmt.Sprintf("Wrote [%v]\n", outputFile))
 	fmt.Println("DONE")
 }

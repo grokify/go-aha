@@ -3,10 +3,12 @@ package ahautil
 import (
 	"context"
 	"fmt"
+	"sort"
+	"strings"
 	"time"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/go-aha/client"
+	aha "github.com/grokify/go-aha/client"
 	tu "github.com/grokify/gotilla/time/timeutil"
 )
 
@@ -25,6 +27,32 @@ func (rs *ReleaseSet) AddReleases(releases []aha.Release) {
 	for _, rel := range releases {
 		rs.ReleaseMap[rel.Id] = rel
 	}
+}
+
+// ReleaseIds returns the list of Release Ids.
+func (rs *ReleaseSet) Ids() []string {
+	ids := []string{}
+	for _, rel := range rs.ReleaseMap {
+		rel.Id = strings.TrimSpace(rel.Id)
+		if len(rel.Id) > 0 {
+			ids = append(ids, rel.Id)
+		}
+	}
+	sort.Strings(ids)
+	return ids
+}
+
+// ReferenceNumbers returns the list of Release Reference Numbers.
+func (rs *ReleaseSet) ReferenceNumbers() []string {
+	refs := []string{}
+	for _, rel := range rs.ReleaseMap {
+		rel.ReferenceNum = strings.TrimSpace(rel.ReferenceNum)
+		if len(rel.ReferenceNum) > 0 {
+			refs = append(refs, rel.ReferenceNum)
+		}
+	}
+	sort.Strings(refs)
+	return refs
 }
 
 func (rs *ReleaseSet) LoadReleasesForProducts(ctx context.Context, productSlugs []string) error {
@@ -90,4 +118,63 @@ func (rs *ReleaseSet) GetReleasesForDates(ctx context.Context, beg time.Time, en
 		}
 	}
 	return rels, nil
+}
+
+// GetReleasesForQuarters retrives a filter of products within 2 quarters.
+func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, error) {
+	newSet := NewReleaseSet()
+	if yyyyq1 == 0 && yyyyq2 == 0 {
+		newSet.ReleaseMap = rs.ReleaseMap
+		return newSet, nil
+	} else if yyyyq2 == 0 {
+		dtQ1, err := tu.QuarterInt32StartTime(yyyyq1)
+		if err != nil {
+			return newSet, err
+		}
+		for id, rel := range rs.ReleaseMap {
+			relDt, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
+			if err != nil {
+				continue
+			}
+			if relDt.After(dtQ1) || relDt.Equal(dtQ1) {
+				newSet.ReleaseMap[id] = rel
+			}
+		}
+	} else if yyyyq1 == 0 {
+		dtQ2, err := tu.QuarterInt32StartTime(yyyyq2)
+		if err != nil {
+			return newSet, err
+		}
+		dtQ2Next := tu.NextQuarter(dtQ2)
+		for id, rel := range rs.ReleaseMap {
+			relDt, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
+			if err != nil {
+				continue
+			}
+			if relDt.Before(dtQ2Next) {
+				newSet.ReleaseMap[id] = rel
+			}
+		}
+	} else {
+		dtQ1, err := tu.QuarterInt32StartTime(yyyyq1)
+		if err != nil {
+			return newSet, err
+		}
+		dtQ2, err := tu.QuarterInt32StartTime(yyyyq2)
+		if err != nil {
+			return newSet, err
+		}
+		dtQ1, dtQ2 = tu.MinMax(dtQ1, dtQ2)
+		dtQ2Next := tu.NextQuarter(dtQ2)
+		for id, rel := range rs.ReleaseMap {
+			relDt, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
+			if err != nil {
+				continue
+			}
+			if tu.InRange(relDt, dtQ1, dtQ2Next, true, false) {
+				newSet.ReleaseMap[id] = rel
+			}
+		}
+	}
+	return newSet, nil
 }

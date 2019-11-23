@@ -7,9 +7,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -23,6 +21,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/api/slides/v1"
 
+	"github.com/grokify/go-aha/ahautil"
 	aha "github.com/grokify/go-aha/client"
 	"github.com/grokify/gocharts/data/roadmap"
 	su "github.com/grokify/googleutil/slidesutil/v1"
@@ -68,16 +67,6 @@ func (c64 *CanvasFloat64) ThisX(this, min, max float64) (float64, error) {
 	thisPlus := pct * diffCan
 	thisX := c64.MinX + thisPlus
 	return thisX, nil
-}
-
-func ReadFeatures(featuresPath string) (map[string]aha.Feature, error) {
-	featuresMap := map[string]aha.Feature{}
-	bytes, err := ioutil.ReadFile(featuresPath)
-	if err != nil {
-		return featuresMap, err
-	}
-	err = json.Unmarshal(bytes, &featuresMap)
-	return featuresMap, err
 }
 
 type SlideCanvasInfo struct {
@@ -199,15 +188,22 @@ func main() {
 	forceNewToken := true
 
 	featuresPath := "/Users/john.wang/jwdev/JGo/gopath/src/github.com/grokify/go-aha/examples/get_features_full/_features.json"
+	featuresPath = "../get_features_by_release_and_date/_features.json"
 
 	//featuersMap := map[string]aha.Feature{}
 	filterArr := []string{"rmglip", "rmcc", "rmcpaas", "rmeco", "rmreq"}
 	filterMap := map[string]int{"rmglip": 1, "rmcc": 1, "rmcpaas": 1, "rmeco": 1, "rmreq": 1}
 
-	featuresMap, err := ReadFeatures(featuresPath)
+	featuresSet, err := ahautil.ReadFeatureSet(featuresPath)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+	/*
+		featuresMap, err := ReadFeatures(featuresPath)
+		if err != nil {
+			log.Fatal(err)
+		}*/
+	featuresMap := featuresSet.FeatureMap
 	fmtutil.PrintJSON(featuresMap)
 
 	featuresMap2 := map[string]map[string]aha.Feature{}
@@ -220,7 +216,7 @@ FEATS:
 				if _, ok2 := featuresMap2[tagTry]; !ok2 {
 					featuresMap2[tagTry] = map[string]aha.Feature{}
 				}
-				featuresMap2[tagTry][id] = feat
+				featuresMap2[tagTry][id] = *feat
 				continue FEATS
 			}
 		}
