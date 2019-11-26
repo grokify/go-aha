@@ -1,0 +1,488 @@
+// Go example that covers:
+// Quickstart: https://developers.google.com/slides/quickstart/go
+// Basic writing: adding a text box to slide: https://developers.google.com/slides/samples/writing
+// Using SDK: https://github.com/google/google-api-go-client/blob/master/slides/v1/slides-gen.go
+// Creating and Managing Presentations https://developers.google.com/slides/how-tos/presentations
+// Adding Shapes and Text to a Slide: https://developers.google.com/slides/how-tos/add-shape#example
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+	"time"
+
+	"github.com/grokify/gotilla/fmt/fmtutil"
+	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/joho/godotenv"
+	"golang.org/x/net/context"
+	"google.golang.org/api/slides/v1"
+
+	om "github.com/grokify/oauth2more"
+	omg "github.com/grokify/oauth2more/google"
+
+	"github.com/grokify/go-aha/ahautil"
+	aha "github.com/grokify/go-aha/client"
+	"github.com/grokify/gocharts/data/roadmap"
+	"github.com/grokify/googleutil/slidesutil/v1"
+	su "github.com/grokify/googleutil/slidesutil/v1"
+)
+
+var (
+	GoogleSlideUnitPoint = "PT"
+)
+
+/*
+func NewClientFileStore(
+	credentials []byte,
+	scopes []string,
+	tokenPath string,
+	useDefaultDir, forceNewToken bool) (*http.Client, error) {
+	conf, err := oug.ConfigFromBytes(credentials, scopes)
+	if err != nil {
+		return nil, err
+	}
+	tokenStore, err := ou.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
+	if err != nil {
+		return nil, err
+	}
+	return ou.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
+}
+*/
+
+func NewClient(forceNewToken bool) (*http.Client, error) {
+	if 1 == 1 {
+		return omg.NewClientFileStore(
+			[]byte(omg.ClientSecretEnv),
+			[]string{omg.ScopeDrive, omg.ScopePresentations},
+			"slides.googleapis.com-go-quickstart.json",
+			true,
+			forceNewToken,
+		)
+	}
+
+	conf, err := omg.ConfigFromEnv(omg.ClientSecretEnv,
+		[]string{slides.DriveScope, slides.PresentationsScope})
+	if err != nil {
+		return nil, err
+	}
+
+	tokenFile := "slides.googleapis.com-go-quickstart.json"
+	tokenStore, err := om.NewTokenStoreFileDefault(tokenFile, true, 0700)
+	if err != nil {
+		return nil, err
+	}
+
+	return om.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
+}
+
+/*
+type CanvasFloat64 struct {
+	MinX float64
+	MinY float64
+	MaxX float64
+	MaxY float64
+}
+
+func (c64 *CanvasFloat64) ThisX(this, min, max float64) (float64, error) {
+	if min > max {
+		return 0.0, fmt.Errorf("Min (%v) is larger than max (%v)", min, max)
+	} else if this < min || this > max {
+		return 0.0, fmt.Errorf("This (%v) is not within min,max (%v, %v)", this, min, max)
+	}
+	diff := max - min
+	plus := this - min
+	pct := float64(plus) / float64(diff)
+	diffCan := c64.MaxX - c64.MinX
+	thisPlus := pct * diffCan
+	thisX := c64.MinX + thisPlus
+	return thisX, nil
+}
+
+type SlideCanvasInfo struct {
+	BoxFgColor      *slides.RgbColor
+	BoxBgColor      *slides.RgbColor
+	BoxHeight       float64
+	BoxMarginBottom float64
+	Canvas          CanvasFloat64
+}
+*/
+/*
+	locYHeight := boxHeight + 5.0
+	for i, itemText := range items {
+		elementId := fmt.Sprintf("item%v", i)
+		locYThis := locY + locYHeight*float64(i)
+		requests = append(requests, su.TextBoxRequestsSimple(
+			pageId, elementId, itemText, fgColor, bgColor,
+			boxWidth, boxHeight, locX, locYThis)...)
+	}
+
+GivenCanMinX,CanMaxX
+Want Item X
+
+	SrcCan - MinX,MaxX (int64)
+	Item   - MinX,MaxX (int64)
+	Want   - MinX,MaxX (float64)
+*/
+/*
+type Location struct {
+	SrcAllMinX int64
+	SrcAllMaxX int64
+	SrcAllWdtX int64
+	SrcBoxMinX int64
+	SrcBoxMaxX int64
+	SrcBoxWdtX int64
+	SrcPctWdtX float64
+	OutAllMinX float64
+	OutAllMaxX float64
+	OutAllWdtX float64
+	OutBoxMinX float64
+	OutBoxMaxX float64
+	OutBoxWdtX float64
+	BoxOutPctX float64
+}
+
+func GoogleSlideDrawRoadmap(pageId string, srcCan roadmap.Canvas, outCan SlideCanvasInfo) ([]*slides.Request, error) {
+	requests := []*slides.Request{}
+	err := srcCan.InflateItems()
+	if err != nil {
+		return requests, err
+	}
+	srcCan.BuildRows()
+
+	idx := 0
+	rowYWatermark := outCan.Canvas.MinY
+
+	for i, row := range srcCan.Rows {
+		for _, el := range row {
+			fmtutil.PrintJSON(el)
+			srcBoxWdtX := el.Max - el.Min
+			srcAllWdtX := srcCan.MaxX - srcCan.MinX
+			srcBoxMinX := el.Min
+			srcBoxMaxX := el.Max
+			srcPctWdtX := float64(srcBoxWdtX) / float64(srcAllWdtX)
+
+			srcAllMinX := srcCan.MinX
+			outAllWdtX := outCan.Canvas.MaxX - outCan.Canvas.MinX
+			outBoxWdtX := srcPctWdtX * outAllWdtX
+
+			boxOutPctX := float64(srcAllWdtX) / outAllWdtX
+
+			outAllMinX := outCan.Canvas.MinX
+			fmt.Printf("%v\n", srcBoxMinX-srcAllMinX)
+			fmt.Printf("%v\n", el.Min-srcCan.MinX)
+			outBoxMinX := (float64(srcBoxMinX-srcAllMinX) / float64(boxOutPctX)) + outAllMinX
+			outBoxMaxX := (float64(srcBoxMaxX-srcAllMinX) / float64(boxOutPctX)) + outAllMinX
+
+			loc := Location{
+				SrcAllMinX: srcCan.MinX,
+				SrcAllMaxX: srcCan.MaxX,
+				SrcAllWdtX: srcCan.MaxX - srcCan.MinX,
+				SrcBoxMinX: el.Min,
+				SrcBoxMaxX: el.Max,
+				SrcBoxWdtX: srcBoxWdtX,
+				SrcPctWdtX: srcPctWdtX,
+				OutAllMinX: outCan.Canvas.MinX,
+				OutAllMaxX: outCan.Canvas.MaxX,
+				OutAllWdtX: outCan.Canvas.MaxX - outCan.Canvas.MinX,
+				OutBoxMinX: outBoxMinX,
+				OutBoxMaxX: outBoxMaxX,
+				OutBoxWdtX: outBoxWdtX,
+				BoxOutPctX: boxOutPctX,
+			}
+
+			fmtutil.PrintJSON(loc)
+			if loc.OutBoxMaxX > loc.OutAllMaxX {
+				panic("C")
+			} else if loc.OutBoxMinX < loc.OutAllMinX {
+				panic("D")
+			}
+			//panic("Z")
+			elementId := fmt.Sprintf("AutoBox%03d", idx)
+			requests = append(requests, su.TextBoxRequestsSimple(
+				pageId, elementId, el.Name, outCan.BoxFgColor, outCan.BoxBgColor,
+				loc.OutBoxWdtX, outCan.BoxHeight, loc.OutBoxMinX, rowYWatermark)...)
+			idx++
+			//break
+			if i > 3 {
+				//break
+			}
+		}
+		rowYWatermark += outCan.BoxHeight + outCan.BoxMarginBottom
+	}
+
+	return requests, nil
+}
+*/
+
+func FilterFeatures(features []aha.Feature, tagFilters []string) []aha.Feature {
+	tagFiltersMap := map[string]int{}
+	for _, tag := range tagFilters {
+		tag = strings.ToLower(strings.TrimSpace(tag))
+		if len(tag) > 0 {
+			tagFiltersMap[tag] = 1
+		}
+	}
+	filteredFeatures := []aha.Feature{}
+FEATURE:
+	for _, feat := range features {
+		for _, tagTry := range feat.Tags {
+			tagTry = strings.ToLower(strings.TrimSpace(tagTry))
+			if len(tagTry) == 0 {
+				continue
+			}
+			for tagFilter := range tagFiltersMap {
+				if tagFilter == tagTry {
+					filteredFeatures = append(filteredFeatures, feat)
+					continue FEATURE
+				}
+			}
+		}
+	}
+	return filteredFeatures
+}
+
+func TagFilterFeatureMap(featuresMap map[string]*aha.Feature, tagFilters []string) map[string]map[string]aha.Feature {
+	tagFiltersMap := map[string]int{}
+	for _, tag := range tagFilters {
+		tag = strings.ToLower(strings.TrimSpace(tag))
+		if len(tag) > 0 {
+			tagFiltersMap[tag] = 1
+		}
+	}
+
+	tagFilterFeatureMap := map[string]map[string]aha.Feature{}
+FEATURES:
+	for id, feat := range featuresMap {
+		for _, tagTry := range feat.Tags {
+			tagTry = strings.ToLower(strings.TrimSpace(tagTry))
+			if _, ok := tagFiltersMap[tagTry]; ok {
+				if _, ok2 := tagFilterFeatureMap[tagTry]; !ok2 {
+					tagFilterFeatureMap[tagTry] = map[string]aha.Feature{}
+				}
+				tagFilterFeatureMap[tagTry][id] = *feat
+				continue FEATURES
+			}
+		}
+	}
+	return tagFilterFeatureMap
+}
+
+type TagsFeaturesSet struct {
+	TagIdFeatureMap map[string]map[string]aha.Feature
+	TagsFeatures    []TagFeatures
+}
+
+func NewTagsFeaturesSet(featuresMap map[string]*aha.Feature, tagFilters []string) TagsFeaturesSet {
+	tfs := TagsFeaturesSet{
+		TagFeatures: []TagFeatures{}}
+	tfs.TagIdFeatureMap = TagFilterFeatureMap(featuresMap, tagFilters)
+	return tfs
+}
+
+type TagFeatures struct {
+	Tag      string
+	Features map[string]aha.Feature
+}
+
+/*()
+func (featuresMap map[string]aha.Feature) {
+
+}*/
+
+func main() {
+	forceNewToken := true
+
+	featuresPath := "/Users/john.wang/jwdev/JGo/gopath/src/github.com/grokify/go-aha/examples/get_features_full/_features.json"
+	featuresPath = "../get_features_by_release_and_date/_features.json"
+
+	//featuersMap := map[string]aha.Feature{}
+	filterArr := []string{"rmglip", "rmcc", "rmcpaas", "rmeco", "rmreq"}
+	filterMap := map[string]int{"rmglip": 1, "rmcc": 1, "rmcpaas": 1, "rmeco": 1, "rmreq": 1}
+	swimlaneTags := []string{"Engage Voice", "Engage Digital"}
+
+	featuresSet, err := ahautil.ReadFeatureSet(featuresPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	/*
+		featuresMap, err := ReadFeatures(featuresPath)
+		if err != nil {
+			log.Fatal(err)
+		}*/
+	//featuresMap := featuresSet.FeatureMap
+	fmtutil.PrintJSON(featuresSet.FeatureMap)
+
+	if 1 == 0 {
+		featuresMap2 := map[string]map[string]aha.Feature{}
+
+	FEATS:
+		for id, feat := range featuresSet.FeatureMap {
+			for _, tagTry := range feat.Tags {
+				tagTry = strings.ToLower(tagTry)
+				if _, ok := filterMap[tagTry]; ok {
+					if _, ok2 := featuresMap2[tagTry]; !ok2 {
+						featuresMap2[tagTry] = map[string]aha.Feature{}
+					}
+					featuresMap2[tagTry][id] = *feat
+					continue FEATS
+				}
+			}
+		}
+	}
+
+	featuresMap2 := TagFilterFeatureMap(featuresSet.FeatureMap, swimlaneTags)
+
+	featureMapsArr := []map[string]aha.Feature{}
+	for _, filterTag := range filterArr {
+		if fMap, ok := featuresMap2[filterTag]; ok {
+			featureMapsArr = append(featureMapsArr, fMap)
+		}
+	}
+
+	TagsFeaturesSet
+
+	fmtutil.PrintJSON(featuresMap2)
+	//panic("ZZ")
+
+	itemsRM := []roadmap.Item{}
+
+	qtrMin := int32(20174)
+	qtrMax := int32(20184)
+
+	//SetMinMaxQuarter(qtrMin, qtrMax int32) error {
+
+	can := roadmap.Canvas{}
+
+	err = can.SetMinMaxQuarter(qtrMin, qtrMax)
+	if err != nil {
+		panic(err)
+	}
+	can.SetRange(200)
+
+	rng, err := can.Range.CellRange()
+	if err != nil {
+		panic(err)
+	}
+	//panic("AA")
+	fmtutil.PrintJSON(can)
+	fmt.Printf("Cell Range %v", rng)
+	//panic("A")
+	for _, feat := range featuresSet.FeatureMap {
+		item := roadmap.Item{
+			MinTime: tu.ParseOrZero(tu.RFC3339FullDate, feat.StartDate),
+			MaxTime: tu.ParseOrZero(tu.RFC3339FullDate, feat.DueDate),
+			Name:    feat.Name,
+		}
+		itemsRM = append(itemsRM, item)
+		can.AddItem(item)
+	}
+	//fmtutil.PrintJSON(itemsRM)
+	err = can.InflateItems()
+	if err != nil {
+		panic(err)
+	}
+	can.BuildRows()
+	fmtutil.PrintJSON(can)
+	fmt.Println(len(can.Rows))
+	//panic("Z")
+
+	err = godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	client, err := NewClient(forceNewToken)
+	if err != nil {
+		log.Fatal("Unable to get Client")
+	}
+
+	srv, err := slides.New(client)
+	if err != nil {
+		log.Fatalf("Unable to retrieve Slides Client %v", err)
+	}
+
+	psv := slides.NewPresentationsService(srv)
+
+	t := time.Now().UTC()
+	slideName := fmt.Sprintf("GOLANG TEST PRES %v\n", t.Format(time.RFC3339))
+	fmt.Printf("Slide Name: %v", slideName)
+
+	pres := &slides.Presentation{Title: slideName}
+	res, err := psv.Create(pres).Do()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("CREATED Presentation with Id %v\n", res.PresentationId)
+
+	for i, slide := range res.Slides {
+		fmt.Printf("- Slide #%d id %v contains %d elements.\n", (i + 1),
+			slide.ObjectId,
+			len(slide.PageElements))
+	}
+
+	pageId := res.Slides[0].ObjectId
+	requests := []*slides.Request{}
+
+	fgColor, err := su.ParseRgbColorHex("#ffffff")
+	if err != nil {
+		panic(err)
+	}
+	bgColor, err := su.ParseRgbColorHex("#4688f1")
+	if err != nil {
+		panic(err)
+	}
+
+	outCan := slidesutil.CanvasFloat64{
+		MinX: 150.0,
+		MinY: 70.0,
+		MaxX: 700.0,
+		MaxY: 500.0,
+	}
+
+	//items := []string{"Item #1", "Item #2"}
+	//locX := 150.0
+	//locY := 50.0
+	//boxWidth := 550.0
+	//boxHeight := 25.0
+
+	slideCanvas := slidesutil.SlideCanvasInfo{
+		BoxFgColor:      fgColor,
+		BoxBgColor:      bgColor,
+		BoxHeight:       25.0,
+		BoxMarginBottom: 5.0,
+		Canvas:          outCan,
+	}
+
+	requestsRoadmap, err := slidesutil.GoogleSlideDrawRoadmap(pageId, can, slideCanvas)
+	if err != nil {
+		panic(err)
+	}
+
+	requests = requestsRoadmap
+	/*
+
+		locYHeight := boxHeight + 5.0
+		for i, itemText := range items {
+			elementId := fmt.Sprintf("item%v", i)
+			locYThis := locY + locYHeight*float64(i)
+			requests = append(requests, su.TextBoxRequestsSimple(
+				pageId, elementId, itemText, fgColor, bgColor,
+				boxWidth, boxHeight, locX, locYThis)...)
+		}
+	*/
+
+	breq := &slides.BatchUpdatePresentationRequest{
+		Requests: requests,
+	}
+
+	resu, err := psv.BatchUpdate(res.PresentationId, breq).Do()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(resu.PresentationId)
+
+	fmt.Println("DONE")
+}
