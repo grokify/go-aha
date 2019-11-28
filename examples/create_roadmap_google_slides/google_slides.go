@@ -8,7 +8,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -19,6 +18,7 @@ import (
 	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/api/slides/v1"
 
@@ -175,7 +175,7 @@ type TagFeatures struct {
 
 func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (*roadmap.Canvas, error) {
 	yyyyq1, yyyyq2 = timeutil.MinMaxInt32([]int32{yyyyq1, yyyyq2})
-
+	log.Info()
 	//itemsRM := []roadmap.Item{}
 	can := roadmap.Canvas{}
 
@@ -192,22 +192,40 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 		}
 		fmtutil.PrintJSON(rng)
 	}
-
+	log.Info("IN_NewRoadmapCanvasAha_START_FeatureMap")
 	for _, feat := range featuresSet.FeatureMap {
+		// fmtutil.PrintJSON(feat)
+		minTime, err := timeutil.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.StartDate, feat.Release.StartDate})
+		if err != nil {
+			return nil, fmt.Errorf("Feature+Release has no Feature.StartDate or Feature.Release.StartDate")
+		}
+		maxTime, err := timeutil.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.DueDate, feat.Release.ReleaseDate})
+		if err != nil {
+			return nil, fmt.Errorf("Feature+Release has no Feature.DueDate or Feature.Release.ReleaseDate")
+		}
+		// fmt.Printf("MIN MAX [%v][%v]", minTime, maxTime)
+
 		item := roadmap.Item{
-			MinTime: tu.ParseOrZero(tu.RFC3339FullDate, feat.StartDate),
-			MaxTime: tu.ParseOrZero(tu.RFC3339FullDate, feat.DueDate),
+			MinTime: minTime,
+			MaxTime: maxTime,
 			Name:    feat.Name,
 		}
 		//itemsRM = append(itemsRM, item)
 		can.AddItem(item)
 	}
+	//panic("Z")
+	log.Info("IN_NewRoadmapCanvasAha_END_FeatureMap")
+
 	//fmtutil.PrintJSON(itemsRM)
+	log.Info("IN_NewRoadmapCanvasAha_BEG_InflateItems")
 	err = can.InflateItems()
 	if err != nil {
 		return nil, err
 	}
+	log.Info("IN_NewRoadmapCanvasAha_END_InflateItems")
+	log.Info("IN_NewRoadmapCanvasAha_BEG_BuildRows")
 	can.BuildRows()
+	log.Info("IN_NewRoadmapCanvasAha_END_BuildRows")
 	return &can, nil
 }
 
@@ -237,6 +255,7 @@ func main() {
 	//filterMap := map[string]int{"rmglip": 1, "rmcc": 1, "rmcpaas": 1, "rmeco": 1, "rmreq": 1}
 	swimlaneTags := filterArr
 
+	log.Info("START_ReadFeatureSet")
 	featuresSet, err := ahautil.ReadFeatureSet(featuresPath)
 	if err != nil {
 		log.Fatal(err)
@@ -244,15 +263,18 @@ func main() {
 
 	fmtutil.PrintJSON(featuresSet.FeatureMap)
 
+	log.Info("START_NewTagsFeaturesSet")
 	tagsFeaturesSet := NewTagsFeaturesSet(featuresSet.FeatureMap, swimlaneTags)
 	featuresMap2 := tagsFeaturesSet.TagIdFeatureMap
 
 	fmtutil.PrintJSON(featuresMap2)
 
+	log.Infof("START_NewRoadmapCanvasAha BEG[%v] END[%v]", opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
 	can, err := NewRoadmapCanvasAha(*featuresSet, opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Info("FINISH_NewRoadmapCanvasAha")
 
 	fmtutil.PrintJSON(can)
 	fmt.Println(len(can.Rows))
@@ -303,6 +325,7 @@ func main() {
 	//boxWidth := 550.0
 	//boxHeight := 25.0
 
+	log.Info("START_GoogleSlideDrawRoadmap")
 	requestsRoadmap, err := slidesutil.GoogleSlideDrawRoadmap(
 		pageId, *can, slidesutil.DefaultSlideCanvasInfo())
 	if err != nil {
