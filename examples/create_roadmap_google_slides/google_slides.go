@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/gotilla/time/timeutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/jessevdk/go-flags"
-	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/api/slides/v1"
@@ -40,6 +40,14 @@ type Options struct {
 	Products             string `short:"p" long:"productSlugs" description:"Aha Product Slugs" required:"true"`
 	ReleaseQuarterBegin  int32  `short:"b" long:"begin" description:"Begin Quarter" required:"true"`
 	ReleaseQuarterFinish int32  `short:"f" long:"finish" description:"Finish Quarter" required:"true"`
+	NewTokenRaw          []bool `short:"n" long:"newtoken" description:"Retrieve new token"`
+}
+
+func (opt *Options) NewToken() bool {
+	if len(opt.NewTokenRaw) > 0 {
+		return true
+	}
+	return false
 }
 
 /*
@@ -230,21 +238,22 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 }
 
 func main() {
-	forceNewToken := true
-
-	err := godotenv.Load(os.Getenv("ENV_PATH"))
-	if err != nil {
-		log.Fatal("$ENV_PATH not found")
-	}
-	/*err = godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
-	*/
 	opts := Options{}
-	_, err = flags.Parse(&opts)
+	_, err := flags.Parse(&opts)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if len(opts.EnvFile) > 0 {
+		err := config.LoadDotEnvSkipEmpty(opts.EnvFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"))
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	featuresPath := "../get_features_by_release_and_date/_features.json"
@@ -280,9 +289,21 @@ func main() {
 	fmt.Println(len(can.Rows))
 	//panic("Z")
 
-	googClient, err := NewGoogleClient(forceNewToken)
+	gcfsConfig := omg.GoogleConfigFileStore{
+		Scopes:        []string{omg.ScopeDrive, omg.ScopePresentations},
+		TokenPath:     "google_aha-roadmap_token.json",
+		UseDefaultDir: true,
+		ForceNewToken: opts.NewToken()}
+
+	err = gcfsConfig.LoadCredentialsBytes([]byte(os.Getenv(omg.EnvGoogleAppCredentials)))
 	if err != nil {
-		log.Fatal("Unable to get Client")
+		log.Fatal(err)
+	}
+
+	//googClient, err := NewGoogleClient(forceNewToken)
+	googClient, err := gcfsConfig.Client()
+	if err != nil {
+		log.Fatal("Unable to get Google Client")
 	}
 
 	gsc, err := slidesutil.NewGoogleSlidesService(googClient)
