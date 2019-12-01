@@ -215,8 +215,7 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 		item := roadmap.Item{
 			MinTime: minTime,
 			MaxTime: maxTime,
-			Name:    feat.Name,
-		}
+			Name:    feat.Name}
 		//itemsRM = append(itemsRM, item)
 		can.AddItem(item)
 	}
@@ -323,13 +322,6 @@ func main() {
 	}
 
 	pageId := res.Slides[0].ObjectId
-
-	//requests := []*slides.Request{}
-	//items := []string{"Item #1", "Item #2"}
-	//locX := 150.0
-	//locY := 50.0
-	//boxWidth := 550.0
-	//boxHeight := 25.0
 
 	log.Info("START_GoogleSlideDrawRoadmap")
 	requestsRoadmap, err := slidesutil.GoogleSlideDrawRoadmap(
