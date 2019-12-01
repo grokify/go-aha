@@ -15,7 +15,6 @@ import (
 
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/time/timeutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/jessevdk/go-flags"
 	log "github.com/sirupsen/logrus"
@@ -182,7 +181,7 @@ type TagFeatures struct {
 }
 
 func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (*roadmap.Canvas, error) {
-	yyyyq1, yyyyq2 = timeutil.MinMaxInt32([]int32{yyyyq1, yyyyq2})
+	yyyyq1, yyyyq2 = tu.MinMaxInt32([]int32{yyyyq1, yyyyq2})
 	log.Info()
 	//itemsRM := []roadmap.Item{}
 	can := roadmap.Canvas{}
@@ -203,11 +202,11 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 	log.Info("IN_NewRoadmapCanvasAha_START_FeatureMap")
 	for _, feat := range featuresSet.FeatureMap {
 		// fmtutil.PrintJSON(feat)
-		minTime, err := timeutil.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.StartDate, feat.Release.StartDate})
+		minTime, err := tu.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.StartDate, feat.Release.StartDate})
 		if err != nil {
 			return nil, fmt.Errorf("Feature+Release has no Feature.StartDate or Feature.Release.StartDate")
 		}
-		maxTime, err := timeutil.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.DueDate, feat.Release.ReleaseDate})
+		maxTime, err := tu.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.DueDate, feat.Release.ReleaseDate})
 		if err != nil {
 			return nil, fmt.Errorf("Feature+Release has no Feature.DueDate or Feature.Release.ReleaseDate")
 		}
@@ -244,16 +243,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if len(opts.EnvFile) > 0 {
-		err := config.LoadDotEnvSkipEmpty(opts.EnvFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"))
-		if err != nil {
-			log.Fatal(err)
-		}
+	err = config.LoadDotEnvSkipEmpty(opts.EnvFile, os.Getenv("ENV_PATH"))
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	featuresPath := "../get_features_by_release_and_date/_features.json"
@@ -310,13 +302,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	/*
-		srv, err := slides.New(googClient)
-		if err != nil {
-			log.Fatalf("Unable to retrieve Slides Client %v", err)
-		}
-
-		psv := slides.NewPresentationsService(srv)*/
 
 	t := time.Now().UTC()
 	slideName := fmt.Sprintf("GOLANG TEST PRES %v\n", t.Format(time.RFC3339))
