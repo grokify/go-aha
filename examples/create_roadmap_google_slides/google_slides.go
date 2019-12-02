@@ -7,6 +7,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -17,8 +18,8 @@ import (
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/jessevdk/go-flags"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/net/context"
 	"google.golang.org/api/slides/v1"
 
 	om "github.com/grokify/oauth2more"
@@ -69,6 +70,21 @@ func NewClientFileStore(
 
 func NewGoogleClient(forceNewToken bool) (*http.Client, error) {
 	if 1 == 1 {
+		gcfs := omg.GoogleConfigFileStore{
+			Scopes:        []string{omg.ScopeDrive, omg.ScopePresentations},
+			ForceNewToken: forceNewToken,
+		}
+		err := gcfs.LoadCredentialsBytes([]byte(os.Getenv(omg.EnvGoogleAppCredentials)))
+		if err != nil {
+			return nil, errors.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
+		}
+		err = gcfs.SetDefaultFilepath()
+		if err != nil {
+			return nil, errors.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
+		}
+		return gcfs.Client()
+	}
+	if 1 == 0 {
 		return omg.NewClientFileStore(
 			[]byte(omg.ClientSecretEnv),
 			[]string{omg.ScopeDrive, omg.ScopePresentations},
@@ -282,16 +298,26 @@ func main() {
 
 	gcfsConfig := omg.GoogleConfigFileStore{
 		Scopes:        []string{omg.ScopeDrive, omg.ScopePresentations},
-		TokenPath:     "google_aha-roadmap_token.json",
-		UseDefaultDir: true,
-		ForceNewToken: opts.NewToken()}
+		ForceNewToken: opts.NewToken(),
+		//TokenPath:     "google_aha-roadmap_token.json",
+		//UseDefaultDir: true,
+	}
 
 	err = gcfsConfig.LoadCredentialsBytes([]byte(os.Getenv(omg.EnvGoogleAppCredentials)))
+	if err != nil {
+		log.Fatal(errors.Wrap(err, "LoadCredentialsBytes"))
+	}
+
+	err = gcfsConfig.SetDefaultFilepath()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	//googClient, err := NewGoogleClient(forceNewToken)
+	/*googClient, err := NewGoogleClient(opts.NewToken())
+	if err != nil {
+		log.Fatal(errors.Wrap(err, "NewGoogleClient"))
+	}*/
+
 	googClient, err := gcfsConfig.Client()
 	if err != nil {
 		log.Fatal("Unable to get Google Client")
