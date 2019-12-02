@@ -7,10 +7,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
+	"github.com/grokify/gotilla/io/ioutilmore"
 	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/jessevdk/go-flags"
-	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha/ahautil"
 )
@@ -22,16 +23,18 @@ type Options struct {
 	ReleaseQuarterFinish int32  `short:"f" long:"finish" description:"Finish Quarter"`
 }
 
-func init() {
-	err := godotenv.Load(os.Getenv("ENV_PATH"))
-	if err != nil {
-		log.Fatal("$ENV_PATH not found")
-	}
-}
+const (
+	ReleasesFile string = "_releases.json"
+	FeaturesFile string = "_features.json"
+)
 
 func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = config.LoadDotEnvSkipEmpty(opts.EnvFile, os.Getenv("ENV_PATH"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,5 +52,16 @@ func main() {
 	fmtutil.PrintJSON(rs)
 	fmtutil.PrintJSON(fs)
 
+	WriteFile(ReleasesFile, rs)
+	WriteFile(FeaturesFile, fs)
+
 	fmt.Println("DONE")
+}
+
+func WriteFile(fileName string, data interface{}) {
+	err := ioutilmore.WriteFileJSON(fileName, data, 0644, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("WROTE %v\n", fileName)
 }
