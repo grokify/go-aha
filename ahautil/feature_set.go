@@ -3,10 +3,12 @@ package ahautil
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strings"
 
 	aha "github.com/grokify/go-aha/client"
+	"github.com/pkg/errors"
 )
 
 type FeatureSet struct {
@@ -53,6 +55,15 @@ func NewFeatureSetForReleasesIds(clientAPIs ClientAPIs, ids []string) (*FeatureS
 }
 
 func (fs *FeatureSet) ReadFile(featuresPath string) error {
+	if 1 == 1 {
+		fs2, err := ReadFeatureSet(featuresPath)
+		if err != nil {
+			return errors.Wrap(err, "FeatureSet.ReadFile - ReadFeatureSet")
+		}
+		for id2, feat2 := range fs2.FeatureMap {
+			fs.FeatureMap[id2] = feat2
+		}
+	}
 	fs.TrimSpaceTagFilterMap()
 	featuresMap := map[string]*aha.Feature{}
 	bytes, err := ioutil.ReadFile(featuresPath)
@@ -145,13 +156,23 @@ func (fs *FeatureSet) LoadFeatureCheckTags(feature *aha.Feature) bool {
 	return false
 }
 
-func (fs *FeatureSet) GetFeaturesMapByTag() map[string]map[string]*aha.Feature {
+// GetFeaturesMapByTag returns a map[string]map[string] where
+// the first key is a filter tag and the second key is the
+// feature id.
+func (fs *FeatureSet) GetFeaturesMapByTag() (map[string]map[string]*aha.Feature, error) {
 	fs.TrimSpaceTagFilterMap()
 	featuresMap2 := map[string]map[string]*aha.Feature{}
+	if len(fs.FeatureMap) == 0 {
+		return featuresMap2, fmt.Errorf("ahautil.FeatureSet.GetFeaturesMapByTag - E_NO_FEATURES")
+	}
+	if len(fs.TagFilterMap) == 0 {
+		return featuresMap2, fmt.Errorf("ahautil.FeatureSet.GetFeaturesMapByTag - E_NO_FILTER_TAGS")
+	}
 
 FEATS:
 	for id, feat := range fs.FeatureMap {
 		for _, tagTry := range feat.Tags {
+			//fmt.Printf("FEAT [%v] TAG_TRY [%v]\n", feat.Name, tagTry)
 			if _, ok := fs.TagFilterMap[tagTry]; ok {
 				if _, ok2 := featuresMap2[tagTry]; !ok2 {
 					featuresMap2[tagTry] = map[string]*aha.Feature{}
@@ -161,5 +182,5 @@ FEATS:
 			}
 		}
 	}
-	return featuresMap2
+	return featuresMap2, nil
 }
