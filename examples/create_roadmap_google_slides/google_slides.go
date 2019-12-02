@@ -7,9 +7,7 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -22,7 +20,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/api/slides/v1"
 
-	om "github.com/grokify/oauth2more"
 	omg "github.com/grokify/oauth2more/google"
 
 	"github.com/grokify/go-aha/ahautil"
@@ -48,65 +45,6 @@ func (opt *Options) NewToken() bool {
 		return true
 	}
 	return false
-}
-
-/*
-func NewClientFileStore(
-	credentials []byte,
-	scopes []string,
-	tokenPath string,
-	useDefaultDir, forceNewToken bool) (*http.Client, error) {
-	conf, err := oug.ConfigFromBytes(credentials, scopes)
-	if err != nil {
-		return nil, err
-	}
-	tokenStore, err := ou.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
-	if err != nil {
-		return nil, err
-	}
-	return ou.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
-}
-*/
-
-func NewGoogleClient(forceNewToken bool) (*http.Client, error) {
-	if 1 == 1 {
-		gcfs := omg.GoogleConfigFileStore{
-			Scopes:        []string{omg.ScopeDrive, omg.ScopePresentations},
-			ForceNewToken: forceNewToken,
-		}
-		err := gcfs.LoadCredentialsBytes([]byte(os.Getenv(omg.EnvGoogleAppCredentials)))
-		if err != nil {
-			return nil, errors.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
-		}
-		err = gcfs.SetDefaultFilepath()
-		if err != nil {
-			return nil, errors.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
-		}
-		return gcfs.Client()
-	}
-	if 1 == 0 {
-		return omg.NewClientFileStore(
-			[]byte(omg.ClientSecretEnv),
-			[]string{omg.ScopeDrive, omg.ScopePresentations},
-			"slides.googleapis.com-go-quickstart.json",
-			true,
-			forceNewToken,
-		)
-	}
-
-	conf, err := omg.ConfigFromEnv(omg.ClientSecretEnv,
-		[]string{slides.DriveScope, slides.PresentationsScope})
-	if err != nil {
-		return nil, err
-	}
-
-	tokenFile := "slides.googleapis.com-go-quickstart.json"
-	tokenStore, err := om.NewTokenStoreFileDefault(tokenFile, true, 0700)
-	if err != nil {
-		return nil, err
-	}
-
-	return om.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
 }
 
 func FilterFeatures(features []aha.Feature, tagFilters []string) []aha.Feature {
@@ -294,33 +232,13 @@ func main() {
 
 	fmtutil.PrintJSON(can)
 	fmt.Println(len(can.Rows))
-	//panic("Z")
 
-	gcfsConfig := omg.GoogleConfigFileStore{
-		Scopes:        []string{omg.ScopeDrive, omg.ScopePresentations},
-		ForceNewToken: opts.NewToken(),
-		//TokenPath:     "google_aha-roadmap_token.json",
-		//UseDefaultDir: true,
-	}
-
-	err = gcfsConfig.LoadCredentialsBytes([]byte(os.Getenv(omg.EnvGoogleAppCredentials)))
+	googClient, err := omg.NewClientFileStoreWithDefaults(
+		[]byte(os.Getenv(omg.EnvGoogleAppCredentials)),
+		[]string{omg.ScopeDrive, omg.ScopePresentations},
+		opts.NewToken())
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "LoadCredentialsBytes"))
-	}
-
-	err = gcfsConfig.SetDefaultFilepath()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	/*googClient, err := NewGoogleClient(opts.NewToken())
-	if err != nil {
-		log.Fatal(errors.Wrap(err, "NewGoogleClient"))
-	}*/
-
-	googClient, err := gcfsConfig.Client()
-	if err != nil {
-		log.Fatal("Unable to get Google Client")
+		log.Fatal(errors.Wrap(err, "NewClientFileStoreWithDefaults"))
 	}
 
 	gsc, err := slidesutil.NewGoogleSlidesService(googClient)
