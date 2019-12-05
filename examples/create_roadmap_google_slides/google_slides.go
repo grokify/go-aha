@@ -22,8 +22,8 @@ import (
 
 	omg "github.com/grokify/oauth2more/google"
 
+	"github.com/grokify/go-aha/aha"
 	"github.com/grokify/go-aha/ahautil"
-	aha "github.com/grokify/go-aha/client"
 	"github.com/grokify/gocharts/data/roadmap"
 	"github.com/grokify/googleutil/slidesutil/v1"
 )

@@ -10,8 +10,8 @@ import (
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 
+	"github.com/grokify/go-aha/aha"
 	au "github.com/grokify/go-aha/ahautil"
-	aha "github.com/grokify/go-aha/client"
 )
 
 func getProducts(apis au.ClientAPIs) {

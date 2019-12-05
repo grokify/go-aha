@@ -10,8 +10,8 @@ import (
 	"github.com/grokify/gotilla/io/ioutilmore"
 	"github.com/joho/godotenv"
 
+	"github.com/grokify/go-aha/aha"
 	au "github.com/grokify/go-aha/ahautil"
-	aha "github.com/grokify/go-aha/client"
 )
 
 var (
