@@ -32,7 +32,7 @@ $ go get github.com/grokify/go-aha/...
 
 ## Reference
 
-See:
+See docs in:
 
 * [`client/README.md`](client/README.md)
 
