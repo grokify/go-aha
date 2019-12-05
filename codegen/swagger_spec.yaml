@@ -343,32 +343,78 @@ definitions:
     properties:
       id:
         type: string
-      reference_num:
-        type: string
-      name:
-        type: string
       created_at:
         type: string
         format: date-time
-      start_date:
-        type: string
-        format: date
-        description: Start date in YYYY-MM-DD format.
+      comments_count:
+        type: integer
+        format: int64
+      custom_fields:
+        type: array
+        items:
+          "$ref": "#/definitions/CustomField"
       due_date:
         type: string
         format: date
         description: Due date in YYYY-MM-DD format.
-      url:
+      name:
         type: string
-      resource:
+      product_id:
+        type: string
+      progress_source:
+        type: string
+      reference_num:
         type: string
       release:
         type: object
         "$ref": "#/definitions/Release"
+      resource:
+        type: string
+        description: API URL for the resource.
+      start_date:
+        type: string
+        format: date
+        description: Start date in YYYY-MM-DD format.
       tags:
         type: array
         items:
           type: string
+      url:
+        type: string
+        description: Web UI URL for the resource.
+      use_requirements_estimates:
+        type: bool
+      work_units:
+        type: integer
+        format: int64
+      workflow_status:
+        type: object
+        "$ref": "#/definitions/FeatureWorkflowStatus"
+  FeatureWorkflowStatus:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      position:
+        type: integer
+        format: int64
+      complete:
+        type: boolean
+      color:
+        type: string
+  CustomField:
+    type: object
+    properties:
+      key:
+        type: string
+      name:
+        type: string
+      value:
+        type: string
+      type:
+        type: string
   ProductResponse:
     type: object
     properties:

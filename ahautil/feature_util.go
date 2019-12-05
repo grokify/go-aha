@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/go-aha/client"
+	"github.com/grokify/go-aha/aha"
 	tu "github.com/grokify/gotilla/time/timeutil"
 )
 

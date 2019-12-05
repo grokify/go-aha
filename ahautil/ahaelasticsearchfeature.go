@@ -7,14 +7,13 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/grokify/go-aha/aha"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/valyala/fasthttp"
 
 	"github.com/grokify/elastirad-go"
 	"github.com/grokify/elastirad-go/models"
-	"github.com/grokify/elastirad-go/models/v5"
-
-	"github.com/grokify/go-aha/client"
+	v5 "github.com/grokify/elastirad-go/models/v5"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)

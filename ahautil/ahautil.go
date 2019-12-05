@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/go-aha/client"
+	"github.com/grokify/go-aha/aha"
 	ao "github.com/grokify/oauth2more/aha"
 )
 

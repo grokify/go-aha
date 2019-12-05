@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	aha "github.com/grokify/go-aha/client"
+	"github.com/grokify/go-aha/aha"
 	"github.com/pkg/errors"
 )
 
