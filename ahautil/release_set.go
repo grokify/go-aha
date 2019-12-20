@@ -10,11 +10,12 @@ import (
 	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/aha"
 	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/pkg/errors"
 )
 
 type ReleaseSet struct {
 	ClientAPIs ClientAPIs
-	ReleaseMap map[string]aha.Release
+	ReleaseMap map[string]aha.Release `json:"releaseMap"`
 }
 
 func NewReleaseSet() ReleaseSet {
@@ -27,6 +28,23 @@ func (rs *ReleaseSet) AddReleases(releases []aha.Release) {
 	for _, rel := range releases {
 		rs.ReleaseMap[rel.Id] = rel
 	}
+}
+
+func (rs *ReleaseSet) ReleaseCount() int {
+	return len(rs.ReleaseMap)
+}
+
+// ReleaseIds returns the list of Release Ids.
+func (rs *ReleaseSet) RefNums() []string {
+	ids := []string{}
+	for _, rel := range rs.ReleaseMap {
+		rel.ReferenceNum = strings.TrimSpace(rel.ReferenceNum)
+		if len(rel.ReferenceNum) > 0 {
+			ids = append(ids, rel.ReferenceNum)
+		}
+	}
+	sort.Strings(ids)
+	return ids
 }
 
 // ReleaseIds returns the list of Release Ids.
@@ -79,11 +97,22 @@ func (rs *ReleaseSet) LoadReleasesForProduct(ctx context.Context, productSlug st
 	} else if resp.StatusCode >= 300 {
 		return fmt.Errorf("Aha! API Error Status Code %v", resp.StatusCode)
 	}
-
+	//fmtutil.PrintJSON(info)
+	//panic("Z")
 	for _, rel := range info.Releases {
 		rs.ReleaseMap[rel.Id] = rel
+		if 1 == 0 { // not needed
+			relMore, resp, err := api.GetRelease(context.Background(), rel.Id)
+			if err != nil {
+				return err
+			} else if resp.StatusCode >= 300 {
+				return errors.Wrap(err, fmt.Sprintf("Aha.GetRelease.StatusCode [%v]", resp.StatusCode))
+			}
+			rs.ReleaseMap[rel.Id] = relMore.Release
+		}
 	}
-
+	//fmtutil.PrintJSON(rs.ReleaseMap)
+	//panic("Z")
 	return nil
 }
 
@@ -167,11 +196,23 @@ func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, 
 		dtQ1, dtQ2 = tu.MinMax(dtQ1, dtQ2)
 		dtQ2Next := tu.NextQuarter(dtQ2)
 		for id, rel := range rs.ReleaseMap {
-			relDt, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
+			rel.ReleaseDate = strings.TrimSpace(rel.ReleaseDate)
+			if len(rel.ReleaseDate) == 0 {
+				continue
+			}
+			releaseDate, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
 			if err != nil {
 				continue
 			}
-			if tu.InRange(relDt, dtQ1, dtQ2Next, true, false) {
+			if Debug {
+				fmt.Printf("REL_RELEASE_DAT [%v]\n", releaseDate.Format(time.RFC3339))
+				fmt.Printf("FILTER_DATE_BEG [%v]\n", dtQ1.Format(time.RFC3339))
+				fmt.Printf("FILTER_DATE_END [%v]\n", dtQ2Next.Format(time.RFC3339))
+				inRange := tu.InRange(dtQ1, dtQ2Next, releaseDate, true, false)
+				fmt.Printf("IN_RANGE [%v]\n", inRange)
+			}
+
+			if tu.InRange(dtQ1, dtQ2Next, releaseDate, true, false) {
 				newSet.ReleaseMap[id] = rel
 			}
 		}
