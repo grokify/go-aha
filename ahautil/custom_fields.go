@@ -6,11 +6,12 @@ import (
 	"github.com/grokify/go-aha/aha"
 )
 
-func FeatureCustomField(key string, feat *aha.Feature) string {
-	key = strings.TrimSpace(key)
+func FeatureCustomField(want string, feat *aha.Feature) string {
+	want = strings.TrimSpace(want)
 	for _, cf := range feat.CustomFields {
+		key := strings.TrimSpace(cf.Key)
 		name := strings.TrimSpace(cf.Name)
-		if key == name {
+		if want == key || want == name {
 			return strings.TrimSpace(cf.Value)
 		}
 	}
