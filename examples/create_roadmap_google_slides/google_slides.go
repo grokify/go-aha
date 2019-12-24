@@ -144,7 +144,7 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 	if err != nil {
 		return nil, err
 	}
-	can.SetRange(200)
+	can.SetRangeCells(200)
 
 	if 1 == 0 { // for debug only
 		rng, err := can.Range.CellRange()
