@@ -11,6 +11,11 @@ import (
 	ao "github.com/grokify/oauth2more/aha"
 )
 
+const (
+	FeatureStatusShippedLc          string = "shipped"
+	FeatureStatusWillNotImplementLc string = "will not implement"
+)
+
 type ClientAPIs struct {
 	APIClient *aha.APIClient
 	Config    *aha.Configuration
