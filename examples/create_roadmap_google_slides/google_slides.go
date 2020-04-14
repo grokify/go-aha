@@ -102,7 +102,6 @@ FEATURES:
 
 func NewTagsFeatures(tagIdFeatureMap map[string]map[string]aha.Feature, filterTags []string) []TagFeatures {
 	tagFeaturesSlice := []TagFeatures{}
-	//featureMapsArr := []map[string]aha.Feature{}
 	for _, filterTag := range filterTags {
 		filterTag = strings.ToLower(strings.TrimSpace(filterTag))
 		if fMap, ok := tagIdFeatureMap[filterTag]; ok {
@@ -111,7 +110,6 @@ func NewTagsFeatures(tagIdFeatureMap map[string]map[string]aha.Feature, filterTa
 				TagFeatures{
 					Tag:      filterTag,
 					Features: fMap})
-			//featureMapsArr = append(featureMapsArr, fMap)
 		}
 	}
 	return tagFeaturesSlice
