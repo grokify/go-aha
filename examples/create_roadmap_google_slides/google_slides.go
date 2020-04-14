@@ -203,7 +203,7 @@ func main() {
 
 	//featuersMap := map[string]aha.Feature{}
 	filterArr := []string{"rmglip", "rmcc", "rmcpaas", "rmeco", "rmreq"}
-	filterArr = []string{"Engage Voice", "Engage Digital"}
+	//filterArr = []string{"Engage Voice", "Engage Digital"}
 	//filterMap := map[string]int{"rmglip": 1, "rmcc": 1, "rmcpaas": 1, "rmeco": 1, "rmreq": 1}
 	swimlaneTags := filterArr
 
