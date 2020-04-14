@@ -22,7 +22,6 @@ var (
 
 func main() {
 	releases := []string{"API-R-1", "API-R-2"}
-	releases = []string{"CCPLA-R-2", "CCPLA-R-4"}
 
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	if err != nil {
