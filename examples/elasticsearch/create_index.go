@@ -118,7 +118,7 @@ func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, p
 func main() {
 	if 1 == 0 {
 		specpath := filepath.Join(os.Getenv("GOPATH"), "src", "github.com/grokify/go-aha/codegen/aha_api-v1_swagger-v2.0.json")
-		spec, err := swagger2.ReadSwagger2Spec(specpath)
+		spec, err := swagger2.ReadOpenAPI2SpecFile(specpath)
 		if err != nil {
 			panic(err)
 		}
