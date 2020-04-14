@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/grokify/gocharts/data/roadmap"
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/gotilla/io/ioutilmore"
@@ -21,7 +22,14 @@ type Options struct {
 	Products             string `short:"p" long:"products" description:"Product" required:"true"`
 	ReleaseQuarterBegin  int32  `short:"b" long:"begin" description:"Begin Quarter"`
 	ReleaseQuarterFinish int32  `short:"f" long:"finish" description:"Finish Quarter"`
-	Verbose              []bool `short:"v" long:"verbose" description:"Verbose"`
+	VerboseRaw           []bool `short:"v" long:"verbose" description:"Verbose"`
+}
+
+func (opts *Options) Verbose() bool {
+	if len(opts.VerboseRaw) > 0 {
+		return true
+	}
+	return false
 }
 
 const (
@@ -35,7 +43,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = config.LoadDotEnvSkipEmpty(opts.EnvFile, os.Getenv("ENV_PATH"))
+	_, err = config.LoadDotEnv(opts.EnvFile, os.Getenv("ENV_PATH"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,7 +53,7 @@ func main() {
 		log.Infof("ENV_PATH [%v]", os.Getenv("ENV_PATH"))
 		log.Fatal("E_NO_AHA_API_KEY")
 	}
-	if len(opts.Verbose) > 0 {
+	if opts.Verbose() {
 		fmt.Printf("AHA_ACCOUNT [%v]\n", os.Getenv("AHA_ACCOUNT"))
 		fmt.Printf("AHA_API_KEY [%v]\n", os.Getenv("AHA_API_KEY"))
 	}
@@ -57,7 +65,7 @@ func main() {
 		log.Fatal("E_NO_PRODUCTS")
 	}
 
-	if len(opts.Verbose) > 0 {
+	if opts.Verbose() {
 		productSlug1 := products[0]
 		info, resp, err := apis.APIClient.ProductsApi.GetProduct(context.Background(), productSlug1)
 		if err != nil {
@@ -69,14 +77,19 @@ func main() {
 		fmtutil.PrintJSON(opts)
 	}
 
+	opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish = roadmap.QuarterInt32sBeginEnd(
+		opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
+
 	rs, fs, err := ahautil.GetReleasesAndFeaturesForProductsAndQuarters(
 		context.Background(), apis, products,
 		opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmtutil.PrintJSON(rs)
-	fmtutil.PrintJSON(fs)
+	if opts.Verbose() {
+		fmtutil.PrintJSON(rs)
+		fmtutil.PrintJSON(fs)
+	}
 
 	WriteFile(ReleasesFile, rs)
 	WriteFile(FeaturesFile, fs)
