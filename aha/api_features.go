@@ -86,7 +86,7 @@ func (a *FeaturesApiService) GetFeature(ctx _context.Context, featureId string) 
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 	fmt.Println(string(localVarBody))
-	panic("Z")
+	//panic("Z")
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,

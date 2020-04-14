@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/fmt/fmtutil"
+	"github.com/grokify/gotilla/time/timeutil"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -14,6 +15,9 @@ var Debug = false
 // given a product and date rate.
 func GetReleasesAndFeaturesForProductsAndQuarters(
 	ctx context.Context, clientAPIs ClientAPIs, products []string, yyyyq1, yyyyq2 int32) (*ReleaseSet, *FeatureSet, error) {
+	if yyyyq1 < 100 || yyyyq2 < 100 {
+		yyyyq1, yyyyq2 = timeutil.QuartersInt32RelToAbs(yyyyq1, yyyyq2)
+	}
 	rs := NewReleaseSet()
 	rs.ClientAPIs = clientAPIs
 	for _, prod := range products {
@@ -26,16 +30,11 @@ func GetReleasesAndFeaturesForProductsAndQuarters(
 			return &rs, nil, err
 		}
 	}
-	//fmtutil.PrintJSON(rs.ReleaseMap)
-	//fmt.Printf("REL_COUNT [%v]\n", rs.ReleaseCount())
-	//fmtutil.PrintJSON(rs.Ids())
-	//fmtutil.PrintJSON(rs.RefNums())
-	//panic("Z")
+
 	if Debug {
 		fmtutil.PrintJSON(rs.ReleaseMap)
 		log.Infof("PRODUCTS_RELEASES_ALL [%s]\n",
 			strings.Join(rs.RefNums(), ","))
-		//panic("Z")
 	}
 	rs2, err := rs.GetReleasesForQuarters(yyyyq1, yyyyq2)
 	if err != nil {
