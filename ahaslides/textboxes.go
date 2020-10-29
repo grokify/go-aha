@@ -242,7 +242,8 @@ func textboxColorsForAhaFeature(rmCfg RoadmapConfig, feat *aha.Feature) (string,
 		return rmCfg.RoadmapFormatting.Textbox.DeadForegroundColorHex,
 			rmCfg.RoadmapFormatting.Textbox.DeadBackgroundColorHex
 	default:
-		if stringsutil.SliceIndexOfLcTrimSpace("problem", feat.Tags) > -1 {
+		// if stringsutil.SliceIndexOfLcTrimSpace("problem", ) > -1 {
+		if stringsutil.SliceIndex(feat.Tags, "problem", true, true, stringsutil.MatchExact) > -1 {
 			return rmCfg.RoadmapFormatting.Textbox.ProblemForegroundColorHex,
 				rmCfg.RoadmapFormatting.Textbox.ProblemBackgroundColorHex
 		} else {

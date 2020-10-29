@@ -81,11 +81,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = pc.CreateEmpty(slideName)
+	presID, err := pc.CreateEmpty(slideName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	presID := pc.PresentationID
 
 	res, err := ahaslides.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
 	if err != nil {
