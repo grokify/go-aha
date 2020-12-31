@@ -6,9 +6,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/io/ioutilmore"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/io/ioutilmore"
 	"github.com/jessevdk/go-flags"
 
 	"github.com/grokify/go-aha/ahautil"

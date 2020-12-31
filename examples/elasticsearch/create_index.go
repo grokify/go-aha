@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/time/timeutil"
 	"github.com/grokify/swaggman/swagger2"
 	"github.com/joho/godotenv"
 	"github.com/valyala/fasthttp"

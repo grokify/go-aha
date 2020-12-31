@@ -4,8 +4,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/time/timeutil"
 	log "github.com/sirupsen/logrus"
 )
 

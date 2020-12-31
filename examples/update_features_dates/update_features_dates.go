@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/io/ioutilmore"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/io/ioutilmore"
 	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha/aha"

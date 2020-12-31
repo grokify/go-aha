@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/grokify/go-aha/aha"
-	"github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/time/timeutil"
 	"github.com/valyala/fasthttp"
 
 	"github.com/grokify/elastirad-go"
