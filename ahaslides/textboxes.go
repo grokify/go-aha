@@ -9,10 +9,10 @@ import (
 
 	"github.com/grokify/gocharts/data/roadmap"
 	su "github.com/grokify/googleutil/slidesutil/v1"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/math/mathutil"
-	"github.com/grokify/gotilla/time/timeutil"
-	"github.com/grokify/gotilla/type/stringsutil"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/math/mathutil"
+	"github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/simplego/type/stringsutil"
 	"google.golang.org/api/slides/v1"
 
 	"github.com/grokify/go-aha/aha"

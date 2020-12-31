@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	tu "github.com/grokify/simplego/time/timeutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"

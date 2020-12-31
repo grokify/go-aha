@@ -9,7 +9,7 @@ import (
 
 	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/aha"
-	tu "github.com/grokify/gotilla/time/timeutil"
+	tu "github.com/grokify/simplego/time/timeutil"
 	"github.com/pkg/errors"
 )
 
