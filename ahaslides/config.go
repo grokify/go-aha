@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/simplego/time/timeutil"
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/time/timeutil"
+	"github.com/grokify/mogo/type/stringsutil"
 	"github.com/pkg/errors"
 )
 

@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha/aha"

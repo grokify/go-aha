@@ -15,9 +15,9 @@ import (
 	"github.com/grokify/go-aha/ahaslides"
 	au "github.com/grokify/go-aha/ahautil"
 	"github.com/grokify/googleutil/slidesutil/v1"
-	"github.com/grokify/oauth2more/google"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/goauth/google"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
 	flags "github.com/jessevdk/go-flags"
 )
 

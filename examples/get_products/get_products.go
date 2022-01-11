@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
 
 	"github.com/grokify/go-aha/aha"
 	au "github.com/grokify/go-aha/ahautil"

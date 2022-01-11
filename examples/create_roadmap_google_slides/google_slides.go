@@ -12,15 +12,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	tu "github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/time/timeutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/api/slides/v1"
 
-	omg "github.com/grokify/oauth2more/google"
+	omg "github.com/grokify/goauth/google"
 
 	"github.com/grokify/go-aha/aha"
 	"github.com/grokify/go-aha/ahautil"
@@ -133,7 +133,7 @@ type TagFeatures struct {
 }
 
 func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (*roadmap.Canvas, error) {
-	yyyyq1, yyyyq2 = tu.MinMaxInt32([]int32{yyyyq1, yyyyq2})
+	yyyyq1, yyyyq2 = timeutil.MinMaxInt32([]int32{yyyyq1, yyyyq2})
 	log.Info()
 	//itemsRM := []roadmap.Item{}
 	can := roadmap.Canvas{}
@@ -154,11 +154,11 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 	log.Info("IN_NewRoadmapCanvasAha_START_FeatureMap")
 	for _, feat := range featuresSet.FeatureMap {
 		// fmtutil.PrintJSON(feat)
-		minTime, err := tu.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.StartDate, feat.Release.StartDate})
+		minTime, err := timeutil.FirstNonZeroTimeParsed(timeutil.RFC3339FullDate, []string{feat.StartDate, feat.Release.StartDate})
 		if err != nil {
 			return nil, fmt.Errorf("Feature+Release has no Feature.StartDate or Feature.Release.StartDate")
 		}
-		maxTime, err := tu.FirstNonZeroTimeParsed(tu.RFC3339FullDate, []string{feat.DueDate, feat.Release.ReleaseDate})
+		maxTime, err := timeutil.FirstNonZeroTimeParsed(timeutil.RFC3339FullDate, []string{feat.DueDate, feat.Release.ReleaseDate})
 		if err != nil {
 			return nil, fmt.Errorf("Feature+Release has no Feature.DueDate or Feature.Release.ReleaseDate")
 		}

@@ -8,7 +8,7 @@ import (
 
 	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/aha"
-	ao "github.com/grokify/oauth2more/aha"
+	ao "github.com/grokify/goauth/aha"
 )
 
 const (

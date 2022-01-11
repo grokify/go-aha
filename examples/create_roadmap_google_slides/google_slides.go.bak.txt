@@ -13,14 +13,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/simplego/fmt/fmtutil"
-	tu "github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	tu "github.com/grokify/mogo/time/timeutil"
 	"github.com/joho/godotenv"
 	"golang.org/x/net/context"
 	"google.golang.org/api/slides/v1"
 
-	om "github.com/grokify/oauth2more"
-	omg "github.com/grokify/oauth2more/google"
+	om "github.com/grokify/goauth"
+	omg "github.com/grokify/goauth/google"
 
 	"github.com/grokify/go-aha/ahautil"
 	aha "github.com/grokify/go-aha/client"

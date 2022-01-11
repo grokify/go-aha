@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/grokify/swaggman"
-	"github.com/grokify/swaggman/postman2"
+	"github.com/grokify/spectrum"
+	"github.com/grokify/spectrum/postman2"
 	"github.com/jessevdk/go-flags"
 )
 
@@ -29,7 +29,7 @@ func main() {
 	fmt.Println("in has value ", opts.SwaggerPath)
 
 	// Instantiate a converter with default configuration
-	conv := swaggman.NewConverter(swaggman.Configuration{
+	conv := spectrum.NewConverter(spectrum.Configuration{
 		PostmanURLHostname: fmt.Sprintf("{{%v}}.aha.io", EnvAhaAccount),
 		PostmanHeaders: []postman2.Header{
 			{

@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/time/timeutil"
-	"github.com/grokify/swaggman/swagger2"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/time/timeutil"
+	"github.com/grokify/spectrum/openapi2"
 	"github.com/joho/godotenv"
 	"github.com/valyala/fasthttp"
 
@@ -22,7 +22,7 @@ import (
 
 	"github.com/grokify/go-aha/aha"
 	"github.com/grokify/go-aha/ahautil"
-	ahaoauth "github.com/grokify/oauth2more/aha"
+	ahaoauth "github.com/grokify/goauth/aha"
 )
 
 func createIndex(esClient elastirad.Client) {
@@ -118,7 +118,7 @@ func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, p
 func main() {
 	if 1 == 0 {
 		specpath := filepath.Join(os.Getenv("GOPATH"), "src", "github.com/grokify/go-aha/codegen/aha_api-v1_swagger-v2.0.json")
-		spec, err := swagger2.ReadOpenAPI2SpecFile(specpath)
+		spec, err := openapi2.ReadOpenAPI2SpecFile(specpath)
 		if err != nil {
 			panic(err)
 		}
