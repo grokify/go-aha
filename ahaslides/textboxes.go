@@ -9,10 +9,10 @@ import (
 
 	"github.com/grokify/gocharts/data/roadmap"
 	su "github.com/grokify/googleutil/slidesutil/v1"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/math/mathutil"
-	"github.com/grokify/simplego/time/timeutil"
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/math/mathutil"
+	"github.com/grokify/mogo/time/timeutil"
+	"github.com/grokify/mogo/type/stringsutil"
 	"google.golang.org/api/slides/v1"
 
 	"github.com/grokify/go-aha/aha"
@@ -243,7 +243,7 @@ func textboxColorsForAhaFeature(rmCfg RoadmapConfig, feat *aha.Feature) (string,
 			rmCfg.RoadmapFormatting.Textbox.DeadBackgroundColorHex
 	default:
 		// if stringsutil.SliceIndexOfLcTrimSpace("problem", ) > -1 {
-		if stringsutil.SliceIndex(feat.Tags, "problem", true, true, stringsutil.MatchExact) > -1 {
+		if stringsutil.SliceIndexMore(feat.Tags, "problem", true, true, stringsutil.MatchExact) > -1 {
 			return rmCfg.RoadmapFormatting.Textbox.ProblemForegroundColorHex,
 				rmCfg.RoadmapFormatting.Textbox.ProblemBackgroundColorHex
 		} else {
