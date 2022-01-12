@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-aha/aha"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 )
 
 type FeatureSet struct {
@@ -58,7 +58,7 @@ func (fs *FeatureSet) ReadFile(featuresPath string) error {
 	if 1 == 1 {
 		fs2, err := ReadFeatureSet(featuresPath)
 		if err != nil {
-			return errors.Wrap(err, "FeatureSet.ReadFile - ReadFeatureSet")
+			return errorsutil.Wrap(err, "FeatureSet.ReadFile - ReadFeatureSet")
 		}
 		for id2, feat2 := range fs2.FeatureMap {
 			fs.FeatureMap[id2] = feat2

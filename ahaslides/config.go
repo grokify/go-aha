@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/mogo/type/stringsutil"
-	"github.com/pkg/errors"
 )
 
 type RoadmapConfig struct {
@@ -116,7 +116,7 @@ func (cfg *RoadmapConfig) inflate() error {
 		cfg.QuarterCount = int32(quarterCount)
 		quarterEnd, err := timeutil.DeltaQuarterInt32(cfg.QuarterStartInt32, quarterCount-1)
 		if err != nil {
-			return errors.Wrap(err, "Calculate_Quarter_End")
+			return errorsutil.Wrap(err, "Calculate_Quarter_End")
 		}
 		cfg.QuarterEndInt32 = quarterEnd
 	}

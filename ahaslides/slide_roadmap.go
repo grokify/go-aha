@@ -7,14 +7,14 @@ import (
 
 	au "github.com/grokify/go-aha/ahautil"
 	su "github.com/grokify/googleutil/slidesutil/v1"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"google.golang.org/api/slides/v1"
 )
 
 func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadmapConfig RoadmapConfig, featureSet *au.FeatureSet) (*slides.BatchUpdatePresentationResponse, error) {
 	gss, err := su.NewGoogleSlidesService(googleClient)
 	if err != nil {
-		return nil, errors.Wrap(err, "CreateRoadmapSlide - slidesutil.NewGoogleSlidesService()")
+		return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - slidesutil.NewGoogleSlidesService()")
 	}
 	psv := gss.PresentationsService
 
@@ -59,7 +59,7 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 		}
 		_, err := psv.BatchUpdate(presentationID, breq).Do() // resu
 		if err != nil {
-			return nil, errors.Wrap(err, "CreateRoadmapSlide - psv.BatchUpdate(res.PresentationId, breq).Do()")
+			return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - psv.BatchUpdate(res.PresentationId, breq).Do()")
 		}
 		pageId = newPageId
 		//fmt.Println(resu.PresentationId)
@@ -75,7 +75,7 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 		disclaimer := internalDisclaimer(pageId, roadmapConfig)
 		disclaimerReqs, err := disclaimer.Requests()
 		if err != nil {
-			return nil, errors.Wrap(err, "CreateRoadmapSlide - disclaimer.Requests()")
+			return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - disclaimer.Requests()")
 		}
 		requests = append(requests, disclaimerReqs...)
 	}
@@ -85,7 +85,7 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 
 	resu, err := psv.BatchUpdate(presentationID, breq).Do()
 	if err != nil {
-		return nil, errors.Wrap(err, "CreateRoadmapSlide - psv.BatchUpdate(res.PresentationId, breq).Do()")
+		return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - psv.BatchUpdate(res.PresentationId, breq).Do()")
 	}
 	// fmt.Println(resu.PresentationId)
 	return resu, nil

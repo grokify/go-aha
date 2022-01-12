@@ -13,10 +13,10 @@ import (
 	"time"
 
 	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/jessevdk/go-flags"
-	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/api/slides/v1"
 
@@ -236,7 +236,7 @@ func main() {
 		[]string{omg.ScopeDrive, omg.ScopePresentations},
 		opts.NewToken())
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "NewClientFileStoreWithDefaults"))
+		log.Fatal(errorsutil.Wrap(err, "NewClientFileStoreWithDefaults"))
 	}
 
 	gsc, err := slidesutil.NewGoogleSlidesService(googClient)
