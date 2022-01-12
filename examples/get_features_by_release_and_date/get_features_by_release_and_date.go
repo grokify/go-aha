@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/joho/godotenv"
-	log "github.com/sirupsen/logrus"
 
 	au "github.com/grokify/go-aha/ahautil"
 	//"github.com/grokify/go-aha/client"
@@ -54,7 +54,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Info(fmt.Sprintf("Wrote [%v]\n", outputFile))
+		log.Printf("Wrote [%v]\n", outputFile)
 	}
 	fmt.Println("DONE")
 }

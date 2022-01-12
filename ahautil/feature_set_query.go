@@ -2,11 +2,11 @@ package ahautil
 
 import (
 	"context"
+	"log"
 	"strings"
 
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/time/timeutil"
-	log "github.com/sirupsen/logrus"
 )
 
 var Debug = false
@@ -33,7 +33,7 @@ func GetReleasesAndFeaturesForProductsAndQuarters(
 
 	if Debug {
 		fmtutil.PrintJSON(rs.ReleaseMap)
-		log.Infof("PRODUCTS_RELEASES_ALL [%s]\n",
+		log.Printf("PRODUCTS_RELEASES_ALL [%s]\n",
 			strings.Join(rs.RefNums(), ","))
 	}
 	rs2, err := rs.GetReleasesForQuarters(yyyyq1, yyyyq2)
@@ -41,7 +41,7 @@ func GetReleasesAndFeaturesForProductsAndQuarters(
 		return &rs2, nil, err
 	}
 	if Debug {
-		log.Infof("PRODUCTS_RELEASES_ALL_QUARTERS [%s][%d][%d]\n",
+		log.Printf("PRODUCTS_RELEASES_ALL_QUARTERS [%s][%d][%d]\n",
 			strings.Join(rs2.RefNums(), ","),
 			yyyyq1, yyyyq2)
 	}

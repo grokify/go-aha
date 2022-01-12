@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/grokify/mogo/io/ioutilmore"
 	"github.com/grokify/mogo/type/stringsutil"
 	"github.com/jessevdk/go-flags"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/grokify/go-aha/ahautil"
 )
@@ -49,8 +49,8 @@ func main() {
 	}
 
 	if len(strings.TrimSpace(os.Getenv("AHA_API_KEY"))) == 0 {
-		log.Infof("opts.EnvFile [%v]", opts.EnvFile)
-		log.Infof("ENV_PATH [%v]", os.Getenv("ENV_PATH"))
+		log.Printf("opts.EnvFile [%v]", opts.EnvFile)
+		log.Printf("ENV_PATH [%v]", os.Getenv("ENV_PATH"))
 		log.Fatal("E_NO_AHA_API_KEY")
 	}
 	if opts.Verbose() {
