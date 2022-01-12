@@ -14,8 +14,8 @@ import (
 
 	"github.com/grokify/go-aha/ahaslides"
 	au "github.com/grokify/go-aha/ahautil"
-	"github.com/grokify/googleutil/slidesutil/v1"
 	"github.com/grokify/goauth/google"
+	"github.com/grokify/googleutil/slidesutil/v1"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	flags "github.com/jessevdk/go-flags"
@@ -60,7 +60,7 @@ func main() {
 			[]string{omg.ScopeDrive, omg.ScopePresentations},
 			opts.NewToken())
 		if err != nil {
-			log.Fatal(errors.Wrap(err, "NewClientFileStoreWithDefaults"))
+			log.Fatal(errorsutil.Wrap(err, "NewClientFileStoreWithDefaults"))
 		}*/
 
 	googHTTPClient, err := google.NewClientFileStoreWithDefaultsCliEnv("", "")

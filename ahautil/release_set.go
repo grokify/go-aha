@@ -9,8 +9,8 @@ import (
 
 	"github.com/antihax/optional"
 	"github.com/grokify/go-aha/aha"
+	"github.com/grokify/mogo/errors/errorsutil"
 	tu "github.com/grokify/mogo/time/timeutil"
-	"github.com/pkg/errors"
 )
 
 type ReleaseSet struct {
@@ -106,7 +106,7 @@ func (rs *ReleaseSet) LoadReleasesForProduct(ctx context.Context, productSlug st
 			if err != nil {
 				return err
 			} else if resp.StatusCode >= 300 {
-				return errors.Wrap(err, fmt.Sprintf("Aha.GetRelease.StatusCode [%v]", resp.StatusCode))
+				return errorsutil.Wrap(err, fmt.Sprintf("Aha.GetRelease.StatusCode [%v]", resp.StatusCode))
 			}
 			rs.ReleaseMap[rel.Id] = relMore.Release
 		}
