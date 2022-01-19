@@ -15,8 +15,8 @@ import (
 	"github.com/grokify/mogo/type/stringsutil"
 	"google.golang.org/api/slides/v1"
 
-	"github.com/grokify/go-aha/aha"
-	"github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/v2/aha"
+	"github.com/grokify/go-aha/v2/ahautil"
 )
 
 var Unit = "PT"

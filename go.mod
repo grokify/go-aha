@@ -1,4 +1,4 @@
-module github.com/grokify/go-aha
+module github.com/grokify/go-aha/v2
 
 go 1.16
 

@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/grokify/go-aha/aha"
+	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/valyala/fasthttp"
 

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/go-aha/aha"
+	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/mogo/errors/errorsutil"
 	tu "github.com/grokify/mogo/time/timeutil"
 )
