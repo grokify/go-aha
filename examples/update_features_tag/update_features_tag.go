@@ -12,8 +12,8 @@ import (
 	hum "github.com/grokify/mogo/net/httputilmore"
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/go-aha/aha"
-	au "github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/v2/aha"
+	au "github.com/grokify/go-aha/v2/ahautil"
 )
 
 func main() {

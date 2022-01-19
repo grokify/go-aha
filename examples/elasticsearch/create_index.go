@@ -20,8 +20,8 @@ import (
 	"github.com/grokify/elastirad-go/models"
 	v5 "github.com/grokify/elastirad-go/models/v5"
 
-	"github.com/grokify/go-aha/aha"
-	"github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/v2/aha"
+	"github.com/grokify/go-aha/v2/ahautil"
 	ahaoauth "github.com/grokify/goauth/aha"
 )
 

@@ -11,7 +11,7 @@ import (
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/joho/godotenv"
 
-	au "github.com/grokify/go-aha/ahautil"
+	au "github.com/grokify/go-aha/v2/ahautil"
 	//"github.com/grokify/go-aha/client"
 )
 

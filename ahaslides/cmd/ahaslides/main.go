@@ -12,8 +12,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/grokify/go-aha/ahaslides"
-	au "github.com/grokify/go-aha/ahautil"
+	"github.com/grokify/go-aha/v2/ahaslides"
+	au "github.com/grokify/go-aha/v2/ahautil"
 	"github.com/grokify/goauth/google"
 	"github.com/grokify/googleutil/slidesutil/v1"
 	"github.com/grokify/mogo/config"
