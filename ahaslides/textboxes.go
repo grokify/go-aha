@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/gocharts/data/roadmap"
+	"github.com/grokify/gocharts/v2/data/roadmap"
 	su "github.com/grokify/googleutil/slidesutil/v1"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/math/mathutil"
@@ -157,7 +157,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 		rowCount := len(srcCan.Rows)
 		rowHeight := float64(rowCount) * (slideCanvas.BoxHeight + slideCanvas.BoxMarginBottom)
 
-		objectIdTag := su.FormatObjectIdSimple(ahaTagFeatures.Tag)
+		objectIdTag := su.FormatObjectIDSimple(ahaTagFeatures.Tag)
 
 		if mathutil.IsEven(i) {
 			tagTextBoxBgInfo.ObjectId = fmt.Sprintf("TAGLABELBG-%v-%v", objectIdTag, uid)
@@ -359,7 +359,7 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int,
 	return requests, nil
 }
 
-func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX, minY float64, dimensionUnit string, qtrStartDt time.Time, numCells int32) []*slides.Request {
+func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX, minY float64, dimensionUnit string, qtrStartDt time.Time, numCells int32) []*slides.Request {
 	uid := getUniqueId()
 
 	requests := []*slides.Request{}
@@ -374,8 +374,8 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX,
 	}
 	linePrefix := "VertLines"
 	lineInfo := su.CreateLineRequestInfo{
-		PageId:        pageId,
-		LineId:        "",
+		PageID:        pageID,
+		LineID:        "",
 		ColorHex:      rmCfg.RoadmapFormatting.Line.ColorHex,
 		LineCategory:  "STRAIGHT",
 		Height:        400 - minY, // 400
@@ -389,7 +389,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX,
 	lineInfo.Height = 400.0 - lineInfo.LocationY
 
 	textBoxInfo := su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageId,
+		PageId:             pageID,
 		Height:             20.0,
 		DimensionUnit:      dimensionUnit,
 		LocationUnit:       dimensionUnit,
@@ -411,7 +411,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX,
 
 		// Add Lines
 		if i == 0 { // Build first line
-			lineInfo.LineId = fmt.Sprintf("%v%03d%v-%v", linePrefix, i, "start", uid)
+			lineInfo.LineID = fmt.Sprintf("%v%03d%v-%v", linePrefix, i, "start", uid)
 			lineInfo.LocationX = min
 			lineReqs, err := lineInfo.Requests()
 			if err != nil {
@@ -419,7 +419,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX,
 			}
 			requests = append(requests, lineReqs...)
 		}
-		lineInfo.LineId = fmt.Sprintf("%v%03d%v-%v", linePrefix, i, "end", uid)
+		lineInfo.LineID = fmt.Sprintf("%v%03d%v-%v", linePrefix, i, "end", uid)
 		lineInfo.LocationX = max
 		lineReqs, err := lineInfo.Requests()
 		if err != nil {
@@ -428,7 +428,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageId string, minX, maxX,
 		requests = append(requests, lineReqs...)
 
 		// Add Quarter Heading
-		textBoxInfo.ObjectId = lineInfo.LineId + "heading"
+		textBoxInfo.ObjectId = lineInfo.LineID + "heading"
 		textBoxInfo.Text = timeutil.FormatQuarter(qtrNow)
 		textBoxInfo.Width = max - min - 2
 		textBoxInfo.LocationX = min

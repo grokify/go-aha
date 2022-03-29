@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/gocharts/data/roadmap"
+	"github.com/grokify/gocharts/v2/data/roadmap"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/io/ioutilmore"
