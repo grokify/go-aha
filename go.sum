@@ -238,8 +238,9 @@ github.com/grokify/gostor v0.2.1/go.mod h1:4a6v+pcFFt4uxHThTcCcarL48EkMPe5Fc/0Nv
 github.com/grokify/mogo v0.36.5/go.mod h1:GWl3aLE1O+K7If1Ekj4bDgi8pqVLQOzA25BR1A37IQs=
 github.com/grokify/mogo v0.37.3/go.mod h1:rvoGZyuR5f7Xy0UehTpAApQUv+rPpFY/W43LZcTJ+e8=
 github.com/grokify/mogo v0.37.8/go.mod h1:cWYJot274+u0zvOp+wnNj+Tp7bL55HbsbBgbVI9QaSg=
-github.com/grokify/mogo v0.37.15 h1:/N8tanuvxqliH+aD+htsajXV8Y5F+lChKSO9HXfvB2Y=
 github.com/grokify/mogo v0.37.15/go.mod h1:C5Sr7TmcUxSYOFmQrlSsh+6Kx5WDpXgsXW+G261vV3s=
+github.com/grokify/mogo v0.37.16 h1:IIIY78gPxh866wQWxxTMdmPJBvC14l9gxOGSdjK8SYE=
+github.com/grokify/mogo v0.37.16/go.mod h1:C5Sr7TmcUxSYOFmQrlSsh+6Kx5WDpXgsXW+G261vV3s=
 github.com/grokify/spectrum v1.12.1 h1:0o5NcZ5ocC6qtI8rUmdxZi5cygPBgXrsHBqBYiNZ5o8=
 github.com/grokify/spectrum v1.12.1/go.mod h1:fxQ0lC5gpnJohQiFlKPcLDX4qjHI173Vpz40wVuT4+A=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
