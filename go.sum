@@ -224,8 +224,9 @@ github.com/grokify/bitcoinmath v0.1.0/go.mod h1:Y8OyDefB55NHGzi+uJshYmE4Hn5juIQq
 github.com/grokify/elastirad-go v0.1.9 h1:kZXTuyfzrAScDFeti4gicqBqTE4R0B30l8Q03iHMmpk=
 github.com/grokify/elastirad-go v0.1.9/go.mod h1:y6vVvUR2x2yrddAVzuBs1W4NbM78jDKafbPUcY7Z8jY=
 github.com/grokify/go-salesforce v0.2.0/go.mod h1:FozZEJeLJ0NubDDODys4GtCVZlXv28SNouw8O6dvCFQ=
-github.com/grokify/goauth v0.13.2 h1:M+Yp06hsERB39Btdu77zUEpL5BmMM3sl5A54rPbVJrc=
 github.com/grokify/goauth v0.13.2/go.mod h1:WCjlq12Efi147qVF13Ch1BUlicWLD+g6bkHXCXkw/WI=
+github.com/grokify/goauth v0.13.3 h1:hgjaVTcq9ug9fMOlPEC/IOf9ZPOHsMisosUubtipmzA=
+github.com/grokify/goauth v0.13.3/go.mod h1:yluOF7uO8t+EfrqeY/OpmvwrcS2uH89JbI57MjMXDHQ=
 github.com/grokify/gocharts/v2 v2.2.0/go.mod h1:l3BIgYBAqbDN2sj5dLetW7ahzX0yYJGUH/R3Bi042m8=
 github.com/grokify/gocharts/v2 v2.4.0 h1:J9l1aq+klIsoQKC0Y+J/O3TCC6g/AKnifDyP3DW463s=
 github.com/grokify/gocharts/v2 v2.4.0/go.mod h1:GkwWT3LKCkFYRQ/vJ9pg0KB8agdFoGO0XDBgkbeignw=
