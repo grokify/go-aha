@@ -4,11 +4,11 @@ go 1.16
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/elastirad-go v0.1.10
+	github.com/grokify/elastirad-go v0.1.11
 	github.com/grokify/goauth v0.13.4
-	github.com/grokify/gocharts/v2 v2.5.1
+	github.com/grokify/gocharts/v2 v2.6.2
 	github.com/grokify/googleutil v0.1.10
-	github.com/grokify/mogo v0.38.4
+	github.com/grokify/mogo v0.38.7
 	github.com/grokify/spectrum v1.12.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
