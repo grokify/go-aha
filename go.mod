@@ -14,5 +14,5 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/valyala/fasthttp v1.36.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
-	google.golang.org/api v0.76.0
+	google.golang.org/api v0.77.0
 )
