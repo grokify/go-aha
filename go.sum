@@ -264,8 +264,8 @@ github.com/grokify/mogo v0.38.7/go.mod h1:0ZjE06N5LaDjnaZKD1zpGriUrmwpaj0L4/F9pz
 github.com/grokify/mogo v0.39.1/go.mod h1:PePLmFD41Nw+qjF8xrtIi3CCHMzEpacW2DL+VJOOldk=
 github.com/grokify/mogo v0.39.3 h1:b80+tYYh9yc0YE3IcFYM2jBCBbzFn0V34HvYc1CIFjg=
 github.com/grokify/mogo v0.39.3/go.mod h1:SETrLlAB0FQj5XCcFBVmoPpcLkNBWVLfhdtEs7yB8wE=
-github.com/grokify/spectrum v1.12.2 h1:oxLV+CJkfj2Q1FLnCWRwVr1rti9D15byPZcouArr418=
-github.com/grokify/spectrum v1.12.2/go.mod h1:w5RZ7cPC0mKY+nbtakl9lWFrbQVmuO2WZNnomfb3LC0=
+github.com/grokify/spectrum v1.12.3 h1:xW/rSXphgYpyPIly2NdDjQt121Y/i/RqMuHg9CsUrow=
+github.com/grokify/spectrum v1.12.3/go.mod h1:tkPx8qClecisS7MtrC6cplo9KufuHr4hI8/Gk/5kjQ8=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/hashicorp/golang-lru v0.5.1/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
@@ -372,7 +372,6 @@ github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6Kllzaw
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasthttp v1.30.0/go.mod h1:2rsYD01CKFrjjsvFxx75KlEUNpWNBY9JWD3K/7o2Cus=
 github.com/valyala/fasthttp v1.34.0/go.mod h1:epZA5N+7pY6ZaEKRmstzOuYJx9HI8DI1oaCGZpdH4h0=
-github.com/valyala/fasthttp v1.35.0/go.mod h1:t/G+3rLek+CyY9bnIE+YlMRddxVAAGjhxndDB4i4C0I=
 github.com/valyala/fasthttp v1.36.0 h1:NhqfO/cB7Ajn1czkKnWkMHyPYr5nyND14ZGPk23g0/c=
 github.com/valyala/fasthttp v1.36.0/go.mod h1:t/G+3rLek+CyY9bnIE+YlMRddxVAAGjhxndDB4i4C0I=
 github.com/valyala/fastjson v1.6.3 h1:tAKFnnwmeMGPbwJ7IwxcTPCNr3uIzoIj3/Fh90ra4xc=
