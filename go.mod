@@ -12,7 +12,7 @@ require (
 	github.com/grokify/spectrum v1.12.3
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
-	github.com/valyala/fasthttp v1.36.0
+	github.com/valyala/fasthttp v1.37.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	google.golang.org/api v0.80.0
 )
