@@ -8,7 +8,7 @@ require (
 	github.com/grokify/goauth v0.13.6
 	github.com/grokify/gocharts/v2 v2.7.3
 	github.com/grokify/googleutil v0.1.10
-	github.com/grokify/mogo v0.39.4
+	github.com/grokify/mogo v0.39.6
 	github.com/grokify/spectrum v1.12.3
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
