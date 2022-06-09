@@ -4,33 +4,35 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/url"
 	"os"
-	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/antihax/optional"
+	"github.com/grokify/gohttp/httpsimple"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/log/logutil"
+	"github.com/grokify/mogo/os/osutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/spectrum/openapi2"
 	"github.com/joho/godotenv"
-	"github.com/valyala/fasthttp"
 
 	"github.com/grokify/elastirad-go"
 	"github.com/grokify/elastirad-go/models"
-	v5 "github.com/grokify/elastirad-go/models/v5"
+	"github.com/grokify/elastirad-go/models/es5"
 
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/go-aha/v2/ahautil"
 	ahaoauth "github.com/grokify/goauth/aha"
 )
 
-func createIndex(esClient elastirad.Client) {
-	body := v5.CreateIndexBody{
-		Mappings: map[string]v5.Mapping{
+func createIndex(esClient httpsimple.SimpleClient) {
+	body := es5.CreateIndexBody{
+		Mappings: map[string]es5.Mapping{
 			"feature": {
-				All: v5.All{Enabled: true},
-				Properties: map[string]v5.Property{
+				All: es5.All{Enabled: true},
+				Properties: map[string]es5.Property{
 					"id":            {Type: "string", Index: "not_analyzed"},
 					"reference_num": {Type: "keyword", Index: "not_analyzed"},
 					//"product_id":    v5.Property{Type: "keyword", Index: "not_analyzed"},
@@ -43,24 +45,24 @@ func createIndex(esClient elastirad.Client) {
 		},
 	}
 	fmtutil.PrintJSON(body)
-	esReq := models.Request{
-		Method: "PUT",
-		Path:   []interface{}{"/aha"},
+	esReq := httpsimple.SimpleRequest{
+		Method: http.MethodPut,
+		URL:    "/aha",
+		IsJSON: true,
 		Body:   body}
 
-	res, req, err := esClient.SendFastRequest(esReq)
-
+	resp, err := esClient.Do(esReq)
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 	} else {
-		fmt.Printf("U_RES_BODY: %v\n", string(res.Body()))
-		fmt.Printf("U_RES_STATUS: %v\n", res.StatusCode())
+		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		logutil.FatalErr(err)
+		fmt.Printf("U_RES_BODY: %v\n", string(body))
+		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
 	}
-	fasthttp.ReleaseRequest(req)
-	fasthttp.ReleaseResponse(res)
 }
 
-func indexFeature(api *aha.FeaturesApiService, esClient elastirad.Client, featureId string) error {
+func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient, featureId string) error {
 	feat, resp, err := api.GetFeature(context.Background(), featureId)
 	if err != nil {
 		return err
@@ -70,9 +72,10 @@ func indexFeature(api *aha.FeaturesApiService, esClient elastirad.Client, featur
 
 	update := true
 
-	esReq := models.Request{
-		Method: "POST",
-		Path:   []interface{}{"/aha/feature", featureId, elastirad.UpdateSlug}}
+	esReq := httpsimple.SimpleRequest{
+		Method: http.MethodPost,
+		URL:    strings.Join([]string{"/aha/feature", featureId, elastirad.UpdateSlug}, "/"),
+		IsJSON: true}
 
 	if update {
 		esReq.Body = models.UpdateIndexDoc{Doc: feat.Feature, DocAsUpsert: true}
@@ -80,22 +83,21 @@ func indexFeature(api *aha.FeaturesApiService, esClient elastirad.Client, featur
 		esReq.Body = feat.Feature
 	}
 
-	res, req, err := esClient.SendFastRequest(esReq)
-
+	resp, err = esClient.Do(esReq)
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 		panic(err)
 	} else {
-		fmt.Printf("U_RES_BODY: %v\n", string(res.Body()))
-		fmt.Printf("U_RES_STATUS: %v\n", res.StatusCode())
+		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		logutil.FatalErr(err)
+		fmt.Printf("U_RES_BODY: %v\n", string(body))
+		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
 	}
-	fasthttp.ReleaseRequest(req)
-	fasthttp.ReleaseResponse(res)
-	return err
+	return nil
 }
 
 //func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
-func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
+func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
 	opts := aha.GetFeaturesOpts{
 		Page:    optional.NewInt32(pageNum),
 		PerPage: optional.NewInt32(int32(500))}
@@ -117,7 +119,7 @@ func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, p
 
 func main() {
 	if 1 == 0 {
-		specpath := filepath.Join(os.Getenv("GOPATH"), "src", "github.com/grokify/go-aha/codegen/aha_api-v1_swagger-v2.0.json")
+		specpath := osutil.GoPath("src", "github.com/grokify/go-aha/codegen/aha_api-v1_swagger-v2.0.json")
 		spec, err := openapi2.ReadOpenAPI2SpecFile(specpath)
 		if err != nil {
 			panic(err)
@@ -134,7 +136,10 @@ func main() {
 		panic(err)
 	}
 
-	esClient := elastirad.NewClient(url.URL{})
+	esClient, err := elastirad.NewSimpleClient("", "", "", true)
+	if err != nil {
+		panic(err)
+	}
 	ahaHttpClient := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
 	apis := ahautil.NewClientAPIsHTTPClient(ahaHttpClient)
 
@@ -170,7 +175,7 @@ func main() {
 	if doUpdateIndexByLastUpdate {
 		ahaes := ahautil.AhaElasticsearch{
 			AhaAPIs:  &apis,
-			EsClient: &esClient,
+			EsClient: esClient,
 		}
 
 		t, err := timeutil.TimeDeltaDow(time.Now().UTC(), time.Sunday, -10, false, false)
