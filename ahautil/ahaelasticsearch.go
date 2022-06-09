@@ -3,9 +3,12 @@ package ahautil
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strings"
 	"time"
 
-	"github.com/valyala/fasthttp"
+	"github.com/grokify/gohttp/httpsimple"
+	"github.com/grokify/mogo/encoding/jsonutil"
 
 	"github.com/grokify/elastirad-go"
 	"github.com/grokify/elastirad-go/models"
@@ -13,7 +16,7 @@ import (
 
 type AhaElasticsearch struct {
 	AhaAPIs  *ClientAPIs
-	EsClient *elastirad.Client
+	EsClient httpsimple.SimpleClient
 }
 
 func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) error {
@@ -37,10 +40,10 @@ func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) er
 	return nil
 }
 
-func (ae *AhaElasticsearch) IndexFeatureId(featureId string) error {
+func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 	featuresApi := ae.AhaAPIs.APIClient.FeaturesApi
 
-	feat, resp, err := featuresApi.GetFeature(context.Background(), featureId)
+	feat, resp, err := featuresApi.GetFeature(context.Background(), featureID)
 	if err != nil {
 		return err
 	} else if resp.StatusCode >= 300 {
@@ -51,9 +54,10 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureId string) error {
 
 	esFeature := AhaToEsFeature(&feat.Feature)
 
-	esReq := models.Request{
-		Method: "POST",
-		Path:   []interface{}{"/aha/feature", featureId, elastirad.UpdateSlug}}
+	esReq := httpsimple.SimpleRequest{
+		Method: http.MethodPost,
+		URL:    strings.Join([]string{"/aha/feature", featureID, elastirad.UpdateSlug}, "/"),
+		IsJSON: true}
 
 	if update {
 		esReq.Body = models.UpdateIndexDoc{Doc: esFeature, DocAsUpsert: true}
@@ -61,15 +65,17 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureId string) error {
 		esReq.Body = esFeature
 	}
 
-	res, req, err := ae.EsClient.SendFastRequest(esReq)
+	resp, err = ae.EsClient.Do(esReq)
 
 	if err != nil {
 		return err
 	} else {
-		fmt.Printf("U_RES_BODY: %v\n", string(res.Body()))
-		fmt.Printf("U_RES_STATUS: %v\n", res.StatusCode())
+		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		if err != nil {
+			return err
+		}
+		fmt.Printf("U_RES_BODY: %v\n", string(body))
+		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
 	}
-	fasthttp.ReleaseRequest(req)
-	fasthttp.ReleaseResponse(res)
 	return nil
 }

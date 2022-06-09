@@ -4,16 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/grokify/go-aha/v2/aha"
+	"github.com/grokify/gohttp/httpsimple"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/time/timeutil"
-	"github.com/valyala/fasthttp"
 
 	"github.com/grokify/elastirad-go"
-	"github.com/grokify/elastirad-go/models"
-	v5 "github.com/grokify/elastirad-go/models/v5"
+	"github.com/grokify/elastirad-go/models/es5"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)
@@ -67,17 +69,17 @@ func ReferencePrefixFromReferenceNum(refNum string) string {
 	return ""
 }
 
-func AhaFeatureSearch(esClient elastirad.Client, refPrefix string, dt time.Time) ([]Feature, error) {
+func AhaFeatureSearch(esClient httpsimple.SimpleClient, refPrefix string, dt time.Time) ([]Feature, error) {
 	features := []Feature{}
 
-	body := v5.QueryBody{
-		Query: v5.Query{
-			Match: map[string]v5.MatchQuery{
+	body := es5.QueryBody{
+		Query: es5.Query{
+			Match: map[string]es5.MatchQuery{
 				"reference_prefix": {
 					Query: refPrefix,
 				},
 			},
-			Range: map[string]v5.Range{
+			Range: map[string]es5.Range{
 				"due_date": {
 					GTE: dt.Format(timeutil.RFC3339FullDate),
 				},
@@ -85,31 +87,34 @@ func AhaFeatureSearch(esClient elastirad.Client, refPrefix string, dt time.Time)
 		},
 	}
 
-	esReq := models.Request{
-		Method: "GET",
-		Path:   []interface{}{"/aha/feature", elastirad.SearchSlug},
+	esReq := httpsimple.SimpleRequest{
+		Method: http.MethodGet,
+		URL:    strings.Join([]string{"/aha/feature", elastirad.SearchSlug}, "/"),
+		IsJSON: true,
 		Body:   body}
 
-	res, req, err := esClient.SendFastRequest(esReq)
+	resp, err := esClient.Do(esReq)
 	if err != nil {
 		log.Fatal(err)
 	}
+	bodybytes, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+	if err != nil {
+		return features, err
+	}
 
-	fmt.Println(string(res.Body()))
+	fmt.Println(string(bodybytes))
 
-	esRes := v5.ResponseBody{}
-	err = json.Unmarshal(res.Body(), &esRes)
+	esRes := es5.ResponseBody{}
+	err = json.Unmarshal(bodybytes, &esRes)
 
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 	} else {
 		if 1 == 1 {
-			fmt.Printf("U_RES_BODY: %v\n", string(res.Body()))
+			fmt.Printf("U_RES_BODY: %v\n", string(bodybytes))
 		}
-		fmt.Printf("U_RES_STATUS: %v\n", res.StatusCode())
+		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
 	}
-	fasthttp.ReleaseRequest(req)
-	fasthttp.ReleaseResponse(res)
 
 	return features, err
 }
