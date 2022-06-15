@@ -10,7 +10,7 @@ require (
 	github.com/grokify/gohttp v0.2.1
 	github.com/grokify/googleutil v0.1.11
 	github.com/grokify/mogo v0.39.8
-	github.com/grokify/spectrum v1.12.3
+	github.com/grokify/spectrum v1.12.4
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	golang.org/x/oauth2 v0.0.0-20220608161450-d0670ef3b1eb
