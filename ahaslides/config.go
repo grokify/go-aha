@@ -114,7 +114,7 @@ func (cfg *RoadmapConfig) inflate() error {
 			return err
 		}
 		cfg.QuarterCount = int32(quarterCount)
-		quarterEnd, err := timeutil.DeltaQuarterInt32(cfg.QuarterStartInt32, quarterCount-1)
+		quarterEnd, err := timeutil.QuarterInt32Add(cfg.QuarterStartInt32, quarterCount-1)
 		if err != nil {
 			return errorsutil.Wrap(err, "Calculate_Quarter_End")
 		}

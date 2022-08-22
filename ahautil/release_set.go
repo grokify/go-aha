@@ -174,7 +174,7 @@ func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, 
 		if err != nil {
 			return newSet, err
 		}
-		dtQ2Next := tu.NextQuarter(dtQ2)
+		dtQ2Next := tu.QuarterAdd(dtQ2, 1)
 		for id, rel := range rs.ReleaseMap {
 			relDt, err := time.Parse(tu.RFC3339FullDate, rel.ReleaseDate)
 			if err != nil {
@@ -194,7 +194,7 @@ func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, 
 			return newSet, err
 		}
 		dtQ1, dtQ2 = tu.MinMax(dtQ1, dtQ2)
-		dtQ2Next := tu.NextQuarter(dtQ2)
+		dtQ2Next := tu.QuarterAdd(dtQ2, 1)
 		for id, rel := range rs.ReleaseMap {
 			rel.ReleaseDate = strings.TrimSpace(rel.ReleaseDate)
 			if len(rel.ReleaseDate) == 0 {

@@ -442,7 +442,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 		req := CenterRequest(textBoxInfo.ObjectId, "CENTER")
 		requests = append(requests, req)
 
-		qtrNow = timeutil.NextQuarter(qtrNow)
+		qtrNow = timeutil.QuarterAdd(qtrNow, 1)
 	}
 	return requests
 }
