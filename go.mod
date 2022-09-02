@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/elastirad-go v0.4.2
-	github.com/grokify/goauth v0.16.0
+	github.com/grokify/goauth v0.16.2
 	github.com/grokify/gocharts/v2 v2.8.0
 	github.com/grokify/gohttp v0.2.1
 	github.com/grokify/googleutil v0.1.12
@@ -24,7 +24,7 @@ require (
 	github.com/aws/aws-lambda-go v1.17.0 // indirect
 	github.com/buaazp/fasthttprouter v0.1.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
-	github.com/caarlos0/env/v6 v6.9.3 // indirect
+	github.com/caarlos0/env/v6 v6.10.0 // indirect
 	github.com/getkin/kin-openapi v0.98.0 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
