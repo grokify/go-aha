@@ -7,7 +7,7 @@ require (
 	github.com/grokify/elastirad-go v0.4.2
 	github.com/grokify/goauth v0.16.2
 	github.com/grokify/gocharts/v2 v2.8.1
-	github.com/grokify/gohttp v0.2.1
+	github.com/grokify/gohttp v0.2.2
 	github.com/grokify/googleutil v0.1.12
 	github.com/grokify/mogo v0.40.4
 	github.com/grokify/spectrum v1.12.5
@@ -54,7 +54,7 @@ require (
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.39.0 // indirect
+	github.com/valyala/fasthttp v1.40.0 // indirect
 	github.com/valyala/fastjson v1.6.3 // indirect
 	github.com/valyala/quicktemplate v1.7.0 // indirect
 	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
