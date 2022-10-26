@@ -9,7 +9,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.8.2
 	github.com/grokify/gohttp v0.2.2
 	github.com/grokify/googleutil v0.1.13
-	github.com/grokify/mogo v0.40.9
+	github.com/grokify/mogo v0.40.10
 	github.com/grokify/spectrum v1.13.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
