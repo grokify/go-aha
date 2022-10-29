@@ -32,7 +32,7 @@ func GetReleasesAndFeaturesForProductsAndQuarters(
 	}
 
 	if Debug {
-		fmtutil.PrintJSON(rs.ReleaseMap)
+		fmtutil.MustPrintJSON(rs.ReleaseMap)
 		log.Printf("PRODUCTS_RELEASES_ALL [%s]\n",
 			strings.Join(rs.RefNums(), ","))
 	}

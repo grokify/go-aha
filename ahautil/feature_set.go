@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/grokify/go-aha/v2/aha"
@@ -19,7 +19,7 @@ type FeatureSet struct {
 
 func ReadFeatureSet(featuresPath string) (*FeatureSet, error) {
 	featuresSet := NewFeatureSet()
-	bytes, err := ioutil.ReadFile(featuresPath)
+	bytes, err := os.ReadFile(featuresPath)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func ReadFeatureSet(featuresPath string) (*FeatureSet, error) {
 /*
 func ReadFeatures(featuresPath string) (map[string]aha.Feature, error) {
 	featuresMap := map[string]aha.Feature{}
-	bytes, err := ioutil.ReadFile(featuresPath)
+	bytes, err := os.ReadFile(featuresPath)
 	if err != nil {
 		return featuresMap, err
 	}
@@ -66,7 +66,7 @@ func (fs *FeatureSet) ReadFile(featuresPath string) error {
 	}
 	fs.TrimSpaceTagFilterMap()
 	featuresMap := map[string]*aha.Feature{}
-	bytes, err := ioutil.ReadFile(featuresPath)
+	bytes, err := os.ReadFile(featuresPath)
 	if err != nil {
 		return err
 	}

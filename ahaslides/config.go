@@ -19,7 +19,7 @@ type RoadmapConfig struct {
 	AddAhaLinks          bool              `json:"addAhaLinks"`
 	DimensionUnit        string            `json:"dimensionsUnit"`
 	DisclaimerText       string            `json:"disclaimerText"`
-	FilterTags           []string          `json:filterTags"`
+	FilterTags           []string          `json:"filterTags"`
 	FilterTagsMap        map[string]string `json:"filterTagsMap"`
 	TagPrefixStripRx     *regexp.Regexp
 	FeaturePrefixStripRx *regexp.Regexp
