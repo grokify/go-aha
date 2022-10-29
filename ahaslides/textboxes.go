@@ -13,7 +13,7 @@ import (
 	"github.com/grokify/mogo/math/mathutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/mogo/type/stringsutil"
-	"google.golang.org/api/slides/v1"
+	slides "google.golang.org/api/slides/v1"
 
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/go-aha/v2/ahautil"
@@ -34,13 +34,8 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 	}
 
 	if len(featuresMap2) == 0 {
-		fmtutil.PrintJSON(featuresMap2)
+		fmtutil.MustPrintJSON(featuresMap2)
 		panic("aha-slides/textboxes.go/RoadmapTextBoxRequests - featureSet.GetFeaturesMapByTag - E_NO_FEATURES_IN_MAP2")
-	}
-
-	if 1 == 0 {
-		fmtutil.PrintJSON(featuresMap2)
-		panic("ZZ")
 	}
 
 	ahaTagFeaturesArr := []AhaTagFeatures{}
@@ -115,7 +110,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 		}
 		srcCan.SetRangeCells(200)
 		if 1 == 0 {
-			fmtutil.PrintJSON(srcCan)
+			fmtutil.MustPrintJSON(srcCan)
 			panic("Z")
 		}
 		if 1 == 0 {
@@ -139,12 +134,12 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 
 		err = srcCan.InflateItems()
 		if err != nil {
-			fmtutil.PrintJSON(srcCan)
+			fmtutil.MustPrintJSON(srcCan)
 			panic(err)
 		}
 		srcCan.BuildRows()
 		if 1 == 0 {
-			fmtutil.PrintJSON(srcCan)
+			fmtutil.MustPrintJSON(srcCan)
 			fmt.Println(len(srcCan.Rows))
 		}
 		requestsRoadmap, err := googleSlideDrawRoadmap(rmCfg, pageId, elBaseIndex, srcCan, slideCanvas, rmCfg.DimensionUnit, rmCfg.AddAhaLinks)
@@ -276,7 +271,7 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int,
 
 	for iRow, row := range srcCan.Rows {
 		for _, el := range row {
-			fmtutil.PrintJSON(el)
+			// fmtutil.PrintJSON(el)
 			srcBoxWdtX := el.Max - el.Min
 			srcAllWdtX := srcCan.MaxX - srcCan.MinX
 			srcBoxMinX := el.Min

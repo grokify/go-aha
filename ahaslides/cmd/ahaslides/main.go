@@ -8,7 +8,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -18,6 +17,7 @@ import (
 	"github.com/grokify/googleutil/slidesutil/v1"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/log/logutil"
 	flags "github.com/jessevdk/go-flags"
 )
 
@@ -27,30 +27,23 @@ type Options struct {
 }
 
 func (opt *Options) NewToken() bool {
-	if len(opt.NewTokenRaw) > 0 {
-		return true
-	}
-	return false
+	return len(opt.NewTokenRaw) > 0
 }
 
 // Post https://slides.googleapis.com/v1/presentations?alt=json: oauth2: token expired and refresh token is not set
 func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
+
 	err = config.LoadDotEnvFirst(opts.EnvFile, os.Getenv("ENV_PATH"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
 
 	roadmapConfig, err := ahaslides.NewRoadmapConfigEnv()
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
+
 	if 1 == 0 {
-		fmtutil.PrintJSON(roadmapConfig)
+		fmtutil.MustPrintJSON(roadmapConfig)
 		panic("Z")
 	}
 
@@ -64,9 +57,7 @@ func main() {
 		}*/
 
 	googHTTPClient, err := google.NewClientFileStoreWithDefaultsCliEnv("", "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
 
 	t := time.Now().UTC()
 	slideName := fmt.Sprintf("%s (Aha!) %s\n", roadmapConfig.Title, t.Format(time.RFC3339))
@@ -75,21 +66,17 @@ func main() {
 	fmt.Printf("FEATURES_FILEPATH [%v]\n", roadmapConfig.FeaturesFilepath)
 	featureSet := au.NewFeatureSet()
 	featureSet.TagFilterMap = roadmapConfig.FilterTagsMap
-	featureSet.ReadFile(roadmapConfig.FeaturesFilepath)
+	err = featureSet.ReadFile(roadmapConfig.FeaturesFilepath)
+	logutil.FatalErr(err)
 
 	pc, err := slidesutil.NewPresentationCreator(googHTTPClient)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
+
 	presID, err := pc.CreateEmpty(slideName)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
 
 	res, err := ahaslides.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
 
 	roadmapConfig.RoadmapFormatting.Textbox.DoneBackgroundColorHex =
 		roadmapConfig.RoadmapFormatting.Textbox.DefaultBackgroundColorHex
@@ -97,9 +84,8 @@ func main() {
 		roadmapConfig.RoadmapFormatting.Textbox.DefaultBackgroundColorHex
 
 	res, err = ahaslides.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalErr(err)
+
 	fmt.Printf("Created PresentationId [%v]\n", res.PresentationId)
 
 	fmt.Println("DONE")
