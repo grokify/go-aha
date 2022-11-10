@@ -13,7 +13,7 @@ require (
 	github.com/grokify/spectrum v1.13.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
-	golang.org/x/oauth2 v0.1.0
+	golang.org/x/oauth2 v0.2.0
 	google.golang.org/api v0.102.0
 )
 
@@ -65,8 +65,8 @@ require (
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/crypto v0.1.0 // indirect
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sys v0.1.0 // indirect
+	golang.org/x/net v0.2.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	gonum.org/v1/gonum v0.12.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
