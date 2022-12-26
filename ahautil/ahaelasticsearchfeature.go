@@ -97,7 +97,7 @@ func AhaFeatureSearch(esClient httpsimple.SimpleClient, refPrefix string, dt tim
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodybytes, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+	bodybytes, err := jsonutil.IndentReader(resp.Body, "", "  ")
 	if err != nil {
 		return features, err
 	}

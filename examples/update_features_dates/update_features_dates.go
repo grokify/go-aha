@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/io/ioutilmore"
+	"github.com/grokify/mogo/os/osutil"
 	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha/v2/aha"
@@ -57,7 +57,7 @@ func main() {
 	fmt.Println(len(featureMap))
 
 	if 1 == 1 {
-		err = ioutilmore.WriteFileJSON(outputFile, featureMap, os.FileMode(0644), "", "  ")
+		err = osutil.WriteFileJSON(outputFile, featureMap, os.FileMode(0644), "", "  ")
 		if err != nil {
 			panic(err)
 		}

@@ -10,7 +10,7 @@ import (
 	"github.com/grokify/gocharts/v2/data/roadmap"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/io/ioutilmore"
+	"github.com/grokify/mogo/os/osutil"
 	"github.com/grokify/mogo/type/stringsutil"
 	"github.com/jessevdk/go-flags"
 
@@ -98,7 +98,7 @@ func main() {
 }
 
 func WriteFile(fileName string, data interface{}) {
-	err := ioutilmore.WriteFileJSON(fileName, data, 0644, "", "  ")
+	err := osutil.WriteFileJSON(fileName, data, 0644, "", "  ")
 	if err != nil {
 		log.Fatal(err)
 	}
