@@ -70,7 +70,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 	if err != nil {
 		return err
 	} else {
-		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}

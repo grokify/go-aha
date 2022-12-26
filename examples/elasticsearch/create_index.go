@@ -55,7 +55,7 @@ func createIndex(esClient httpsimple.SimpleClient) {
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 	} else {
-		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
 		logutil.FatalErr(err)
 		fmt.Printf("U_RES_BODY: %v\n", string(body))
 		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
@@ -88,7 +88,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient,
 		fmt.Printf("U_ERR: %v\n", err)
 		panic(err)
 	} else {
-		body, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
 		logutil.FatalErr(err)
 		fmt.Printf("U_RES_BODY: %v\n", string(body))
 		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
