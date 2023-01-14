@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 
 	"github.com/grokify/elastirad-go"
 	"github.com/grokify/elastirad-go/models"
@@ -55,9 +55,9 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 	esFeature := AhaToEsFeature(&feat.Feature)
 
 	esReq := httpsimple.SimpleRequest{
-		Method: http.MethodPost,
-		URL:    strings.Join([]string{"/aha/feature", featureID, elastirad.UpdateSlug}, "/"),
-		IsJSON: true}
+		Method:   http.MethodPost,
+		URL:      strings.Join([]string{"/aha/feature", featureID, elastirad.UpdateSlug}, "/"),
+		BodyType: httpsimple.BodyTypeJSON}
 
 	if update {
 		esReq.Body = models.UpdateIndexDoc{Doc: esFeature, DocAsUpsert: true}

@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/grokify/go-aha/v2/aha"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/time/timeutil"
 
 	"github.com/grokify/elastirad-go"
@@ -88,10 +88,10 @@ func AhaFeatureSearch(esClient httpsimple.SimpleClient, refPrefix string, dt tim
 	}
 
 	esReq := httpsimple.SimpleRequest{
-		Method: http.MethodGet,
-		URL:    strings.Join([]string{"/aha/feature", elastirad.SearchSlug}, "/"),
-		IsJSON: true,
-		Body:   body}
+		Method:   http.MethodGet,
+		URL:      strings.Join([]string{"/aha/feature", elastirad.SearchSlug}, "/"),
+		BodyType: httpsimple.BodyTypeJSON,
+		Body:     body}
 
 	resp, err := esClient.Do(esReq)
 	if err != nil {

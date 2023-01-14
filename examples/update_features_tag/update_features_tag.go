@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
 	"github.com/antihax/optional"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	hum "github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/log/logutil"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/joho/godotenv"
 
 	"github.com/grokify/go-aha/v2/aha"
@@ -22,9 +23,7 @@ func main() {
 	updateFeatureTag := false
 
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	logutil.FatalErr(errorsutil.Wrap(err, "error loading .env file"))
 
 	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
 	featuresApi := apis.APIClient.FeaturesApi
@@ -48,15 +47,15 @@ func main() {
 			"per_page": 500,
 		})*/
 	fsRes, resp, err := featuresApi.GetFeatures(ctx, &params)
-	if err != nil {
-		panic(err)
-	}
+	logutil.FatalErr(err)
+
 	if resp.StatusCode >= 300 {
 		panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
 	}
 
 	fmtutil.PrintJSON(fsRes)
-	hum.PrintResponse(resp, true)
+	err = httputilmore.PrintResponse(resp, true)
+	logutil.FatalErr(err)
 
 	for _, fThin := range fsRes.Features {
 		fmtutil.PrintJSON(fThin)

@@ -9,10 +9,10 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/os/osutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/spectrum/openapi2"
@@ -46,10 +46,10 @@ func createIndex(esClient httpsimple.SimpleClient) {
 	}
 	fmtutil.PrintJSON(body)
 	esReq := httpsimple.SimpleRequest{
-		Method: http.MethodPut,
-		URL:    "/aha",
-		IsJSON: true,
-		Body:   body}
+		Method:   http.MethodPut,
+		URL:      "/aha",
+		BodyType: httpsimple.BodyTypeJSON,
+		Body:     body}
 
 	resp, err := esClient.Do(esReq)
 	if err != nil {
@@ -73,9 +73,9 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient,
 	update := true
 
 	esReq := httpsimple.SimpleRequest{
-		Method: http.MethodPost,
-		URL:    strings.Join([]string{"/aha/feature", featureId, elastirad.UpdateSlug}, "/"),
-		IsJSON: true}
+		Method:   http.MethodPost,
+		URL:      strings.Join([]string{"/aha/feature", featureId, elastirad.UpdateSlug}, "/"),
+		BodyType: httpsimple.BodyTypeJSON}
 
 	if update {
 		esReq.Body = models.UpdateIndexDoc{Doc: feat.Feature, DocAsUpsert: true}
