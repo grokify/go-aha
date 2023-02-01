@@ -13,7 +13,7 @@ require (
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	golang.org/x/oauth2 v0.4.0
-	google.golang.org/api v0.107.0
+	google.golang.org/api v0.109.0
 )
 
 require (
