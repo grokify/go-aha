@@ -198,8 +198,8 @@ func ahaFeatureToRoadmapItem(rmCfg RoadmapConfig, srcCan roadmap.Canvas, feat *a
 		panic(err)
 	}
 	if rmCfg.FeatureSnapToQuarter {
-		featStartTime = timeutil.QuarterStart(featStartTime)
-		featEndTime = timeutil.QuarterEnd(featEndTime)
+		featStartTime = timeutil.NewTimeMore(featStartTime, 0).QuarterStart()
+		featEndTime = timeutil.NewTimeMore(featEndTime, 0).QuarterEnd()
 	}
 
 	featName := feat.Name
