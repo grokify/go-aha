@@ -36,7 +36,7 @@ func main() {
 	_, err := flags.Parse(&opts)
 	logutil.FatalErr(err)
 
-	err = config.LoadDotEnvFirst(opts.EnvFile, os.Getenv("ENV_PATH"))
+	_, err = config.LoadDotEnv([]string{opts.EnvFile, os.Getenv("ENV_PATH")}, -1)
 	logutil.FatalErr(err)
 
 	roadmapConfig, err := ahaslides.NewRoadmapConfigEnv()

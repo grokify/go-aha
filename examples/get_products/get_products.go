@@ -50,7 +50,7 @@ func getProducts(apis au.ClientAPIs) {
 }
 
 func main() {
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"))
+	_, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH")}, 1)
 	if err != nil {
 		panic(err)
 	}
