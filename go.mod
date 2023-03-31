@@ -6,7 +6,7 @@ require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/elastirad-go v0.4.9
 	github.com/grokify/goauth v0.17.6
-	github.com/grokify/gocharts/v2 v2.8.10
+	github.com/grokify/gocharts/v2 v2.9.0
 	github.com/grokify/googleutil v0.1.20
 	github.com/grokify/mogo v0.49.1
 	github.com/grokify/spectrum v1.16.6
@@ -48,7 +48,7 @@ require (
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
-	github.com/rivo/uniseg v0.4.3 // indirect
+	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
 	github.com/valyala/quicktemplate v1.7.0 // indirect
