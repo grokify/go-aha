@@ -7,7 +7,7 @@ require (
 	github.com/grokify/elastirad-go v0.4.12
 	github.com/grokify/goauth v0.19.0
 	github.com/grokify/gocharts/v2 v2.9.1
-	github.com/grokify/googleutil v0.1.22
+	github.com/grokify/googleutil v0.1.23
 	github.com/grokify/mogo v0.50.0
 	github.com/grokify/spectrum v1.16.8
 	github.com/jessevdk/go-flags v1.5.0
