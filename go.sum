@@ -97,8 +97,8 @@ github.com/grokify/elastirad-go v0.4.12 h1:BCnknRCF9yhaszpxKOXP4u7V7TXydE04MPD5T
 github.com/grokify/elastirad-go v0.4.12/go.mod h1:LVHAHpZL9Pq+fiUrI1UUUiwkJlRS0XAG9ULf6yYgECA=
 github.com/grokify/goauth v0.20.1 h1:GvkN8a1z5W7nlYdtqK8uMwyqkStt4wuYrif2wKIr8fc=
 github.com/grokify/goauth v0.20.1/go.mod h1:v+vE9o/YoYwld+kfPaOkCQdnAC95JhMaYDh2jzvhi0I=
-github.com/grokify/gocharts/v2 v2.11.2 h1:M1sm9DxPH8HeKy5eRffwwb90LPvuquwQdXcByJQt1G4=
-github.com/grokify/gocharts/v2 v2.11.2/go.mod h1:t/akW6b7r11PE4ZdzpoQZOuwkkrQ77jbC9DdUt/ZRfY=
+github.com/grokify/gocharts/v2 v2.12.0 h1:5nORWGrvaJ82QS2ZTsB5ynv3zwmnvegJi+ENn9QmwaY=
+github.com/grokify/gocharts/v2 v2.12.0/go.mod h1:Q8LwaCZhws7vy5oVUQBfjyn0OhpfnN2T51B7OE9CP/c=
 github.com/grokify/googleutil v0.1.24 h1:TEdKynpVFiywxCwz9ShutX+DWRFad7F9eJex7CJ46h0=
 github.com/grokify/googleutil v0.1.24/go.mod h1:InUp1tEsa04oCCwbSJg6TwO9ClaHCudXgKbr/ugmbkY=
 github.com/grokify/mogo v0.55.0 h1:lvwsf5VWPvaDNDGqN5rXBCO5m6McyGG8N+PDlpkGMG0=
