@@ -5,7 +5,7 @@
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
 
- [build-status-svg]: https://github.com/grokify/go-aha/workflows/build/badge.svg
+ [build-status-svg]: https://github.com/grokify/go-aha/workflows/test/badge.svg
  [build-status-link]: https://github.com/grokify/go-aha/actions
  [build-status-svg]: https://api.travis-ci.org/grokify/go-aha.svg?branch=master
  [build-status-link]: https://travis-ci.org/grokify/go-aha
