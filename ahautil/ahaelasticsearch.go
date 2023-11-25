@@ -16,7 +16,7 @@ import (
 
 type AhaElasticsearch struct {
 	AhaAPIs  *ClientAPIs
-	EsClient httpsimple.SimpleClient
+	EsClient httpsimple.Client
 }
 
 func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) error {
@@ -54,7 +54,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 
 	esFeature := AhaToEsFeature(&feat.Feature)
 
-	esReq := httpsimple.SimpleRequest{
+	esReq := httpsimple.Request{
 		Method:   http.MethodPost,
 		URL:      strings.Join([]string{"/aha/feature", featureID, elastirad.UpdateSlug}, "/"),
 		BodyType: httpsimple.BodyTypeJSON}

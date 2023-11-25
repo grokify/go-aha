@@ -27,7 +27,7 @@ import (
 	ahaoauth "github.com/grokify/goauth/aha"
 )
 
-func createIndex(esClient httpsimple.SimpleClient) {
+func createIndex(esClient httpsimple.Client) {
 	body := es5.CreateIndexBody{
 		Mappings: map[string]es5.Mapping{
 			"feature": {
@@ -45,7 +45,7 @@ func createIndex(esClient httpsimple.SimpleClient) {
 		},
 	}
 	fmtutil.PrintJSON(body)
-	esReq := httpsimple.SimpleRequest{
+	esReq := httpsimple.Request{
 		Method:   http.MethodPut,
 		URL:      "/aha",
 		BodyType: httpsimple.BodyTypeJSON,
@@ -62,7 +62,7 @@ func createIndex(esClient httpsimple.SimpleClient) {
 	}
 }
 
-func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient, featureId string) error {
+func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featureId string) error {
 	feat, resp, err := api.GetFeature(context.Background(), featureId)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient,
 
 	update := true
 
-	esReq := httpsimple.SimpleRequest{
+	esReq := httpsimple.Request{
 		Method:   http.MethodPost,
 		URL:      strings.Join([]string{"/aha/feature", featureId, elastirad.UpdateSlug}, "/"),
 		BodyType: httpsimple.BodyTypeJSON}
@@ -96,8 +96,8 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient,
 	return nil
 }
 
-//func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
-func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.SimpleClient, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
+func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
+	// func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
 	opts := aha.GetFeaturesOpts{
 		Page:    optional.NewInt32(pageNum),
 		PerPage: optional.NewInt32(int32(500))}

@@ -6,12 +6,12 @@ go 1.21
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/elastirad-go v0.4.13
-	github.com/grokify/goauth v0.20.4
-	github.com/grokify/gocharts/v2 v2.15.1
-	github.com/grokify/googleutil v0.1.26
-	github.com/grokify/mogo v0.60.1
-	github.com/grokify/spectrum v1.17.0
+	github.com/grokify/elastirad-go v0.4.14
+	github.com/grokify/goauth v0.20.5
+	github.com/grokify/gocharts/v2 v2.15.2
+	github.com/grokify/googleutil v0.1.27
+	github.com/grokify/mogo v0.61.0
+	github.com/grokify/spectrum v1.17.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.14.0
@@ -21,10 +21,8 @@ require (
 require (
 	cloud.google.com/go/compute v1.23.3 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
-	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
 	github.com/getkin/kin-openapi v0.120.0 // indirect
-	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/golang-jwt/jwt/v5 v5.1.0 // indirect
@@ -52,7 +50,6 @@ require (
 	github.com/richardlehane/msoleps v1.0.3 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fastjson v1.6.4 // indirect
 	github.com/valyala/quicktemplate v1.7.0 // indirect
 	github.com/xuri/efp v0.0.0-20231025114914-d1ff6096ae53 // indirect
 	github.com/xuri/excelize/v2 v2.8.0 // indirect
@@ -65,10 +62,9 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	gonum.org/v1/gonum v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20231106174013-bbf56f31fb17 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20231120223509-83a465c0220f // indirect
 	google.golang.org/grpc v1.59.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
-	gopkg.in/oleiade/reflections.v1 v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
