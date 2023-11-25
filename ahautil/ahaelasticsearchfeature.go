@@ -69,7 +69,7 @@ func ReferencePrefixFromReferenceNum(refNum string) string {
 	return ""
 }
 
-func AhaFeatureSearch(esClient httpsimple.SimpleClient, refPrefix string, dt time.Time) ([]Feature, error) {
+func AhaFeatureSearch(esClient httpsimple.Client, refPrefix string, dt time.Time) ([]Feature, error) {
 	features := []Feature{}
 
 	body := es5.QueryBody{
@@ -87,7 +87,7 @@ func AhaFeatureSearch(esClient httpsimple.SimpleClient, refPrefix string, dt tim
 		},
 	}
 
-	esReq := httpsimple.SimpleRequest{
+	esReq := httpsimple.Request{
 		Method:   http.MethodGet,
 		URL:      strings.Join([]string{"/aha/feature", elastirad.SearchSlug}, "/"),
 		BodyType: httpsimple.BodyTypeJSON,
