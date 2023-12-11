@@ -7,7 +7,7 @@ go 1.21
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/elastirad-go v0.4.14
-	github.com/grokify/goauth v0.20.5
+	github.com/grokify/goauth v0.20.6
 	github.com/grokify/gocharts/v2 v2.16.0
 	github.com/grokify/googleutil v0.1.28
 	github.com/grokify/mogo v0.62.2
