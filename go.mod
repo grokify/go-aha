@@ -10,7 +10,7 @@ require (
 	github.com/grokify/goauth v0.20.6
 	github.com/grokify/gocharts/v2 v2.16.0
 	github.com/grokify/googleutil v0.1.28
-	github.com/grokify/mogo v0.62.2
+	github.com/grokify/mogo v0.62.3
 	github.com/grokify/spectrum v1.17.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
