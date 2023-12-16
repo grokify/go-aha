@@ -11,7 +11,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.16.1
 	github.com/grokify/googleutil v0.1.28
 	github.com/grokify/mogo v0.62.3
-	github.com/grokify/spectrum v1.17.1
+	github.com/grokify/spectrum v1.18.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.15.0
@@ -22,7 +22,7 @@ require (
 	cloud.google.com/go/compute v1.23.3 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
-	github.com/getkin/kin-openapi v0.120.0 // indirect
+	github.com/getkin/kin-openapi v0.122.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.0 // indirect
