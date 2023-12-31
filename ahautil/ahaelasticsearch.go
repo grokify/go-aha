@@ -7,11 +7,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/grokify/goelastic"
+	"github.com/grokify/goelastic/models"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
-
-	"github.com/grokify/elastirad-go"
-	"github.com/grokify/elastirad-go/models"
 )
 
 type AhaElasticsearch struct {
@@ -56,7 +55,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 
 	esReq := httpsimple.Request{
 		Method:   http.MethodPost,
-		URL:      strings.Join([]string{"/aha/feature", featureID, elastirad.UpdateSlug}, "/"),
+		URL:      strings.Join([]string{"/aha/feature", featureID, goelastic.SlugUpdate}, "/"),
 		BodyType: httpsimple.BodyTypeJSON}
 
 	if update {

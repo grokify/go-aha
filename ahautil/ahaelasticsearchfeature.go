@@ -10,12 +10,11 @@ import (
 	"time"
 
 	"github.com/grokify/go-aha/v2/aha"
+	"github.com/grokify/goelastic"
+	"github.com/grokify/goelastic/models/es5"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/time/timeutil"
-
-	"github.com/grokify/elastirad-go"
-	"github.com/grokify/elastirad-go/models/es5"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)
@@ -89,7 +88,7 @@ func AhaFeatureSearch(esClient httpsimple.Client, refPrefix string, dt time.Time
 
 	esReq := httpsimple.Request{
 		Method:   http.MethodGet,
-		URL:      strings.Join([]string{"/aha/feature", elastirad.SearchSlug}, "/"),
+		URL:      strings.Join([]string{"/aha/feature", goelastic.SlugSearch}, "/"),
 		BodyType: httpsimple.BodyTypeJSON,
 		Body:     body}
 
