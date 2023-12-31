@@ -9,6 +9,9 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
+	"github.com/grokify/goelastic"
+	"github.com/grokify/goelastic/models"
+	"github.com/grokify/goelastic/models/es5"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
@@ -17,10 +20,6 @@ import (
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/spectrum/openapi2"
 	"github.com/joho/godotenv"
-
-	"github.com/grokify/elastirad-go"
-	"github.com/grokify/elastirad-go/models"
-	"github.com/grokify/elastirad-go/models/es5"
 
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/go-aha/v2/ahautil"
@@ -74,7 +73,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featu
 
 	esReq := httpsimple.Request{
 		Method:   http.MethodPost,
-		URL:      strings.Join([]string{"/aha/feature", featureId, elastirad.UpdateSlug}, "/"),
+		URL:      strings.Join([]string{"/aha/feature", featureId, goelastic.SlugUpdate}, "/"),
 		BodyType: httpsimple.BodyTypeJSON}
 
 	if update {
@@ -97,7 +96,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featu
 }
 
 func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
-	// func indexFeaturesPage(api *aha.FeaturesApiService, esClient elastirad.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
+	// func indexFeaturesPage(api *aha.FeaturesApiService, esClient goelastic.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
 	opts := aha.GetFeaturesOpts{
 		Page:    optional.NewInt32(pageNum),
 		PerPage: optional.NewInt32(int32(500))}
@@ -136,7 +135,7 @@ func main() {
 		panic(err)
 	}
 
-	esClient, err := elastirad.NewSimpleClient("", "", "", true)
+	esClient, err := goelastic.NewSimpleClient("", "", "", true)
 	if err != nil {
 		panic(err)
 	}
