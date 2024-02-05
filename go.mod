@@ -10,7 +10,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.17.1
 	github.com/grokify/goelastic v0.5.0
 	github.com/grokify/googleutil v0.2.0
-	github.com/grokify/mogo v0.62.8
+	github.com/grokify/mogo v0.63.1
 	github.com/grokify/spectrum v1.18.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
