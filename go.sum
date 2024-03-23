@@ -1,5 +1,4 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
-cloud.google.com/go v0.112.1 h1:uJSeirPke5UNZHIb4SxfZklVSiWWVqW4oXlETwZziwM=
 cloud.google.com/go/compute v1.25.1 h1:ZRpHJedLtTpKgr3RV1Fx23NuaAEN1Zfx9hw1u4aJdjU=
 cloud.google.com/go/compute v1.25.1/go.mod h1:oopOIR53ly6viBYxaDhBfJwzUAxf1zE//uf3IB011ls=
 cloud.google.com/go/compute/metadata v0.2.3 h1:mg4jlk7mCAj6xXp9UJ4fjI9VUI5rubuGBW5aJ7UnBMY=
@@ -87,12 +86,8 @@ github.com/grokify/goauth v0.20.12 h1:ujMpx6rnMyZ7vbcPMmIFyYdJClTll4aZ/hsB+kUpzB
 github.com/grokify/goauth v0.20.12/go.mod h1:CO8J7GPAOeiv8k8sTHDAuFW1jT2cxGGCuU6aOZQp45k=
 github.com/grokify/gocharts/v2 v2.18.2 h1:BgXjNwNjv3AshnEN14hOGCKTabIC0/w3dd1q/Y4A6vk=
 github.com/grokify/gocharts/v2 v2.18.2/go.mod h1:fpzrktx9SMge3Ib3grZBvYphgve75gszeP1MPLaalBU=
-github.com/grokify/goelastic v0.6.0 h1:M8wbcUKwSVLHPhqm4aYF8vtKHToQX6QYKCp6PtGtBVE=
-github.com/grokify/goelastic v0.6.0/go.mod h1:0vgaBJlwG2kYw60j6HO79ck4eSGcD0ik6/VeAk98HzY=
 github.com/grokify/goelastic v0.6.1 h1:noiYzLHmTjYgwkLQVbr668hOBKkYvv9tjrce0p1Jf+Q=
 github.com/grokify/goelastic v0.6.1/go.mod h1:SqvgTzOAVNdxNmWEydfF1cfGewVSUTpNcHmFpSaaY0s=
-github.com/grokify/googleutil v0.2.0 h1:q3ycH9CwpqJYBxa0MXVakC2R369ap/l6NvrVXYjIrdw=
-github.com/grokify/googleutil v0.2.0/go.mod h1:FuMRQV0iVsccmwc7ttJZBJZ+nyeWqtMQ5TAa6Ypts4Y=
 github.com/grokify/googleutil v0.2.1 h1:s6k+v3UV1RUzVHVTcLTJORQDSUYXmTujniTGaJUdzK4=
 github.com/grokify/googleutil v0.2.1/go.mod h1:6TrlXi27bg3axD7lGKSqpIRS0DYZ9ffwjxuIqSxT5E0=
 github.com/grokify/mogo v0.63.3 h1:71+Amyex1tskY8HCPrVVsjHPlc4ASMEyTSchYQpTmKE=
@@ -257,8 +252,8 @@ golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7/go.mod h1:I/5z698sn9Ka8T
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 gonum.org/v1/gonum v0.15.0 h1:2lYxjRbTYyxkJxlhC+LvJIx3SsANPdRybu1tGj9/OrQ=
 gonum.org/v1/gonum v0.15.0/go.mod h1:xzZVBJBtS+Mz4q0Yl2LJTk+OxOg4jiXZ7qBoM0uISGo=
-google.golang.org/api v0.170.0 h1:zMaruDePM88zxZBG+NG8+reALO2rfLhe/JShitLyT48=
-google.golang.org/api v0.170.0/go.mod h1:/xql9M2btF85xac/VAm4PsLMTLVGUOpq4BE9R8jyNy8=
+google.golang.org/api v0.171.0 h1:w174hnBPqut76FzW5Qaupt7zY8Kql6fiVjgys4f58sU=
+google.golang.org/api v0.171.0/go.mod h1:Hnq5AHm4OTMt2BUVjael2CWZFD6vksJdWCWiUAmjC9o=
 google.golang.org/appengine v1.1.0/go.mod h1:EbEs0AVv82hx2wNQdGPgUI5lhzA/G0D9YwlJXL52JkM=
 google.golang.org/appengine v1.4.0/go.mod h1:xpcJRLb0r/rnEns0DIKYYv+WjYCduHsrkT7/EB5XEv4=
 google.golang.org/appengine v1.6.8 h1:IhEN5q69dyKagZPYMSdIjS2HqprW324FRQZJcGqPAsM=
@@ -267,8 +262,8 @@ google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8/go.mod h1:JiN7NxoA
 google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55/go.mod h1:DMBHOl98Agz4BDEuKkezgsaosCRResVns1a3J2ZsMNc=
 google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013/go.mod h1:NbSheEEYHJ7i3ixzK3sjbqSGDJWnxyFXZblF3eUsNvo=
 google.golang.org/genproto v0.0.0-20240314234333-6e1732d8331c h1:1AVpelW1Ld8u6QbfPlwh00uAsR3xrnfn6FIJsCags3k=
-google.golang.org/genproto/googleapis/api v0.0.0-20240311132316-a219d84964c2 h1:rIo7ocm2roD9DcFIX67Ym8icoGCKSARAiPljFhh5suQ=
-google.golang.org/genproto/googleapis/api v0.0.0-20240311132316-a219d84964c2/go.mod h1:O1cOfN1Cy6QEYr7VxtjOyP5AdAuR0aJ/MYZaaof623Y=
+google.golang.org/genproto/googleapis/api v0.0.0-20240314234333-6e1732d8331c h1:kaI7oewGK5YnVwj+Y+EJBO/YN1ht8iTL9XkFHtVZLsc=
+google.golang.org/genproto/googleapis/api v0.0.0-20240314234333-6e1732d8331c/go.mod h1:VQW3tUculP/D4B+xVCo+VgSq8As6wA9ZjHl//pmk+6s=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c h1:lfpJ/2rWPa/kJgxyyXM8PrNnfCzcmxJ265mADgwmvLI=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c/go.mod h1:WtryC6hu0hhx87FDGxWCDptyssuo68sk10vYjF+T9fY=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
