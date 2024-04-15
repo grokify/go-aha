@@ -2,30 +2,32 @@ module github.com/grokify/go-aha/v2
 
 go 1.22
 
-toolchain go1.22.1
+toolchain go1.22.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.20.13
+	github.com/grokify/goauth v0.20.14
 	github.com/grokify/gocharts/v2 v2.18.5
-	github.com/grokify/goelastic v0.6.1
-	github.com/grokify/googleutil v0.2.2
+	github.com/grokify/goelastic v0.6.3
+	github.com/grokify/googleutil v0.2.3
 	github.com/grokify/mogo v0.63.8
-	github.com/grokify/spectrum v1.18.4
+	github.com/grokify/spectrum v1.18.5
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.19.0
 	google.golang.org/api v0.172.0
 )
 
+require google.golang.org/protobuf v1.33.0 // indirect
+
 require (
 	cloud.google.com/go/compute v1.25.1 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
-	github.com/elastic/elastic-transport-go/v8 v8.4.0 // indirect
-	github.com/elastic/go-elasticsearch/v8 v8.12.1 // indirect
+	github.com/elastic/elastic-transport-go/v8 v8.5.0 // indirect
+	github.com/elastic/go-elasticsearch/v8 v8.13.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/getkin/kin-openapi v0.123.0 // indirect
+	github.com/getkin/kin-openapi v0.124.0 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
@@ -39,7 +41,7 @@ require (
 	github.com/googleapis/gax-go/v2 v2.12.3 // indirect
 	github.com/grokify/base36 v1.0.5 // indirect
 	github.com/huandu/xstrings v1.4.0 // indirect
-	github.com/invopop/yaml v0.2.0 // indirect
+	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
@@ -69,9 +71,8 @@ require (
 	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gonum.org/v1/gonum v0.15.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
-	google.golang.org/grpc v1.63.0 // indirect
-	google.golang.org/protobuf v1.33.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240412170617-26222e5d3d56 // indirect
+	google.golang.org/grpc v1.63.2 // indirect; indirect3	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
