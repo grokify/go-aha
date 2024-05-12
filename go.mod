@@ -6,7 +6,7 @@ toolchain go1.22.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.20.16
+	github.com/grokify/goauth v0.21.0
 	github.com/grokify/gocharts/v2 v2.18.7
 	github.com/grokify/goelastic v0.6.4
 	github.com/grokify/googleutil v0.2.4
@@ -79,3 +79,5 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
+
+// replace github.com/grokify/goauth => ../goauth

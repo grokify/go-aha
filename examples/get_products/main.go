@@ -52,10 +52,13 @@ func getProducts(apis au.ClientAPIs) {
 func main() {
 	_, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH")}, 1)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	getProducts(apis)
 

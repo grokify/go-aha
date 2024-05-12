@@ -21,17 +21,22 @@ type ClientAPIs struct {
 	Config    *aha.Configuration
 }
 
-func NewClientAPIsHTTPClient(httpClient *http.Client) ClientAPIs {
+func NewClientAPIsHTTPClient(serverURL string, httpClient *http.Client) ClientAPIs {
 	cfg := aha.NewConfiguration()
+	cfg.BasePath = serverURL
 	cfg.HTTPClient = httpClient
 	return ClientAPIs{
 		Config:    cfg,
 		APIClient: aha.NewAPIClient(cfg)}
 }
 
-func NewClientAPIs(account, apiKey string) ClientAPIs {
-	httpClient := ao.NewClient(account, apiKey)
-	return NewClientAPIsHTTPClient(httpClient)
+func NewClientAPIs(account, apiKey string) (ClientAPIs, error) {
+	httpClient, err := ao.NewClient(account, apiKey)
+	if err != nil {
+		return ClientAPIs{}, err
+	}
+	serverURL := fmt.Sprintf(ao.BaseURLFormat, account)
+	return NewClientAPIsHTTPClient(serverURL, httpClient), nil
 }
 
 func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {

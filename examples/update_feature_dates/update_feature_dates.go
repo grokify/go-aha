@@ -23,7 +23,10 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 	fapi := apis.APIClient.FeaturesApi
 
 	featureUpdate := aha.FeatureUpdate{
