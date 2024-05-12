@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -139,8 +140,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	ahaHttpClient := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
-	apis := ahautil.NewClientAPIsHTTPClient(ahaHttpClient)
+	ahaHttpClient, err := ahaoauth.NewClient(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	apis := ahautil.NewClientAPIsHTTPClient(
+		fmt.Sprintf(ahaoauth.BaseURLFormat, os.Getenv("AHA_ACCOUNT")), ahaHttpClient)
 
 	doCreateIndex := false
 	doUpdateIndex := false

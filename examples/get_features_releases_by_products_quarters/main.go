@@ -57,7 +57,10 @@ func main() {
 		fmt.Printf("AHA_ACCOUNT [%v]\n", os.Getenv("AHA_ACCOUNT"))
 		fmt.Printf("AHA_API_KEY [%v]\n", os.Getenv("AHA_API_KEY"))
 	}
-	apis := ahautil.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := ahautil.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	products := stringsutil.SplitCondenseSpace(strings.ToUpper(opts.Products), ",")
 

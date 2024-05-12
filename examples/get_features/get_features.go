@@ -21,7 +21,10 @@ func main() {
 		panic(err)
 	}
 
-	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	api := apis.APIClient.FeaturesApi
 	ctx := context.Background()

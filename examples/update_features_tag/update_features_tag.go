@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -25,7 +26,10 @@ func main() {
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
 	logutil.FatalErr(errorsutil.Wrap(err, "error loading .env file"))
 
-	apis := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 	featuresApi := apis.APIClient.FeaturesApi
 	ctx := context.Background()
 

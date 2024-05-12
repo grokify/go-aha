@@ -32,7 +32,10 @@ func main() {
 
 	fmt.Println(os.Getenv("AHA_ACCOUNT"))
 	fmt.Println(os.Getenv("AHA_API_KEY"))
-	apis := ahautil.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	apis, err := ahautil.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	info, resp, err := apis.APIClient.FeaturesApi.GetFeature(
 		context.Background(),
