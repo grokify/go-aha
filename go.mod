@@ -7,10 +7,10 @@ toolchain go1.22.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.21.1
-	github.com/grokify/gocharts/v2 v2.19.0
+	github.com/grokify/gocharts/v2 v2.19.1
 	github.com/grokify/goelastic v0.6.4
 	github.com/grokify/googleutil v0.2.4
-	github.com/grokify/mogo v0.64.0
+	github.com/grokify/mogo v0.64.1
 	github.com/grokify/spectrum v1.18.5
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
