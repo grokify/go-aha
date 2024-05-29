@@ -6,7 +6,7 @@ toolchain go1.22.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.21.1
+	github.com/grokify/goauth v0.21.2
 	github.com/grokify/gocharts/v2 v2.19.1
 	github.com/grokify/goelastic v0.6.4
 	github.com/grokify/googleutil v0.2.4
