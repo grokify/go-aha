@@ -87,8 +87,8 @@ github.com/grokify/gocharts/v2 v2.19.4 h1:J/cYY3/QbxqIoxrX0/yhjcxq65AlbJ2Y2JQh2T
 github.com/grokify/gocharts/v2 v2.19.4/go.mod h1:yljPCXFkahwIDU464i/moe7Wmtn+OoK4BQoD5cbCJ3I=
 github.com/grokify/goelastic v0.6.4 h1:QeWkeyvkIlPUh5oP2TiA/bLFqF4suSWawWeGiml0ODE=
 github.com/grokify/goelastic v0.6.4/go.mod h1:jZdK/HqQYYmke+qNudZTYt/JVu4tVSn/E533vewM+J0=
-github.com/grokify/googleutil v0.2.4 h1:JDmt2USpGonWsQzS+5gIGv4gH+RlLYlKFNw0+faVbxU=
-github.com/grokify/googleutil v0.2.4/go.mod h1:80FM7qxKWk2bNto7x4FNH3bFw0yRjQjnQJ/mP7Z0/Pk=
+github.com/grokify/googleutil v0.2.5 h1:21oqepTyLsujjijTIJ+slyKKs9DgRyRLjGW5HS4PNR8=
+github.com/grokify/googleutil v0.2.5/go.mod h1:aWiZgEHEJDQgeGiecsqAgsfDq3vUqYtjrCynVF3QrSw=
 github.com/grokify/mogo v0.64.5 h1:73D+LuBH4lJHhQW/IGa4ryWgLpN0N+CLaGj7FYViu40=
 github.com/grokify/mogo v0.64.5/go.mod h1:rHLWd7RhHNXoSVPUTPIJ4uFQ7xAz6EMzAUcBr8PIaxY=
 github.com/grokify/spectrum v1.18.5 h1:v8rVRW7tcjIlBw3ESOXMaCIFAKQlg1P7V9r86RrxUks=
