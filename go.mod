@@ -6,7 +6,7 @@ toolchain go1.22.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.21.5
+	github.com/grokify/goauth v0.21.7
 	github.com/grokify/gocharts/v2 v2.19.5
 	github.com/grokify/goelastic v0.6.5
 	github.com/grokify/googleutil v0.2.6
@@ -71,7 +71,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
-	golang.org/x/exp v0.0.0-20240707233637-46b078467d37 // indirect
+	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/net v0.27.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
