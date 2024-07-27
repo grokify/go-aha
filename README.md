@@ -12,7 +12,7 @@
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/go-aha
  [goreport-link]: https://goreportcard.com/report/github.com/grokify/go-aha
  [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/go-aha
- [docs-godoc-link]: https://pkg.go.dev/github.com/grokify/go-aha
+ [docs-godoc-link]: https://pkg.go.dev/github.com/grokify/go-aha/v2
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
  [license-link]: https://github.com/grokify/go-aha/blob/master/LICENSE
 
