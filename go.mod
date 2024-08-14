@@ -15,11 +15,11 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.22.0
-	google.golang.org/api v0.191.0
+	google.golang.org/api v0.192.0
 )
 
 require (
-	cloud.google.com/go/auth v0.7.3 // indirect
+	cloud.google.com/go/auth v0.8.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.3 // indirect
 	go.opentelemetry.io/otel/sdk v1.24.0 // indirect
 	golang.org/x/image v0.18.0 // indirect
