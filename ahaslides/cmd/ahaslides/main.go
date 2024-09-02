@@ -7,6 +7,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"time"
@@ -56,7 +57,7 @@ func main() {
 			log.Fatal(errorsutil.Wrap(err, "NewClientFileStoreWithDefaults"))
 		}*/
 
-	googHTTPClient, err := google.NewClientFileStoreWithDefaultsCliEnv("", "")
+	googHTTPClient, err := google.NewClientFileStoreWithDefaultsCliEnv(context.Background(), "", "")
 	logutil.FatalErr(err)
 
 	t := time.Now().UTC()
