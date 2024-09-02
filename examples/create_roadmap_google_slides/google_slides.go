@@ -7,6 +7,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -231,6 +232,7 @@ func main() {
 	fmt.Println(len(can.Rows))
 
 	googClient, err := omg.NewClientFileStoreWithDefaults(
+		context.Background(),
 		[]byte(os.Getenv(omg.EnvGoogleAppCredentials)),
 		[]string{omg.ScopeDrive, omg.ScopePresentations},
 		opts.NewToken())
