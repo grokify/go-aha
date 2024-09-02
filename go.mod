@@ -6,10 +6,10 @@ toolchain go1.22.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.21.7
-	github.com/grokify/gocharts/v2 v2.19.6
+	github.com/grokify/goauth v0.21.10
+	github.com/grokify/gocharts/v2 v2.19.8
 	github.com/grokify/goelastic v0.6.5
-	github.com/grokify/googleutil v0.2.6
+	github.com/grokify/googleutil v0.3.0
 	github.com/grokify/mogo v0.64.9
 	github.com/grokify/spectrum v1.18.7
 	github.com/jessevdk/go-flags v1.6.1
@@ -20,10 +20,9 @@ require (
 
 require (
 	cloud.google.com/go/auth v0.8.1 // indirect
-	cloud.google.com/go/auth/oauth2adapt v0.2.3 // indirect
+	cloud.google.com/go/auth/oauth2adapt v0.2.4 // indirect
 	go.opentelemetry.io/otel/sdk v1.24.0 // indirect
 	golang.org/x/image v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20240725223205-93522f1f2a9f // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 )
 
@@ -75,8 +74,8 @@ require (
 	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
-	gonum.org/v1/gonum v0.15.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240730163845-b1a4ccb954bf // indirect
+	gonum.org/v1/gonum v0.15.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
 	google.golang.org/grpc v1.65.0 // indirect; indirect3	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
