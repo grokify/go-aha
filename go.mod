@@ -9,10 +9,10 @@ toolchain go1.22.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.21.10
-	github.com/grokify/gocharts/v2 v2.19.8
+	github.com/grokify/gocharts/v2 v2.20.1
 	github.com/grokify/goelastic v0.6.6
 	github.com/grokify/googleutil v0.3.0
-	github.com/grokify/mogo v0.64.9
+	github.com/grokify/mogo v0.64.11
 	github.com/grokify/spectrum v1.18.8
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -65,12 +65,12 @@ require (
 	go.opentelemetry.io/otel v1.28.0 // indirect
 	go.opentelemetry.io/otel/metric v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
-	golang.org/x/crypto v0.26.0 // indirect
-	golang.org/x/exp v0.0.0-20240823005443-9b4947da3948 // indirect
-	golang.org/x/image v0.19.0 // indirect
-	golang.org/x/net v0.28.0 // indirect
-	golang.org/x/sys v0.24.0 // indirect
-	golang.org/x/text v0.17.0 // indirect
+	golang.org/x/crypto v0.27.0 // indirect
+	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e // indirect
+	golang.org/x/image v0.20.0 // indirect
+	golang.org/x/net v0.29.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/text v0.18.0 // indirect
 	gonum.org/v1/gonum v0.15.1 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240823204242-4ba0660f739c // indirect
 	google.golang.org/grpc v1.65.0 // indirect
