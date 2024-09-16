@@ -86,8 +86,8 @@ github.com/grokify/googleutil v0.3.0 h1:8pvrUM+TXZZFDMJmQ//ddfLDXvV8j7nuEgr9o0du
 github.com/grokify/googleutil v0.3.0/go.mod h1:5EL3OR5tEYXkYrbIrMcPCQ3/sqqfvMH8wZdpgQsmytY=
 github.com/grokify/mogo v0.64.11 h1:aFH060aO6yjDdLzCY7Y4bQcC1iyNFvd8rBR9zq9M0zA=
 github.com/grokify/mogo v0.64.11/go.mod h1:FrKyuDTl7uz0BrMCT40KGtsJQs2KGYjo3cib7toouEA=
-github.com/grokify/spectrum v1.18.8 h1:wGnvMUolKEe8QmJvdkSE0jLlGwpcnIhbrOftpCVr4mI=
-github.com/grokify/spectrum v1.18.8/go.mod h1:+eZH7iJlcJn1tjdQKrOwD3lVkBHNWDZHCpMgm0DOGy4=
+github.com/grokify/spectrum v1.18.9 h1:JwM/zcMAmt8GuhUFgu1rOGr4rxhxGEd/CJIAgCkaHq4=
+github.com/grokify/spectrum v1.18.9/go.mod h1:lgXliA3a9mpQft6m66ZspSuAdHl+f7tXkGbJDP6Rup8=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/invopop/yaml v0.3.1 h1:f0+ZpmhfBSS4MhG+4HYseMdJhoeeopbSKbq5Rpeelso=

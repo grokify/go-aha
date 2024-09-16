@@ -1,8 +1,7 @@
 module github.com/grokify/go-aha/v2
 
 go 1.22.0
-
-toolchain go1.22.2
+toolchain go1.22.7
 
 // replace github.com/grokify/goauth => ../goauth
 
@@ -13,7 +12,7 @@ require (
 	github.com/grokify/goelastic v0.6.6
 	github.com/grokify/googleutil v0.3.0
 	github.com/grokify/mogo v0.64.11
-	github.com/grokify/spectrum v1.18.8
+	github.com/grokify/spectrum v1.18.9
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.22.0
