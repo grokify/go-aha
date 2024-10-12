@@ -1,6 +1,6 @@
 package ahaslides
 
-import su "github.com/grokify/googleutil/slidesutil/v1"
+import su "github.com/grokify/gogoogle/slidesutil/v1"
 
 var DefaultFormatting = RoadmapFormatting{
 	Line: LineFormatting{

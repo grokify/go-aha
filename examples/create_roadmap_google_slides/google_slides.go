@@ -26,7 +26,7 @@ import (
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/go-aha/v2/ahautil"
 	"github.com/grokify/gocharts/v2/data/roadmap"
-	"github.com/grokify/googleutil/slidesutil/v1"
+	"github.com/grokify/gogoogle/slidesutil/v1"
 )
 
 var (
