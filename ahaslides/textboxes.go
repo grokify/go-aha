@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/grokify/gocharts/v2/data/roadmap"
-	su "github.com/grokify/googleutil/slidesutil/v1"
+	su "github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/math/mathutil"
 	"github.com/grokify/mogo/time/timeutil"

@@ -25,8 +25,8 @@ import (
 	"github.com/grokify/go-aha/ahautil"
 	aha "github.com/grokify/go-aha/client"
 	"github.com/grokify/gocharts/data/roadmap"
-	"github.com/grokify/googleutil/slidesutil/v1"
-	su "github.com/grokify/googleutil/slidesutil/v1"
+	"github.com/grokify/gogoogle/slidesutil/v1"
+	su "github.com/grokify/gogoogle/slidesutil/v1"
 )
 
 var (

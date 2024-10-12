@@ -6,7 +6,7 @@ import (
 	"time"
 
 	au "github.com/grokify/go-aha/v2/ahautil"
-	su "github.com/grokify/googleutil/slidesutil/v1"
+	su "github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"google.golang.org/api/slides/v1"
 )
