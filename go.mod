@@ -16,7 +16,7 @@ require (
 	github.com/grokify/spectrum v1.18.9
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/oauth2 v0.23.0
+	golang.org/x/oauth2 v0.24.0
 	google.golang.org/api v0.203.0
 )
 
