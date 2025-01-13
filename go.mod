@@ -5,10 +5,10 @@ go 1.23.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.22.7
-	github.com/grokify/gocharts/v2 v2.21.9
+	github.com/grokify/gocharts/v2 v2.21.11
 	github.com/grokify/goelastic v0.6.7
 	github.com/grokify/gogoogle v0.4.3
-	github.com/grokify/mogo v0.67.1
+	github.com/grokify/mogo v0.67.4
 	github.com/grokify/spectrum v1.18.11
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -54,22 +54,22 @@ require (
 	github.com/valyala/quicktemplate v1.8.0 // indirect
 	github.com/xuri/efp v0.0.0-20241211021726-c4e992084aa6 // indirect
 	github.com/xuri/excelize/v2 v2.9.0 // indirect
-	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
+	github.com/xuri/nfp v0.0.0-20250111060730-82a408b9aa71 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.58.0 // indirect
 	go.opentelemetry.io/otel v1.33.0 // indirect
 	go.opentelemetry.io/otel/metric v1.33.0 // indirect
 	go.opentelemetry.io/otel/trace v1.33.0 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/exp v0.0.0-20250103183323-7d7fa50e5329 // indirect
+	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8 // indirect
 	golang.org/x/image v0.23.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	gonum.org/v1/gonum v0.15.1 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250102185135-69823020774d // indirect
 	google.golang.org/grpc v1.69.2 // indirect
-	google.golang.org/protobuf v1.36.1 // indirect
+	google.golang.org/protobuf v1.36.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
