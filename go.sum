@@ -58,8 +58,8 @@ github.com/grokify/gogoogle v0.6.2 h1:krqHp5jN6B7/y8Sk/BG/883JOKJtoBadnBvxnngJb1
 github.com/grokify/gogoogle v0.6.2/go.mod h1:k/bgfxMPNk66O+EDw14R/laLdTrGhZH4a0pmeB/0U6Y=
 github.com/grokify/mogo v0.68.1 h1:IKS7wWZ6qWIvkk0SkWYwu93W3LFQMDbXUNoQuxPhDoA=
 github.com/grokify/mogo v0.68.1/go.mod h1:Zgd5Swzt7tUCwz7Emcu1IrW0RVzjGWSW0vHLvn1AG7M=
-github.com/grokify/spectrum v1.19.2 h1:SNrWrG+undW6teNylrU689ogMz6N8YHO3UiqegbmvKI=
-github.com/grokify/spectrum v1.19.2/go.mod h1:5Lt0bkcuRH3nXWnqmnCmFYnDRm/TdH+Cwt2V2x0HQ4E=
+github.com/grokify/spectrum v1.19.3 h1:sh08a4gl2skXPtNsT4UjjNdDSeXuzAeTpOrwBEF8N4A=
+github.com/grokify/spectrum v1.19.3/go.mod h1:/06+jny4IcOtZDuN6+SpI31yRjWblp8c0QeYwtI/oDk=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/jessevdk/go-flags v1.6.1 h1:Cvu5U8UGrLay1rZfv/zP7iLpSHGUZ/Ou68T0iX1bBK4=
