@@ -12,7 +12,7 @@ require (
 	github.com/grokify/spectrum v1.19.3
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/oauth2 v0.26.0
+	golang.org/x/oauth2 v0.28.0
 	google.golang.org/api v0.222.0
 )
 
