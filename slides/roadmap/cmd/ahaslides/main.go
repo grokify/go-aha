@@ -12,8 +12,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/grokify/go-aha/v2/ahaslides"
 	au "github.com/grokify/go-aha/v2/ahautil"
+	"github.com/grokify/go-aha/v2/slides/roadmap"
 	"github.com/grokify/goauth/google"
 	"github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/config"
@@ -40,7 +40,7 @@ func main() {
 	_, err = config.LoadDotEnv([]string{opts.EnvFile, os.Getenv("ENV_PATH")}, -1)
 	logutil.FatalErr(err)
 
-	roadmapConfig, err := ahaslides.NewRoadmapConfigEnv()
+	roadmapConfig, err := roadmap.NewRoadmapConfigEnv()
 	logutil.FatalErr(err)
 
 	if 1 == 0 {
@@ -76,7 +76,7 @@ func main() {
 	presID, err := pc.CreateEmpty(slideName)
 	logutil.FatalErr(err)
 
-	res, err := ahaslides.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
+	res, err := roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
 	logutil.FatalErr(err)
 
 	roadmapConfig.RoadmapFormatting.Textbox.DoneBackgroundColorHex =
@@ -84,7 +84,7 @@ func main() {
 	roadmapConfig.RoadmapFormatting.Textbox.ProblemBackgroundColorHex =
 		roadmapConfig.RoadmapFormatting.Textbox.DefaultBackgroundColorHex
 
-	res, err = ahaslides.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
+	res, err = roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
 	logutil.FatalErr(err)
 
 	fmt.Printf("Created PresentationId [%v]\n", res.PresentationId)

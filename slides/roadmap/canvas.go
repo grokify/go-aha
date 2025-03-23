@@ -1,9 +1,9 @@
-package ahaslides
+package roadmap
 
 import (
 	"fmt"
 
-	"google.golang.org/api/slides/v1"
+	gs "google.golang.org/api/slides/v1"
 )
 
 const (
@@ -12,8 +12,8 @@ const (
 )
 
 type SlideCanvasInfo struct {
-	BoxFgColor      *slides.RgbColor
-	BoxBgColor      *slides.RgbColor
+	BoxFgColor      *gs.RgbColor
+	BoxBgColor      *gs.RgbColor
 	BoxHeight       float64
 	BoxMarginBottom float64
 	Canvas          CanvasFloat64
