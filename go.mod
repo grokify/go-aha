@@ -4,12 +4,12 @@ go 1.23.2
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.23.7
-	github.com/grokify/gocharts/v2 v2.22.5
-	github.com/grokify/goelastic v0.6.9
-	github.com/grokify/gogoogle v0.6.3
-	github.com/grokify/mogo v0.68.2
-	github.com/grokify/spectrum v1.19.4
+	github.com/grokify/goauth v0.23.8
+	github.com/grokify/gocharts/v2 v2.22.6
+	github.com/grokify/goelastic v0.6.10
+	github.com/grokify/gogoogle v0.6.4
+	github.com/grokify/mogo v0.68.3
+	github.com/grokify/spectrum v1.19.5
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.28.0

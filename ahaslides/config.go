@@ -130,7 +130,7 @@ func (cfg *RoadmapConfig) inflate() error {
 }
 
 func (cfg *RoadmapConfig) inflateTagFilters() {
-	cfg.FilterTags = stringsutil.SplitCondenseSpace(cfg.filterTagsRaw, ",")
+	cfg.FilterTags = stringsutil.SplitTrimSpace(cfg.filterTagsRaw, ",", true)
 	filterMap := map[string]string{}
 	for _, filterTag := range cfg.FilterTags {
 		filterTag = strings.TrimSpace(filterTag)

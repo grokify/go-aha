@@ -62,7 +62,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	products := stringsutil.SplitCondenseSpace(strings.ToUpper(opts.Products), ",")
+	products := stringsutil.SplitTrimSpace(strings.ToUpper(opts.Products), ",", true)
 
 	if len(products) == 0 {
 		log.Fatal("E_NO_PRODUCTS")

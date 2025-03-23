@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	flags "github.com/jessevdk/go-flags"
@@ -32,7 +32,7 @@ func GetInitiatives(sc *httpsimple.Client) {
 		log.Fatal(err)
 	}
 	fmt.Println(string(b))
-	b2, err := jsonutil.IndentBytes(b, "", "  ")
+	b2, err := jsonraw.IndentBytes(b, "", "  ")
 	logutil.FatalErr(err)
 	fmt.Println(string(b2))
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/grokify/goelastic"
 	"github.com/grokify/goelastic/models"
 	"github.com/grokify/goelastic/models/es5"
-	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
@@ -55,7 +55,7 @@ func createIndex(esClient httpsimple.Client) {
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 	} else {
-		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
+		body, err := jsonraw.Indent(resp.Body, "", "  ")
 		logutil.FatalErr(err)
 		fmt.Printf("U_RES_BODY: %v\n", string(body))
 		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
@@ -88,7 +88,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featu
 		fmt.Printf("U_ERR: %v\n", err)
 		panic(err)
 	} else {
-		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
+		body, err := jsonraw.Indent(resp.Body, "", "  ")
 		logutil.FatalErr(err)
 		fmt.Printf("U_RES_BODY: %v\n", string(body))
 		fmt.Printf("U_RES_STATUS: %v\n", resp.StatusCode)
