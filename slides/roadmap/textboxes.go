@@ -1,4 +1,4 @@
-package ahaslides
+package roadmap
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 	"github.com/grokify/mogo/math/mathutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/mogo/type/stringsutil"
-	slides "google.golang.org/api/slides/v1"
+	gs "google.golang.org/api/slides/v1"
 
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/go-aha/v2/ahautil"
@@ -25,7 +25,7 @@ func getUniqueId() string {
 	return strconv.Itoa(int(time.Now().Unix()))
 }
 
-func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet, pageId string) []*slides.Request {
+func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet, pageId string) []*gs.Request {
 	uid := getUniqueId()
 
 	featuresMap2, err := featureSet.GetFeaturesMapByTag()
@@ -55,7 +55,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 	}
 
 	itemsRM := []roadmap.Item{}
-	requests := []*slides.Request{}
+	requests := []*gs.Request{}
 
 	outCan := CanvasFloat64{
 		MinX: 150.0,
@@ -75,7 +75,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 	totalBoxHeight := slideCanvas.BoxHeight + slideCanvas.BoxMarginBottom
 	elBaseIndex := 0
 
-	horzLabelRequests := []*slides.Request{}
+	horzLabelRequests := []*gs.Request{}
 	tagTextBoxInfo := su.CreateShapeTextBoxRequestInfo{
 		PageId:             pageId,
 		Height:             20.0,
@@ -248,9 +248,9 @@ func textboxColorsForAhaFeature(rmCfg RoadmapConfig, feat *aha.Feature) (string,
 	}
 }
 
-func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int, srcCan roadmap.Canvas, outCan SlideCanvasInfo, dimensionUnit string, addAhaLinks bool) ([]*slides.Request, error) {
+func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int, srcCan roadmap.Canvas, outCan SlideCanvasInfo, dimensionUnit string, addAhaLinks bool) ([]*gs.Request, error) {
 	uid := getUniqueId()
-	requests := []*slides.Request{}
+	requests := []*gs.Request{}
 	err := srcCan.InflateItems()
 	if err != nil {
 		return requests, err
@@ -354,10 +354,10 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int,
 	return requests, nil
 }
 
-func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX, minY float64, dimensionUnit string, qtrStartDt time.Time, numCells int32) []*slides.Request {
+func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX, minY float64, dimensionUnit string, qtrStartDt time.Time, numCells int32) []*gs.Request {
 	uid := getUniqueId()
 
-	requests := []*slides.Request{}
+	requests := []*gs.Request{}
 	if 1 == 0 {
 		fmt.Printf("MINX [%v] MAXX [%v] NUM_CELLS [%v]\n", minX, maxX, numCells)
 		panic("Z TEXTBOXES_GO LN_326")
@@ -442,11 +442,11 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 	return requests
 }
 
-func CenterRequest(objectId, alignment string) *slides.Request {
-	return &slides.Request{
-		UpdateParagraphStyle: &slides.UpdateParagraphStyleRequest{
+func CenterRequest(objectId, alignment string) *gs.Request {
+	return &gs.Request{
+		UpdateParagraphStyle: &gs.UpdateParagraphStyleRequest{
 			ObjectId: objectId,
-			Style: &slides.ParagraphStyle{
+			Style: &gs.ParagraphStyle{
 				Alignment: alignment,
 			},
 			Fields: "alignment",

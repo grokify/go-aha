@@ -1,4 +1,4 @@
-package ahaslides
+package roadmap
 
 import (
 	"fmt"
@@ -8,10 +8,10 @@ import (
 	au "github.com/grokify/go-aha/v2/ahautil"
 	su "github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/errors/errorsutil"
-	"google.golang.org/api/slides/v1"
+	gs "google.golang.org/api/slides/v1"
 )
 
-func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadmapConfig RoadmapConfig, featureSet *au.FeatureSet) (*slides.BatchUpdatePresentationResponse, error) {
+func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadmapConfig RoadmapConfig, featureSet *au.FeatureSet) (*gs.BatchUpdatePresentationResponse, error) {
 	gss, err := su.NewGoogleSlidesService(googleClient)
 	if err != nil {
 		return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - slidesutil.NewGoogleSlidesService()")
@@ -26,19 +26,19 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 	if 1 == 1 {
 		// Create slide with title
 		// https://developers.google.com/slides/samples/slides#create_a_new_slide_and_modify_placeholders
-		requests := []*slides.Request{
+		requests := []*gs.Request{
 			/*{
-				DeleteObject: &slides.DeleteObjectRequest{ObjectId: pageId},
+				DeleteObject: &gs.DeleteObjectRequest{ObjectId: pageId},
 			},*/
 			{
-				CreateSlide: &slides.CreateSlideRequest{
+				CreateSlide: &gs.CreateSlideRequest{
 					ObjectId: newPageId,
-					SlideLayoutReference: &slides.LayoutReference{
+					SlideLayoutReference: &gs.LayoutReference{
 						PredefinedLayout: "TITLE_ONLY",
 					},
-					PlaceholderIdMappings: []*slides.LayoutPlaceholderIdMapping{
+					PlaceholderIdMappings: []*gs.LayoutPlaceholderIdMapping{
 						{
-							LayoutPlaceholder: &slides.Placeholder{
+							LayoutPlaceholder: &gs.Placeholder{
 								Type:  "TITLE",
 								Index: 0,
 							},
@@ -48,13 +48,13 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 				},
 			},
 			{
-				InsertText: &slides.InsertTextRequest{
+				InsertText: &gs.InsertTextRequest{
 					ObjectId: titleId,
 					Text:     roadmapConfig.Title,
 				},
 			},
 		}
-		breq := &slides.BatchUpdatePresentationRequest{
+		breq := &gs.BatchUpdatePresentationRequest{
 			Requests: requests,
 		}
 		_, err := psv.BatchUpdate(presentationID, breq).Do() // resu
@@ -79,7 +79,7 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 		}
 		requests = append(requests, disclaimerReqs...)
 	}
-	breq := &slides.BatchUpdatePresentationRequest{
+	breq := &gs.BatchUpdatePresentationRequest{
 		Requests: requests,
 	}
 
