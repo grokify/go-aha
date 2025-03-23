@@ -13,7 +13,7 @@ import (
 	"time"
 
 	au "github.com/grokify/go-aha/v2/ahautil"
-	"github.com/grokify/go-aha/v2/slides/roadmap"
+	"github.com/grokify/go-aha/v2/reports/roadmap"
 	"github.com/grokify/goauth/google"
 	"github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/config"
