@@ -9,7 +9,7 @@ import (
 
 	"github.com/grokify/goelastic"
 	"github.com/grokify/goelastic/models"
-	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/net/http/httpsimple"
 )
 
@@ -69,7 +69,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 	if err != nil {
 		return err
 	} else {
-		body, err := jsonutil.IndentReader(resp.Body, "", "  ")
+		body, err := jsonraw.Indent(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}

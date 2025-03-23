@@ -12,7 +12,7 @@ import (
 	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/goelastic"
 	"github.com/grokify/goelastic/models/es5"
-	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/time/timeutil"
 )
@@ -21,27 +21,18 @@ var rxProductId = regexp.MustCompile(`^([^-]+)`)
 
 // Feature is struct with additional properties to search on, notably ReferencePrefix.
 type Feature struct {
-	Id string `json:"id,omitempty"`
-
-	ReferenceNum string `json:"reference_num,omitempty"`
-
-	Name string `json:"name,omitempty"`
-
-	CreatedAt time.Time `json:"created_at,omitempty"`
-
+	Id           string    `json:"id,omitempty"`
+	ReferenceNum string    `json:"reference_num,omitempty"`
+	Name         string    `json:"name,omitempty"`
+	CreatedAt    time.Time `json:"created_at,omitempty"`
 	// Start date in YYYY-MM-DD format.
 	StartDate string `json:"start_date,omitempty"`
-
 	// Due date in YYYY-MM-DD format.
-	DueDate string `json:"due_date,omitempty"`
-
-	Url string `json:"url,omitempty"`
-
-	Resource string `json:"resource,omitempty"`
-
-	Tags []string `json:"tags,omitempty"`
-
-	ReferencePrefix string `json:"reference_prefix,omitempty"`
+	DueDate         string   `json:"due_date,omitempty"`
+	Url             string   `json:"url,omitempty"`
+	Resource        string   `json:"resource,omitempty"`
+	Tags            []string `json:"tags,omitempty"`
+	ReferencePrefix string   `json:"reference_prefix,omitempty"`
 }
 
 func AhaToEsFeature(f *aha.Feature) Feature {
@@ -96,7 +87,7 @@ func AhaFeatureSearch(esClient httpsimple.Client, refPrefix string, dt time.Time
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodybytes, err := jsonutil.IndentReader(resp.Body, "", "  ")
+	bodybytes, err := jsonraw.Indent(resp.Body, "", "  ")
 	if err != nil {
 		return features, err
 	}
