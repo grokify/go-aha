@@ -13,6 +13,7 @@ import (
 	"github.com/grokify/mogo/math/mathutil"
 	"github.com/grokify/mogo/time/timeutil"
 	"github.com/grokify/mogo/type/stringsutil"
+	"github.com/grokify/mogo/type/strslices"
 	gs "google.golang.org/api/slides/v1"
 
 	"github.com/grokify/go-aha/v2/aha"
@@ -25,7 +26,7 @@ func getUniqueId() string {
 	return strconv.Itoa(int(time.Now().Unix()))
 }
 
-func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet, pageId string) []*gs.Request {
+func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet, pageID string) []*gs.Request {
 	uid := getUniqueId()
 
 	featuresMap2, err := featureSet.GetFeaturesMapByTag()
@@ -77,7 +78,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 
 	horzLabelRequests := []*gs.Request{}
 	tagTextBoxInfo := su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageId,
+		PageID:             pageID,
 		Height:             20.0,
 		Width:              140.0,
 		DimensionUnit:      rmCfg.DimensionUnit,
@@ -90,7 +91,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 		ForegroundColorHex: rmCfg.RoadmapFormatting.Row.Heading.ForegroundColorHex,
 	}
 	tagTextBoxBgInfo := su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageId,
+		PageID:             pageID,
 		Width:              680.0,
 		DimensionUnit:      rmCfg.DimensionUnit,
 		LocationX:          15.0,
@@ -142,7 +143,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 			fmtutil.MustPrintJSON(srcCan)
 			fmt.Println(len(srcCan.Rows))
 		}
-		requestsRoadmap, err := googleSlideDrawRoadmap(rmCfg, pageId, elBaseIndex, srcCan, slideCanvas, rmCfg.DimensionUnit, rmCfg.AddAhaLinks)
+		requestsRoadmap, err := googleSlideDrawRoadmap(rmCfg, pageID, elBaseIndex, srcCan, slideCanvas, rmCfg.DimensionUnit, rmCfg.AddAhaLinks)
 		if err != nil {
 			panic(err)
 		}
@@ -152,10 +153,10 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 		rowCount := len(srcCan.Rows)
 		rowHeight := float64(rowCount) * (slideCanvas.BoxHeight + slideCanvas.BoxMarginBottom)
 
-		objectIdTag := su.FormatObjectIDSimple(ahaTagFeatures.Tag)
+		objectIDTag := su.FormatObjectIDSimple(ahaTagFeatures.Tag)
 
 		if mathutil.IsEven(i) {
-			tagTextBoxBgInfo.ObjectId = fmt.Sprintf("TAGLABELBG-%v-%v", objectIdTag, uid)
+			tagTextBoxBgInfo.ObjectID = fmt.Sprintf("TAGLABELBG-%v-%v", objectIDTag, uid)
 			tagTextBoxBgInfo.Height = totalBoxHeight * float64(len(srcCan.Rows))
 			tagTextBoxBgInfo.LocationY = slideCanvas.Canvas.MinY
 			tagTextBoxBgReqs, err := tagTextBoxBgInfo.Requests()
@@ -165,7 +166,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 			horzLabelRequests = append(horzLabelRequests, tagTextBoxBgReqs...)
 		}
 
-		tagTextBoxInfo.ObjectId = fmt.Sprintf("TAGLABEL-%v-%v", objectIdTag, uid)
+		tagTextBoxInfo.ObjectID = fmt.Sprintf("TAGLABEL-%v-%v", objectIDTag, uid)
 		tagTextBoxInfo.Text = rmCfg.TagPrefixStripRx.ReplaceAllString(ahaTagFeatures.Tag, "")
 		tagTextBoxInfo.LocationY = slideCanvas.Canvas.MinY
 		tagTextBoxReqs, err := tagTextBoxInfo.Requests()
@@ -178,7 +179,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 	}
 
 	verts := getVerticalLinesAndHeadings(
-		rmCfg, pageId,
+		rmCfg, pageID,
 		outCan.MinX, outCan.MaxX, outCan.MinY,
 		rmCfg.DimensionUnit,
 		rmCfg.QuarterStartTime, rmCfg.QuarterCount)
@@ -238,7 +239,7 @@ func textboxColorsForAhaFeature(rmCfg RoadmapConfig, feat *aha.Feature) (string,
 			rmCfg.RoadmapFormatting.Textbox.DeadBackgroundColorHex
 	default:
 		// if stringsutil.SliceIndexOfLcTrimSpace("problem", ) > -1 {
-		if stringsutil.SliceIndexMore(feat.Tags, "problem", true, true, stringsutil.MatchExact) > -1 {
+		if strslices.IndexMore(feat.Tags, "problem", true, true, stringsutil.MatchExact) > -1 {
 			return rmCfg.RoadmapFormatting.Textbox.ProblemForegroundColorHex,
 				rmCfg.RoadmapFormatting.Textbox.ProblemBackgroundColorHex
 		} else {
@@ -248,7 +249,7 @@ func textboxColorsForAhaFeature(rmCfg RoadmapConfig, feat *aha.Feature) (string,
 	}
 }
 
-func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int, srcCan roadmap.Canvas, outCan SlideCanvasInfo, dimensionUnit string, addAhaLinks bool) ([]*gs.Request, error) {
+func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageID string, elBaseIndex int, srcCan roadmap.Canvas, outCan SlideCanvasInfo, dimensionUnit string, addAhaLinks bool) ([]*gs.Request, error) {
 	uid := getUniqueId()
 	requests := []*gs.Request{}
 	err := srcCan.InflateItems()
@@ -261,7 +262,7 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int,
 	rowYWatermark := outCan.Canvas.MinY
 
 	textBoxInfo := su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageId,
+		PageID:             pageID,
 		DimensionUnit:      dimensionUnit,
 		LocationUnit:       dimensionUnit,
 		FontSize:           10.0,
@@ -313,13 +314,13 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageId string, elBaseIndex int,
 				panic("D")
 			}
 
-			elementId := fmt.Sprintf("AutoBox%03d-%v", idx+elBaseIndex, uid)
+			elementID := fmt.Sprintf("AutoBox%03d-%v", idx+elBaseIndex, uid)
 			if 1 == 0 {
 				requests = append(requests, su.TextBoxRequestsSimple(
-					pageId, elementId, el.NameShort, outCan.BoxFgColor, outCan.BoxBgColor,
+					pageID, elementID, el.NameShort, outCan.BoxFgColor, outCan.BoxBgColor,
 					loc.OutBoxWdtX, outCan.BoxHeight, loc.OutBoxMinX, rowYWatermark)...)
 			} else {
-				textBoxInfo.ObjectId = elementId
+				textBoxInfo.ObjectID = elementID
 				textBoxInfo.Text = el.NameShort
 				if addAhaLinks {
 					textBoxInfo.URL = el.URL
@@ -384,7 +385,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 	lineInfo.Height = 400.0 - lineInfo.LocationY
 
 	textBoxInfo := su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageID,
+		PageID:             pageID,
 		Height:             20.0,
 		DimensionUnit:      dimensionUnit,
 		LocationUnit:       dimensionUnit,
@@ -423,7 +424,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 		requests = append(requests, lineReqs...)
 
 		// Add Quarter Heading
-		textBoxInfo.ObjectId = lineInfo.LineID + "heading"
+		textBoxInfo.ObjectID = lineInfo.LineID + "heading"
 		textBoxInfo.Text = timeutil.FormatQuarter(qtrNow)
 		textBoxInfo.Width = max - min - 2
 		textBoxInfo.LocationX = min
@@ -434,7 +435,7 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 		}
 		requests = append(requests, reqs...)
 
-		req := CenterRequest(textBoxInfo.ObjectId, "CENTER")
+		req := CenterRequest(textBoxInfo.ObjectID, "CENTER")
 		requests = append(requests, req)
 
 		qtrNow = timeutil.QuarterAdd(qtrNow, 1)
@@ -442,10 +443,10 @@ func getVerticalLinesAndHeadings(rmCfg RoadmapConfig, pageID string, minX, maxX,
 	return requests
 }
 
-func CenterRequest(objectId, alignment string) *gs.Request {
+func CenterRequest(objectID, alignment string) *gs.Request {
 	return &gs.Request{
 		UpdateParagraphStyle: &gs.UpdateParagraphStyleRequest{
-			ObjectId: objectId,
+			ObjectId: objectID,
 			Style: &gs.ParagraphStyle{
 				Alignment: alignment,
 			},
