@@ -86,5 +86,7 @@ func ColumnsShort() ([]string, map[int]string) {
 			IdeaVotes},
 		map[int]string{
 			0: table.FormatInt,
-			2: table.FormatURL}
+			2: table.FormatURL,
+			4: table.FormatInt,
+		}
 }

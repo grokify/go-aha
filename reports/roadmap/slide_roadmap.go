@@ -91,11 +91,11 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 	return resu, nil
 }
 
-func internalDisclaimer(pageId string, roadmapConfig RoadmapConfig) su.CreateShapeTextBoxRequestInfo {
+func internalDisclaimer(pageID string, roadmapConfig RoadmapConfig) su.CreateShapeTextBoxRequestInfo {
 	uid := getUniqueId()
 	return su.CreateShapeTextBoxRequestInfo{
-		PageId:             pageId,
-		ObjectId:           "disclaimer_heading-" + uid,
+		PageID:             pageID,
+		ObjectID:           "disclaimer_heading-" + uid,
 		Width:              140.0,
 		Height:             40.0,
 		DimensionUnit:      "PT",
