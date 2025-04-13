@@ -9,19 +9,29 @@ import (
 	"github.com/grokify/gocharts/v2/data/table/tabulator"
 )
 
-func (ids Ideas) Report(domain string) (string, *table.Table) {
+func (ids Ideas) ReportForKeyword(keyword string) (string, *table.Table) {
+	id2 := ids.FilterByNameDescKeyword(keyword, true, true, true)
+	id2.SortVotes(true)
+	return id2.Report(fmt.Sprintf("Ideas for Keyword: %s", keyword))
+}
+
+func (ids Ideas) ReportForDomain(domain string) (string, *table.Table) {
 	id2 := ids.FilterByEmailDomain(domain, true, true)
 	id2.SortVotes(true)
-	cats := id2.HistogramCategories()
-	statuses := id2.HistogramStatus()
+	return id2.Report(fmt.Sprintf("Ideas for Domain: %s", domain))
+}
+
+func (ids Ideas) Report(name string) (string, *table.Table) {
+	cats := ids.HistogramCategories()
+	statuses := ids.HistogramStatus()
 
 	htm := fmt.Sprintf(`<html><head><script src="%s"></script>%s</head><body><h1>%s</h2>`,
 		google.ChartsLoaderJS,
 		tabulator.HTMLURLs,
-		fmt.Sprintf("Ideas for %s", domain),
+		name,
 	)
 
-	htm += fmt.Sprintf(`<p>%d ideas</p>`, len(id2))
+	htm += fmt.Sprintf(`<p>%d ideas</p>`, len(ids))
 
 	cht1 := piechart.NewPieChartMaterialInts("Ideas by Status", "Status", "Count", statuses.Bins)
 	cht1.ChartDiv = "chart1"
@@ -31,7 +41,7 @@ func (ids Ideas) Report(domain string) (string, *table.Table) {
 	cht2.ChartDiv = "chart2"
 	htm += cht2.HTML()
 
-	tbs := id2.Table(ColumnsShort())
+	tbs := ids.Table(ColumnsShort())
 
 	htm += tbs.ToHTML(false)
 
