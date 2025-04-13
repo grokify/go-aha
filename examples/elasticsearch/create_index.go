@@ -124,10 +124,10 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		fmtutil.PrintJSON(spec)
+		fmtutil.MustPrintJSON(spec)
 
 		if feat, ok := spec.Definitions["Feature"]; ok {
-			fmtutil.PrintJSON(feat)
+			fmtutil.MustPrintJSON(feat)
 			fmt.Println("GOTIT")
 		}
 	}

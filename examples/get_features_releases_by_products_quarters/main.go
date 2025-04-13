@@ -76,8 +76,8 @@ func main() {
 		} else if resp.StatusCode >= 300 {
 			log.Fatal(resp.StatusCode)
 		}
-		fmtutil.PrintJSON(info)
-		fmtutil.PrintJSON(opts)
+		fmtutil.MustPrintJSON(info)
+		fmtutil.MustPrintJSON(opts)
 	}
 
 	opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish = roadmap.QuarterInt32sBeginEnd(
@@ -90,8 +90,8 @@ func main() {
 		log.Fatal(err)
 	}
 	if opts.Verbose() {
-		fmtutil.PrintJSON(rs)
-		fmtutil.PrintJSON(fs)
+		fmtutil.MustPrintJSON(rs)
+		fmtutil.MustPrintJSON(fs)
 	}
 
 	WriteFile(ReleasesFile, rs)

@@ -29,12 +29,12 @@ func getProducts(apis au.ClientAPIs) {
 	}
 
 	fmt.Println(resp.StatusCode)
-	fmtutil.PrintJSON(info)
+	fmtutil.MustPrintJSON(info)
 	fmt.Printf("Found %v products\n", len(info.Products))
 	fmt.Println("===")
 
 	for _, prod := range info.Products {
-		fmtutil.PrintJSON(prod)
+		fmtutil.MustPrintJSON(prod)
 
 		prod, resp, err := api.GetProduct(ctx, prod.Id)
 		if err != nil {
@@ -43,7 +43,7 @@ func getProducts(apis au.ClientAPIs) {
 			log.Fatal(fmt.Sprintf("Error calling API: %v", resp.StatusCode))
 		}
 
-		fmtutil.PrintJSON(prod)
+		fmtutil.MustPrintJSON(prod)
 
 		break
 	}
