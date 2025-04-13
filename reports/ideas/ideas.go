@@ -1,7 +1,6 @@
 package ideas
 
 import (
-	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -11,22 +10,6 @@ import (
 )
 
 type Ideas []Idea
-
-func (ideas Ideas) FilterByEmailDomain(domain string, inclCreated, inclVoted bool) Ideas {
-	var out Ideas
-	domain = strings.TrimSpace(domain)
-	if domain == "" {
-		return ideas
-	}
-	for _, idea := range ideas {
-		if inclCreated && idea.CreatedByEmailDomain == domain {
-			out = append(out, idea)
-		} else if inclVoted && slices.Index(idea.VoterEmailDomains, domain) >= 0 {
-			out = append(out, idea)
-		}
-	}
-	return out
-}
 
 func (ideas Ideas) HistogramCategories() *histogram.Histogram {
 	h := histogram.NewHistogram("")
@@ -68,6 +51,14 @@ func (ideas Ideas) Percentile(voteCount int) (float32, error) {
 		h.Add(strconv.Itoa(votes), 1)
 	}
 	return h.Percentile(voteCount)
+}
+
+func (ideas Ideas) HistogramStatuses() map[string]int {
+	out := map[string]int{}
+	for _, idea := range ideas {
+		out[idea.StatusCategory]++
+	}
+	return out
 }
 
 func (ideas Ideas) Table(fields []string, fmtMap map[int]string) *table.Table {
