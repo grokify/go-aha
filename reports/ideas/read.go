@@ -33,20 +33,21 @@ func ParseXLSX(filename, submittedPortalURL string) (Ideas, error) {
 
 func rowToIdea(cols table.Columns, row []string) Idea {
 	return Idea{
-		ID:                   cols.MustCellString(IdeaID, row),
-		Reference:            cols.MustCellString(IdeaReference, row),
 		Categories:           stringsutil.SplitCSVUnescaped(cols.MustCellString(IdeaCategories, row)),
-		Name:                 cols.MustCellString(IdeaName, row),
-		Status:               cols.MustCellString(IdeaStatus, row),
-		StatusCategory:       cols.MustCellString(IdeaStatusCategory, row),
-		Votes:                cols.MustCellIntOrDefault(IdeaVotes, row, 0),
 		CreatedBy:            cols.MustCellString(IdeaCreatedBy, row),
 		CreatedByEmailDomain: cols.MustCellString(IdeaCreatedByEmailDomain, row),
-		VoterEmailDomains:    strings.Split(cols.MustCellString(IdeaVoterEmailDomains, row), ","),
+		Description:          cols.MustCellString(IdeaDescription, row),
+		ID:                   cols.MustCellString(IdeaID, row),
 		LastActiveDate:       cols.MustCellTime(IdeaLastActiveDate, time.DateTime, row),
 		LastStatusChangeDate: cols.MustCellTime(IdeaLastStatusChangeDate, time.DateTime, row),
 		LastVoteDate:         cols.MustCellTime(IdeaLastVoteDate, time.DateTime, row),
+		Name:                 cols.MustCellString(IdeaName, row),
+		Reference:            cols.MustCellString(IdeaReference, row),
+		Status:               cols.MustCellString(IdeaStatus, row),
+		StatusCategory:       cols.MustCellString(IdeaStatusCategory, row),
 		SubmittedPortalURL:   cols.MustCellString(IdeaSubmittedPortalURL, row),
 		URLInSubmitedPortal:  cols.MustCellString(IdeaURLInSubmitedPortal, row),
+		VoterEmailDomains:    strings.Split(cols.MustCellString(IdeaVoterEmailDomains, row), ","),
+		Votes:                cols.MustCellIntOrDefault(IdeaVotes, row, 0),
 	}
 }

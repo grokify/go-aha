@@ -12,7 +12,7 @@ const (
 	IdeaCreatedDate                    = "Idea created date"
 	IdeaCreatedMonth                   = "Idea created month"
 	IdeaCreatedYear                    = "Idea created year"
-	IdeaCreatedDescription             = "Idea description"
+	IdeaDescription                    = "Idea description"
 	IdeaID                             = "Idea ID"
 	IdeaInternalComments               = "Idea internal comments"
 	IdeaInternalCommentsCount          = "Idea internal comments count"
