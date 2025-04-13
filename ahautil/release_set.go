@@ -95,7 +95,7 @@ func (rs *ReleaseSet) LoadReleasesForProduct(ctx context.Context, productSlug st
 	if err != nil {
 		return err
 	} else if resp.StatusCode >= 300 {
-		return fmt.Errorf("Aha! API Error Status Code %v", resp.StatusCode)
+		return newErrorBadStatusCode(resp.StatusCode)
 	}
 	//fmtutil.PrintJSON(info)
 	//panic("Z")

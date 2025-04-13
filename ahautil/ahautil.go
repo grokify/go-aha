@@ -46,7 +46,7 @@ func (apis *ClientAPIs) GetReleaseById(releaseId string) (*aha.Release, error) {
 		return nil, err
 	}
 	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("Bad response: %v", resp.StatusCode)
+		return nil, newErrorBadStatusCode(resp.StatusCode)
 	}
 	return &rinfo.Release, nil
 }
@@ -58,7 +58,7 @@ func (apis *ClientAPIs) GetFeatureById(featureId string) (*aha.Feature, error) {
 		return nil, err
 	}
 	if res.StatusCode >= 300 {
-		return nil, fmt.Errorf("Bad response: %v", res.StatusCode)
+		return nil, newErrorBadStatusCode(res.StatusCode)
 	}
 	return &fthick.Feature, nil
 }
@@ -76,7 +76,7 @@ func (apis *ClientAPIs) GetFeaturesMetaByReleaseId(ctx context.Context, releaseI
 		return features, err
 	}
 	if resp.StatusCode >= 300 {
-		return features, fmt.Errorf("API Bad Status: %v", resp.StatusCode)
+		return features, newErrorBadStatusCode(resp.StatusCode)
 	}
 	return finfo.Features, nil
 }
@@ -111,7 +111,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(ctx context.Context,
 			return features, err
 		}
 		if res.StatusCode > 299 {
-			return features, fmt.Errorf("CODE %v", res.StatusCode)
+			return features, newErrorBadStatusCode(res.StatusCode)
 		}
 
 		feat := &fthick.Feature
@@ -134,7 +134,7 @@ func (apis *ClientAPIs) UpdateFeatureStartDueDatesToRelease(ctx context.Context,
 				return features, err
 			}
 			if res.StatusCode > 299 {
-				return features, fmt.Errorf("Bad Status Code %v", res.StatusCode)
+				return features, newErrorBadStatusCode(res.StatusCode)
 			}
 
 			feat, err = apis.GetFeatureById(featureId)
@@ -163,7 +163,7 @@ func (apis *ClientAPIs) GetFeaturesFullByReleaseId(ctx context.Context, releaseI
 			return features, err
 		}
 		if res.StatusCode > 299 {
-			return features, fmt.Errorf("API Bad Status: %v", res.StatusCode)
+			return features, newErrorBadStatusCode(res.StatusCode)
 		}
 		features = append(features, &fthick.Feature)
 	}
