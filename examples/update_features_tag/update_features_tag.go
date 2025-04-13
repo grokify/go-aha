@@ -63,7 +63,7 @@ func main() {
 		os.Exit(4)
 	}
 
-	fmtutil.PrintJSON(fsRes)
+	fmtutil.MustPrintJSON(fsRes)
 	err = httputilmore.PrintResponse(resp, true)
 	if err != nil {
 		slog.Error(err.Error())
@@ -71,7 +71,7 @@ func main() {
 	}
 
 	for i, fThin := range fsRes.Features {
-		fmtutil.PrintJSON(fThin)
+		fmtutil.MustPrintJSON(fThin)
 
 		fFull, resp, err := featuresApi.GetFeature(ctx, fThin.Id)
 		if err != nil {
@@ -82,8 +82,8 @@ func main() {
 			os.Exit(5)
 		}
 
-		fmtutil.PrintJSON(fFull)
-		fmtutil.PrintJSON(fFull.Feature.Tags)
+		fmtutil.MustPrintJSON(fFull)
+		fmtutil.MustPrintJSON(fFull.Feature.Tags)
 
 		if updateFeatureTag {
 			newTags := []string{}
@@ -106,7 +106,7 @@ func main() {
 					slog.Error("invalid status code", "status_code", resp.StatusCode, "feature_index", i)
 					os.Exit(7)
 				}
-				fmtutil.PrintJSON(updateRes)
+				fmtutil.MustPrintJSON(updateRes)
 			}
 		}
 	}

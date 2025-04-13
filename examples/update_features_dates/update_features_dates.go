@@ -56,7 +56,7 @@ func main() {
 		}
 	}
 
-	fmtutil.PrintJSON(featureMap)
+	fmtutil.MustPrintJSON(featureMap)
 	fmt.Println(len(featureMap))
 
 	if 1 == 1 {

@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -43,7 +42,7 @@ func main() {
 	fmt.Println("---")
 
 	if 1 == 1 {
-		fmtutil.PrintJSON(featureSet)
+		fmtutil.MustPrintJSON(featureSet)
 	}
 
 	if 1 == 1 {
@@ -53,7 +52,7 @@ func main() {
 		}
 		fmt.Printf("LEN %v\n", len(featureSet.FeatureMap))
 
-		err = ioutil.WriteFile(outputFile, bytes, 0644)
+		err = os.WriteFile(outputFile, bytes, 0644)
 		if err != nil {
 			log.Fatal(err)
 		}

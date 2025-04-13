@@ -41,7 +41,7 @@ func main() {
 	}
 
 	fmt.Println("Current Release Info")
-	fmtutil.PrintJSON(rel)
+	fmtutil.MustPrintJSON(rel)
 
 	// Update Release
 	if updateRelease {
@@ -56,7 +56,7 @@ func main() {
 		}
 
 		fmt.Println("Release Request Body")
-		fmtutil.PrintJSON(body)
+		fmtutil.MustPrintJSON(body)
 
 		relUpdate, resp, err := releasesApi.UpdateProductRelease(
 			ctx, productId, releaseId, body)
@@ -68,7 +68,7 @@ func main() {
 
 		// Print Updated Release Info
 		fmt.Println("Updated Release Info")
-		fmtutil.PrintJSON(relUpdate)
+		fmtutil.MustPrintJSON(relUpdate)
 	}
 
 	fmt.Println("DONE")
