@@ -55,12 +55,12 @@ func main() {
 	}
 
 	fmt.Println(resp.StatusCode)
-	fmtutil.PrintJSON(info)
+	fmtutil.MustPrintJSON(info)
 	fmt.Printf("Found %v features\n", len(info.Features))
 	fmt.Println("===")
 
 	for _, f := range info.Features {
-		fmtutil.PrintJSON(f)
+		fmtutil.MustPrintJSON(f)
 
 		feat, resp, err := api.GetFeature(ctx, f.Id)
 		if err != nil {
@@ -68,11 +68,11 @@ func main() {
 		}
 
 		fmt.Println(resp.StatusCode)
-		fmtutil.PrintJSON(feat)
+		fmtutil.MustPrintJSON(feat)
 
 		fmt.Println("ESFeature")
 		f2 := au.AhaToEsFeature(&feat.Feature)
-		fmtutil.PrintJSON(f2)
+		fmtutil.MustPrintJSON(f2)
 
 		break
 	}

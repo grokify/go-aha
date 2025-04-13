@@ -149,7 +149,7 @@ func NewRoadmapCanvasAha(featuresSet ahautil.FeatureSet, yyyyq1, yyyyq2 int32) (
 		if err != nil {
 			return nil, err
 		}
-		fmtutil.PrintJSON(rng)
+		fmtutil.MustPrintJSON(rng)
 	}
 	log.Print("IN_NewRoadmapCanvasAha_START_FeatureMap")
 	for _, feat := range featuresSet.FeatureMap {
@@ -213,13 +213,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmtutil.PrintJSON(featuresSet.FeatureMap)
+	fmtutil.MustPrintJSON(featuresSet.FeatureMap)
 
 	log.Print("START_NewTagsFeaturesSet")
 	tagsFeaturesSet := NewTagsFeaturesSet(featuresSet.FeatureMap, swimlaneTags)
 	featuresMap2 := tagsFeaturesSet.TagIdFeatureMap
 
-	fmtutil.PrintJSON(featuresMap2)
+	fmtutil.MustPrintJSON(featuresMap2)
 
 	log.Printf("START_NewRoadmapCanvasAha BEG[%v] END[%v]", opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
 	can, err := NewRoadmapCanvasAha(*featuresSet, opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
@@ -228,7 +228,7 @@ func main() {
 	}
 	log.Print("FINISH_NewRoadmapCanvasAha")
 
-	fmtutil.PrintJSON(can)
+	fmtutil.MustPrintJSON(can)
 	fmt.Println(len(can.Rows))
 
 	googClient, err := omg.NewClientFileStoreWithDefaults(
