@@ -3,14 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"strings"
 
 	"github.com/antihax/optional"
-	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/joho/godotenv"
 
@@ -24,11 +22,15 @@ func main() {
 	updateFeatureTag := false
 
 	err := godotenv.Load(os.Getenv("ENV_PATH"))
-	logutil.FatalErr(errorsutil.Wrap(err, "error loading .env file"))
+	if err != nil {
+		slog.Error("error loading .env file", "msg", err.Error())
+		os.Exit(1)
+	}
 
 	apis, err := au.NewClientAPIs(os.Getenv("AHA_ACCOUNT"), os.Getenv("AHA_API_KEY"))
 	if err != nil {
-		log.Fatal(err)
+		slog.Error(err.Error())
+		os.Exit(2)
 	}
 	featuresApi := apis.APIClient.FeaturesApi
 	ctx := context.Background()
@@ -51,24 +53,33 @@ func main() {
 			"per_page": 500,
 		})*/
 	fsRes, resp, err := featuresApi.GetFeatures(ctx, &params)
-	logutil.FatalErr(err)
+	if err != nil {
+		slog.Error(err.Error())
+		os.Exit(3)
+	}
 
 	if resp.StatusCode >= 300 {
-		panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
+		slog.Error("invalid status code", "status_code", resp.StatusCode)
+		os.Exit(4)
 	}
 
 	fmtutil.PrintJSON(fsRes)
 	err = httputilmore.PrintResponse(resp, true)
-	logutil.FatalErr(err)
+	if err != nil {
+		slog.Error(err.Error())
+		os.Exit(4)
+	}
 
-	for _, fThin := range fsRes.Features {
+	for i, fThin := range fsRes.Features {
 		fmtutil.PrintJSON(fThin)
 
 		fFull, resp, err := featuresApi.GetFeature(ctx, fThin.Id)
 		if err != nil {
-			panic(err)
+			slog.Error(err.Error(), "feature_index", i)
+			os.Exit(4)
 		} else if resp.StatusCode >= 300 {
-			panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
+			slog.Error("invalid status code", "status_code", resp.StatusCode, "feature_index", i)
+			os.Exit(5)
 		}
 
 		fmtutil.PrintJSON(fFull)
@@ -89,16 +100,18 @@ func main() {
 				fUpdate := aha.FeatureUpdate{Tags: strings.Join(newTags, ",")}
 				updateRes, resp, err := featuresApi.UpdateFeature(ctx, fThin.Id, fUpdate)
 				if err != nil {
-					panic(err)
+					slog.Error(err.Error(), "feature_index", i)
+					os.Exit(6)
 				} else if resp.StatusCode >= 300 {
-					panic(fmt.Errorf("Status Code: %v", resp.StatusCode))
+					slog.Error("invalid status code", "status_code", resp.StatusCode, "feature_index", i)
+					os.Exit(7)
 				}
 				fmtutil.PrintJSON(updateRes)
 			}
 		}
 	}
-
-	fmt.Printf("Found %v features\n", len(fsRes.Features))
+	slog.Info("found_features", "feature_count", len(fsRes.Features))
 
 	fmt.Println("DONE")
+	os.Exit(0)
 }

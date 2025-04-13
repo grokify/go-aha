@@ -44,7 +44,7 @@ func createIndex(esClient httpsimple.Client) {
 			},
 		},
 	}
-	fmtutil.PrintJSON(body)
+	fmtutil.MustPrintJSON(body)
 	esReq := httpsimple.Request{
 		Method:   http.MethodPut,
 		URL:      "/aha",

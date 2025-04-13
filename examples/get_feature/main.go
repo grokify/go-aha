@@ -47,7 +47,7 @@ func main() {
 		log.Fatal(fmt.Sprintf("Status Code [%v]\n", resp.StatusCode))
 	}
 
-	fmtutil.PrintJSON(info)
+	fmtutil.MustPrintJSON(info)
 
 	fmt.Println("DONE")
 }
