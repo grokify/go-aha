@@ -76,7 +76,7 @@ func main() {
 	presID, err := pc.CreateEmpty(slideName)
 	logutil.FatalErr(err)
 
-	res, err := roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
+	_, err = roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
 	logutil.FatalErr(err)
 
 	roadmapConfig.RoadmapFormatting.Textbox.DoneBackgroundColorHex =
@@ -84,7 +84,7 @@ func main() {
 	roadmapConfig.RoadmapFormatting.Textbox.ProblemBackgroundColorHex =
 		roadmapConfig.RoadmapFormatting.Textbox.DefaultBackgroundColorHex
 
-	res, err = roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
+	res, err := roadmap.CreateRoadmapSlide(googHTTPClient, presID, roadmapConfig, featureSet)
 	logutil.FatalErr(err)
 
 	fmt.Printf("Created PresentationId [%v]\n", res.PresentationId)
