@@ -8,7 +8,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.23.2
 	github.com/grokify/goelastic v0.6.11
 	github.com/grokify/gogoogle v0.6.6
-	github.com/grokify/mogo v0.68.6
+	github.com/grokify/mogo v0.68.7
 	github.com/grokify/spectrum v1.19.5
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
