@@ -28,9 +28,9 @@ type CanvasFloat64 struct {
 
 func (c64 *CanvasFloat64) ThisX(this, min, max float64) (float64, error) {
 	if min > max {
-		return 0.0, fmt.Errorf("Min (%v) is larger than max (%v)", min, max)
+		return 0.0, fmt.Errorf("min (%v) is larger than max (%v)", min, max)
 	} else if this < min || this > max {
-		return 0.0, fmt.Errorf("This (%v) is not within min,max (%v, %v)", this, min, max)
+		return 0.0, fmt.Errorf("this (%v) is not within min,max (%v, %v)", this, min, max)
 	}
 	diff := max - min
 	plus := this - min

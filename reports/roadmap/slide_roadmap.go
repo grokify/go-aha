@@ -19,60 +19,32 @@ func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadma
 	psv := gss.PresentationsService
 
 	dt := time.Now().UTC()
-	pageId := ""
-	newPageId := fmt.Sprintf("Roadmap-%v", dt.Unix())
-	titleId := fmt.Sprintf("Roadmap-%v-Title", dt.Unix())
+	pageID := ""
+	newPageID := fmt.Sprintf("Roadmap-%v", dt.Unix())
+	titleID := fmt.Sprintf("Roadmap-%v-Title", dt.Unix())
 
-	if 1 == 1 {
-		// Create slide with title
-		// https://developers.google.com/slides/samples/slides#create_a_new_slide_and_modify_placeholders
-		requests := []*gs.Request{
-			/*{
-				DeleteObject: &gs.DeleteObjectRequest{ObjectId: pageId},
-			},*/
-			{
-				CreateSlide: &gs.CreateSlideRequest{
-					ObjectId: newPageId,
-					SlideLayoutReference: &gs.LayoutReference{
-						PredefinedLayout: "TITLE_ONLY",
-					},
-					PlaceholderIdMappings: []*gs.LayoutPlaceholderIdMapping{
-						{
-							LayoutPlaceholder: &gs.Placeholder{
-								Type:  "TITLE",
-								Index: 0,
-							},
-							ObjectId: titleId,
-						},
-					},
-				},
-			},
-			{
-				InsertText: &gs.InsertTextRequest{
-					ObjectId: titleId,
-					Text:     roadmapConfig.Title,
-				},
-			},
-		}
+	if createTitleSlideReqs := createTitleSlideRequests(
+		roadmapConfig.Title, newPageID, titleID,
+	); len(createTitleSlideReqs) > 0 {
 		breq := &gs.BatchUpdatePresentationRequest{
-			Requests: requests,
+			Requests: createTitleSlideReqs,
 		}
 		_, err := psv.BatchUpdate(presentationID, breq).Do() // resu
 		if err != nil {
 			return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - psv.BatchUpdate(res.PresentationId, breq).Do()")
 		}
-		pageId = newPageId
+		pageID = newPageID
 		//fmt.Println(resu.PresentationId)
 	}
 
 	requests := RoadmapTextBoxRequests(
 		roadmapConfig,
 		featureSet,
-		pageId)
+		pageID)
 
 	// Add Disclaimer
 	if len(roadmapConfig.DisclaimerText) > 0 {
-		disclaimer := internalDisclaimer(pageId, roadmapConfig)
+		disclaimer := internalDisclaimer(pageID, roadmapConfig)
 		disclaimerReqs, err := disclaimer.Requests()
 		if err != nil {
 			return nil, errorsutil.Wrap(err, "CreateRoadmapSlide - disclaimer.Requests()")
@@ -109,4 +81,38 @@ func internalDisclaimer(pageID string, roadmapConfig RoadmapConfig) su.CreateSha
 		Text:               roadmapConfig.DisclaimerText,
 		ParagraphAlignment: "CENTER",
 	}
+}
+
+func createTitleSlideRequests(title, newPageID, titleID string) []*gs.Request {
+	// Create slide with title
+	// https://developers.google.com/slides/samples/slides#create_a_new_slide_and_modify_placeholders
+	requests := []*gs.Request{
+		/*{
+			DeleteObject: &gs.DeleteObjectRequest{ObjectId: pageId},
+		},*/
+		{
+			CreateSlide: &gs.CreateSlideRequest{
+				ObjectId: newPageID,
+				SlideLayoutReference: &gs.LayoutReference{
+					PredefinedLayout: "TITLE_ONLY",
+				},
+				PlaceholderIdMappings: []*gs.LayoutPlaceholderIdMapping{
+					{
+						LayoutPlaceholder: &gs.Placeholder{
+							Type:  "TITLE",
+							Index: 0,
+						},
+						ObjectId: titleID,
+					},
+				},
+			},
+		},
+		{
+			InsertText: &gs.InsertTextRequest{
+				ObjectId: titleID,
+				Text:     title,
+			},
+		},
+	}
+	return requests
 }

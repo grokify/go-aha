@@ -98,7 +98,7 @@ func (cfg *RoadmapConfig) inflate() error {
 		}
 		cfg.QuarterStartInt32 = int32(i)
 		if !timeutil.IsQuarterInt32(cfg.QuarterStartInt32) {
-			return fmt.Errorf("Start Quarter is invalid [%v] [%v]", cfg.QuarterStartInt32, err.Error())
+			return fmt.Errorf("start quarter is invalid [%v] [%v]", cfg.QuarterStartInt32, err.Error())
 		}
 		qtrStartDt, err := timeutil.QuarterStringStartTime(cfg.quarterStartString)
 		if err != nil {

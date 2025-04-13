@@ -270,7 +270,7 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageID string, elBaseIndex int,
 		ForegroundColorRgb: outCan.BoxFgColor,
 		BackgroundColorRgb: outCan.BoxBgColor}
 
-	for iRow, row := range srcCan.Rows {
+	for _, row := range srcCan.Rows {
 		for _, el := range row {
 			// fmtutil.PrintJSON(el)
 			srcBoxWdtX := el.Max - el.Min
@@ -341,13 +341,6 @@ func googleSlideDrawRoadmap(rmCfg RoadmapConfig, pageID string, elBaseIndex int,
 			}
 
 			idx++
-
-			if 1 == 0 {
-				//break
-				if iRow > 3 {
-					//break
-				}
-			}
 		}
 		rowYWatermark += outCan.BoxHeight + outCan.BoxMarginBottom
 	}
