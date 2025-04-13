@@ -1,7 +1,6 @@
 package ahautil
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -15,7 +14,7 @@ func GetBeginTimeForFeatureOrRelease(feature *aha.Feature) (time.Time, error) {
 	} else if possibleDate(feature.Release.StartDate) {
 		return time.Parse(tu.RFC3339FullDate, feature.Release.StartDate)
 	}
-	return time.Now(), newErrDateNotFound([]string{feature.StartDate, feature.Release.StartDate})
+	return time.Now(), newErrorDateNotFound([]string{feature.StartDate, feature.Release.StartDate})
 }
 
 func GetEndTimeForFeatureOrRelease(feature *aha.Feature) (time.Time, error) {
@@ -24,7 +23,7 @@ func GetEndTimeForFeatureOrRelease(feature *aha.Feature) (time.Time, error) {
 	} else if possibleDate(feature.Release.ReleaseDate) {
 		return time.Parse(tu.RFC3339FullDate, feature.Release.ReleaseDate)
 	}
-	return time.Now(), newErrDateNotFound([]string{feature.DueDate, feature.Release.ReleaseDate})
+	return time.Now(), newErrorDateNotFound([]string{feature.DueDate, feature.Release.ReleaseDate})
 }
 
 func possibleDate(dateString string) bool {
@@ -35,8 +34,4 @@ func possibleDate(dateString string) bool {
 		return false
 	}
 	return true
-}
-
-func newErrDateNotFound(dates []string) error {
-	return fmt.Errorf("date not found (%s)", strings.Join(dates, ","))
 }
