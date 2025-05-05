@@ -5,11 +5,11 @@ go 1.23.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.23.10
-	github.com/grokify/gocharts/v2 v2.23.2
+	github.com/grokify/gocharts/v2 v2.24.1
 	github.com/grokify/goelastic v0.6.11
 	github.com/grokify/gogoogle v0.6.6
-	github.com/grokify/mogo v0.68.7
-	github.com/grokify/spectrum v1.19.5
+	github.com/grokify/mogo v0.68.15
+	github.com/grokify/spectrum v1.19.7
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.29.0
@@ -24,7 +24,7 @@ require (
 	github.com/elastic/elastic-transport-go/v8 v8.6.1 // indirect
 	github.com/elastic/go-elasticsearch/v8 v8.17.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/getkin/kin-openapi v0.131.0 // indirect
+	github.com/getkin/kin-openapi v0.132.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.1 // indirect
@@ -49,6 +49,7 @@ require (
 	github.com/oasdiff/yaml3 v0.0.0-20250309153720-d2182401db90 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
+	github.com/qdm12/reprint v0.0.0-20200326205758-722754a53494 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.4 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
