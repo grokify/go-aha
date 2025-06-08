@@ -18,11 +18,11 @@ import (
 )
 
 type Options struct {
-	EnvFile              string `short:"e" long:"env" description:"Env filepath"`
-	Products             string `short:"p" long:"products" description:"Product" required:"true"`
-	ReleaseQuarterBegin  int32  `short:"b" long:"begin" description:"Begin Quarter"`
-	ReleaseQuarterFinish int32  `short:"f" long:"finish" description:"Finish Quarter"`
-	VerboseRaw           []bool `short:"v" long:"verbose" description:"Verbose"`
+	EnvFile            string `short:"e" long:"env" description:"Env filepath"`
+	Products           string `short:"p" long:"products" description:"Product" required:"true"`
+	ReleaseYYYYQBegin  int    `short:"b" long:"begin" description:"Begin Quarter"`
+	ReleaseYYYYQFinish int    `short:"f" long:"finish" description:"Finish Quarter"`
+	VerboseRaw         []bool `short:"v" long:"verbose" description:"Verbose"`
 }
 
 func (opts *Options) Verbose() bool {
@@ -80,12 +80,12 @@ func main() {
 		fmtutil.MustPrintJSON(opts)
 	}
 
-	opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish = roadmap.QuarterInt32sBeginEnd(
-		opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
+	opts.ReleaseYYYYQBegin, opts.ReleaseYYYYQFinish = roadmap.QuartersBeginEnd(
+		opts.ReleaseYYYYQBegin, opts.ReleaseYYYYQFinish)
 
 	rs, fs, err := ahautil.GetReleasesAndFeaturesForProductsAndQuarters(
 		context.Background(), apis, products,
-		opts.ReleaseQuarterBegin, opts.ReleaseQuarterFinish)
+		opts.ReleaseYYYYQBegin, opts.ReleaseYYYYQFinish)
 	if err != nil {
 		log.Fatal(err)
 	}

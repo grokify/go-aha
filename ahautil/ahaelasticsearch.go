@@ -18,7 +18,7 @@ type AhaElasticsearch struct {
 	EsClient httpsimple.Client
 }
 
-func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) error {
+func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(ctx context.Context, updatedSince time.Time) error {
 	api := ae.AhaAPIs.APIClient.FeaturesApi
 
 	fres, res, err := api.GetFeatures(context.Background(), nil)
@@ -31,7 +31,7 @@ func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) er
 
 	for _, f := range fres.Features {
 		fmt.Println(f.Id)
-		err := ae.IndexFeatureId(f.Id)
+		err := ae.IndexFeatureId(ctx, f.Id)
 		if err != nil {
 			return err
 		}
@@ -39,7 +39,7 @@ func (ae *AhaElasticsearch) IndexFeaturesUpdatedSince(updatedSince time.Time) er
 	return nil
 }
 
-func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
+func (ae *AhaElasticsearch) IndexFeatureId(ctx context.Context, featureID string) error {
 	featuresApi := ae.AhaAPIs.APIClient.FeaturesApi
 
 	feat, resp, err := featuresApi.GetFeature(context.Background(), featureID)
@@ -64,7 +64,7 @@ func (ae *AhaElasticsearch) IndexFeatureId(featureID string) error {
 		esReq.Body = esFeature
 	}
 
-	resp, err = ae.EsClient.Do(esReq)
+	resp, err = ae.EsClient.Do(ctx, esReq)
 
 	if err != nil {
 		return err

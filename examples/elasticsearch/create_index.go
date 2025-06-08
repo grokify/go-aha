@@ -27,7 +27,7 @@ import (
 	ahaoauth "github.com/grokify/goauth/aha"
 )
 
-func createIndex(esClient httpsimple.Client) {
+func createIndex(ctx context.Context, esClient httpsimple.Client) {
 	body := es5.CreateIndexBody{
 		Mappings: map[string]es5.Mapping{
 			"feature": {
@@ -51,7 +51,7 @@ func createIndex(esClient httpsimple.Client) {
 		BodyType: httpsimple.BodyTypeJSON,
 		Body:     body}
 
-	resp, err := esClient.Do(esReq)
+	resp, err := esClient.Do(ctx, esReq)
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 	} else {
@@ -62,7 +62,7 @@ func createIndex(esClient httpsimple.Client) {
 	}
 }
 
-func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featureId string) error {
+func indexFeature(ctx context.Context, api *aha.FeaturesApiService, esClient httpsimple.Client, featureId string) error {
 	feat, resp, err := api.GetFeature(context.Background(), featureId)
 	if err != nil {
 		return err
@@ -83,7 +83,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featu
 		esReq.Body = feat.Feature
 	}
 
-	resp, err = esClient.Do(esReq)
+	resp, err = esClient.Do(ctx, esReq)
 	if err != nil {
 		fmt.Printf("U_ERR: %v\n", err)
 		panic(err)
@@ -96,7 +96,7 @@ func indexFeature(api *aha.FeaturesApiService, esClient httpsimple.Client, featu
 	return nil
 }
 
-func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
+func indexFeaturesPage(ctx context.Context, api *aha.FeaturesApiService, esClient httpsimple.Client, pageNum int32) (*aha.FeaturesResponse, *http.Response, error) {
 	// func indexFeaturesPage(api *aha.FeaturesApiService, esClient goelastic.Client, pageNum int32) (*aha.FeaturesResponse, *aha.APIResponse, error) {
 	opts := aha.GetFeaturesOpts{
 		Page:    optional.NewInt32(pageNum),
@@ -109,7 +109,7 @@ func indexFeaturesPage(api *aha.FeaturesApiService, esClient httpsimple.Client, 
 	}
 	for i, f := range info.Features {
 		fmt.Printf("PAGE %v IDX %v\n", pageNum, i)
-		err := indexFeature(api, esClient, f.Id)
+		err := indexFeature(ctx, api, esClient, f.Id)
 		if err != nil {
 			panic(err)
 		}
@@ -151,8 +151,10 @@ func main() {
 	doUpdateIndex := false
 	doUpdateIndexByLastUpdate := true
 
+	ctx := context.Background()
+
 	if doCreateIndex {
-		createIndex(esClient)
+		createIndex(ctx, esClient)
 	}
 
 	if doUpdateIndex {
@@ -163,7 +165,7 @@ func main() {
 		for nxtPage <= maxPage {
 			fmt.Printf("PAGE %v\n", nxtPage)
 			fmt.Printf("BEG %v NXT %v MAX %v\n", idx, nxtPage, maxPage)
-			features, resp, err := indexFeaturesPage(api, esClient, nxtPage)
+			features, resp, err := indexFeaturesPage(ctx, api, esClient, nxtPage)
 			if err != nil {
 				panic(err)
 			} else if resp.StatusCode >= 400 {
@@ -188,7 +190,7 @@ func main() {
 		}
 		fmt.Printf("%v\n", t.Format(time.RFC3339))
 
-		err = ahaes.IndexFeaturesUpdatedSince(t)
+		err = ahaes.IndexFeaturesUpdatedSince(ctx, t)
 		if err != nil {
 			panic(err)
 		}

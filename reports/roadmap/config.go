@@ -24,9 +24,9 @@ type RoadmapConfig struct {
 	TagPrefixStripRx     *regexp.Regexp
 	FeaturePrefixStripRx *regexp.Regexp
 	FeatureNameSepRx     *regexp.Regexp
-	FeatureSnapToQuarter bool  `json:"featureSnapToQuarter"`
-	QuarterStartInt32    int32 `json:"quarterStart"`
-	QuarterEndInt32      int32 `json:"quarterEnd"`
+	FeatureSnapToQuarter bool `json:"featureSnapToQuarter"`
+	YYYYQStart           int  `json:"quarterStart"`
+	YYYYQEnd             int  `json:"quarterEnd"`
 	QuarterStartTime     time.Time
 	QuarterCount         int32             `json:"quarterCount"`
 	RoadmapFormatting    RoadmapFormatting `json:"roadmapFormatting"`
@@ -91,16 +91,16 @@ func (cfg *RoadmapConfig) inflate() error {
 	}
 
 	cfg.quarterStartString = strings.TrimSpace(cfg.quarterStartString)
-	if len(cfg.quarterStartString) > 0 {
+	if cfg.quarterStartString != "" {
 		i, err := strconv.Atoi(cfg.quarterStartString)
 		if err != nil {
 			return err
 		}
-		cfg.QuarterStartInt32 = int32(i)
-		if !timeutil.IsQuarterInt32(cfg.QuarterStartInt32) {
-			return fmt.Errorf("start quarter is invalid [%v] [%v]", cfg.QuarterStartInt32, err.Error())
+		cfg.YYYYQStart = i
+		if !timeutil.IsYearQuarter(cfg.YYYYQStart) {
+			return fmt.Errorf("start quarter is invalid [%v] [%v]", cfg.YYYYQStart, err.Error())
 		}
-		qtrStartDt, err := timeutil.QuarterStringStartTime(cfg.quarterStartString)
+		qtrStartDt, _, err := timeutil.ParseQuarterInt32StartEndTimes(cfg.YYYYQStart)
 		if err != nil {
 			return err
 		}
@@ -114,11 +114,11 @@ func (cfg *RoadmapConfig) inflate() error {
 			return err
 		}
 		cfg.QuarterCount = int32(quarterCount)
-		quarterEnd, err := timeutil.QuarterInt32Add(cfg.QuarterStartInt32, quarterCount-1)
+		yyyyqEnd, err := timeutil.YearQuarterAdd(cfg.YYYYQStart, quarterCount-1)
 		if err != nil {
 			return errorsutil.Wrap(err, "Calculate_Quarter_End")
 		}
-		cfg.QuarterEndInt32 = quarterEnd
+		cfg.YYYYQEnd = yyyyqEnd
 	}
 	cfg.inflateTagFilters()
 

@@ -150,13 +150,13 @@ func (rs *ReleaseSet) GetReleasesForDates(ctx context.Context, beg time.Time, en
 }
 
 // GetReleasesForQuarters retrives a filter of products within 2 quarters.
-func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, error) {
+func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int) (ReleaseSet, error) {
 	newSet := NewReleaseSet()
 	if yyyyq1 == 0 && yyyyq2 == 0 {
 		newSet.ReleaseMap = rs.ReleaseMap
 		return newSet, nil
 	} else if yyyyq2 == 0 {
-		dtQ1, err := tu.QuarterInt32StartTime(yyyyq1)
+		dtQ1, _, err := tu.ParseQuarterInt32StartEndTimes(yyyyq1)
 		if err != nil {
 			return newSet, err
 		}
@@ -170,7 +170,7 @@ func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, 
 			}
 		}
 	} else if yyyyq1 == 0 {
-		dtQ2, err := tu.QuarterInt32StartTime(yyyyq2)
+		dtQ2, _, err := tu.ParseQuarterInt32StartEndTimes(yyyyq2)
 		if err != nil {
 			return newSet, err
 		}
@@ -185,11 +185,11 @@ func (rs *ReleaseSet) GetReleasesForQuarters(yyyyq1, yyyyq2 int32) (ReleaseSet, 
 			}
 		}
 	} else {
-		dtQ1, err := tu.QuarterInt32StartTime(yyyyq1)
+		dtQ1, _, err := tu.ParseQuarterInt32StartEndTimes(int(yyyyq1))
 		if err != nil {
 			return newSet, err
 		}
-		dtQ2, err := tu.QuarterInt32StartTime(yyyyq2)
+		dtQ2, _, err := tu.ParseQuarterInt32StartEndTimes(int(yyyyq2))
 		if err != nil {
 			return newSet, err
 		}

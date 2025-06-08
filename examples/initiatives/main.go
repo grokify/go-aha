@@ -18,12 +18,12 @@ const (
 	APIURLInitiatives = "/api/v1/initiatives"
 )
 
-func GetInitiatives(sc *httpsimple.Client) {
+func GetInitiatives(ctx context.Context, sc *httpsimple.Client) {
 	req := httpsimple.Request{
 		Method: http.MethodGet,
 		URL:    APIURLInitiatives,
 	}
-	resp, err := sc.Do(req)
+	resp, err := sc.Do(ctx, req)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,7 +50,7 @@ func main() {
 	sc, err := creds.OAuth2.NewSimpleClient(context.Background())
 	logutil.FatalErr(err)
 
-	GetInitiatives(sc)
+	GetInitiatives(context.Background(), sc)
 
 	fmt.Println("DONE")
 }
