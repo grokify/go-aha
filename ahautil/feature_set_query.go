@@ -14,9 +14,9 @@ var Debug = false
 // GetReleasesAndFeaturesForProductsAndQuarters returns releases and features
 // given a product and date rate.
 func GetReleasesAndFeaturesForProductsAndQuarters(
-	ctx context.Context, clientAPIs ClientAPIs, products []string, yyyyq1, yyyyq2 int32) (*ReleaseSet, *FeatureSet, error) {
+	ctx context.Context, clientAPIs ClientAPIs, products []string, yyyyq1, yyyyq2 int) (*ReleaseSet, *FeatureSet, error) {
 	if yyyyq1 < 100 || yyyyq2 < 100 {
-		yyyyq1, yyyyq2 = timeutil.QuartersInt32RelToAbs(yyyyq1, yyyyq2)
+		yyyyq1, yyyyq2 = timeutil.QuartersRelToAbs(yyyyq1, yyyyq2)
 	}
 	rs := NewReleaseSet()
 	rs.ClientAPIs = clientAPIs

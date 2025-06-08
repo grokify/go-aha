@@ -105,7 +105,7 @@ func RoadmapTextBoxRequests(rmCfg RoadmapConfig, featureSet *ahautil.FeatureSet,
 		srcCan := roadmap.Canvas{}
 
 		err := srcCan.SetMinMaxQuarter(
-			rmCfg.QuarterStartInt32, rmCfg.QuarterEndInt32)
+			rmCfg.YYYYQStart, rmCfg.YYYYQEnd)
 		if err != nil {
 			panic(err)
 		}

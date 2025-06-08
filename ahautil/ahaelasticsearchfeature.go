@@ -1,6 +1,7 @@
 package ahautil
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -59,7 +60,7 @@ func ReferencePrefixFromReferenceNum(refNum string) string {
 	return ""
 }
 
-func AhaFeatureSearch(esClient httpsimple.Client, refPrefix string, dt time.Time) ([]Feature, error) {
+func AhaFeatureSearch(ctx context.Context, esClient httpsimple.Client, refPrefix string, dt time.Time) ([]Feature, error) {
 	features := []Feature{}
 
 	body := es5.QueryBody{
@@ -83,7 +84,7 @@ func AhaFeatureSearch(esClient httpsimple.Client, refPrefix string, dt time.Time
 		BodyType: httpsimple.BodyTypeJSON,
 		Body:     body}
 
-	resp, err := esClient.Do(esReq)
+	resp, err := esClient.Do(ctx, esReq)
 	if err != nil {
 		log.Fatal(err)
 	}
