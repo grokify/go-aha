@@ -22,8 +22,8 @@ import (
 	"github.com/grokify/spectrum/openapi2"
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/go-aha/v2/aha"
-	"github.com/grokify/go-aha/v2/ahautil"
+	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v2/oagv4/ahautil"
 	ahaoauth "github.com/grokify/goauth/aha"
 )
 

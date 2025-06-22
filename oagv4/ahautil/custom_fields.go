@@ -3,7 +3,7 @@ package ahautil
 import (
 	"strings"
 
-	"github.com/grokify/go-aha/v2/aha"
+	"github.com/grokify/go-aha/v2/oagv4/aha"
 )
 
 func FeatureCustomField(want string, feat *aha.Feature) string {
