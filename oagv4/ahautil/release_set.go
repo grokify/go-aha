@@ -11,7 +11,7 @@ import (
 	"github.com/grokify/mogo/errors/errorsutil"
 	tu "github.com/grokify/mogo/time/timeutil"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
 )
 
 type ReleaseSet struct {

@@ -6,8 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/go-aha/v2/reports/ideas"
 	"github.com/jessevdk/go-flags"
+
+	"github.com/grokify/go-aha/v3/reports/ideas"
 )
 
 type Options struct {

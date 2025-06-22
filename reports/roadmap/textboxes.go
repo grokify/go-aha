@@ -16,8 +16,8 @@ import (
 	"github.com/grokify/mogo/type/strslices"
 	gs "google.golang.org/api/slides/v1"
 
-	"github.com/grokify/go-aha/v2/aha"
-	"github.com/grokify/go-aha/v2/ahautil"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 var Unit = "PT"

@@ -9,7 +9,7 @@ import (
 
 	"github.com/grokify/mogo/errors/errorsutil"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
 )
 
 type FeatureSet struct {

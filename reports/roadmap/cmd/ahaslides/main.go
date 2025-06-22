@@ -12,14 +12,15 @@ import (
 	"os"
 	"time"
 
-	au "github.com/grokify/go-aha/v2/ahautil"
-	"github.com/grokify/go-aha/v2/reports/roadmap"
 	"github.com/grokify/goauth/google"
 	"github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
 	flags "github.com/jessevdk/go-flags"
+
+	au "github.com/grokify/go-aha/v3/oagv4/ahautil"
+	"github.com/grokify/go-aha/v3/reports/roadmap"
 )
 
 type Options struct {

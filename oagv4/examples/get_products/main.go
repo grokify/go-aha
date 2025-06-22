@@ -10,8 +10,8 @@ import (
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
-	au "github.com/grokify/go-aha/v2/oagv4/ahautil"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
+	au "github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 func getProducts(apis au.ClientAPIs) {

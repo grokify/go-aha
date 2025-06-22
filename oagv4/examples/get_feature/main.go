@@ -11,7 +11,7 @@ import (
 	"github.com/grokify/mogo/os/osutil"
 	"github.com/jessevdk/go-flags"
 
-	"github.com/grokify/go-aha/v2/oagv4/ahautil"
+	"github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 type Options struct {
