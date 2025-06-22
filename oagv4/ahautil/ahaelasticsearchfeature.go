@@ -10,12 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/go-aha/v2/aha"
 	"github.com/grokify/goelastic"
 	"github.com/grokify/goelastic/models/es5"
 	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/time/timeutil"
+
+	"github.com/grokify/go-aha/v2/oagv4/aha"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)
