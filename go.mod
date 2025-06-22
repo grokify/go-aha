@@ -12,6 +12,7 @@ require (
 	github.com/grokify/spectrum v1.19.8
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
+	github.com/stretchr/testify v1.10.0
 	golang.org/x/oauth2 v0.30.0
 	google.golang.org/api v0.238.0
 )
@@ -21,6 +22,7 @@ require (
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.7.0 // indirect
 	github.com/caarlos0/env/v11 v11.3.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/elastic/elastic-transport-go/v8 v8.7.0 // indirect
 	github.com/elastic/go-elasticsearch/v8 v8.18.1 // indirect
 	github.com/fatih/color v1.18.0 // indirect
@@ -54,6 +56,7 @@ require (
 	github.com/olekukonko/ll v0.0.9 // indirect
 	github.com/olekukonko/tablewriter v1.0.7 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/qdm12/reprint v0.0.0-20200326205758-722754a53494 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.4 // indirect
