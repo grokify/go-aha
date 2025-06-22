@@ -14,6 +14,9 @@ import (
 	"strings"
 	"time"
 
+	omg "github.com/grokify/goauth/google"
+	"github.com/grokify/gocharts/v2/data/roadmap"
+	"github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
@@ -22,12 +25,8 @@ import (
 	"github.com/jessevdk/go-flags"
 	"google.golang.org/api/slides/v1"
 
-	omg "github.com/grokify/goauth/google"
-
-	"github.com/grokify/go-aha/v2/oagv4/aha"
-	"github.com/grokify/go-aha/v2/oagv4/ahautil"
-	"github.com/grokify/gocharts/v2/data/roadmap"
-	"github.com/grokify/gogoogle/slidesutil/v1"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 var (

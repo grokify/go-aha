@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	au "github.com/grokify/go-aha/v2/ahautil"
 	su "github.com/grokify/gogoogle/slidesutil/v1"
 	"github.com/grokify/mogo/errors/errorsutil"
 	gs "google.golang.org/api/slides/v1"
+
+	au "github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadmapConfig RoadmapConfig, featureSet *au.FeatureSet) (*gs.BatchUpdatePresentationResponse, error) {

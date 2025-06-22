@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/antihax/optional"
+	ahaoauth "github.com/grokify/goauth/aha"
 	"github.com/grokify/goelastic"
 	"github.com/grokify/goelastic/models"
 	"github.com/grokify/goelastic/models/es5"
@@ -22,9 +23,8 @@ import (
 	"github.com/grokify/spectrum/openapi2"
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
-	"github.com/grokify/go-aha/v2/oagv4/ahautil"
-	ahaoauth "github.com/grokify/goauth/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/ahautil"
 )
 
 func createIndex(ctx context.Context, esClient httpsimple.Client) {

@@ -9,7 +9,7 @@ import (
 	"github.com/antihax/optional"
 	ao "github.com/grokify/goauth/aha"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
 )
 
 const (

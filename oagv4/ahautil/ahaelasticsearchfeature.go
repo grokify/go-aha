@@ -16,7 +16,7 @@ import (
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/time/timeutil"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
 )
 
 var rxProductId = regexp.MustCompile(`^([^-]+)`)

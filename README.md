@@ -34,14 +34,14 @@ $ go get github.com/grokify/go-aha/...
 
 See docs in:
 
-* [`client/README.md`](client/README.md)
+* [`oagv4/aha/README.md`](oagv4/aha/README.md)
 
 ## Example Usage
 
 See:
 
-* [`examples/get_features`](examples/get_features)
-* [`examples/get_products`](examples/get_products)
+* [`oagv4/examples/get_features`](oagv4/examples/get_features)
+* [`oagv4/examples/get_products`](oagv4/examples/get_products)
 
 # Helpful Hints
 

@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/grokify/go-aha/v2/oagv4/aha"
+	"github.com/grokify/go-aha/v3/oagv4/aha"
 )
 
 /*
