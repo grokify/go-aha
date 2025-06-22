@@ -19,7 +19,7 @@ import (
 	"github.com/grokify/mogo/log/logutil"
 	flags "github.com/jessevdk/go-flags"
 
-	au "github.com/grokify/go-aha/v3/oagv4/ahautil"
+	au "github.com/grokify/go-aha/v3/oag4/ahautil"
 	"github.com/grokify/go-aha/v3/reports/roadmap"
 )
 
