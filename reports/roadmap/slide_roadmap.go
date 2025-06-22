@@ -9,7 +9,7 @@ import (
 	"github.com/grokify/mogo/errors/errorsutil"
 	gs "google.golang.org/api/slides/v1"
 
-	au "github.com/grokify/go-aha/v3/oagv4/ahautil"
+	au "github.com/grokify/go-aha/v3/oag4/ahautil"
 )
 
 func CreateRoadmapSlide(googleClient *http.Client, presentationID string, roadmapConfig RoadmapConfig, featureSet *au.FeatureSet) (*gs.BatchUpdatePresentationResponse, error) {
