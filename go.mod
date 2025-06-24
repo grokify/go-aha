@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.23.14
-	github.com/grokify/gocharts/v2 v2.24.11
+	github.com/grokify/gocharts/v2 v2.24.12
 	github.com/grokify/goelastic v0.6.12
 	github.com/grokify/gogoogle v0.6.7
 	github.com/grokify/mogo v0.70.9
