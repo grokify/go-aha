@@ -58,8 +58,8 @@ github.com/grokify/goelastic v0.6.12 h1:e9LJKQ9A+4bnXG5So3b1FsHOI1E2QNUmlKOlznr1
 github.com/grokify/goelastic v0.6.12/go.mod h1:k0oToupkONyo9C4gVjINYJSwuZFmdZBaUlSq4j/jzpk=
 github.com/grokify/gogoogle v0.6.7 h1:QPGPUaNTbxqj0clTvdw/nIsEhj8tdcgfEoCnrvRWPsQ=
 github.com/grokify/gogoogle v0.6.7/go.mod h1:QB1ks0nEuE+K5UjUOV2lsDk00+IVVRihW726f3WpTDs=
-github.com/grokify/mogo v0.70.9 h1:54MP/PC4W6r2janLLAfiLY61lJZhvGzOg7gHd75SCtg=
-github.com/grokify/mogo v0.70.9/go.mod h1:7tfFd9wGliYOv227IQlOMah/9MLH+u0i62MesfwJUKU=
+github.com/grokify/mogo v0.70.10 h1:GrTIwggfUyIT7pYT7kCzLu6pb4kZvsNGMRKYMVs97mM=
+github.com/grokify/mogo v0.70.10/go.mod h1:7tfFd9wGliYOv227IQlOMah/9MLH+u0i62MesfwJUKU=
 github.com/grokify/spectrum v1.19.8 h1:QVy3fjOmsNTsquAwGFNKI/9om6J10DR7eE+jx/JDuJc=
 github.com/grokify/spectrum v1.19.8/go.mod h1:y3oTIByrKhArC39MYA0lnX1uBoEGZK18/orB9tPFCu0=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
