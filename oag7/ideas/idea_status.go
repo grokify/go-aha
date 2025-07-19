@@ -1,4 +1,4 @@
-package ideasutil
+package ideas
 
 import (
 	"context"
@@ -15,7 +15,7 @@ import (
 	"github.com/grokify/mogo/type/slicesutil"
 
 	"github.com/grokify/go-aha/v3/oag7/aha"
-	"github.com/grokify/go-aha/v3/oag7/featuresutil"
+	"github.com/grokify/go-aha/v3/oag7/features"
 	"github.com/grokify/go-aha/v3/reports/ideas"
 )
 
@@ -112,7 +112,7 @@ func GetIdeaStatus(clt *aha.APIClient, ideaID, ideasPortalURL, ahaAdminURL strin
 			out.ReleaseName = *finfo.Feature.Release.Name
 			out.ReleaseDate = *finfo.Feature.Release.ReleaseDate
 		}
-		fm := featuresutil.Feature(*finfo.Feature)
+		fm := features.Feature(*finfo.Feature)
 		out.FeatureJiraKey = fm.JiraKey()
 		out.FeatureJiraURL = fm.JiraURL()
 	}

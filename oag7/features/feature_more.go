@@ -1,4 +1,4 @@
-package featuresutil
+package features
 
 import (
 	"strings"
