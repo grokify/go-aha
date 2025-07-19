@@ -5,10 +5,10 @@ go 1.23.2
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.23.16
-	github.com/grokify/gocharts/v2 v2.24.13
+	github.com/grokify/gocharts/v2 v2.24.15
 	github.com/grokify/goelastic v0.6.12
 	github.com/grokify/gogoogle v0.6.8
-	github.com/grokify/mogo v0.70.12
+	github.com/grokify/mogo v0.70.13
 	github.com/grokify/spectrum v1.20.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -73,7 +73,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.37.0 // indirect
 	go.opentelemetry.io/otel/trace v1.37.0 // indirect
 	golang.org/x/crypto v0.40.0 // indirect
-	golang.org/x/exp v0.0.0-20250711185948-6ae5c78190dc // indirect
+	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792 // indirect
 	golang.org/x/image v0.29.0 // indirect
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
