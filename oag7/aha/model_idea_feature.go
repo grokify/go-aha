@@ -15,41 +15,42 @@ import (
 	"time"
 )
 
-// checks if the FeatureMeta type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &FeatureMeta{}
+// checks if the IdeaFeature type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &IdeaFeature{}
 
-// FeatureMeta struct for FeatureMeta
-type FeatureMeta struct {
+// IdeaFeature struct for IdeaFeature
+type IdeaFeature struct {
 	Id *string `json:"id,omitempty"`
 	ReferenceNum *string `json:"reference_num,omitempty"`
 	Name *string `json:"name,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	Url *string `json:"url,omitempty"`
 	Resource *string `json:"resource,omitempty"`
+	ProductId *string `json:"product_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _FeatureMeta FeatureMeta
+type _IdeaFeature IdeaFeature
 
-// NewFeatureMeta instantiates a new FeatureMeta object
+// NewIdeaFeature instantiates a new IdeaFeature object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFeatureMeta() *FeatureMeta {
-	this := FeatureMeta{}
+func NewIdeaFeature() *IdeaFeature {
+	this := IdeaFeature{}
 	return &this
 }
 
-// NewFeatureMetaWithDefaults instantiates a new FeatureMeta object
+// NewIdeaFeatureWithDefaults instantiates a new IdeaFeature object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewFeatureMetaWithDefaults() *FeatureMeta {
-	this := FeatureMeta{}
+func NewIdeaFeatureWithDefaults() *IdeaFeature {
+	this := IdeaFeature{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *FeatureMeta) GetId() string {
+func (o *IdeaFeature) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -59,7 +60,7 @@ func (o *FeatureMeta) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetIdOk() (*string, bool) {
+func (o *IdeaFeature) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -67,7 +68,7 @@ func (o *FeatureMeta) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *FeatureMeta) HasId() bool {
+func (o *IdeaFeature) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -76,12 +77,12 @@ func (o *FeatureMeta) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *FeatureMeta) SetId(v string) {
+func (o *IdeaFeature) SetId(v string) {
 	o.Id = &v
 }
 
 // GetReferenceNum returns the ReferenceNum field value if set, zero value otherwise.
-func (o *FeatureMeta) GetReferenceNum() string {
+func (o *IdeaFeature) GetReferenceNum() string {
 	if o == nil || IsNil(o.ReferenceNum) {
 		var ret string
 		return ret
@@ -91,7 +92,7 @@ func (o *FeatureMeta) GetReferenceNum() string {
 
 // GetReferenceNumOk returns a tuple with the ReferenceNum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetReferenceNumOk() (*string, bool) {
+func (o *IdeaFeature) GetReferenceNumOk() (*string, bool) {
 	if o == nil || IsNil(o.ReferenceNum) {
 		return nil, false
 	}
@@ -99,7 +100,7 @@ func (o *FeatureMeta) GetReferenceNumOk() (*string, bool) {
 }
 
 // HasReferenceNum returns a boolean if a field has been set.
-func (o *FeatureMeta) HasReferenceNum() bool {
+func (o *IdeaFeature) HasReferenceNum() bool {
 	if o != nil && !IsNil(o.ReferenceNum) {
 		return true
 	}
@@ -108,12 +109,12 @@ func (o *FeatureMeta) HasReferenceNum() bool {
 }
 
 // SetReferenceNum gets a reference to the given string and assigns it to the ReferenceNum field.
-func (o *FeatureMeta) SetReferenceNum(v string) {
+func (o *IdeaFeature) SetReferenceNum(v string) {
 	o.ReferenceNum = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *FeatureMeta) GetName() string {
+func (o *IdeaFeature) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -123,7 +124,7 @@ func (o *FeatureMeta) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetNameOk() (*string, bool) {
+func (o *IdeaFeature) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -131,7 +132,7 @@ func (o *FeatureMeta) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *FeatureMeta) HasName() bool {
+func (o *IdeaFeature) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -140,12 +141,12 @@ func (o *FeatureMeta) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *FeatureMeta) SetName(v string) {
+func (o *IdeaFeature) SetName(v string) {
 	o.Name = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *FeatureMeta) GetCreatedAt() time.Time {
+func (o *IdeaFeature) GetCreatedAt() time.Time {
 	if o == nil || IsNil(o.CreatedAt) {
 		var ret time.Time
 		return ret
@@ -155,7 +156,7 @@ func (o *FeatureMeta) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetCreatedAtOk() (*time.Time, bool) {
+func (o *IdeaFeature) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || IsNil(o.CreatedAt) {
 		return nil, false
 	}
@@ -163,7 +164,7 @@ func (o *FeatureMeta) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *FeatureMeta) HasCreatedAt() bool {
+func (o *IdeaFeature) HasCreatedAt() bool {
 	if o != nil && !IsNil(o.CreatedAt) {
 		return true
 	}
@@ -172,12 +173,12 @@ func (o *FeatureMeta) HasCreatedAt() bool {
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *FeatureMeta) SetCreatedAt(v time.Time) {
+func (o *IdeaFeature) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUrl returns the Url field value if set, zero value otherwise.
-func (o *FeatureMeta) GetUrl() string {
+func (o *IdeaFeature) GetUrl() string {
 	if o == nil || IsNil(o.Url) {
 		var ret string
 		return ret
@@ -187,7 +188,7 @@ func (o *FeatureMeta) GetUrl() string {
 
 // GetUrlOk returns a tuple with the Url field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetUrlOk() (*string, bool) {
+func (o *IdeaFeature) GetUrlOk() (*string, bool) {
 	if o == nil || IsNil(o.Url) {
 		return nil, false
 	}
@@ -195,7 +196,7 @@ func (o *FeatureMeta) GetUrlOk() (*string, bool) {
 }
 
 // HasUrl returns a boolean if a field has been set.
-func (o *FeatureMeta) HasUrl() bool {
+func (o *IdeaFeature) HasUrl() bool {
 	if o != nil && !IsNil(o.Url) {
 		return true
 	}
@@ -204,12 +205,12 @@ func (o *FeatureMeta) HasUrl() bool {
 }
 
 // SetUrl gets a reference to the given string and assigns it to the Url field.
-func (o *FeatureMeta) SetUrl(v string) {
+func (o *IdeaFeature) SetUrl(v string) {
 	o.Url = &v
 }
 
 // GetResource returns the Resource field value if set, zero value otherwise.
-func (o *FeatureMeta) GetResource() string {
+func (o *IdeaFeature) GetResource() string {
 	if o == nil || IsNil(o.Resource) {
 		var ret string
 		return ret
@@ -219,7 +220,7 @@ func (o *FeatureMeta) GetResource() string {
 
 // GetResourceOk returns a tuple with the Resource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureMeta) GetResourceOk() (*string, bool) {
+func (o *IdeaFeature) GetResourceOk() (*string, bool) {
 	if o == nil || IsNil(o.Resource) {
 		return nil, false
 	}
@@ -227,7 +228,7 @@ func (o *FeatureMeta) GetResourceOk() (*string, bool) {
 }
 
 // HasResource returns a boolean if a field has been set.
-func (o *FeatureMeta) HasResource() bool {
+func (o *IdeaFeature) HasResource() bool {
 	if o != nil && !IsNil(o.Resource) {
 		return true
 	}
@@ -236,11 +237,43 @@ func (o *FeatureMeta) HasResource() bool {
 }
 
 // SetResource gets a reference to the given string and assigns it to the Resource field.
-func (o *FeatureMeta) SetResource(v string) {
+func (o *IdeaFeature) SetResource(v string) {
 	o.Resource = &v
 }
 
-func (o FeatureMeta) MarshalJSON() ([]byte, error) {
+// GetProductId returns the ProductId field value if set, zero value otherwise.
+func (o *IdeaFeature) GetProductId() string {
+	if o == nil || IsNil(o.ProductId) {
+		var ret string
+		return ret
+	}
+	return *o.ProductId
+}
+
+// GetProductIdOk returns a tuple with the ProductId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *IdeaFeature) GetProductIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ProductId) {
+		return nil, false
+	}
+	return o.ProductId, true
+}
+
+// HasProductId returns a boolean if a field has been set.
+func (o *IdeaFeature) HasProductId() bool {
+	if o != nil && !IsNil(o.ProductId) {
+		return true
+	}
+
+	return false
+}
+
+// SetProductId gets a reference to the given string and assigns it to the ProductId field.
+func (o *IdeaFeature) SetProductId(v string) {
+	o.ProductId = &v
+}
+
+func (o IdeaFeature) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -248,7 +281,7 @@ func (o FeatureMeta) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o FeatureMeta) ToMap() (map[string]interface{}, error) {
+func (o IdeaFeature) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -268,6 +301,9 @@ func (o FeatureMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Resource) {
 		toSerialize["resource"] = o.Resource
 	}
+	if !IsNil(o.ProductId) {
+		toSerialize["product_id"] = o.ProductId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -276,16 +312,16 @@ func (o FeatureMeta) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FeatureMeta) UnmarshalJSON(data []byte) (err error) {
-	varFeatureMeta := _FeatureMeta{}
+func (o *IdeaFeature) UnmarshalJSON(data []byte) (err error) {
+	varIdeaFeature := _IdeaFeature{}
 
-	err = json.Unmarshal(data, &varFeatureMeta)
+	err = json.Unmarshal(data, &varIdeaFeature)
 
 	if err != nil {
 		return err
 	}
 
-	*o = FeatureMeta(varFeatureMeta)
+	*o = IdeaFeature(varIdeaFeature)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -296,44 +332,45 @@ func (o *FeatureMeta) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "created_at")
 		delete(additionalProperties, "url")
 		delete(additionalProperties, "resource")
+		delete(additionalProperties, "product_id")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableFeatureMeta struct {
-	value *FeatureMeta
+type NullableIdeaFeature struct {
+	value *IdeaFeature
 	isSet bool
 }
 
-func (v NullableFeatureMeta) Get() *FeatureMeta {
+func (v NullableIdeaFeature) Get() *IdeaFeature {
 	return v.value
 }
 
-func (v *NullableFeatureMeta) Set(val *FeatureMeta) {
+func (v *NullableIdeaFeature) Set(val *IdeaFeature) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableFeatureMeta) IsSet() bool {
+func (v NullableIdeaFeature) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableFeatureMeta) Unset() {
+func (v *NullableIdeaFeature) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableFeatureMeta(val *FeatureMeta) *NullableFeatureMeta {
-	return &NullableFeatureMeta{value: val, isSet: true}
+func NewNullableIdeaFeature(val *IdeaFeature) *NullableIdeaFeature {
+	return &NullableIdeaFeature{value: val, isSet: true}
 }
 
-func (v NullableFeatureMeta) MarshalJSON() ([]byte, error) {
+func (v NullableIdeaFeature) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableFeatureMeta) UnmarshalJSON(src []byte) error {
+func (v *NullableIdeaFeature) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

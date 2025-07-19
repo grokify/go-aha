@@ -29,8 +29,11 @@ type ReleaseUpdate struct {
 	DevelopmentStartedOn *string `json:"development_started_on,omitempty"`
 	// The external release date for this feature in format YYYY-MM-DD
 	ExternalReleaseDate *string `json:"external_release_date,omitempty"`
-	ParkingLot          *bool   `json:"parking_lot,omitempty"`
+	ParkingLot *bool `json:"parking_lot,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleaseUpdate ReleaseUpdate
 
 // NewReleaseUpdate instantiates a new ReleaseUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -242,7 +245,7 @@ func (o *ReleaseUpdate) SetParkingLot(v bool) {
 }
 
 func (o ReleaseUpdate) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -269,7 +272,38 @@ func (o ReleaseUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ParkingLot) {
 		toSerialize["parking_lot"] = o.ParkingLot
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleaseUpdate) UnmarshalJSON(data []byte) (err error) {
+	varReleaseUpdate := _ReleaseUpdate{}
+
+	err = json.Unmarshal(data, &varReleaseUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleaseUpdate(varReleaseUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "start_date")
+		delete(additionalProperties, "release_date")
+		delete(additionalProperties, "development_started_on")
+		delete(additionalProperties, "external_release_date")
+		delete(additionalProperties, "parking_lot")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleaseUpdate struct {
@@ -307,3 +341,5 @@ func (v *NullableReleaseUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

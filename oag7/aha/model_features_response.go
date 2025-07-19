@@ -19,9 +19,12 @@ var _ MappedNullable = &FeaturesResponse{}
 
 // FeaturesResponse struct for FeaturesResponse
 type FeaturesResponse struct {
-	Features   []FeatureMeta `json:"features,omitempty"`
-	Pagination *Pagination   `json:"pagination,omitempty"`
+	Features []FeatureMeta `json:"features,omitempty"`
+	Pagination *Pagination `json:"pagination,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FeaturesResponse FeaturesResponse
 
 // NewFeaturesResponse instantiates a new FeaturesResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -105,7 +108,7 @@ func (o *FeaturesResponse) SetPagination(v Pagination) {
 }
 
 func (o FeaturesResponse) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -120,7 +123,34 @@ func (o FeaturesResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Pagination) {
 		toSerialize["pagination"] = o.Pagination
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *FeaturesResponse) UnmarshalJSON(data []byte) (err error) {
+	varFeaturesResponse := _FeaturesResponse{}
+
+	err = json.Unmarshal(data, &varFeaturesResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = FeaturesResponse(varFeaturesResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "features")
+		delete(additionalProperties, "pagination")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFeaturesResponse struct {
@@ -158,3 +188,5 @@ func (v *NullableFeaturesResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

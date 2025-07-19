@@ -20,13 +20,14 @@ import (
 	"time"
 )
 
+
 // FeaturesAPIService FeaturesAPI service
 type FeaturesAPIService service
 
 type ApiGetFeatureRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *FeaturesAPIService
-	featureId  string
+	featureId string
 }
 
 func (r ApiGetFeatureRequest) Execute() (*FeatureWrap, *http.Response, error) {
@@ -34,31 +35,30 @@ func (r ApiGetFeatureRequest) Execute() (*FeatureWrap, *http.Response, error) {
 }
 
 /*
-GetFeature
+GetFeature Get feature
 
 Get a specific feature
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param featureId Numeric ID, or key of the feature to be retrieved
-	@return ApiGetFeatureRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param featureId Numeric ID, or key of the feature to be retrieved
+ @return ApiGetFeatureRequest
 */
 func (a *FeaturesAPIService) GetFeature(ctx context.Context, featureId string) ApiGetFeatureRequest {
 	return ApiGetFeatureRequest{
 		ApiService: a,
-		ctx:        ctx,
-		featureId:  featureId,
+		ctx: ctx,
+		featureId: featureId,
 	}
 }
 
 // Execute executes the request
-//
-//	@return FeatureWrap
+//  @return FeatureWrap
 func (a *FeaturesAPIService) GetFeatureExecute(r ApiGetFeatureRequest) (*FeatureWrap, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *FeatureWrap
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FeatureWrap
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetFeature")
@@ -128,14 +128,14 @@ func (a *FeaturesAPIService) GetFeatureExecute(r ApiGetFeatureRequest) (*Feature
 }
 
 type ApiGetFeaturesRequest struct {
-	ctx            context.Context
-	ApiService     *FeaturesAPIService
-	q              *string
-	updatedSince   *time.Time
-	tag            *string
+	ctx context.Context
+	ApiService *FeaturesAPIService
+	q *string
+	updatedSince *time.Time
+	tag *string
 	assignedToUser *string
-	page           *int32
-	perPage        *int32
+	page *int32
+	perPage *int32
 }
 
 // Sub-string to match against feature name or ID
@@ -179,29 +179,28 @@ func (r ApiGetFeaturesRequest) Execute() (*FeaturesResponse, *http.Response, err
 }
 
 /*
-GetFeatures Get all features
+GetFeatures Get features
 
 Get all features
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetFeaturesRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetFeaturesRequest
 */
 func (a *FeaturesAPIService) GetFeatures(ctx context.Context) ApiGetFeaturesRequest {
 	return ApiGetFeaturesRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return FeaturesResponse
+//  @return FeaturesResponse
 func (a *FeaturesAPIService) GetFeaturesExecute(r ApiGetFeaturesRequest) (*FeaturesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *FeaturesResponse
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FeaturesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetFeatures")
@@ -216,22 +215,22 @@ func (a *FeaturesAPIService) GetFeaturesExecute(r ApiGetFeaturesRequest) (*Featu
 	localVarFormParams := url.Values{}
 
 	if r.q != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "q", r.q, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "q", r.q, "form", "")
 	}
 	if r.updatedSince != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "updated_since", r.updatedSince, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "updated_since", r.updatedSince, "form", "")
 	}
 	if r.tag != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "tag", r.tag, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tag", r.tag, "form", "")
 	}
 	if r.assignedToUser != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "assigned_to_user", r.assignedToUser, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "assigned_to_user", r.assignedToUser, "form", "")
 	}
 	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	}
 	if r.perPage != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -288,11 +287,11 @@ func (a *FeaturesAPIService) GetFeaturesExecute(r ApiGetFeaturesRequest) (*Featu
 }
 
 type ApiGetReleaseFeaturesRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *FeaturesAPIService
-	releaseId  string
-	page       *int32
-	perPage    *int32
+	releaseId string
+	page *int32
+	perPage *int32
 }
 
 // A specific page of results.
@@ -316,27 +315,26 @@ GetReleaseFeatures Get all features for a release
 
 Get all features for a release
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param releaseId Numeric ID, or key of the release to retrieve features for
-	@return ApiGetReleaseFeaturesRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param releaseId Numeric ID, or key of the release to retrieve features for
+ @return ApiGetReleaseFeaturesRequest
 */
 func (a *FeaturesAPIService) GetReleaseFeatures(ctx context.Context, releaseId string) ApiGetReleaseFeaturesRequest {
 	return ApiGetReleaseFeaturesRequest{
 		ApiService: a,
-		ctx:        ctx,
-		releaseId:  releaseId,
+		ctx: ctx,
+		releaseId: releaseId,
 	}
 }
 
 // Execute executes the request
-//
-//	@return FeaturesResponse
+//  @return FeaturesResponse
 func (a *FeaturesAPIService) GetReleaseFeaturesExecute(r ApiGetReleaseFeaturesRequest) (*FeaturesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *FeaturesResponse
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FeaturesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetReleaseFeatures")
@@ -352,10 +350,10 @@ func (a *FeaturesAPIService) GetReleaseFeaturesExecute(r ApiGetReleaseFeaturesRe
 	localVarFormParams := url.Values{}
 
 	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	}
 	if r.perPage != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -374,122 +372,6 @@ func (a *FeaturesAPIService) GetReleaseFeaturesExecute(r ApiGetReleaseFeaturesRe
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateFeatureRequest struct {
-	ctx           context.Context
-	ApiService    *FeaturesAPIService
-	featureId     string
-	featureUpdate *FeatureUpdate
-}
-
-// Feature properties to update
-func (r ApiUpdateFeatureRequest) FeatureUpdate(featureUpdate FeatureUpdate) ApiUpdateFeatureRequest {
-	r.featureUpdate = &featureUpdate
-	return r
-}
-
-func (r ApiUpdateFeatureRequest) Execute() (*FeatureWrap, *http.Response, error) {
-	return r.ApiService.UpdateFeatureExecute(r)
-}
-
-/*
-UpdateFeature Update a feature's custom fields with tag-like value
-
-Update a feature's custom fields with tag-like value
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param featureId Numeric ID, or key of the feature to be retrieved
-	@return ApiUpdateFeatureRequest
-*/
-func (a *FeaturesAPIService) UpdateFeature(ctx context.Context, featureId string) ApiUpdateFeatureRequest {
-	return ApiUpdateFeatureRequest{
-		ApiService: a,
-		ctx:        ctx,
-		featureId:  featureId,
-	}
-}
-
-// Execute executes the request
-//
-//	@return FeatureWrap
-func (a *FeaturesAPIService) UpdateFeatureExecute(r ApiUpdateFeatureRequest) (*FeatureWrap, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodPut
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *FeatureWrap
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.UpdateFeature")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/features/{feature_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"feature_id"+"}", url.PathEscape(parameterValueToString(r.featureId, "featureId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.featureUpdate == nil {
-		return localVarReturnValue, nil, reportError("featureUpdate is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.featureUpdate
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

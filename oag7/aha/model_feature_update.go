@@ -43,7 +43,10 @@ type FeatureUpdate struct {
 	Initiative *string `json:"initiative,omitempty"`
 	// Name or id of master feature which the feature belongs to.
 	MasterFeature *string `json:"master_feature,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FeatureUpdate FeatureUpdate
 
 // NewFeatureUpdate instantiates a new FeatureUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -447,7 +450,7 @@ func (o *FeatureUpdate) SetMasterFeature(v string) {
 }
 
 func (o FeatureUpdate) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -492,7 +495,44 @@ func (o FeatureUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.MasterFeature) {
 		toSerialize["master_feature"] = o.MasterFeature
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *FeatureUpdate) UnmarshalJSON(data []byte) (err error) {
+	varFeatureUpdate := _FeatureUpdate{}
+
+	err = json.Unmarshal(data, &varFeatureUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = FeatureUpdate(varFeatureUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "created_by")
+		delete(additionalProperties, "assigned_to_user")
+		delete(additionalProperties, "tags")
+		delete(additionalProperties, "original_estimate_text")
+		delete(additionalProperties, "remaining_estimate_text")
+		delete(additionalProperties, "start_date")
+		delete(additionalProperties, "due_date")
+		delete(additionalProperties, "release_phase")
+		delete(additionalProperties, "initiative")
+		delete(additionalProperties, "master_feature")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFeatureUpdate struct {
@@ -530,3 +570,5 @@ func (v *NullableFeatureUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

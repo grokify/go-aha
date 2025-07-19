@@ -30,7 +30,10 @@ type ProductMeta struct {
 	ProductLine *bool `json:"product_line,omitempty"`
 	// The date-time when the product was created.
 	CreatedAt *time.Time `json:"created_at,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ProductMeta ProductMeta
 
 // NewProductMeta instantiates a new ProductMeta object
 // This constructor will assign default values to properties that have it defined,
@@ -210,7 +213,7 @@ func (o *ProductMeta) SetCreatedAt(v time.Time) {
 }
 
 func (o ProductMeta) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,7 +237,37 @@ func (o ProductMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CreatedAt) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ProductMeta) UnmarshalJSON(data []byte) (err error) {
+	varProductMeta := _ProductMeta{}
+
+	err = json.Unmarshal(data, &varProductMeta)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ProductMeta(varProductMeta)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "reference_prefix")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "product_line")
+		delete(additionalProperties, "created_at")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableProductMeta struct {
@@ -272,3 +305,5 @@ func (v *NullableProductMeta) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

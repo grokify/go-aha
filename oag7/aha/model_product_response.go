@@ -20,7 +20,10 @@ var _ MappedNullable = &ProductResponse{}
 // ProductResponse struct for ProductResponse
 type ProductResponse struct {
 	Product *Product `json:"product,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ProductResponse ProductResponse
 
 // NewProductResponse instantiates a new ProductResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,7 @@ func (o *ProductResponse) SetProduct(v Product) {
 }
 
 func (o ProductResponse) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -84,7 +87,33 @@ func (o ProductResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Product) {
 		toSerialize["product"] = o.Product
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ProductResponse) UnmarshalJSON(data []byte) (err error) {
+	varProductResponse := _ProductResponse{}
+
+	err = json.Unmarshal(data, &varProductResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ProductResponse(varProductResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "product")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableProductResponse struct {
@@ -122,3 +151,5 @@ func (v *NullableProductResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -20,7 +20,10 @@ var _ MappedNullable = &ReleaseWrap{}
 // ReleaseWrap struct for ReleaseWrap
 type ReleaseWrap struct {
 	Release *Release `json:"release,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleaseWrap ReleaseWrap
 
 // NewReleaseWrap instantiates a new ReleaseWrap object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,7 @@ func (o *ReleaseWrap) SetRelease(v Release) {
 }
 
 func (o ReleaseWrap) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -84,7 +87,33 @@ func (o ReleaseWrap) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Release) {
 		toSerialize["release"] = o.Release
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleaseWrap) UnmarshalJSON(data []byte) (err error) {
+	varReleaseWrap := _ReleaseWrap{}
+
+	err = json.Unmarshal(data, &varReleaseWrap)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleaseWrap(varReleaseWrap)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "release")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleaseWrap struct {
@@ -122,3 +151,5 @@ func (v *NullableReleaseWrap) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+
