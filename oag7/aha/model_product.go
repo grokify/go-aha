@@ -40,7 +40,10 @@ type Product struct {
 	HasIdeas *bool `json:"has_ideas,omitempty"`
 	// Whether the product has master features or not.
 	HasMasterFeatures *bool `json:"has_master_features,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Product Product
 
 // NewProduct instantiates a new Product object
 // This constructor will assign default values to properties that have it defined,
@@ -380,7 +383,7 @@ func (o *Product) SetHasMasterFeatures(v bool) {
 }
 
 func (o Product) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -419,7 +422,42 @@ func (o Product) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.HasMasterFeatures) {
 		toSerialize["has_master_features"] = o.HasMasterFeatures
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Product) UnmarshalJSON(data []byte) (err error) {
+	varProduct := _Product{}
+
+	err = json.Unmarshal(data, &varProduct)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Product(varProduct)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "reference_prefix")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "product_line")
+		delete(additionalProperties, "created_at")
+		delete(additionalProperties, "updated_at")
+		delete(additionalProperties, "url")
+		delete(additionalProperties, "resource")
+		delete(additionalProperties, "has_ideas")
+		delete(additionalProperties, "has_master_features")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableProduct struct {
@@ -457,3 +495,5 @@ func (v *NullableProduct) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

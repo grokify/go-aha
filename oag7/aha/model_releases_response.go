@@ -19,9 +19,12 @@ var _ MappedNullable = &ReleasesResponse{}
 
 // ReleasesResponse struct for ReleasesResponse
 type ReleasesResponse struct {
-	Releases   []Release   `json:"releases,omitempty"`
+	Releases []Release `json:"releases,omitempty"`
 	Pagination *Pagination `json:"pagination,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleasesResponse ReleasesResponse
 
 // NewReleasesResponse instantiates a new ReleasesResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -105,7 +108,7 @@ func (o *ReleasesResponse) SetPagination(v Pagination) {
 }
 
 func (o ReleasesResponse) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -120,7 +123,34 @@ func (o ReleasesResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Pagination) {
 		toSerialize["pagination"] = o.Pagination
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleasesResponse) UnmarshalJSON(data []byte) (err error) {
+	varReleasesResponse := _ReleasesResponse{}
+
+	err = json.Unmarshal(data, &varReleasesResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleasesResponse(varReleasesResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "releases")
+		delete(additionalProperties, "pagination")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleasesResponse struct {
@@ -158,3 +188,5 @@ func (v *NullableReleasesResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -19,8 +19,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: |-
-          UTC timestamp (in ISO8601 format) that the updated_at field must
+      - description: UTC timestamp (in ISO8601 format) that the updated_at field must
           be larger than.
         explode: true
         in: query
@@ -69,9 +68,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FeaturesResponse'
+                $ref: "#/components/schemas/FeaturesResponse"
           description: A list of features
-      summary: Get all features
+      summary: Get features
       tags:
       - Features
   /features/{feature_id}:
@@ -92,40 +91,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FeatureWrap'
+                $ref: "#/components/schemas/FeatureWrap"
           description: Information for a specific release
-      summary: ""
+      summary: Get feature
       tags:
       - Features
-    put:
-      description: Update a feature's custom fields with tag-like value
-      operationId: updateFeature
+  /ideas/{idea_id}:
+    get:
+      operationId: getIdea
       parameters:
-      - description: "Numeric ID, or key of the feature to be retrieved"
-        explode: false
+      - explode: false
         in: path
-        name: feature_id
+        name: idea_id
         required: true
         schema:
           type: string
         style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FeatureUpdate'
-        description: Feature properties to update
-        required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FeatureWrap'
-          description: Information for a specific release
-      summary: Update a feature's custom fields with tag-like value
+                $ref: "#/components/schemas/IdeaResponse"
+          description: OK
+      summary: Get Idea
       tags:
-      - Features
+      - Ideas
   /releases/{release_id}/features:
     get:
       description: Get all features for a release
@@ -162,7 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FeaturesResponse'
+                $ref: "#/components/schemas/FeaturesResponse"
           description: A list of features within a data envelope.
       summary: Get all features for a release
       tags:
@@ -195,9 +186,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductsResponse'
+                $ref: "#/components/schemas/ProductsResponse"
           description: A list of products objects within a data envelope.
-      summary: Products API
+      summary: Get products
       tags:
       - Products
   /products/{product_id}:
@@ -218,9 +209,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductResponse'
+                $ref: "#/components/schemas/ProductResponse"
           description: A list of products objects within a data envelope.
-      summary: Products API
+      summary: Get product
       tags:
       - Products
   /releases/{release_id}:
@@ -241,9 +232,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReleaseWrap'
+                $ref: "#/components/schemas/ReleaseWrap"
           description: Information for a specific release
-      summary: ""
+      summary: Get release
       tags:
       - Releases
   /products/{product_id}/releases:
@@ -282,9 +273,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReleasesResponse'
+                $ref: "#/components/schemas/ReleasesResponse"
           description: Information for a specific release
-      summary: ""
+      summary: Get product releases
       tags:
       - Releases
   /products/{product_id}/releases/{release_id}:
@@ -312,7 +303,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReleaseUpdateWrap'
+              $ref: "#/components/schemas/ReleaseUpdateWrap"
         description: Release properties to update
         required: true
       responses:
@@ -320,9 +311,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReleaseWrap'
+                $ref: "#/components/schemas/ReleaseWrap"
           description: Information for a specific release
-      summary: Update a release
+      summary: Update product release
       tags:
       - Releases
 components:
@@ -330,8 +321,37 @@ components:
     FeatureWrap:
       example:
         feature:
+          workflow_status:
+            color: color
+            name: name
+            id: id
+            position: 1
+            complete: true
+          integration_fields:
+          - integration_id: integration_id
+            service_name: service_name
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+            value: value
+          - integration_id: integration_id
+            service_name: service_name
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+            value: value
           reference_num: reference_num
+          use_requirements_estimates: true
           resource: resource
+          custom_fields:
+          - name: name
+            type: type
+            value: value
+            key: key
+          - name: name
+            type: type
+            value: value
+            key: key
           release:
             reference_num: reference_num
             release_date: 2000-01-23
@@ -343,18 +363,22 @@ components:
             parking_lot: true
             url: url
             start_date: 2000-01-23
-          name: name
           due_date: 2000-01-23
           created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
           url: url
-          start_date: 2000-01-23
+          progress_source: progress_source
           tags:
           - tags
           - tags
+          work_units: 6
+          comments_count: 0
+          product_id: product_id
+          name: name
+          id: id
+          start_date: 2000-01-23
       properties:
         feature:
-          $ref: '#/components/schemas/Feature'
+          $ref: "#/components/schemas/Feature"
       type: object
     FeaturesResponse:
       example:
@@ -378,10 +402,10 @@ components:
       properties:
         features:
           items:
-            $ref: '#/components/schemas/FeatureMeta'
+            $ref: "#/components/schemas/FeatureMeta"
           type: array
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
       type: object
     ReleaseWrap:
       example:
@@ -398,7 +422,7 @@ components:
           start_date: 2000-01-23
       properties:
         release:
-          $ref: '#/components/schemas/Release'
+          $ref: "#/components/schemas/Release"
       type: object
     ReleasesResponse:
       example:
@@ -430,10 +454,10 @@ components:
       properties:
         releases:
           items:
-            $ref: '#/components/schemas/Release'
+            $ref: "#/components/schemas/Release"
           type: array
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
       type: object
     Pagination:
       example:
@@ -475,9 +499,39 @@ components:
           type: string
       type: object
     Feature:
+      description: ""
       example:
+        workflow_status:
+          color: color
+          name: name
+          id: id
+          position: 1
+          complete: true
+        integration_fields:
+        - integration_id: integration_id
+          service_name: service_name
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          value: value
+        - integration_id: integration_id
+          service_name: service_name
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          value: value
         reference_num: reference_num
+        use_requirements_estimates: true
         resource: resource
+        custom_fields:
+        - name: name
+          type: type
+          value: value
+          key: key
+        - name: name
+          type: type
+          value: value
+          key: key
         release:
           reference_num: reference_num
           release_date: 2000-01-23
@@ -489,43 +543,114 @@ components:
           parking_lot: true
           url: url
           start_date: 2000-01-23
-        name: name
         due_date: 2000-01-23
         created_at: 2000-01-23T04:56:07.000+00:00
-        id: id
         url: url
-        start_date: 2000-01-23
+        progress_source: progress_source
         tags:
         - tags
         - tags
+        work_units: 6
+        comments_count: 0
+        product_id: product_id
+        name: name
+        id: id
+        start_date: 2000-01-23
       properties:
         id:
           type: string
-        reference_num:
+        created_at:
+          format: date-time
+          type: string
+        comments_count:
+          format: int64
+          type: integer
+        custom_fields:
+          items:
+            $ref: "#/components/schemas/CustomField"
+          type: array
+        due_date:
+          description: Due date in YYYY-MM-DD format.
+          format: date
           type: string
         name:
           type: string
-        created_at:
-          format: date-time
+        product_id:
+          type: string
+        progress_source:
+          type: string
+        reference_num:
+          type: string
+        release:
+          $ref: "#/components/schemas/Release"
+        resource:
+          description: API URL for the resource.
           type: string
         start_date:
           description: Start date in YYYY-MM-DD format.
           format: date
           type: string
-        due_date:
-          description: Due date in YYYY-MM-DD format.
-          format: date
-          type: string
-        url:
-          type: string
-        resource:
-          type: string
-        release:
-          $ref: '#/components/schemas/Release'
         tags:
           items:
             type: string
           type: array
+        url:
+          description: Web UI URL for the resource.
+          type: string
+        use_requirements_estimates:
+          type: boolean
+        work_units:
+          format: int64
+          type: integer
+        workflow_status:
+          $ref: "#/components/schemas/FeatureWorkflowStatus"
+        integration_fields:
+          items:
+            $ref: "#/components/schemas/IntegrationField"
+          type: array
+          x-stoplight:
+            id: qb1v3dvhw0rzr
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      type: object
+    FeatureWorkflowStatus:
+      example:
+        color: color
+        name: name
+        id: id
+        position: 1
+        complete: true
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        position:
+          format: int64
+          type: integer
+        complete:
+          type: boolean
+        color:
+          type: string
+      type: object
+    CustomField:
+      example:
+        name: name
+        type: type
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+        type:
+          type: string
       type: object
     ProductResponse:
       example:
@@ -542,7 +667,7 @@ components:
           url: url
       properties:
         product:
-          $ref: '#/components/schemas/Product'
+          $ref: "#/components/schemas/Product"
       type: object
     ProductsResponse:
       example:
@@ -564,10 +689,10 @@ components:
       properties:
         products:
           items:
-            $ref: '#/components/schemas/ProductMeta'
+            $ref: "#/components/schemas/ProductMeta"
           type: array
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
       type: object
     ProductMeta:
       example:
@@ -686,19 +811,6 @@ components:
           type: string
       type: object
     FeatureUpdate:
-      example:
-        initiative: initiative
-        release_phase: release_phase
-        original_estimate_text: original_estimate_text
-        remaining_estimate_text: remaining_estimate_text
-        name: name
-        assigned_to_user: assigned_to_user
-        due_date: 2000-01-23
-        description: description
-        created_by: created_by
-        master_feature: master_feature
-        tags: tags
-        start_date: 2000-01-23
       properties:
         name:
           description: Name of the feature
@@ -713,27 +825,23 @@ components:
           description: Email address of user that is assigned the feature.
           type: string
         tags:
-          description: |-
-            Tags can be automatically assigned to the new feature. If more
+          description: Tags can be automatically assigned to the new feature. If more
             than one tag is used then tags should be separated by commas
           type: string
         original_estimate_text:
-          description: |-
-            Set the original estimated effort in a text format, you can use
-            d, h, min (or 'p' for points) to indicate the units to use.
+          description: "Set the original estimated effort in a text format, you can\
+            \ use d, h, min (or 'p' for points) to indicate the units to use."
           type: string
         remaining_estimate_text:
-          description: |2-
-             Set the remaining estimated effort in a text format, you can
-            use d, h, min (or 'p' for points) to indicate the units to use.
+          description: " Set the remaining estimated effort in a text format, you\
+            \ can use d, h, min (or 'p' for points) to indicate the units to use."
           type: string
         start_date:
           description: Date that work will start on the feature in format YYYY-MM-DD.
           format: date
           type: string
         due_date:
-          description: |-
-            Date that work is due to be completed on the feature in format
+          description: Date that work is due to be completed on the feature in format
             YYYY-MM-DD.
           format: date
           type: string
@@ -758,7 +866,7 @@ components:
           start_date: 2000-01-23
       properties:
         release:
-          $ref: '#/components/schemas/ReleaseUpdate'
+          $ref: "#/components/schemas/ReleaseUpdate"
       type: object
     ReleaseUpdate:
       example:
@@ -804,9 +912,8 @@ components:
           format: email
           type: string
         role:
-          description: |-
-            Permissions of the user in the product one of: product_owner,
-            contributor, reviewer, viewer, none
+          description: "Permissions of the user in the product one of: product_owner,\
+            \ contributor, reviewer, viewer, none"
           enum:
           - product_owner
           - contributor
@@ -815,3 +922,251 @@ components:
           - none
           type: string
       type: object
+    Idea:
+      example:
+        workflow_status:
+          color: color
+          name: name
+          id: id
+          position: 1
+          complete: true
+        reference_num: reference_num
+        feature:
+          reference_num: reference_num
+          resource: resource
+          product_id: product_id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          url: url
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        status_changed_at: 2000-01-23T04:56:07.000+00:00
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        votes: 0
+        id: id
+        categories:
+        - project_id: project_id
+          parent_id: parent_id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+        - project_id: project_id
+          parent_id: parent_id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          x-stoplight:
+            id: xy2abr9mr0ana
+        reference_num:
+          type: string
+          x-stoplight:
+            id: vnzhmoi467bo4
+        feature:
+          $ref: "#/components/schemas/IdeaFeature"
+        workflow_status:
+          $ref: "#/components/schemas/FeatureWorkflowStatus"
+        categories:
+          items:
+            $ref: "#/components/schemas/Category"
+          type: array
+          x-stoplight:
+            id: yqniqpn1c4p4d
+        votes:
+          type: integer
+          x-stoplight:
+            id: 2n180oojj7huq
+        created_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: qya5e73kh10r4
+        updated_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: ocz06h2o0uqvl
+        status_changed_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: hu2zt5zdeevyx
+      required:
+      - categories
+      - created_at
+      - id
+      - name
+      - reference_num
+      - status_changed_at
+      - updated_at
+      - votes
+      title: Idea
+      type: object
+      x-stoplight:
+        id: nf9fm5lpxxf4s
+    IdeaFeature:
+      example:
+        reference_num: reference_num
+        resource: resource
+        product_id: product_id
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        url: url
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+          x-stoplight:
+            id: pmhimgtx26aas
+        name:
+          type: string
+          x-stoplight:
+            id: z9am399tuulq3
+        created_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: jojm2av3bym1c
+        url:
+          type: string
+          x-stoplight:
+            id: 1tdkq9chf148w
+        resource:
+          type: string
+          x-stoplight:
+            id: 7jkyt08wovxdi
+        product_id:
+          type: string
+          x-stoplight:
+            id: wm4pxsru6xxt2
+      title: IdeaFeature
+      type: object
+      x-stoplight:
+        id: vntws9p2k5dkr
+    IdeaResponse:
+      example:
+        idea:
+          workflow_status:
+            color: color
+            name: name
+            id: id
+            position: 1
+            complete: true
+          reference_num: reference_num
+          feature:
+            reference_num: reference_num
+            resource: resource
+            product_id: product_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+            url: url
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          votes: 0
+          id: id
+          categories:
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+      properties:
+        idea:
+          $ref: "#/components/schemas/Idea"
+      title: IdeaResponse
+      type: object
+      x-stoplight:
+        id: 6umhm6c92ofwo
+    Category:
+      example:
+        project_id: project_id
+        parent_id: parent_id
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          x-stoplight:
+            id: m5ml2rcn2rv13
+        parent_id:
+          type: string
+          x-stoplight:
+            id: ogf0nit71t2sx
+        project_id:
+          type: string
+          x-stoplight:
+            id: 46w8t67wzzf9p
+        created_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: vri4toh9k6ooj
+      required:
+      - created_at
+      - id
+      - name
+      title: Category
+      type: object
+      x-stoplight:
+        id: 0hjhgc5e5t5vn
+    IntegrationField:
+      example:
+        integration_id: integration_id
+        service_name: service_name
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        value: value
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          x-stoplight:
+            id: qi2sp5tsn8fgz
+        value:
+          type: string
+          x-stoplight:
+            id: vuoakqlitqu50
+        integration_id:
+          type: string
+          x-stoplight:
+            id: e5rymy3feoytr
+        service_name:
+          type: string
+          x-stoplight:
+            id: 8tqiel27kzpi7
+        created_at:
+          format: date-time
+          type: string
+          x-stoplight:
+            id: 0laij46vrkt7x
+      required:
+      - created_at
+      - id
+      - integration_id
+      - name
+      - service_name
+      - value
+      title: IntegrationField
+      type: object
+      x-stoplight:
+        id: xltqkvpfjfhef

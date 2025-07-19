@@ -4,9 +4,9 @@ All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetProductReleases**](ReleasesAPI.md#GetProductReleases) | **Get** /products/{product_id}/releases | 
-[**GetRelease**](ReleasesAPI.md#GetRelease) | **Get** /releases/{release_id} | 
-[**UpdateProductRelease**](ReleasesAPI.md#UpdateProductRelease) | **Put** /products/{product_id}/releases/{release_id} | Update a release
+[**GetProductReleases**](ReleasesAPI.md#GetProductReleases) | **Get** /products/{product_id}/releases | Get product releases
+[**GetRelease**](ReleasesAPI.md#GetRelease) | **Get** /releases/{release_id} | Get release
+[**UpdateProductRelease**](ReleasesAPI.md#UpdateProductRelease) | **Put** /products/{product_id}/releases/{release_id} | Update product release
 
 
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 > ReleasesResponse GetProductReleases(ctx, productId).Page(page).PerPage(perPage).Execute()
 
-
+Get product releases
 
 
 
@@ -88,7 +88,7 @@ No authorization required
 
 > ReleaseWrap GetRelease(ctx, releaseId).Execute()
 
-
+Get release
 
 
 
@@ -158,7 +158,7 @@ No authorization required
 
 > ReleaseWrap UpdateProductRelease(ctx, productId, releaseId).ReleaseUpdateWrap(releaseUpdateWrap).Execute()
 
-Update a release
+Update product release
 
 
 

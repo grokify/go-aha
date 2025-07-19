@@ -31,13 +31,16 @@ type Release struct {
 	ReleaseDate *string `json:"release_date,omitempty"`
 	// External release date in YYYY-MM-DD format.
 	ExternalReleaseDate *string `json:"external_release_date,omitempty"`
-	Released            *bool   `json:"released,omitempty"`
-	ParkingLot          *bool   `json:"parking_lot,omitempty"`
+	Released *bool `json:"released,omitempty"`
+	ParkingLot *bool `json:"parking_lot,omitempty"`
 	// Web URL for release.
 	Url *string `json:"url,omitempty"`
 	// API URL for release.
 	Resource *string `json:"resource,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Release Release
 
 // NewRelease instantiates a new Release object
 // This constructor will assign default values to properties that have it defined,
@@ -377,7 +380,7 @@ func (o *Release) SetResource(v string) {
 }
 
 func (o Release) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -416,7 +419,42 @@ func (o Release) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Resource) {
 		toSerialize["resource"] = o.Resource
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Release) UnmarshalJSON(data []byte) (err error) {
+	varRelease := _Release{}
+
+	err = json.Unmarshal(data, &varRelease)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Release(varRelease)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "reference_num")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "start_date")
+		delete(additionalProperties, "release_date")
+		delete(additionalProperties, "external_release_date")
+		delete(additionalProperties, "released")
+		delete(additionalProperties, "parking_lot")
+		delete(additionalProperties, "url")
+		delete(additionalProperties, "resource")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableRelease struct {
@@ -454,3 +492,5 @@ func (v *NullableRelease) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

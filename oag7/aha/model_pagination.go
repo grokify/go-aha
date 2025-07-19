@@ -20,9 +20,12 @@ var _ MappedNullable = &Pagination{}
 // Pagination struct for Pagination
 type Pagination struct {
 	TotalRecords *int64 `json:"total_records,omitempty"`
-	TotalPages   *int64 `json:"total_pages,omitempty"`
-	CurrentPage  *int64 `json:"current_page,omitempty"`
+	TotalPages *int64 `json:"total_pages,omitempty"`
+	CurrentPage *int64 `json:"current_page,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Pagination Pagination
 
 // NewPagination instantiates a new Pagination object
 // This constructor will assign default values to properties that have it defined,
@@ -138,7 +141,7 @@ func (o *Pagination) SetCurrentPage(v int64) {
 }
 
 func (o Pagination) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -156,7 +159,35 @@ func (o Pagination) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CurrentPage) {
 		toSerialize["current_page"] = o.CurrentPage
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Pagination) UnmarshalJSON(data []byte) (err error) {
+	varPagination := _Pagination{}
+
+	err = json.Unmarshal(data, &varPagination)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Pagination(varPagination)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "total_records")
+		delete(additionalProperties, "total_pages")
+		delete(additionalProperties, "current_page")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePagination struct {
@@ -194,3 +225,5 @@ func (v *NullablePagination) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

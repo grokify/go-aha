@@ -4,8 +4,8 @@ All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetProduct**](ProductsAPI.md#GetProduct) | **Get** /products/{product_id} | Products API
-[**GetProducts**](ProductsAPI.md#GetProducts) | **Get** /products | Products API
+[**GetProduct**](ProductsAPI.md#GetProduct) | **Get** /products/{product_id} | Get product
+[**GetProducts**](ProductsAPI.md#GetProducts) | **Get** /products | Get products
 
 
 
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 > ProductResponse GetProduct(ctx, productId).Execute()
 
-Products API
+Get product
 
 
 
@@ -83,7 +83,7 @@ No authorization required
 
 > ProductsResponse GetProducts(ctx).Page(page).PerPage(perPage).Execute()
 
-Products API
+Get products
 
 
 

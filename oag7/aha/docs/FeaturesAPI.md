@@ -4,10 +4,9 @@ All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetFeature**](FeaturesAPI.md#GetFeature) | **Get** /features/{feature_id} | 
-[**GetFeatures**](FeaturesAPI.md#GetFeatures) | **Get** /features | Get all features
+[**GetFeature**](FeaturesAPI.md#GetFeature) | **Get** /features/{feature_id} | Get feature
+[**GetFeatures**](FeaturesAPI.md#GetFeatures) | **Get** /features | Get features
 [**GetReleaseFeatures**](FeaturesAPI.md#GetReleaseFeatures) | **Get** /releases/{release_id}/features | Get all features for a release
-[**UpdateFeature**](FeaturesAPI.md#UpdateFeature) | **Put** /features/{feature_id} | Update a feature&#39;s custom fields with tag-like value
 
 
 
@@ -15,7 +14,7 @@ Method | HTTP request | Description
 
 > FeatureWrap GetFeature(ctx, featureId).Execute()
 
-
+Get feature
 
 
 
@@ -85,7 +84,7 @@ No authorization required
 
 > FeaturesResponse GetFeatures(ctx).Q(q).UpdatedSince(updatedSince).Tag(tag).AssignedToUser(assignedToUser).Page(page).PerPage(perPage).Execute()
 
-Get all features
+Get features
 
 
 
@@ -225,78 +224,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## UpdateFeature
-
-> FeatureWrap UpdateFeature(ctx, featureId).FeatureUpdate(featureUpdate).Execute()
-
-Update a feature's custom fields with tag-like value
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	featureId := "featureId_example" // string | Numeric ID, or key of the feature to be retrieved
-	featureUpdate := *openapiclient.NewFeatureUpdate() // FeatureUpdate | Feature properties to update
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FeaturesAPI.UpdateFeature(context.Background(), featureId).FeatureUpdate(featureUpdate).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `FeaturesAPI.UpdateFeature``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `UpdateFeature`: FeatureWrap
-	fmt.Fprintf(os.Stdout, "Response from `FeaturesAPI.UpdateFeature`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**featureId** | **string** | Numeric ID, or key of the feature to be retrieved | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiUpdateFeatureRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **featureUpdate** | [**FeatureUpdate**](FeatureUpdate.md) | Feature properties to update | 
-
-### Return type
-
-[**FeatureWrap**](FeatureWrap.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
