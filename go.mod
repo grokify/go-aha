@@ -12,7 +12,7 @@ require (
 	github.com/grokify/spectrum v1.20.2
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.30.0
 	google.golang.org/api v0.248.0
 )
