@@ -5,10 +5,10 @@ go 1.24.0
 require (
 	github.com/antihax/optional v1.0.0
 	github.com/grokify/goauth v0.23.19
-	github.com/grokify/gocharts/v2 v2.24.19
+	github.com/grokify/gocharts/v2 v2.24.20
 	github.com/grokify/goelastic v0.6.14
 	github.com/grokify/gogoogle v0.6.10
-	github.com/grokify/mogo v0.70.20
+	github.com/grokify/mogo v0.70.21
 	github.com/grokify/spectrum v1.20.2
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
