@@ -14,7 +14,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.31.0
-	google.golang.org/api v0.248.0
+	google.golang.org/api v0.249.0
 )
 
 require (
