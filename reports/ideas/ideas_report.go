@@ -33,11 +33,11 @@ func (ids Ideas) Report(name string) (string, *table.Table) {
 
 	htm += fmt.Sprintf(`<p>%d ideas</p>`, len(ids))
 
-	cht1 := piechart.NewPieChartMaterialInts("Ideas by Status", "Status", "Count", statuses.Bins)
+	cht1 := piechart.NewPieChartMaterialInts("Ideas by Status", "Status", "Count", statuses.Items)
 	cht1.ChartDiv = "chart1"
 	htm += cht1.HTML()
 
-	cht2 := piechart.NewPieChartMaterialInts("Ideas by Category", "Category", "Count", cats.Bins)
+	cht2 := piechart.NewPieChartMaterialInts("Ideas by Category", "Category", "Count", cats.Items)
 	cht2.ChartDiv = "chart2"
 	htm += cht2.HTML()
 

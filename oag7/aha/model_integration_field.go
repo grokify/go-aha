@@ -12,8 +12,8 @@ package aha
 
 import (
 	"encoding/json"
-	"time"
 	"fmt"
+	"time"
 )
 
 // checks if the IntegrationField type satisfies the MappedNullable interface at compile time
@@ -21,12 +21,12 @@ var _ MappedNullable = &IntegrationField{}
 
 // IntegrationField struct for IntegrationField
 type IntegrationField struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	Value string `json:"value"`
-	IntegrationId string `json:"integration_id"`
-	ServiceName string `json:"service_name"`
-	CreatedAt time.Time `json:"created_at"`
+	Id                   string    `json:"id"`
+	Name                 string    `json:"name"`
+	Value                string    `json:"value"`
+	IntegrationId        string    `json:"integration_id"`
+	ServiceName          string    `json:"service_name"`
+	CreatedAt            time.Time `json:"created_at"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -200,7 +200,7 @@ func (o *IntegrationField) SetCreatedAt(v time.Time) {
 }
 
 func (o IntegrationField) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -241,10 +241,10 @@ func (o *IntegrationField) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -310,5 +310,3 @@ func (v *NullableIntegrationField) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -19,16 +19,15 @@ import (
 	"strings"
 )
 
-
 // ReleasesAPIService ReleasesAPI service
 type ReleasesAPIService service
 
 type ApiGetProductReleasesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ReleasesAPIService
-	productId string
-	page *int32
-	perPage *int32
+	productId  string
+	page       *int32
+	perPage    *int32
 }
 
 // A specific page of results.
@@ -52,26 +51,27 @@ GetProductReleases Get product releases
 
 Get releases for a product release
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param productId Numeric ID, or key of the product to retrieve releases for.
- @return ApiGetProductReleasesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Numeric ID, or key of the product to retrieve releases for.
+	@return ApiGetProductReleasesRequest
 */
 func (a *ReleasesAPIService) GetProductReleases(ctx context.Context, productId string) ApiGetProductReleasesRequest {
 	return ApiGetProductReleasesRequest{
 		ApiService: a,
-		ctx: ctx,
-		productId: productId,
+		ctx:        ctx,
+		productId:  productId,
 	}
 }
 
 // Execute executes the request
-//  @return ReleasesResponse
+//
+//	@return ReleasesResponse
 func (a *ReleasesAPIService) GetProductReleasesExecute(r ApiGetProductReleasesRequest) (*ReleasesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ReleasesResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleasesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.GetProductReleases")
@@ -147,9 +147,9 @@ func (a *ReleasesAPIService) GetProductReleasesExecute(r ApiGetProductReleasesRe
 }
 
 type ApiGetReleaseRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ReleasesAPIService
-	releaseId string
+	releaseId  string
 }
 
 func (r ApiGetReleaseRequest) Execute() (*ReleaseWrap, *http.Response, error) {
@@ -161,26 +161,27 @@ GetRelease Get release
 
 Get a specific release
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param releaseId Numeric ID, or key of the release to be retrieved
- @return ApiGetReleaseRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseId Numeric ID, or key of the release to be retrieved
+	@return ApiGetReleaseRequest
 */
 func (a *ReleasesAPIService) GetRelease(ctx context.Context, releaseId string) ApiGetReleaseRequest {
 	return ApiGetReleaseRequest{
 		ApiService: a,
-		ctx: ctx,
-		releaseId: releaseId,
+		ctx:        ctx,
+		releaseId:  releaseId,
 	}
 }
 
 // Execute executes the request
-//  @return ReleaseWrap
+//
+//	@return ReleaseWrap
 func (a *ReleasesAPIService) GetReleaseExecute(r ApiGetReleaseRequest) (*ReleaseWrap, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ReleaseWrap
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleaseWrap
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.GetRelease")
@@ -250,10 +251,10 @@ func (a *ReleasesAPIService) GetReleaseExecute(r ApiGetReleaseRequest) (*Release
 }
 
 type ApiUpdateProductReleaseRequest struct {
-	ctx context.Context
-	ApiService *ReleasesAPIService
-	productId string
-	releaseId string
+	ctx               context.Context
+	ApiService        *ReleasesAPIService
+	productId         string
+	releaseId         string
 	releaseUpdateWrap *ReleaseUpdateWrap
 }
 
@@ -272,28 +273,29 @@ UpdateProductRelease Update product release
 
 Update a release
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param productId Numeric ID, or key of the product to create the release in
- @param releaseId Numeric ID, or key of the release to be updated
- @return ApiUpdateProductReleaseRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Numeric ID, or key of the product to create the release in
+	@param releaseId Numeric ID, or key of the release to be updated
+	@return ApiUpdateProductReleaseRequest
 */
 func (a *ReleasesAPIService) UpdateProductRelease(ctx context.Context, productId string, releaseId string) ApiUpdateProductReleaseRequest {
 	return ApiUpdateProductReleaseRequest{
 		ApiService: a,
-		ctx: ctx,
-		productId: productId,
-		releaseId: releaseId,
+		ctx:        ctx,
+		productId:  productId,
+		releaseId:  releaseId,
 	}
 }
 
 // Execute executes the request
-//  @return ReleaseWrap
+//
+//	@return ReleaseWrap
 func (a *ReleasesAPIService) UpdateProductReleaseExecute(r ApiUpdateProductReleaseRequest) (*ReleaseWrap, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ReleaseWrap
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleaseWrap
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.UpdateProductRelease")

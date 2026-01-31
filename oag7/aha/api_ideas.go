@@ -17,16 +17,16 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
-
 
 // IdeasAPIService IdeasAPI service
 type IdeasAPIService service
 
 type ApiGetIdeaRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IdeasAPIService
-	ideaId string
+	ideaId     string
 }
 
 func (r ApiGetIdeaRequest) Execute() (*IdeaResponse, *http.Response, error) {
@@ -36,26 +36,27 @@ func (r ApiGetIdeaRequest) Execute() (*IdeaResponse, *http.Response, error) {
 /*
 GetIdea Get Idea
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param ideaId
- @return ApiGetIdeaRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaId
+	@return ApiGetIdeaRequest
 */
 func (a *IdeasAPIService) GetIdea(ctx context.Context, ideaId string) ApiGetIdeaRequest {
 	return ApiGetIdeaRequest{
 		ApiService: a,
-		ctx: ctx,
-		ideaId: ideaId,
+		ctx:        ctx,
+		ideaId:     ideaId,
 	}
 }
 
 // Execute executes the request
-//  @return IdeaResponse
+//
+//	@return IdeaResponse
 func (a *IdeasAPIService) GetIdeaExecute(r ApiGetIdeaRequest) (*IdeaResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *IdeaResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.GetIdea")
@@ -70,6 +71,226 @@ func (a *IdeasAPIService) GetIdeaExecute(r ApiGetIdeaRequest) (*IdeaResponse, *h
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListIdeasRequest struct {
+	ctx            context.Context
+	ApiService     *IdeasAPIService
+	q              *string
+	spam           *bool
+	workflowStatus *string
+	sort           *string
+	createdBefore  *time.Time
+	createdSince   *time.Time
+	updatedSince   *time.Time
+	tag            *string
+	userId         *string
+	ideaUserId     *string
+	page           *int32
+	perPage        *int32
+}
+
+// Search term to match against the idea name
+func (r ApiListIdeasRequest) Q(q string) ApiListIdeasRequest {
+	r.q = &q
+	return r
+}
+
+// When true, shows ideas that have been marked as spam. By default, no spam ideas will be shown.
+func (r ApiListIdeasRequest) Spam(spam bool) ApiListIdeasRequest {
+	r.spam = &spam
+	return r
+}
+
+// When present, filters to ideas with the provided workflow status ID or name.
+func (r ApiListIdeasRequest) WorkflowStatus(workflowStatus string) ApiListIdeasRequest {
+	r.workflowStatus = &workflowStatus
+	return r
+}
+
+// Sorting of the list of ideas. Accepted values are recent, trending, or popular.
+func (r ApiListIdeasRequest) Sort(sort string) ApiListIdeasRequest {
+	r.sort = &sort
+	return r
+}
+
+// UTC timestamp (in ISO8601 format). If provided, only ideas created before the timestamp will be returned.
+func (r ApiListIdeasRequest) CreatedBefore(createdBefore time.Time) ApiListIdeasRequest {
+	r.createdBefore = &createdBefore
+	return r
+}
+
+// UTC timestamp (in ISO8601 format). If provided, only ideas created after the timestamp will be returned.
+func (r ApiListIdeasRequest) CreatedSince(createdSince time.Time) ApiListIdeasRequest {
+	r.createdSince = &createdSince
+	return r
+}
+
+// UTC timestamp (in ISO8601 format). If provided, only ideas updated or created after the timestamp will be returned.
+func (r ApiListIdeasRequest) UpdatedSince(updatedSince time.Time) ApiListIdeasRequest {
+	r.updatedSince = &updatedSince
+	return r
+}
+
+// String tag value. If provided, only ideas with the associated tag will be returned.
+func (r ApiListIdeasRequest) Tag(tag string) ApiListIdeasRequest {
+	r.tag = &tag
+	return r
+}
+
+// ID of a user. If provided, only ideas created by that user will be returned.
+func (r ApiListIdeasRequest) UserId(userId string) ApiListIdeasRequest {
+	r.userId = &userId
+	return r
+}
+
+// ID of an idea user. If provided, only ideas created by that idea user will be returned.
+func (r ApiListIdeasRequest) IdeaUserId(ideaUserId string) ApiListIdeasRequest {
+	r.ideaUserId = &ideaUserId
+	return r
+}
+
+// A specific page of results.
+func (r ApiListIdeasRequest) Page(page int32) ApiListIdeasRequest {
+	r.page = &page
+	return r
+}
+
+// Number of results per page.
+func (r ApiListIdeasRequest) PerPage(perPage int32) ApiListIdeasRequest {
+	r.perPage = &perPage
+	return r
+}
+
+func (r ApiListIdeasRequest) Execute() (*IdeasResponse, *http.Response, error) {
+	return r.ApiService.ListIdeasExecute(r)
+}
+
+/*
+ListIdeas List ideas
+
+Get all ideas
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListIdeasRequest
+*/
+func (a *IdeasAPIService) ListIdeas(ctx context.Context) ApiListIdeasRequest {
+	return ApiListIdeasRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeasResponse
+func (a *IdeasAPIService) ListIdeasExecute(r ApiListIdeasRequest) (*IdeasResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeasResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.ListIdeas")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ideas"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.q != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "q", r.q, "form", "")
+	}
+	if r.spam != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "spam", r.spam, "form", "")
+	}
+	if r.workflowStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "workflow_status", r.workflowStatus, "form", "")
+	}
+	if r.sort != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sort", r.sort, "form", "")
+	}
+	if r.createdBefore != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "created_before", r.createdBefore, "form", "")
+	}
+	if r.createdSince != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "created_since", r.createdSince, "form", "")
+	}
+	if r.updatedSince != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "updated_since", r.updatedSince, "form", "")
+	}
+	if r.tag != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "tag", r.tag, "form", "")
+	}
+	if r.userId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
+	}
+	if r.ideaUserId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "idea_user_id", r.ideaUserId, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

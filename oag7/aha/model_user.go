@@ -26,7 +26,7 @@ type User struct {
 	// Email of the user
 	Email *string `json:"email,omitempty"`
 	// Permissions of the user in the product one of: product_owner, contributor, reviewer, viewer, none
-	Role *string `json:"role,omitempty"`
+	Role                 *string `json:"role,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -178,7 +178,7 @@ func (o *User) SetRole(v string) {
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -266,5 +266,3 @@ func (v *NullableUser) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

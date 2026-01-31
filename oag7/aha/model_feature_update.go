@@ -42,7 +42,7 @@ type FeatureUpdate struct {
 	// Name or id of initiative which the feature belongs to.
 	Initiative *string `json:"initiative,omitempty"`
 	// Name or id of master feature which the feature belongs to.
-	MasterFeature *string `json:"master_feature,omitempty"`
+	MasterFeature        *string `json:"master_feature,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -450,7 +450,7 @@ func (o *FeatureUpdate) SetMasterFeature(v string) {
 }
 
 func (o FeatureUpdate) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -570,5 +570,3 @@ func (v *NullableFeatureUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

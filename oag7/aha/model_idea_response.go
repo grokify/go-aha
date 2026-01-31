@@ -19,7 +19,7 @@ var _ MappedNullable = &IdeaResponse{}
 
 // IdeaResponse struct for IdeaResponse
 type IdeaResponse struct {
-	Idea *Idea `json:"idea,omitempty"`
+	Idea                 *Idea `json:"idea,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -75,7 +75,7 @@ func (o *IdeaResponse) SetIdea(v Idea) {
 }
 
 func (o IdeaResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -151,5 +151,3 @@ func (v *NullableIdeaResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

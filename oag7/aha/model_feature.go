@@ -12,38 +12,38 @@ package aha
 
 import (
 	"encoding/json"
-	"time"
 	"fmt"
+	"time"
 )
 
 // checks if the Feature type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Feature{}
 
-// Feature 
+// Feature
 type Feature struct {
-	Id string `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	CommentsCount *int64 `json:"comments_count,omitempty"`
-	CustomFields []CustomField `json:"custom_fields,omitempty"`
+	Id            string        `json:"id"`
+	CreatedAt     time.Time     `json:"created_at"`
+	CommentsCount *int64        `json:"comments_count,omitempty"`
+	CustomFields  []CustomField `json:"custom_fields,omitempty"`
 	// Due date in YYYY-MM-DD format.
-	DueDate *string `json:"due_date,omitempty"`
-	Name string `json:"name"`
-	ProductId *string `json:"product_id,omitempty"`
-	ProgressSource *string `json:"progress_source,omitempty"`
-	ReferenceNum string `json:"reference_num"`
-	Release *Release `json:"release,omitempty"`
+	DueDate        *string  `json:"due_date,omitempty"`
+	Name           string   `json:"name"`
+	ProductId      *string  `json:"product_id,omitempty"`
+	ProgressSource *string  `json:"progress_source,omitempty"`
+	ReferenceNum   string   `json:"reference_num"`
+	Release        *Release `json:"release,omitempty"`
 	// API URL for the resource.
 	Resource *string `json:"resource,omitempty"`
 	// Start date in YYYY-MM-DD format.
-	StartDate *string `json:"start_date,omitempty"`
-	Tags []string `json:"tags,omitempty"`
+	StartDate *string  `json:"start_date,omitempty"`
+	Tags      []string `json:"tags,omitempty"`
 	// Web UI URL for the resource.
-	Url *string `json:"url,omitempty"`
-	UseRequirementsEstimates *bool `json:"use_requirements_estimates,omitempty"`
-	WorkUnits *int64 `json:"work_units,omitempty"`
-	WorkflowStatus *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
-	IntegrationFields []IntegrationField `json:"integration_fields,omitempty"`
-	AdditionalProperties map[string]interface{}
+	Url                      *string                `json:"url,omitempty"`
+	UseRequirementsEstimates *bool                  `json:"use_requirements_estimates,omitempty"`
+	WorkUnits                *int64                 `json:"work_units,omitempty"`
+	WorkflowStatus           *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
+	IntegrationFields        []IntegrationField     `json:"integration_fields,omitempty"`
+	AdditionalProperties     map[string]interface{}
 }
 
 type _Feature Feature
@@ -614,7 +614,7 @@ func (o *Feature) SetIntegrationFields(v []IntegrationField) {
 }
 
 func (o Feature) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -693,10 +693,10 @@ func (o *Feature) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -774,5 +774,3 @@ func (v *NullableFeature) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

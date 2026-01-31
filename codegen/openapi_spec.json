@@ -120,6 +120,144 @@
         }
       }
     },
+    "/ideas": {
+      "get": {
+        "operationId": "listIdeas",
+        "summary": "List ideas",
+        "description": "Get all ideas",
+        "tags": [
+          "Ideas"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search term to match against the idea name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "spam",
+            "in": "query",
+            "description": "When true, shows ideas that have been marked as spam. By default, no spam ideas will be shown.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "workflow_status",
+            "in": "query",
+            "description": "When present, filters to ideas with the provided workflow status ID or name.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting of the list of ideas. Accepted values are recent, trending, or popular.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["recent", "trending", "popular"]
+            }
+          },
+          {
+            "name": "created_before",
+            "in": "query",
+            "description": "UTC timestamp (in ISO8601 format). If provided, only ideas created before the timestamp will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "created_since",
+            "in": "query",
+            "description": "UTC timestamp (in ISO8601 format). If provided, only ideas created after the timestamp will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "updated_since",
+            "in": "query",
+            "description": "UTC timestamp (in ISO8601 format). If provided, only ideas updated or created after the timestamp will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "String tag value. If provided, only ideas with the associated tag will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "ID of a user. If provided, only ideas created by that user will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idea_user_id",
+            "in": "query",
+            "description": "ID of an idea user. If provided, only ideas created by that idea user will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A specific page of results.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Number of results per page.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of ideas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdeasResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/ideas/{idea_id}": {
       "parameters": [
         {
@@ -1037,6 +1175,21 @@
         "properties": {
           "idea": {
             "$ref": "#/components/schemas/Idea"
+          }
+        }
+      },
+      "IdeasResponse": {
+        "title": "IdeasResponse",
+        "type": "object",
+        "properties": {
+          "ideas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Idea"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },

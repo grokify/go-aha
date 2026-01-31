@@ -19,7 +19,7 @@ var _ MappedNullable = &ReleaseUpdateWrap{}
 
 // ReleaseUpdateWrap struct for ReleaseUpdateWrap
 type ReleaseUpdateWrap struct {
-	Release *ReleaseUpdate `json:"release,omitempty"`
+	Release              *ReleaseUpdate `json:"release,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -75,7 +75,7 @@ func (o *ReleaseUpdateWrap) SetRelease(v ReleaseUpdate) {
 }
 
 func (o ReleaseUpdateWrap) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -151,5 +151,3 @@ func (v *NullableReleaseUpdateWrap) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

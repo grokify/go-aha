@@ -19,8 +19,8 @@ var _ MappedNullable = &FeaturesResponse{}
 
 // FeaturesResponse struct for FeaturesResponse
 type FeaturesResponse struct {
-	Features []FeatureMeta `json:"features,omitempty"`
-	Pagination *Pagination `json:"pagination,omitempty"`
+	Features             []FeatureMeta `json:"features,omitempty"`
+	Pagination           *Pagination   `json:"pagination,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -108,7 +108,7 @@ func (o *FeaturesResponse) SetPagination(v Pagination) {
 }
 
 func (o FeaturesResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -188,5 +188,3 @@ func (v *NullableFeaturesResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

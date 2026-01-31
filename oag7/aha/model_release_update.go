@@ -28,8 +28,8 @@ type ReleaseUpdate struct {
 	// Date Development started in format YYYY-MM-DD
 	DevelopmentStartedOn *string `json:"development_started_on,omitempty"`
 	// The external release date for this feature in format YYYY-MM-DD
-	ExternalReleaseDate *string `json:"external_release_date,omitempty"`
-	ParkingLot *bool `json:"parking_lot,omitempty"`
+	ExternalReleaseDate  *string `json:"external_release_date,omitempty"`
+	ParkingLot           *bool   `json:"parking_lot,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -245,7 +245,7 @@ func (o *ReleaseUpdate) SetParkingLot(v bool) {
 }
 
 func (o ReleaseUpdate) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -341,5 +341,3 @@ func (v *NullableReleaseUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

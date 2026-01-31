@@ -20,12 +20,12 @@ var _ MappedNullable = &FeatureMeta{}
 
 // FeatureMeta struct for FeatureMeta
 type FeatureMeta struct {
-	Id *string `json:"id,omitempty"`
-	ReferenceNum *string `json:"reference_num,omitempty"`
-	Name *string `json:"name,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	Url *string `json:"url,omitempty"`
-	Resource *string `json:"resource,omitempty"`
+	Id                   *string    `json:"id,omitempty"`
+	ReferenceNum         *string    `json:"reference_num,omitempty"`
+	Name                 *string    `json:"name,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
+	Url                  *string    `json:"url,omitempty"`
+	Resource             *string    `json:"resource,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -241,7 +241,7 @@ func (o *FeatureMeta) SetResource(v string) {
 }
 
 func (o FeatureMeta) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -337,5 +337,3 @@ func (v *NullableFeatureMeta) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
