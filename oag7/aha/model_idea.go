@@ -12,8 +12,8 @@ package aha
 
 import (
 	"encoding/json"
-	"time"
 	"fmt"
+	"time"
 )
 
 // checks if the Idea type satisfies the MappedNullable interface at compile time
@@ -21,16 +21,16 @@ var _ MappedNullable = &Idea{}
 
 // Idea struct for Idea
 type Idea struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	ReferenceNum string `json:"reference_num"`
-	Feature *IdeaFeature `json:"feature,omitempty"`
-	WorkflowStatus *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
-	Categories []Category `json:"categories"`
-	Votes int32 `json:"votes"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	StatusChangedAt time.Time `json:"status_changed_at"`
+	Id                   string                 `json:"id"`
+	Name                 string                 `json:"name"`
+	ReferenceNum         string                 `json:"reference_num"`
+	Feature              *IdeaFeature           `json:"feature,omitempty"`
+	WorkflowStatus       *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
+	Categories           []Category             `json:"categories"`
+	Votes                int32                  `json:"votes"`
+	CreatedAt            time.Time              `json:"created_at"`
+	UpdatedAt            time.Time              `json:"updated_at"`
+	StatusChangedAt      time.Time              `json:"status_changed_at"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -318,7 +318,7 @@ func (o *Idea) SetStatusChangedAt(v time.Time) {
 }
 
 func (o Idea) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -369,10 +369,10 @@ func (o *Idea) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -442,5 +442,3 @@ func (v *NullableIdea) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

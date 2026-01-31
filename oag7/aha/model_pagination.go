@@ -19,9 +19,9 @@ var _ MappedNullable = &Pagination{}
 
 // Pagination struct for Pagination
 type Pagination struct {
-	TotalRecords *int64 `json:"total_records,omitempty"`
-	TotalPages *int64 `json:"total_pages,omitempty"`
-	CurrentPage *int64 `json:"current_page,omitempty"`
+	TotalRecords         *int64 `json:"total_records,omitempty"`
+	TotalPages           *int64 `json:"total_pages,omitempty"`
+	CurrentPage          *int64 `json:"current_page,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -141,7 +141,7 @@ func (o *Pagination) SetCurrentPage(v int64) {
 }
 
 func (o Pagination) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -225,5 +225,3 @@ func (v *NullablePagination) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

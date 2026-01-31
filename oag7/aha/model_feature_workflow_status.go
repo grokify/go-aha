@@ -19,11 +19,11 @@ var _ MappedNullable = &FeatureWorkflowStatus{}
 
 // FeatureWorkflowStatus struct for FeatureWorkflowStatus
 type FeatureWorkflowStatus struct {
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Position *int64 `json:"position,omitempty"`
-	Complete *bool `json:"complete,omitempty"`
-	Color *string `json:"color,omitempty"`
+	Id                   *string `json:"id,omitempty"`
+	Name                 *string `json:"name,omitempty"`
+	Position             *int64  `json:"position,omitempty"`
+	Complete             *bool   `json:"complete,omitempty"`
+	Color                *string `json:"color,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -207,7 +207,7 @@ func (o *FeatureWorkflowStatus) SetColor(v string) {
 }
 
 func (o FeatureWorkflowStatus) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -299,5 +299,3 @@ func (v *NullableFeatureWorkflowStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

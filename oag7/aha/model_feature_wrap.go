@@ -19,7 +19,7 @@ var _ MappedNullable = &FeatureWrap{}
 
 // FeatureWrap struct for FeatureWrap
 type FeatureWrap struct {
-	Feature *Feature `json:"feature,omitempty"`
+	Feature              *Feature `json:"feature,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -75,7 +75,7 @@ func (o *FeatureWrap) SetFeature(v Feature) {
 }
 
 func (o FeatureWrap) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -151,5 +151,3 @@ func (v *NullableFeatureWrap) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

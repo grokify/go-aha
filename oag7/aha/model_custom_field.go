@@ -19,10 +19,10 @@ var _ MappedNullable = &CustomField{}
 
 // CustomField struct for CustomField
 type CustomField struct {
-	Key *string `json:"key,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Value *string `json:"value,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Key                  *string `json:"key,omitempty"`
+	Name                 *string `json:"name,omitempty"`
+	Value                *string `json:"value,omitempty"`
+	Type                 *string `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -174,7 +174,7 @@ func (o *CustomField) SetType(v string) {
 }
 
 func (o CustomField) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -262,5 +262,3 @@ func (v *NullableCustomField) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

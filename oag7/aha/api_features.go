@@ -20,14 +20,13 @@ import (
 	"time"
 )
 
-
 // FeaturesAPIService FeaturesAPI service
 type FeaturesAPIService service
 
 type ApiGetFeatureRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *FeaturesAPIService
-	featureId string
+	featureId  string
 }
 
 func (r ApiGetFeatureRequest) Execute() (*FeatureWrap, *http.Response, error) {
@@ -39,26 +38,27 @@ GetFeature Get feature
 
 Get a specific feature
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param featureId Numeric ID, or key of the feature to be retrieved
- @return ApiGetFeatureRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param featureId Numeric ID, or key of the feature to be retrieved
+	@return ApiGetFeatureRequest
 */
 func (a *FeaturesAPIService) GetFeature(ctx context.Context, featureId string) ApiGetFeatureRequest {
 	return ApiGetFeatureRequest{
 		ApiService: a,
-		ctx: ctx,
-		featureId: featureId,
+		ctx:        ctx,
+		featureId:  featureId,
 	}
 }
 
 // Execute executes the request
-//  @return FeatureWrap
+//
+//	@return FeatureWrap
 func (a *FeaturesAPIService) GetFeatureExecute(r ApiGetFeatureRequest) (*FeatureWrap, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *FeatureWrap
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *FeatureWrap
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetFeature")
@@ -128,14 +128,14 @@ func (a *FeaturesAPIService) GetFeatureExecute(r ApiGetFeatureRequest) (*Feature
 }
 
 type ApiGetFeaturesRequest struct {
-	ctx context.Context
-	ApiService *FeaturesAPIService
-	q *string
-	updatedSince *time.Time
-	tag *string
+	ctx            context.Context
+	ApiService     *FeaturesAPIService
+	q              *string
+	updatedSince   *time.Time
+	tag            *string
 	assignedToUser *string
-	page *int32
-	perPage *int32
+	page           *int32
+	perPage        *int32
 }
 
 // Sub-string to match against feature name or ID
@@ -183,24 +183,25 @@ GetFeatures Get features
 
 Get all features
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetFeaturesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetFeaturesRequest
 */
 func (a *FeaturesAPIService) GetFeatures(ctx context.Context) ApiGetFeaturesRequest {
 	return ApiGetFeaturesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return FeaturesResponse
+//
+//	@return FeaturesResponse
 func (a *FeaturesAPIService) GetFeaturesExecute(r ApiGetFeaturesRequest) (*FeaturesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *FeaturesResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *FeaturesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetFeatures")
@@ -287,11 +288,11 @@ func (a *FeaturesAPIService) GetFeaturesExecute(r ApiGetFeaturesRequest) (*Featu
 }
 
 type ApiGetReleaseFeaturesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *FeaturesAPIService
-	releaseId string
-	page *int32
-	perPage *int32
+	releaseId  string
+	page       *int32
+	perPage    *int32
 }
 
 // A specific page of results.
@@ -315,26 +316,27 @@ GetReleaseFeatures Get all features for a release
 
 Get all features for a release
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param releaseId Numeric ID, or key of the release to retrieve features for
- @return ApiGetReleaseFeaturesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseId Numeric ID, or key of the release to retrieve features for
+	@return ApiGetReleaseFeaturesRequest
 */
 func (a *FeaturesAPIService) GetReleaseFeatures(ctx context.Context, releaseId string) ApiGetReleaseFeaturesRequest {
 	return ApiGetReleaseFeaturesRequest{
 		ApiService: a,
-		ctx: ctx,
-		releaseId: releaseId,
+		ctx:        ctx,
+		releaseId:  releaseId,
 	}
 }
 
 // Execute executes the request
-//  @return FeaturesResponse
+//
+//	@return FeaturesResponse
 func (a *FeaturesAPIService) GetReleaseFeaturesExecute(r ApiGetReleaseFeaturesRequest) (*FeaturesResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *FeaturesResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *FeaturesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeaturesAPIService.GetReleaseFeatures")

@@ -39,7 +39,7 @@ type Product struct {
 	// Whether the product has ideas or not.
 	HasIdeas *bool `json:"has_ideas,omitempty"`
 	// Whether the product has master features or not.
-	HasMasterFeatures *bool `json:"has_master_features,omitempty"`
+	HasMasterFeatures    *bool `json:"has_master_features,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -383,7 +383,7 @@ func (o *Product) SetHasMasterFeatures(v bool) {
 }
 
 func (o Product) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -495,5 +495,3 @@ func (v *NullableProduct) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

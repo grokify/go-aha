@@ -96,6 +96,135 @@ paths:
       summary: Get feature
       tags:
       - Features
+  /ideas:
+    get:
+      description: Get all ideas
+      operationId: listIdeas
+      parameters:
+      - description: Search term to match against the idea name
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "When true, shows ideas that have been marked as spam. By default,\
+          \ no spam ideas will be shown."
+        explode: true
+        in: query
+        name: spam
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: "When present, filters to ideas with the provided workflow status\
+          \ ID or name."
+        explode: true
+        in: query
+        name: workflow_status
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Sorting of the list of ideas. Accepted values are recent, trending,\
+          \ or popular."
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - recent
+          - trending
+          - popular
+          type: string
+        style: form
+      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas created\
+          \ before the timestamp will be returned."
+        explode: true
+        in: query
+        name: created_before
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas created\
+          \ after the timestamp will be returned."
+        explode: true
+        in: query
+        name: created_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas updated\
+          \ or created after the timestamp will be returned."
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: "String tag value. If provided, only ideas with the associated\
+          \ tag will be returned."
+        explode: true
+        in: query
+        name: tag
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "ID of a user. If provided, only ideas created by that user will\
+          \ be returned."
+        explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "ID of an idea user. If provided, only ideas created by that\
+          \ idea user will be returned."
+        explode: true
+        in: query
+        name: idea_user_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: A specific page of results.
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - description: Number of results per page.
+        explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeasResponse"
+          description: A list of ideas
+      summary: List ideas
+      tags:
+      - Ideas
   /ideas/{idea_id}:
     get:
       operationId: getIdea
@@ -1092,6 +1221,86 @@ components:
       type: object
       x-stoplight:
         id: 6umhm6c92ofwo
+    IdeasResponse:
+      example:
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+        ideas:
+        - workflow_status:
+            color: color
+            name: name
+            id: id
+            position: 1
+            complete: true
+          reference_num: reference_num
+          feature:
+            reference_num: reference_num
+            resource: resource
+            product_id: product_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+            url: url
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          votes: 0
+          id: id
+          categories:
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+        - workflow_status:
+            color: color
+            name: name
+            id: id
+            position: 1
+            complete: true
+          reference_num: reference_num
+          feature:
+            reference_num: reference_num
+            resource: resource
+            product_id: product_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+            url: url
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          votes: 0
+          id: id
+          categories:
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+          - project_id: project_id
+            parent_id: parent_id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            id: id
+      properties:
+        ideas:
+          items:
+            $ref: "#/components/schemas/Idea"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      title: IdeasResponse
+      type: object
     Category:
       example:
         project_id: project_id

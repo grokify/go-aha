@@ -31,12 +31,12 @@ type Release struct {
 	ReleaseDate *string `json:"release_date,omitempty"`
 	// External release date in YYYY-MM-DD format.
 	ExternalReleaseDate *string `json:"external_release_date,omitempty"`
-	Released *bool `json:"released,omitempty"`
-	ParkingLot *bool `json:"parking_lot,omitempty"`
+	Released            *bool   `json:"released,omitempty"`
+	ParkingLot          *bool   `json:"parking_lot,omitempty"`
 	// Web URL for release.
 	Url *string `json:"url,omitempty"`
 	// API URL for release.
-	Resource *string `json:"resource,omitempty"`
+	Resource             *string `json:"resource,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -380,7 +380,7 @@ func (o *Release) SetResource(v string) {
 }
 
 func (o Release) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -492,5 +492,3 @@ func (v *NullableRelease) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
