@@ -44,7 +44,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	creds, err := goauth.ReadCredentialsFromSetFile(opts.CredsPath, opts.Account, true)
+	creds, err := goauth.NewCredentialsFromSetFile(opts.CredsPath, opts.Account, true)
 	logutil.FatalErr(err)
 
 	sc, err := creds.OAuth2.NewSimpleClient(context.Background())

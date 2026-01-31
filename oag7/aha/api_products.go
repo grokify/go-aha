@@ -19,14 +19,13 @@ import (
 	"strings"
 )
 
-
 // ProductsAPIService ProductsAPI service
 type ProductsAPIService service
 
 type ApiGetProductRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ProductsAPIService
-	productId string
+	productId  string
 }
 
 func (r ApiGetProductRequest) Execute() (*ProductResponse, *http.Response, error) {
@@ -38,26 +37,27 @@ GetProduct Get product
 
 Get product info
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param productId Numeric ID, or key of the feature to be retrieved
- @return ApiGetProductRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Numeric ID, or key of the feature to be retrieved
+	@return ApiGetProductRequest
 */
 func (a *ProductsAPIService) GetProduct(ctx context.Context, productId string) ApiGetProductRequest {
 	return ApiGetProductRequest{
 		ApiService: a,
-		ctx: ctx,
-		productId: productId,
+		ctx:        ctx,
+		productId:  productId,
 	}
 }
 
 // Execute executes the request
-//  @return ProductResponse
+//
+//	@return ProductResponse
 func (a *ProductsAPIService) GetProductExecute(r ApiGetProductRequest) (*ProductResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ProductResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ProductResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.GetProduct")
@@ -127,10 +127,10 @@ func (a *ProductsAPIService) GetProductExecute(r ApiGetProductRequest) (*Product
 }
 
 type ApiGetProductsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *ProductsAPIService
-	page *int32
-	perPage *int32
+	page       *int32
+	perPage    *int32
 }
 
 // A specific page of results.
@@ -154,24 +154,25 @@ GetProducts Get products
 
 Get products list
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetProductsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetProductsRequest
 */
 func (a *ProductsAPIService) GetProducts(ctx context.Context) ApiGetProductsRequest {
 	return ApiGetProductsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ProductsResponse
+//
+//	@return ProductsResponse
 func (a *ProductsAPIService) GetProductsExecute(r ApiGetProductsRequest) (*ProductsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ProductsResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ProductsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.GetProducts")

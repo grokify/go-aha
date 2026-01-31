@@ -29,7 +29,7 @@ type ProductMeta struct {
 	// Whether the product is a product line or not.
 	ProductLine *bool `json:"product_line,omitempty"`
 	// The date-time when the product was created.
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -213,7 +213,7 @@ func (o *ProductMeta) SetCreatedAt(v time.Time) {
 }
 
 func (o ProductMeta) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -305,5 +305,3 @@ func (v *NullableProductMeta) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

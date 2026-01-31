@@ -19,7 +19,7 @@ var _ MappedNullable = &ProductResponse{}
 
 // ProductResponse struct for ProductResponse
 type ProductResponse struct {
-	Product *Product `json:"product,omitempty"`
+	Product              *Product `json:"product,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -75,7 +75,7 @@ func (o *ProductResponse) SetProduct(v Product) {
 }
 
 func (o ProductResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -151,5 +151,3 @@ func (v *NullableProductResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

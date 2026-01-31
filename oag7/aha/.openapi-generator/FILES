@@ -22,6 +22,7 @@ docs/Idea.md
 docs/IdeaFeature.md
 docs/IdeaResponse.md
 docs/IdeasAPI.md
+docs/IdeasResponse.md
 docs/IntegrationField.md
 docs/Pagination.md
 docs/Product.md
@@ -50,6 +51,7 @@ model_features_response.go
 model_idea.go
 model_idea_feature.go
 model_idea_response.go
+model_ideas_response.go
 model_integration_field.go
 model_pagination.go
 model_product.go

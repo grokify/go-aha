@@ -20,13 +20,13 @@ var _ MappedNullable = &IdeaFeature{}
 
 // IdeaFeature struct for IdeaFeature
 type IdeaFeature struct {
-	Id *string `json:"id,omitempty"`
-	ReferenceNum *string `json:"reference_num,omitempty"`
-	Name *string `json:"name,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	Url *string `json:"url,omitempty"`
-	Resource *string `json:"resource,omitempty"`
-	ProductId *string `json:"product_id,omitempty"`
+	Id                   *string    `json:"id,omitempty"`
+	ReferenceNum         *string    `json:"reference_num,omitempty"`
+	Name                 *string    `json:"name,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
+	Url                  *string    `json:"url,omitempty"`
+	Resource             *string    `json:"resource,omitempty"`
+	ProductId            *string    `json:"product_id,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -274,7 +274,7 @@ func (o *IdeaFeature) SetProductId(v string) {
 }
 
 func (o IdeaFeature) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -374,5 +374,3 @@ func (v *NullableIdeaFeature) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
