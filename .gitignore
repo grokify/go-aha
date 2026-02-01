@@ -27,3 +27,6 @@ _testmain.go
 .env
 _*
 *.jar
+*.xlsx
+~$*
+.goauth.json
