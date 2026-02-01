@@ -64,11 +64,11 @@ func GetIdeaStatus(clt *aha.APIClient, ideaID, ideasPortalURL, ahaAdminURL strin
 	}
 
 	out := IdeaStatus{
-		IdeaCreatedAt: info.Idea.CreatedAt,
+		IdeaCreatedAt: info.Idea.GetCreatedAt(),
 		IdeaID:        info.Idea.Id,
 		IdeaName:      info.Idea.Name,
 		IdeaRefNum:    strings.TrimSpace(info.Idea.ReferenceNum),
-		IdeaVotes:     int64(info.Idea.Votes)}
+		IdeaVotes:     int64(info.Idea.GetVotes())}
 
 	if out.IdeaRefNum != "" && ideasPortalURL != "" {
 		out.IdeaURLPortal = urlutil.JoinAbsolute(ideasPortalURL, "ideas", out.IdeaRefNum)
