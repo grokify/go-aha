@@ -1,0 +1,70 @@
+site_name: go-aha
+site_description: Go SDK and CLI for the Aha! Roadmap API
+site_url: https://grokify.github.io/go-aha
+repo_url: https://github.com/grokify/go-aha
+repo_name: grokify/go-aha
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Configuration: getting-started/configuration.md
+    - Quick Start: getting-started/quickstart.md
+  - CLI Reference:
+    - Overview: cli/overview.md
+    - ideas: cli/ideas.md
+    - features: cli/features.md
+    - products: cli/products.md
+    - releases: cli/releases.md
+    - report: cli/report.md
+  - SDK Guide:
+    - Overview: sdk/overview.md
+    - API Client: sdk/client.md
+    - Ideas API: sdk/ideas.md
+    - Features API: sdk/features.md
+    - Reports: sdk/reports.md
+  - Examples:
+    - CLI Examples: examples/cli.md
+    - SDK Examples: examples/sdk.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/grokify/go-aha
