@@ -26,11 +26,11 @@ type Idea struct {
 	ReferenceNum         string                 `json:"reference_num"`
 	Feature              *IdeaFeature           `json:"feature,omitempty"`
 	WorkflowStatus       *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
-	Categories           []Category             `json:"categories"`
-	Votes                int32                  `json:"votes"`
-	CreatedAt            time.Time              `json:"created_at"`
-	UpdatedAt            time.Time              `json:"updated_at"`
-	StatusChangedAt      time.Time              `json:"status_changed_at"`
+	Categories           []Category             `json:"categories,omitempty"`
+	Votes                *int32                 `json:"votes,omitempty"`
+	CreatedAt            *time.Time             `json:"created_at,omitempty"`
+	UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
+	StatusChangedAt      *time.Time             `json:"status_changed_at,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -40,16 +40,11 @@ type _Idea Idea
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIdea(id string, name string, referenceNum string, categories []Category, votes int32, createdAt time.Time, updatedAt time.Time, statusChangedAt time.Time) *Idea {
+func NewIdea(id string, name string, referenceNum string) *Idea {
 	this := Idea{}
 	this.Id = id
 	this.Name = name
 	this.ReferenceNum = referenceNum
-	this.Categories = categories
-	this.Votes = votes
-	this.CreatedAt = createdAt
-	this.UpdatedAt = updatedAt
-	this.StatusChangedAt = statusChangedAt
 	return &this
 }
 
@@ -221,100 +216,128 @@ func (o *Idea) SetCategories(v []Category) {
 	o.Categories = v
 }
 
-// GetVotes returns the Votes field value
+// GetVotes returns the Votes field value if set, zero value otherwise.
 func (o *Idea) GetVotes() int32 {
-	if o == nil {
+	if o == nil || IsNil(o.Votes) {
 		var ret int32
 		return ret
 	}
-
-	return o.Votes
+	return *o.Votes
 }
 
-// GetVotesOk returns a tuple with the Votes field value
+// GetVotesOk returns a tuple with the Votes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Idea) GetVotesOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Votes) {
 		return nil, false
 	}
-	return &o.Votes, true
+	return o.Votes, true
 }
 
-// SetVotes sets field value
+// HasVotes returns a boolean if a field has been set.
+func (o *Idea) HasVotes() bool {
+	if o != nil && !IsNil(o.Votes) {
+		return true
+	}
+	return false
+}
+
+// SetVotes gets a reference to the given int32 and assigns it to the Votes field.
 func (o *Idea) SetVotes(v int32) {
-	o.Votes = v
+	o.Votes = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Idea) GetCreatedAt() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.CreatedAt
+	return *o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Idea) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		return nil, false
 	}
-	return &o.CreatedAt, true
+	return o.CreatedAt, true
 }
 
-// SetCreatedAt sets field value
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *Idea) HasCreatedAt() bool {
+	if o != nil && !IsNil(o.CreatedAt) {
+		return true
+	}
+	return false
+}
+
+// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
 func (o *Idea) SetCreatedAt(v time.Time) {
-	o.CreatedAt = v
+	o.CreatedAt = &v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value
+// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *Idea) GetUpdatedAt() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.UpdatedAt) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.UpdatedAt
+	return *o.UpdatedAt
 }
 
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Idea) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.UpdatedAt) {
 		return nil, false
 	}
-	return &o.UpdatedAt, true
+	return o.UpdatedAt, true
 }
 
-// SetUpdatedAt sets field value
+// HasUpdatedAt returns a boolean if a field has been set.
+func (o *Idea) HasUpdatedAt() bool {
+	if o != nil && !IsNil(o.UpdatedAt) {
+		return true
+	}
+	return false
+}
+
+// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
 func (o *Idea) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = v
+	o.UpdatedAt = &v
 }
 
-// GetStatusChangedAt returns the StatusChangedAt field value
+// GetStatusChangedAt returns the StatusChangedAt field value if set, zero value otherwise.
 func (o *Idea) GetStatusChangedAt() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.StatusChangedAt) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.StatusChangedAt
+	return *o.StatusChangedAt
 }
 
-// GetStatusChangedAtOk returns a tuple with the StatusChangedAt field value
+// GetStatusChangedAtOk returns a tuple with the StatusChangedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Idea) GetStatusChangedAtOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.StatusChangedAt) {
 		return nil, false
 	}
-	return &o.StatusChangedAt, true
+	return o.StatusChangedAt, true
 }
 
-// SetStatusChangedAt sets field value
+// HasStatusChangedAt returns a boolean if a field has been set.
+func (o *Idea) HasStatusChangedAt() bool {
+	if o != nil && !IsNil(o.StatusChangedAt) {
+		return true
+	}
+	return false
+}
+
+// SetStatusChangedAt gets a reference to the given time.Time and assigns it to the StatusChangedAt field.
 func (o *Idea) SetStatusChangedAt(v time.Time) {
-	o.StatusChangedAt = v
+	o.StatusChangedAt = &v
 }
 
 func (o Idea) MarshalJSON() ([]byte, error) {
@@ -336,11 +359,21 @@ func (o Idea) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.WorkflowStatus) {
 		toSerialize["workflow_status"] = o.WorkflowStatus
 	}
-	toSerialize["categories"] = o.Categories
-	toSerialize["votes"] = o.Votes
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["updated_at"] = o.UpdatedAt
-	toSerialize["status_changed_at"] = o.StatusChangedAt
+	if o.Categories != nil {
+		toSerialize["categories"] = o.Categories
+	}
+	if !IsNil(o.Votes) {
+		toSerialize["votes"] = o.Votes
+	}
+	if !IsNil(o.CreatedAt) {
+		toSerialize["created_at"] = o.CreatedAt
+	}
+	if !IsNil(o.UpdatedAt) {
+		toSerialize["updated_at"] = o.UpdatedAt
+	}
+	if !IsNil(o.StatusChangedAt) {
+		toSerialize["status_changed_at"] = o.StatusChangedAt
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -357,11 +390,6 @@ func (o *Idea) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"name",
 		"reference_num",
-		"categories",
-		"votes",
-		"created_at",
-		"updated_at",
-		"status_changed_at",
 	}
 
 	allProperties := make(map[string]interface{})
