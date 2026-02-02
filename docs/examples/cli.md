@@ -100,6 +100,9 @@ aha report idea-feature --per-page 50
 
 # All ideas (automatic pagination)
 aha report idea-feature --all
+
+# All ideas with full details including categories
+aha report idea-feature --all --inflate
 ```
 
 ### Export Formats
