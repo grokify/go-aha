@@ -19,10 +19,11 @@ var _ MappedNullable = &CustomField{}
 
 // CustomField struct for CustomField
 type CustomField struct {
-	Key                  *string `json:"key,omitempty"`
-	Name                 *string `json:"name,omitempty"`
-	Value                *string `json:"value,omitempty"`
-	Type                 *string `json:"type,omitempty"`
+	Key  *string `json:"key,omitempty"`
+	Name *string `json:"name,omitempty"`
+	// Value can be string, array, or other types depending on field type
+	Value                interface{} `json:"value,omitempty"`
+	Type                 *string     `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -109,22 +110,23 @@ func (o *CustomField) SetName(v string) {
 	o.Name = &v
 }
 
-// GetValue returns the Value field value if set, zero value otherwise.
-func (o *CustomField) GetValue() string {
-	if o == nil || IsNil(o.Value) {
-		var ret string
+// GetValue returns the Value field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CustomField) GetValue() interface{} {
+	if o == nil {
+		var ret interface{}
 		return ret
 	}
-	return *o.Value
+	return o.Value
 }
 
 // GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CustomField) GetValueOk() (*string, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CustomField) GetValueOk() (*interface{}, bool) {
 	if o == nil || IsNil(o.Value) {
 		return nil, false
 	}
-	return o.Value, true
+	return &o.Value, true
 }
 
 // HasValue returns a boolean if a field has been set.
@@ -136,9 +138,9 @@ func (o *CustomField) HasValue() bool {
 	return false
 }
 
-// SetValue gets a reference to the given string and assigns it to the Value field.
-func (o *CustomField) SetValue(v string) {
-	o.Value = &v
+// SetValue gets a reference to the given interface{} and assigns it to the Value field.
+func (o *CustomField) SetValue(v interface{}) {
+	o.Value = v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
@@ -189,7 +191,7 @@ func (o CustomField) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	if !IsNil(o.Value) {
+	if o.Value != nil {
 		toSerialize["value"] = o.Value
 	}
 	if !IsNil(o.Type) {
