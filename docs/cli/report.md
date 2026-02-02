@@ -34,6 +34,7 @@ aha report idea-feature [flags]
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
 | `--all` | `-a` | false | Fetch all pages automatically |
+| `--inflate` | | false | Fetch full details for each idea (includes categories) |
 | `--query` | `-q` | | Search term to match against idea name |
 | `--status` | `-s` | | Filter by workflow status |
 | `--tag` | `-t` | | Filter by tag |
@@ -46,6 +47,12 @@ aha report idea-feature [flags]
 |------|---------|-------------|
 | `--has-feature` | | Filter by has feature (yes/no) |
 | `--has-release` | | Filter by has release (yes/no) |
+
+#### Sorting
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--sort` | votes | Sort order: `votes`, `created`, `updated` |
 
 #### Output Options
 
@@ -68,8 +75,27 @@ aha report idea-feature
 # Get all ideas
 aha report idea-feature --all
 
+# Get all ideas with full details (includes categories)
+aha report idea-feature --all --inflate
+
 # Search and filter
 aha report idea-feature --all -q "authentication" --status "Planned"
+```
+
+#### Sorting
+
+```bash
+# Sort by most votes (default)
+aha report idea-feature --sort votes
+
+# Sort by most recently created
+aha report idea-feature --sort created
+
+# Sort by most recently updated
+aha report idea-feature --sort updated
+
+# Get latest 20 ideas by creation date
+aha report idea-feature --per-page 20 --sort created
 ```
 
 #### Export Formats
@@ -194,6 +220,12 @@ Spreadsheet with formatted columns. Automatically generates a filename if `--out
     - Use `--per-page 100` for fewer API calls
     - Each idea with a feature requires an additional API call
     - Progress is not shown; be patient for large datasets
+
+!!! warning "Using --inflate"
+    The `--inflate` flag makes an additional API call for **every idea** to fetch
+    full details (including categories). This significantly increases the number
+    of API calls and time required. Only use it when you need complete data that
+    the list endpoint doesn't provide.
 
 !!! info "API rate limits"
     The Aha! API has rate limits. If you hit them, wait and retry.

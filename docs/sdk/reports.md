@@ -59,9 +59,15 @@ req := ideas.ListIdeasRequest{
     UpdatedSince: &updateDate, // Updated after
 
     // Other
-    Spam: false,              // Include spam
+    Spam:    false,           // Include spam
+    Inflate: true,            // Fetch full details for each idea (includes categories)
 }
 ```
+
+!!! tip "When to use Inflate"
+    The list ideas endpoint may return abbreviated data (e.g., missing categories).
+    Set `Inflate: true` to make an additional API call per idea to fetch full details.
+    This is slower but ensures complete data including categories.
 
 ### Report Data
 

@@ -16,6 +16,8 @@ import (
 	"github.com/grokify/go-aha/v3/oag7/ideas"
 )
 
+const progressBarWidth = 40
+
 var reportCmd = &cobra.Command{
 	Use:   "report",
 	Short: "Generate reports",
@@ -23,19 +25,22 @@ var reportCmd = &cobra.Command{
 }
 
 var (
-	reportQuery          string
-	reportWorkflowStatus string
-	reportTag            string
-	reportPage           int
-	reportPerPage        int
-	reportFormat         string
-	reportOutput         string
-	reportIdeaPortalURL  string
-	reportFeatureBaseURL string
-	reportFilterFeature  string
-	reportFilterRelease  string
-	reportCompact        bool
-	reportFetchAll       bool
+	reportQuery              string
+	reportWorkflowStatus     string
+	reportTag                string
+	reportPage               int
+	reportPerPage            int
+	reportFormat             string
+	reportOutput             string
+	reportIdeaPortalURL      string
+	reportFeatureBaseURL     string
+	reportFilterFeature      string
+	reportFilterRelease      string
+	reportCompact            bool
+	reportFetchAll           bool
+	reportInflate            bool
+	reportSort               string
+	reportFailOnFeatureError bool
 )
 
 var ideaFeatureReportCmd = &cobra.Command{
@@ -57,10 +62,12 @@ features and releases. Output can be JSON, Markdown, or XLSX.`,
 		ctx := context.Background()
 
 		req := ideas.ListIdeasRequest{
-			Query:          reportQuery,
-			WorkflowStatus: reportWorkflowStatus,
-			Tag:            reportTag,
-			FetchAll:       reportFetchAll,
+			Query:              reportQuery,
+			WorkflowStatus:     reportWorkflowStatus,
+			Tag:                reportTag,
+			FetchAll:           reportFetchAll,
+			Inflate:            reportInflate,
+			FailOnFeatureError: reportFailOnFeatureError,
 		}
 		if reportPage > 0 {
 			req.Page = int32(reportPage)
@@ -69,23 +76,55 @@ features and releases. Output can be JSON, Markdown, or XLSX.`,
 			req.PerPage = int32(reportPerPage)
 		}
 
+		// Add progress callback when inflate is enabled
+		if reportInflate {
+			req.ProgressFn = func(current, total int, name string) {
+				percent := float64(current) / float64(total) * 100
+				filled := int(float64(progressBarWidth) * float64(current) / float64(total))
+				bar := strings.Repeat("█", filled) + strings.Repeat("░", progressBarWidth-filled)
+
+				// Truncate name if too long
+				displayName := name
+				if len(displayName) > 20 {
+					displayName = displayName[:17] + "..."
+				}
+
+				// \r returns to start of line, overwriting previous output
+				fmt.Fprintf(os.Stderr, "\r[%s] %3.0f%% (%d/%d) %-20s", bar, percent, current, total, displayName)
+			}
+		}
+
 		reportSet, err := ideas.GetIdeaFeatureReports(ctx, apiClient, req)
+
+		// Clear the progress line if inflate was used
+		if reportInflate {
+			fmt.Fprintf(os.Stderr, "\r%s\r", strings.Repeat(" ", 80))
+			fmt.Fprintln(os.Stderr, "Inflation complete!")
+		}
 		if err != nil {
 			return fmt.Errorf("failed to generate report: %w", err)
 		}
 
 		// Apply filters
 		if reportFilterFeature != "" {
-			hasFeature := strings.ToLower(reportFilterFeature) == "yes" || reportFilterFeature == "true"
-			reportSet = reportSet.FilterByHasFeature(hasFeature)
+			if hasFeature, ok := ideas.ParseBoolFilter(reportFilterFeature); ok {
+				reportSet = reportSet.FilterByHasFeature(hasFeature)
+			} else {
+				return fmt.Errorf("invalid --has-feature value %q: use yes/no or true/false", reportFilterFeature)
+			}
 		}
 		if reportFilterRelease != "" {
-			hasRelease := strings.ToLower(reportFilterRelease) == "yes" || reportFilterRelease == "true"
-			reportSet = reportSet.FilterByHasRelease(hasRelease)
+			if hasRelease, ok := ideas.ParseBoolFilter(reportFilterRelease); ok {
+				reportSet = reportSet.FilterByHasRelease(hasRelease)
+			} else {
+				return fmt.Errorf("invalid --has-release value %q: use yes/no or true/false", reportFilterRelease)
+			}
 		}
 
-		// Sort by votes (most popular first)
-		reportSet.SortByVotes()
+		// Sort results
+		if err := reportSet.SortBy(reportSort); err != nil {
+			return err
+		}
 
 		// Output the report
 		switch strings.ToLower(reportFormat) {
@@ -167,10 +206,15 @@ func init() {
 	ideaFeatureReportCmd.Flags().IntVarP(&reportPage, "page", "p", 0, "Page number")
 	ideaFeatureReportCmd.Flags().IntVarP(&reportPerPage, "per-page", "n", 0, "Results per page (default 30)")
 	ideaFeatureReportCmd.Flags().BoolVarP(&reportFetchAll, "all", "a", false, "Fetch all pages (paginate automatically)")
+	ideaFeatureReportCmd.Flags().BoolVar(&reportInflate, "inflate", false, "Fetch full details for each idea (includes categories)")
+	ideaFeatureReportCmd.Flags().BoolVar(&reportFailOnFeatureError, "fail-on-error", false, "Stop and return error when feature fetch fails")
 
 	// Report filters
 	ideaFeatureReportCmd.Flags().StringVar(&reportFilterFeature, "has-feature", "", "Filter by has feature (yes/no)")
 	ideaFeatureReportCmd.Flags().StringVar(&reportFilterRelease, "has-release", "", "Filter by has release (yes/no)")
+
+	// Sorting
+	ideaFeatureReportCmd.Flags().StringVar(&reportSort, "sort", "votes", "Sort order: votes, created, updated")
 
 	// Output options
 	ideaFeatureReportCmd.Flags().StringVarP(&reportFormat, "format", "f", "json", "Output format: json, markdown, xlsx")
