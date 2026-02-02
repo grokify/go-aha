@@ -106,31 +106,91 @@ func (s *IdeaFeatureReportSet) Len() int {
 	return len(s.Reports)
 }
 
+// ProgressFunc is called during operations to report progress.
+// Parameters: current item number, total items, current item name/identifier.
+type ProgressFunc func(current, total int, name string)
+
 // ListIdeasRequest contains parameters for listing ideas.
 type ListIdeasRequest struct {
-	Query          string
-	WorkflowStatus string
-	Tag            string
-	UserID         string
-	CreatedSince   *time.Time
-	UpdatedSince   *time.Time
-	Page           int32
-	PerPage        int32
-	Spam           bool
-	FetchAll       bool // If true, automatically paginate through all pages
+	Query              string
+	WorkflowStatus     string
+	Tag                string
+	UserID             string
+	CreatedSince       *time.Time
+	UpdatedSince       *time.Time
+	Page               int32
+	PerPage            int32
+	Spam               bool
+	FetchAll           bool         // If true, automatically paginate through all pages
+	Inflate            bool         // If true, fetch full details for each idea via GetIdea endpoint
+	ProgressFn         ProgressFunc // Optional callback for progress reporting (used with Inflate)
+	FailOnFeatureError bool         // If true, stop processing and return error when feature fetch fails
 }
 
 // GetIdeaFeatureReports fetches ideas and their associated features/releases.
 // It returns a comprehensive report set that can be exported to various formats.
 // If req.FetchAll is true, it will automatically paginate through all pages.
+// If req.Inflate is true, it fetches full details for each idea via GetIdea endpoint.
+// If req.ProgressFn is set and Inflate is true, progress is reported during inflation.
 func GetIdeaFeatureReports(ctx context.Context, client *aha.APIClient, req ListIdeasRequest) (*IdeaFeatureReportSet, error) {
 	if client == nil {
 		return nil, fmt.Errorf("aha api client cannot be nil")
 	}
 
-	reportSet := NewIdeaFeatureReportSet()
+	// Phase 1: Collect all ideas from the list endpoint
+	allIdeas, err := collectIdeas(ctx, client, req)
+	if err != nil {
+		return nil, err
+	}
 
-	// Determine pagination strategy
+	// Phase 2: Process ideas (with optional inflation and progress reporting)
+	reportSet := NewIdeaFeatureReportSet()
+	total := len(allIdeas)
+
+	for i, idea := range allIdeas {
+		var report IdeaFeatureReport
+
+		// If Inflate is true, fetch full idea details via GetIdea endpoint
+		if req.Inflate {
+			// Report progress if callback is provided
+			if req.ProgressFn != nil {
+				req.ProgressFn(i+1, total, idea.ReferenceNum)
+			}
+
+			inflatedIdea, err := inflateIdea(ctx, client, idea.Id)
+			if err != nil {
+				// Fall back to list data if inflate fails
+				report = buildReportFromIdea(idea)
+				report.IdeaName = fmt.Sprintf("%s (inflate error: %v)", idea.Name, err)
+			} else {
+				report = buildReportFromIdea(*inflatedIdea)
+			}
+		} else {
+			report = buildReportFromIdea(idea)
+		}
+
+		// If the idea has a feature reference, fetch full feature details
+		if report.HasFeature && report.FeatureID != "" {
+			if err := enrichReportWithFeature(ctx, client, &report, report.FeatureID); err != nil {
+				if req.FailOnFeatureError {
+					return nil, fmt.Errorf("failed to get feature %s for idea %s: %w",
+						report.FeatureID, report.IdeaRefNum, err)
+				}
+				// Log but continue - don't fail the entire report for one feature
+				report.FeatureName = fmt.Sprintf("(error: %v)", err)
+			}
+		}
+
+		reportSet.Add(report)
+	}
+
+	return reportSet, nil
+}
+
+// collectIdeas fetches ideas from the list endpoint with optional pagination.
+func collectIdeas(ctx context.Context, client *aha.APIClient, req ListIdeasRequest) ([]aha.Idea, error) {
+	var allIdeas []aha.Idea
+
 	currentPage := req.Page
 	if currentPage <= 0 {
 		currentPage = 1
@@ -177,23 +237,7 @@ func GetIdeaFeatureReports(ctx context.Context, client *aha.APIClient, req ListI
 			return nil, fmt.Errorf("api error: status %d (page %d)", resp.StatusCode, currentPage)
 		}
 
-		// Process ideas from this page
-		for _, idea := range ideasResp.Ideas {
-			report := buildReportFromIdea(idea)
-
-			// If the idea has a feature reference, fetch full feature details
-			if idea.Feature != nil && idea.Feature.Id != nil {
-				featureID := *idea.Feature.Id
-				if featureID != "" {
-					if err := enrichReportWithFeature(ctx, client, &report, featureID); err != nil {
-						// Log but continue - don't fail the entire report for one feature
-						report.FeatureName = fmt.Sprintf("(error: %v)", err)
-					}
-				}
-			}
-
-			reportSet.Add(report)
-		}
+		allIdeas = append(allIdeas, ideasResp.Ideas...)
 
 		// Check if we should continue paginating
 		if !req.FetchAll {
@@ -220,7 +264,7 @@ func GetIdeaFeatureReports(ctx context.Context, client *aha.APIClient, req ListI
 		currentPage++
 	}
 
-	return reportSet, nil
+	return allIdeas, nil
 }
 
 // GetIdeaFeatureReport fetches a single idea and its associated feature/release.
@@ -256,6 +300,19 @@ func GetIdeaFeatureReport(ctx context.Context, client *aha.APIClient, ideaID str
 	}
 
 	return &report, nil
+}
+
+// inflateIdea fetches full idea details via the GetIdea endpoint.
+// The list endpoint may return abbreviated data; this ensures we get all fields including categories.
+func inflateIdea(ctx context.Context, client *aha.APIClient, ideaID string) (*aha.Idea, error) {
+	ideaResp, resp, err := client.IdeasAPI.GetIdea(ctx, ideaID).Execute()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get idea %s: %w", ideaID, err)
+	}
+	if resp.StatusCode >= 400 {
+		return nil, fmt.Errorf("api error getting idea %s: status %d", ideaID, resp.StatusCode)
+	}
+	return ideaResp.Idea, nil
 }
 
 // buildReportFromIdea creates a report from an Idea.
@@ -437,10 +494,10 @@ func (s *IdeaFeatureReportSet) TableCompact() *table.Table {
 func (s *IdeaFeatureReportSet) TableWithLinks(ideaPortalBaseURL, featureBaseURL string) *table.Table {
 	t := table.NewTable("Idea Feature Report")
 	t.FormatMap = map[int]string{
-		1: table.FormatURL,  // Idea Name (linked)
-		3: table.FormatInt,  // Votes
-		5: table.FormatURL,  // Feature Name (linked)
-		9: table.FormatURL,  // Jira (linked)
+		1: table.FormatURL, // Idea Name (linked)
+		3: table.FormatInt, // Votes
+		5: table.FormatURL, // Feature Name (linked)
+		9: table.FormatURL, // Jira (linked)
 	}
 
 	t.Columns = []string{
@@ -550,6 +607,44 @@ func (s *IdeaFeatureReportSet) SortByCreatedAt() {
 	sort.Slice(s.Reports, func(i, j int) bool {
 		return s.Reports[i].IdeaCreatedAt.After(s.Reports[j].IdeaCreatedAt)
 	})
+}
+
+// SortByUpdatedAt sorts reports by idea update date (most recently updated first).
+func (s *IdeaFeatureReportSet) SortByUpdatedAt() {
+	sort.Slice(s.Reports, func(i, j int) bool {
+		return s.Reports[i].IdeaUpdatedAt.After(s.Reports[j].IdeaUpdatedAt)
+	})
+}
+
+// SortBy sorts the report set by the specified field.
+// Valid values: "votes" (default), "created", "updated".
+// Returns an error for invalid sort options.
+func (s *IdeaFeatureReportSet) SortBy(sortOrder string) error {
+	switch strings.ToLower(strings.TrimSpace(sortOrder)) {
+	case "created", "created_at", "createdat":
+		s.SortByCreatedAt()
+	case "updated", "updated_at", "updatedat":
+		s.SortByUpdatedAt()
+	case "votes", "popular", "":
+		s.SortByVotes()
+	default:
+		return fmt.Errorf("invalid sort option %q: use votes, created, or updated", sortOrder)
+	}
+	return nil
+}
+
+// ParseBoolFilter parses common boolean string representations.
+// Accepts: "yes", "true", "1" (returns true), "no", "false", "0" (returns false).
+// Returns the parsed value and whether the input was valid.
+func ParseBoolFilter(value string) (bool, bool) {
+	switch strings.ToLower(strings.TrimSpace(value)) {
+	case "yes", "true", "1":
+		return true, true
+	case "no", "false", "0":
+		return false, true
+	default:
+		return false, false
+	}
 }
 
 // Helper functions
