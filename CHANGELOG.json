@@ -1,0 +1,41 @@
+{
+  "ir_version": "1.0",
+  "project": "go-aha",
+  "repository": "https://github.com/grokify/go-aha",
+  "versioning": "semver",
+  "commit_convention": "conventional",
+  "maintainers": ["grokify", "johncwang@gmail.com"],
+  "releases": [
+    {
+      "version": "v3.3.0",
+      "date": "2026-02-02",
+      "highlights": [
+        { "description": "New Cobra CLI for interacting with Aha! API from the command line" },
+        { "description": "Comprehensive idea-feature-release reporting with multiple output formats" }
+      ],
+      "added": [
+        { "description": "CLI: Cobra CLI with commands for ideas, features, products, releases, and reports", "commit": "28c5f26" },
+        { "description": "CLI: `--inflate` flag to fetch full idea details including categories", "commit": "30083d1" },
+        { "description": "CLI: `--sort` flag for votes/created/updated ordering", "commit": "30083d1" },
+        { "description": "CLI: `--fail-on-error` flag for strict feature fetch error handling", "commit": "30083d1" },
+        { "description": "CLI: Progress bar during idea inflation", "commit": "30083d1" },
+        { "description": "SDK: `IdeaFeatureReport` and `IdeaFeatureReportSet` for comprehensive idea-feature-release reporting", "commit": "e33b815" },
+        { "description": "SDK: `GetIdeaFeatureReports()` with automatic pagination via `FetchAll` option", "commit": "e33b815" },
+        { "description": "SDK: `ListIdeas()` and `ListIdeasExecute()` in `IdeasAPIService`", "commit": "cbd3b00" }
+      ],
+      "fixed": [
+        { "description": "`CustomField.Value` now supports any type (string, array, etc.) matching actual Aha! API responses", "commit": "f895ca6" },
+        { "description": "`Idea` model fields (`categories`, `votes`, timestamps) are now optional to handle varying API responses", "commit": "961b1ca" }
+      ],
+      "documentation": [
+        { "description": "MkDocs documentation site with Getting Started, CLI Reference, SDK Guide, and Examples", "commit": "503c07a" },
+        { "description": "README updated with quick start, API reference table, and corrected examples", "commit": "7ae412a" }
+      ],
+      "dependencies": [
+        { "description": "Bump `google.golang.org/api` from 0.250.0 to 0.256.0", "commit": "b7f5f06" },
+        { "description": "Bump `github.com/grokify/mogo` from 0.70.23 to 0.71.7", "commit": "bbf6706" },
+        { "description": "Bump `actions/checkout` from 5 to 6", "commit": "135a81b" }
+      ]
+    }
+  ]
+}
