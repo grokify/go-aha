@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Key** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
-**Value** | Pointer to **string** |  | [optional] 
+**Value** | Pointer to **interface{}** | Value can be string, array, or other types depending on field type | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -80,20 +80,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetValue
 
-`func (o *CustomField) GetValue() string`
+`func (o *CustomField) GetValue() interface{}`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *CustomField) GetValueOk() (*string, bool)`
+`func (o *CustomField) GetValueOk() (*interface{}, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *CustomField) SetValue(v string)`
+`func (o *CustomField) SetValue(v interface{})`
 
 SetValue sets Value field to given value.
 
@@ -103,6 +103,16 @@ SetValue sets Value field to given value.
 
 HasValue returns a boolean if a field has been set.
 
+### SetValueNil
+
+`func (o *CustomField) SetValueNil(b bool)`
+
+ SetValueNil sets the value for Value to be an explicit nil
+
+### UnsetValue
+`func (o *CustomField) UnsetValue()`
+
+UnsetValue ensures that no value is present for Value, not even an explicit nil
 ### GetType
 
 `func (o *CustomField) GetType() string`

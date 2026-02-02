@@ -475,11 +475,11 @@ components:
           custom_fields:
           - name: name
             type: type
-            value: value
+            value: ""
             key: key
           - name: name
             type: type
-            value: value
+            value: ""
             key: key
           release:
             reference_num: reference_num
@@ -655,11 +655,11 @@ components:
         custom_fields:
         - name: name
           type: type
-          value: value
+          value: ""
           key: key
         - name: name
           type: type
-          value: value
+          value: ""
           key: key
         release:
           reference_num: reference_num
@@ -769,7 +769,7 @@ components:
       example:
         name: name
         type: type
-        value: value
+        value: ""
         key: key
       properties:
         key:
@@ -777,7 +777,8 @@ components:
         name:
           type: string
         value:
-          type: string
+          description: "Value can be string, array, or other types depending on field\
+            \ type"
         type:
           type: string
       type: object
@@ -1126,7 +1127,6 @@ components:
           x-stoplight:
             id: hu2zt5zdeevyx
       required:
-      - categories
       - created_at
       - id
       - name
