@@ -769,7 +769,7 @@
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "description": "Value can be string, array, or other types depending on field type"
           },
           "type": {
             "type": "string"
@@ -1110,7 +1110,6 @@
           "id",
           "name",
           "reference_num",
-          "categories",
           "votes",
           "created_at",
           "updated_at",

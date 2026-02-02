@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **ReferenceNum** | **string** |  | 
 **Feature** | Pointer to [**IdeaFeature**](IdeaFeature.md) |  | [optional] 
 **WorkflowStatus** | Pointer to [**FeatureWorkflowStatus**](FeatureWorkflowStatus.md) |  | [optional] 
-**Categories** | [**[]Category**](Category.md) |  | 
+**Categories** | Pointer to [**[]Category**](Category.md) |  | [optional] 
 **Votes** | **int32** |  | 
 **CreatedAt** | **time.Time** |  | 
 **UpdatedAt** | **time.Time** |  | 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewIdea
 
-`func NewIdea(id string, name string, referenceNum string, categories []Category, votes int32, createdAt time.Time, updatedAt time.Time, statusChangedAt time.Time, ) *Idea`
+`func NewIdea(id string, name string, referenceNum string, votes int32, createdAt time.Time, updatedAt time.Time, statusChangedAt time.Time, ) *Idea`
 
 NewIdea instantiates a new Idea object
 This constructor will assign default values to properties that have it defined,
@@ -163,6 +163,11 @@ and a boolean to check if the value has been set.
 
 SetCategories sets Categories field to given value.
 
+### HasCategories
+
+`func (o *Idea) HasCategories() bool`
+
+HasCategories returns a boolean if a field has been set.
 
 ### GetVotes
 
