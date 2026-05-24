@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/antihax/optional v1.0.0
-	github.com/grokify/goauth v0.23.29
+	github.com/grokify/goauth v0.23.30
 	github.com/grokify/gocharts/v2 v2.27.0
 	github.com/grokify/goelastic v0.6.15
 	github.com/grokify/gogoogle v0.9.0
@@ -81,8 +81,8 @@ require (
 	go.opentelemetry.io/otel/trace v1.43.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	golang.org/x/crypto v0.51.0 // indirect
-	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f // indirect
-	golang.org/x/image v0.39.0 // indirect
+	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
+	golang.org/x/image v0.40.0 // indirect
 	golang.org/x/net v0.54.0 // indirect
 	golang.org/x/sys v0.44.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
