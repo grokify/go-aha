@@ -8,7 +8,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.27.0
 	github.com/grokify/goelastic v0.6.15
 	github.com/grokify/gogoogle v0.11.0
-	github.com/grokify/mogo v0.74.5
+	github.com/grokify/mogo v0.74.6
 	github.com/grokify/spectrum v1.20.6
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -81,7 +81,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.44.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	golang.org/x/crypto v0.53.0 // indirect
-	golang.org/x/exp v0.0.0-20260529124908-c761662dc8c9 // indirect
+	golang.org/x/exp v0.0.0-20260603202125-055de637280b // indirect
 	golang.org/x/image v0.41.0 // indirect
 	golang.org/x/net v0.56.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
