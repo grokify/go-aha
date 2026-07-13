@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+  <h1>Ideas by Status</h1>
+  <div id="chart_div"></div>
+  <script>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([["Status","Count"],["Future Release",6],["Accepted",3],["Closed (Not Needed)",3],["Idea Validation",3],["Shipped",2],["Gathering Feedback",1]]);
+
+      var options = {"title":"Ideas by Status","height":500,"width":900,"pieSliceTextStyle":{}}
+
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+    </script>
+  </body>
+</html>

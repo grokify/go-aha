@@ -1,0 +1,34 @@
+<html><head><script src="https://www.gstatic.com/charts/loader.js"></script><link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script></head><body><h1>Ideas for rei.com</h2><p>5 ideas</p>
+  <div id="chart1"></div>
+  <script>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([["Status","Count"],["Future Release",2],["Idea Validation",2],["Will not implement",1]]);
+
+      var options = {"title":"Ideas by Status","height":500,"width":900,"pieSliceTextStyle":{}}
+
+      var chart = new google.visualization.PieChart(document.getElementById('chart1'));
+
+      chart.draw(data, options);
+    }
+    </script>
+
+  <div id="chart2"></div>
+  <script>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([["Category","Count"],["Administration",2],["Analytics",1],["Integrations",1],["Intelligence",1],["Roles, Rules \u0026 Policies",1]]);
+
+      var options = {"title":"Ideas by Category","height":500,"width":900,"pieSliceTextStyle":{}}
+
+      var chart = new google.visualization.PieChart(document.getElementById('chart2'));
+
+      chart.draw(data, options);
+    }
+    </script>
+<table><thead><tr><th>No.</th><th>Idea categories</th><th>Idea name and URL</th><th>Idea status</th><th>Idea votes</th></tr></thead><tbody><tr><td>1</td><td>Administration</td><td><a href="[Send job alerts while a job is hung](https://ideas.saviynt.com/ideas/EIC-I-3331)">[Send job alerts while a job is hung](https://ideas.saviynt.com/ideas/EIC-I-3331)</a></td><td>Future Release</td><td>80</td></tr><tr><td>2</td><td>Administration</td><td><a href="[Make breadcrumb navigation clickable](https://ideas.saviynt.com/ideas/EIC-I-3596)">[Make breadcrumb navigation clickable](https://ideas.saviynt.com/ideas/EIC-I-3596)</a></td><td>Future Release</td><td>45</td></tr><tr><td>3</td><td>Intelligence; Roles, Rules & Policies</td><td><a href="[Support for multiple triggers in one User update rule](https://ideas.saviynt.com/ideas/EIC-I-3297)">[Support for multiple triggers in one User update rule](https://ideas.saviynt.com/ideas/EIC-I-3297)</a></td><td>Idea Validation</td><td>2</td></tr><tr><td>4</td><td>Integrations</td><td><a href="[IBM iSeries/AS400 Connector enhancement](https://ideas.saviynt.com/ideas/EIC-I-2630)">[IBM iSeries/AS400 Connector enhancement](https://ideas.saviynt.com/ideas/EIC-I-2630)</a></td><td>Will not implement</td><td>1</td></tr><tr><td>5</td><td>Analytics</td><td><a href="[Allow Date formatting in Analytics](https://ideas.saviynt.com/ideas/EIC-I-6118)">[Allow Date formatting in Analytics](https://ideas.saviynt.com/ideas/EIC-I-6118)</a></td><td>Idea Validation</td><td>1</td></tr></tbody></table></body></html>

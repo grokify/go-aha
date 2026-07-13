@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+  <h1>Ideas by Category</h1>
+  <div id="chart_div"></div>
+  <script>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([["Category","Count"],["Administration",4],["Analytics",3],["Integrations",3],["Administration - Identity Repository",2],["Group Management",2],["Request",2],["Certification",1],["Security",1],["UI",1]]);
+
+      var options = {"title":"Ideas by Category","height":500,"width":900,"pieSliceTextStyle":{}}
+
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+    </script>
+  </body>
+</html>

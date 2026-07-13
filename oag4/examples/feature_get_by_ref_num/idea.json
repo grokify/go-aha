@@ -1,0 +1,126 @@
+{
+	"idea": {
+		"id": "7458108264465258721",
+		"name": "Delete files in the File directory/Success folder from UI level.",
+		"reference_num": "EIC-I-6538",
+		"score": 0,
+		"created_at": "2025-01-10T02:29:07.655Z",
+		"updated_at": "2025-07-10T07:50:36.807Z",
+		"product_id": "6956010895139277648",
+		"votes": 14,
+		"initial_votes": 0,
+		"status_changed_at": "2025-05-28T12:00:33.742Z",
+		"workflow_status": {
+			"id": "6873537716751436317",
+			"name": "Shipped",
+			"position": 5,
+			"complete": true,
+			"color": "#12953a"
+		},
+		"description": {
+			"id": "7458108264660665334",
+			"body": "\u003cp\u003eIssue is that we are unable to delete some files in filedirectory/success folder. We raised a ticket #INC-2057522 for the same issue\u003c/p\u003e\u003cp\u003eThrough the ticket we got an update that as these files are being placed when an external jar is running so we are not able to delete the files from UI level. Request to provide the feasibility to delete the files from UI level.\u003c/p\u003e\u003cp\u003eAs the jobs are running daily reports are being placed in the success folder. As we are not able to delete the files. this will cause a space issue which leads to job failures. So request you to check and implement this solution.\u003c/p\u003e\u003cp\u003ePlease test this in our Dev environment first before moving to Prod. Please let me know in case of any queries.\u003c/p\u003e",
+			"editor_version": 1,
+			"created_at": "2025-01-10T02:29:07.702Z",
+			"updated_at": "2025-01-10T02:29:07.702Z",
+			"attachments": []
+		},
+		"visibility": "Visible to all ideas portal users",
+		"url": "https://saviynt-product.aha.io/ideas/ideas/EIC-I-6538",
+		"resource": "https://saviynt-product.aha.io/api/v1/ideas/EIC-I-6538",
+		"product": {
+			"id": "6956010895139277648",
+			"reference_prefix": "EIC",
+			"name": "Enterprise Identity Cloud",
+			"product_line": false,
+			"created_at": "2021-04-28T01:14:53.976Z",
+			"workspace_type": "product_workspace",
+			"url": "https://saviynt-product.aha.io/projects/EIC"
+		},
+		"created_by_portal_user": {
+			"id": "7457072940377536951",
+			"name": "sai.kiran.maganti@yara.com",
+			"email": "sai.kiran.maganti@yara.com",
+			"created_at": "2025-01-07T07:31:32.482Z"
+		},
+		"created_by_idea_user": {
+			"id": "7457072940304257316",
+			"name": "sai.kiran.maganti@yara.com",
+			"email": "sai.kiran.maganti@yara.com",
+			"created_at": "2025-01-07T07:31:32.465Z",
+			"title": null
+		},
+		"assigned_to_user": null,
+		"feature": {
+			"id": "7489142925063719555",
+			"reference_num": "FON-910",
+			"name": "Delete files in the File directory/Success folder from UI level.",
+			"created_at": "2025-04-03T17:39:27.658Z",
+			"url": "https://saviynt-product.aha.io/features/FON-910",
+			"resource": "https://saviynt-product.aha.io/api/v1/features/FON-910",
+			"product_id": "6908237047375862132"
+		},
+		"endorsements_count": 14,
+		"comments_count": 1,
+		"score_facts": [],
+		"tags": [],
+		"full_tags": [],
+		"categories": [
+			{
+				"id": "6987341445135509478",
+				"name": "Administration",
+				"parent_id": null,
+				"project_id": "6956010895139277648",
+				"created_at": "2021-07-21T11:33:26.096Z"
+			}
+		],
+		"custom_fields": [
+			{
+				"id": "7458108264950711091",
+				"key": "priority",
+				"name": "What is the priority from your standpoint?",
+				"updatedAt": "2025-01-10T02:29:07Z",
+				"value": "High",
+				"type": "string"
+			},
+			{
+				"id": "7458108264792046476",
+				"key": "ideas_company_name",
+				"name": "Company Name",
+				"updatedAt": "2025-01-10T02:29:07Z",
+				"value": "Yara International",
+				"type": "string"
+			},
+			{
+				"id": "7458108264884599365",
+				"key": "idea_benefit",
+				"name": "Who is going to benefit from this idea?",
+				"updatedAt": "2025-01-10T02:29:07Z",
+				"value": "Implementing this idea will help to solve the space issue. ",
+				"type": "string"
+			}
+		],
+		"workflow_status_times": [
+			{
+				"status_id": "7104816911729744630",
+				"status_name": "New",
+				"started_at": "2025-01-10T02:29:07.792Z",
+				"ended_at": "2025-01-13T15:15:04.849Z"
+			},
+			{
+				"status_id": "7104817458763743132",
+				"status_name": "Accepted",
+				"started_at": "2025-01-13T15:15:04.878Z",
+				"ended_at": "2025-05-28T12:00:34.260Z"
+			},
+			{
+				"status_id": "6873537716751436317",
+				"status_name": "Shipped",
+				"started_at": "2025-05-28T12:00:34.512Z",
+				"ended_at": null
+			}
+		],
+		"submitted_idea_portal_record_url": "https://ideas.saviynt.com/ideas/EIC-I-6538",
+		"integration_fields": []
+	}
+}

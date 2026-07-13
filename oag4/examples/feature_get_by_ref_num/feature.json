@@ -1,0 +1,842 @@
+{
+	"feature": {
+		"id": "7489142925063719555",
+		"name": "Delete files in the File directory/Success folder from UI level.",
+		"reference_num": "FON-910",
+		"initiative_reference_num": null,
+		"release_reference_num": "FON-R-91",
+		"epic_reference_num": null,
+		"position": 29,
+		"score": 0,
+		"created_at": "2025-04-03T17:39:27.658Z",
+		"updated_at": "2025-07-10T07:50:36.813Z",
+		"start_date": null,
+		"due_date": null,
+		"product_id": "6908237047375862132",
+		"progress": 0,
+		"progress_source": "progress_manual",
+		"status_changed_on": "2025-06-23",
+		"created_by_user": {
+			"id": "6876094920940192537",
+			"name": "Rashmi Bhupal",
+			"email": "rashmi.bhupal@saviynt.com",
+			"created_at": "2020-09-24T16:40:06.266Z",
+			"updated_at": "2025-07-14T16:49:57.538Z"
+		},
+		"workflow_kind": {
+			"id": "6873537714910244381",
+			"name": "New"
+		},
+		"workflow_status": {
+			"id": "6873537714179536683",
+			"name": "Ready to ship",
+			"position": 11,
+			"complete": true,
+			"color": "#b0d66e"
+		},
+		"project": {
+			"id": "6908237047375862132",
+			"reference_prefix": "FON",
+			"name": "Foundation",
+			"product_line": false,
+			"created_at": "2020-12-20T07:27:58.252Z",
+			"workspace_type": "product_workspace",
+			"url": "https://saviynt-product.aha.io/projects/FON"
+		},
+		"original_estimate": null,
+		"remaining_estimate": null,
+		"initial_estimate": 5.0,
+		"work_done": null,
+		"work_units": 20,
+		"use_requirements_estimates": false,
+		"description": {
+			"id": "7489142924961299538",
+			"body": "\u003cp\u003eIssue is that we are unable to delete some files in filedirectory/success folder. We raised a ticket #INC-2057522 for the same issue\u003c/p\u003e\u003cp\u003eThrough the ticket we got an update that as these files are being placed when an external jar is running so we are not able to delete the files from UI level. Request to provide the feasibility to delete the files from UI level.\u003c/p\u003e\u003cp\u003eAs the jobs are running daily reports are being placed in the success folder. As we are not able to delete the files. this will cause a space issue which leads to job failures. So request you to check and implement this solution.\u003c/p\u003e\u003cp\u003ePlease test this in our Dev environment first before moving to Prod. Please let me know in case of any queries.\u003c/p\u003e",
+			"editor_version": 1,
+			"created_at": "2025-04-03T17:39:27.697Z",
+			"updated_at": "2025-04-03T17:39:27.697Z",
+			"attachments": []
+		},
+		"attachments": [],
+		"integration_fields": [
+			{
+				"id": "7508807992258777795",
+				"name": "id",
+				"value": "401535",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.910Z"
+			},
+			{
+				"id": "7508807992348921406",
+				"name": "key",
+				"value": "FON-21712",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.931Z"
+			},
+			{
+				"id": "7508807992416557776",
+				"name": "url",
+				"value": "https://saviyntars.atlassian.net//browse/FON-21712",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.947Z"
+			},
+			{
+				"id": "7508807992478700349",
+				"name": "display_short",
+				"value": "Epic FON-21712",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.962Z"
+			},
+			{
+				"id": "7508807992541083620",
+				"name": "display_summary",
+				"value": "Delete files in the File directory/Success folder from UI level.",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.977Z"
+			},
+			{
+				"id": "7508807992611685495",
+				"name": "display_display",
+				"value": "Epic: FON-21712 Delete files in the File directory/Success folder from UI level.",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:57.992Z"
+			},
+			{
+				"id": "7508807992672708927",
+				"name": "display_link",
+				"value": "https://saviyntars.atlassian.net//browse/FON-21712",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:58.007Z"
+			},
+			{
+				"id": "7508807992733624136",
+				"name": "aha::remote_entity",
+				"value": "issue_5",
+				"integration_id": "6930452688061023304",
+				"service_name": "jira",
+				"created_at": "2025-05-26T17:29:58.021Z"
+			}
+		],
+		"url": "https://saviynt-product.aha.io/features/FON-910",
+		"resource": "https://saviynt-product.aha.io/api/v1/features/FON-910",
+		"release": {
+			"id": "7439727659196196930",
+			"reference_num": "FON-R-91",
+			"name": "25.Chicago",
+			"start_date": "2022-12-29",
+			"release_date": "2025-10-08",
+			"parking_lot": false,
+			"created_at": "2024-11-21T13:42:59.500Z",
+			"product_id": "6908237047375862132",
+			"integration_fields": [],
+			"url": "https://saviynt-product.aha.io/releases/FON-R-91",
+			"resource": "https://saviynt-product.aha.io/api/v1/releases/FON-R-91",
+			"owner": {
+				"id": "6551629484484599400",
+				"name": "Vinit Shah",
+				"email": "vinit.shah@saviynt.com",
+				"created_at": "2018-05-04T07:48:29.851Z",
+				"updated_at": "2025-07-14T17:08:29.010Z"
+			},
+			"project": {
+				"id": "6908237047375862132",
+				"reference_prefix": "FON",
+				"name": "Foundation",
+				"product_line": false,
+				"created_at": "2020-12-20T07:27:58.252Z",
+				"workspace_type": "product_workspace",
+				"url": "https://saviynt-product.aha.io/projects/FON"
+			},
+			"parent": {
+				"id": "7439727657721350165",
+				"reference_num": "EIC1-R-13",
+				"name": "25.Chicago",
+				"start_date": "2021-05-17",
+				"release_date": "2025-10-08",
+				"created_at": "2024-11-21T13:42:59.155Z",
+				"url": "https://saviynt-product.aha.io/master_releases/EIC1-R-13",
+				"resource": "https://saviynt-product.aha.io/api/v1/releases/EIC1-R-13"
+			}
+		},
+		"assigned_to_user": null,
+		"requirements": [
+			{
+				"id": "7509459848755301421",
+				"name": "CLONE -Automation of FON-21345-  Inconsistent behavior UI vs API for File Upload with spaces in filename",
+				"reference_num": "FON-910-1",
+				"position": 1,
+				"created_at": "2025-05-28T11:39:30.078Z",
+				"updated_at": "2025-06-10T10:24:38.991Z",
+				"release_id": "7439727659196196930",
+				"created_by_user": {
+					"id": "6873537705872432805",
+					"name": "Sandipto Banerjee",
+					"email": "sandipto.banerjee@saviynt.com",
+					"created_at": "2020-09-17T19:16:48.233Z",
+					"updated_at": "2025-07-07T09:49:20.196Z"
+				},
+				"original_estimate": null,
+				"remaining_estimate": null,
+				"initial_estimate": null,
+				"work_done": null,
+				"work_units": 20,
+				"workflow_status": {
+					"id": "6873537714179536683",
+					"name": "Ready to ship",
+					"position": 11,
+					"complete": true,
+					"color": "#b0d66e"
+				},
+				"url": "https://saviynt-product.aha.io/requirements/FON-910-1",
+				"resource": "https://saviynt-product.aha.io/api/v1/requirements/FON-910-1",
+				"description": {
+					"id": "7509459848936466505",
+					"body": "Hi Team,\u003cbr\u003e \u003cbr\u003e  We have identified a validation discrepancy between the UI and the API when uploading data files with filename having space. For example, when attempting to upload a file with the name EA-Portal_Sandbox via the UI, we receive a validation error/message\u003cbr\u003e \u003cbr\u003e However, when using the API (/ECM/api/v5/uploadSchemaFile) for import, this validation is bypassed, allowing the file to be uploaded regardless of its name.\u003cbr\u003e \u003cbr\u003e Thank you\u003cbr\u003e \u003cbr\u003e Pooja Kumari",
+					"editor_version": 1,
+					"created_at": "2025-05-28T11:39:30.120Z",
+					"updated_at": "2025-05-28T11:39:30.120Z",
+					"attachments": []
+				},
+				"feature": {
+					"id": "7489142925063719555",
+					"reference_num": "FON-910",
+					"name": "Delete files in the File directory/Success folder from UI level.",
+					"created_at": "2025-04-03T17:39:27.658Z",
+					"url": "https://saviynt-product.aha.io/features/FON-910",
+					"resource": "https://saviynt-product.aha.io/api/v1/features/FON-910",
+					"product_id": "6908237047375862132"
+				},
+				"assigned_to_user": null,
+				"attachments": [],
+				"tags": [],
+				"full_tags": [],
+				"custom_fields": [
+					{
+						"id": "7509459850234501034",
+						"key": "acceptance_criteria",
+						"name": "Acceptance Criteria",
+						"updatedAt": "2025-05-28T11:39:30Z",
+						"value": "API should honour file name as in UI\r\n\r\nAPI should throw Error “Invalid file Name” when file name has white space or special characters. {This is same as in UI}",
+						"type": "string"
+					}
+				],
+				"integration_fields": [
+					{
+						"id": "7509459851086939286",
+						"name": "id",
+						"value": "401373",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.621Z"
+					},
+					{
+						"id": "7509459851200730124",
+						"name": "key",
+						"value": "FON-21707",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.647Z"
+					},
+					{
+						"id": "7509459851305490707",
+						"name": "url",
+						"value": "https://saviyntars.atlassian.net//browse/FON-21707",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.672Z"
+					},
+					{
+						"id": "7509459851413706590",
+						"name": "display_short",
+						"value": "Story FON-21707",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.697Z"
+					},
+					{
+						"id": "7509459851755187846",
+						"name": "display_link",
+						"value": "https://saviyntars.atlassian.net//browse/FON-21707",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.776Z"
+					},
+					{
+						"id": "7509459851868155204",
+						"name": "aha::remote_entity",
+						"value": "issue_6",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.803Z"
+					},
+					{
+						"id": "7509459851519947782",
+						"name": "display_summary",
+						"value": "CLONE -Automation of FON-21345-  Inconsistent behavior UI vs API for File Upload with spaces in filename",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.721Z"
+					},
+					{
+						"id": "7509459851648361113",
+						"name": "display_display",
+						"value": "Story: FON-21707 CLONE -Automation of FON-21345-  Inconsistent behavior UI vs API for File Upload with spaces in filename",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-05-28T11:39:30.751Z"
+					}
+				],
+				"comments_count": 0,
+				"time_tracking_events": [],
+				"workflow_status_times": [
+					{
+						"status_id": "6937319353932816725",
+						"status_name": "New",
+						"started_at": "2025-05-28T11:39:30.501Z",
+						"ended_at": "2025-05-28T11:39:54.048Z"
+					},
+					{
+						"status_id": "6873537713998717365",
+						"status_name": "In development",
+						"started_at": "2025-05-28T11:39:54.068Z",
+						"ended_at": "2025-05-28T11:54:19.683Z"
+					},
+					{
+						"status_id": "6873537713661464108",
+						"status_name": "Ready to develop",
+						"started_at": "2025-05-28T11:54:19.710Z",
+						"ended_at": "2025-05-28T11:54:44.263Z"
+					},
+					{
+						"status_id": "6873537713998717365",
+						"status_name": "In development",
+						"started_at": "2025-05-28T11:54:44.286Z",
+						"ended_at": "2025-05-28T12:00:32.821Z"
+					},
+					{
+						"status_id": "6873537714179536683",
+						"status_name": "Ready to ship",
+						"started_at": "2025-05-28T12:00:32.843Z",
+						"ended_at": null
+					}
+				]
+			},
+			{
+				"id": "7514750625181203394",
+				"name": "Delete files in the File directory/Success folder from UI level.",
+				"reference_num": "FON-910-2",
+				"position": 2,
+				"created_at": "2025-06-11T17:50:24.958Z",
+				"updated_at": "2025-06-23T14:42:03.075Z",
+				"release_id": "7439727659196196930",
+				"created_by_user": {
+					"id": "6873537705872432805",
+					"name": "Sandipto Banerjee",
+					"email": "sandipto.banerjee@saviynt.com",
+					"created_at": "2020-09-17T19:16:48.233Z",
+					"updated_at": "2025-07-07T09:49:20.196Z"
+				},
+				"original_estimate": null,
+				"remaining_estimate": null,
+				"initial_estimate": null,
+				"work_done": null,
+				"work_units": 20,
+				"workflow_status": {
+					"id": "6873537714179536683",
+					"name": "Ready to ship",
+					"position": 11,
+					"complete": true,
+					"color": "#b0d66e"
+				},
+				"url": "https://saviynt-product.aha.io/requirements/FON-910-2",
+				"resource": "https://saviynt-product.aha.io/api/v1/requirements/FON-910-2",
+				"description": {
+					"id": "7514750625315543268",
+					"body": "Issue is that we are unable to delete some files in filedirectory/success folder. We raised a ticket #INC-2057522 for the same issue\u003cbr\u003e \u003cbr\u003e Through the ticket we got an update that as these files are being placed when an external jar is running so we are not able to delete the files from UI level. Request to provide the feasibility to delete the files from UI level.\u003cbr\u003e \u003cbr\u003e As the jobs are running daily reports are being placed in the success folder. As we are not able to delete the files. this will cause a space issue which leads to job failures. So request you to check and implement this solution.\u003cbr\u003e \u003cbr\u003e Please test this in our Dev environment first before moving to Prod. Please let me know in case of any queries.",
+					"editor_version": 1,
+					"created_at": "2025-06-11T17:50:24.990Z",
+					"updated_at": "2025-06-11T17:50:24.990Z",
+					"attachments": []
+				},
+				"feature": {
+					"id": "7489142925063719555",
+					"reference_num": "FON-910",
+					"name": "Delete files in the File directory/Success folder from UI level.",
+					"created_at": "2025-04-03T17:39:27.658Z",
+					"url": "https://saviynt-product.aha.io/features/FON-910",
+					"resource": "https://saviynt-product.aha.io/api/v1/features/FON-910",
+					"product_id": "6908237047375862132"
+				},
+				"assigned_to_user": null,
+				"attachments": [],
+				"tags": [],
+				"full_tags": [],
+				"custom_fields": [
+					{
+						"id": "7514750626162045253",
+						"key": "acceptance_criteria",
+						"name": "Acceptance Criteria",
+						"updatedAt": "2025-06-23T14:42:03Z",
+						"value": "When files in the success folder are deleted from UI.\r\n\r\nIt should allow you to delete the file.\r\n\r\n( Background- If the files are placed in the success folder outside of Saviynt process say may be a JAR- then it throws null exception and prevents deletion but works fine for files pushed from within Saviynt)",
+						"type": "string"
+					}
+				],
+				"integration_fields": [
+					{
+						"id": "7514750626780133681",
+						"name": "id",
+						"value": "406358",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.331Z"
+					},
+					{
+						"id": "7514750626994766895",
+						"name": "key",
+						"value": "FON-21905",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.381Z"
+					},
+					{
+						"id": "7514750627087395076",
+						"name": "url",
+						"value": "https://saviyntars.atlassian.net//browse/FON-21905",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.402Z"
+					},
+					{
+						"id": "7514750627167843209",
+						"name": "display_short",
+						"value": "Story FON-21905",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.421Z"
+					},
+					{
+						"id": "7514750627251695223",
+						"name": "display_summary",
+						"value": "Delete files in the File directory/Success folder from UI level.",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.440Z"
+					},
+					{
+						"id": "7514750627346167087",
+						"name": "display_display",
+						"value": "Story: FON-21905 Delete files in the File directory/Success folder from UI level.",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.463Z"
+					},
+					{
+						"id": "7514750627429919698",
+						"name": "display_link",
+						"value": "https://saviyntars.atlassian.net//browse/FON-21905",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.483Z"
+					},
+					{
+						"id": "7514750627515555267",
+						"name": "aha::remote_entity",
+						"value": "issue_6",
+						"integration_id": "6930452688061023304",
+						"service_name": "jira",
+						"created_at": "2025-06-11T17:50:25.502Z"
+					}
+				],
+				"comments_count": 0,
+				"time_tracking_events": [],
+				"workflow_status_times": [
+					{
+						"status_id": "6937319353932816725",
+						"status_name": "New",
+						"started_at": "2025-06-11T17:50:25.245Z",
+						"ended_at": "2025-06-11T17:59:00.983Z"
+					},
+					{
+						"status_id": "6873537713661464108",
+						"status_name": "Ready to develop",
+						"started_at": "2025-06-11T17:59:01.000Z",
+						"ended_at": "2025-06-11T17:59:05.175Z"
+					},
+					{
+						"status_id": "6937319353932816725",
+						"status_name": "New",
+						"started_at": "2025-06-11T17:59:05.195Z",
+						"ended_at": "2025-06-12T15:14:00.158Z"
+					},
+					{
+						"status_id": "6873537713998717365",
+						"status_name": "In development",
+						"started_at": "2025-06-12T15:14:00.178Z",
+						"ended_at": "2025-06-18T23:34:21.819Z"
+					},
+					{
+						"status_id": "6873537713661464108",
+						"status_name": "Ready to develop",
+						"started_at": "2025-06-18T23:34:21.844Z",
+						"ended_at": "2025-06-18T23:35:28.299Z"
+					},
+					{
+						"status_id": "6984735429604449833",
+						"status_name": "Need info from reporter",
+						"started_at": "2025-06-18T23:35:28.322Z",
+						"ended_at": "2025-06-20T16:59:00.684Z"
+					},
+					{
+						"status_id": "6937319353932816725",
+						"status_name": "New",
+						"started_at": "2025-06-20T16:59:00.704Z",
+						"ended_at": "2025-06-23T14:42:03.386Z"
+					},
+					{
+						"status_id": "6873537714179536683",
+						"status_name": "Ready to ship",
+						"started_at": "2025-06-23T14:42:03.404Z",
+						"ended_at": null
+					}
+				]
+			}
+		],
+		"goals": [],
+		"comments_count": 0,
+		"score_facts": [],
+		"tags": [
+			"Ideas-portal ",
+			"Platform"
+		],
+		"full_tags": [
+			{
+				"id": "7444347145912566498",
+				"name": "Ideas-portal ",
+				"color": "#e05296"
+			},
+			{
+				"id": "7446310202204996404",
+				"name": "Platform",
+				"color": "#639eb4"
+			}
+		],
+		"custom_fields": [
+			{
+				"id": "7508808011456071916",
+				"key": "problem_statement",
+				"name": "Background / Context / Problem Summary",
+				"updatedAt": "2025-05-27T18:51:38Z",
+				"body": "\u003cp\u003eIssue is that we are unable to delete some files in filedirectory/success folder. We raised a ticket #INC-2057522 for the same issue\u003c/p\u003e\u003cp\u003eThrough the ticket we got an update that as these files are being placed when an external jar is running so we are not able to delete the files from UI level. Request to provide the feasibility to delete the files from UI level.\u003c/p\u003e\u003cp\u003eAs the jobs are running daily reports are being placed in the success folder. As we are not able to delete the files. this will cause a space issue which leads to job failures. So request you to check and implement this solution.\u003c/p\u003e\u003cp\u003ePlease test this in our Dev environment first before moving to Prod. Please let me know in case of any queries.\u003c/p\u003e",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.380Z",
+				"updated_at": "2025-05-27T18:51:38.111Z",
+				"attachments": [],
+				"value": "\u003cp\u003eIssue is that we are unable to delete some files in filedirectory/success folder. We raised a ticket #INC-2057522 for the same issue\u003c/p\u003e\u003cp\u003eThrough the ticket we got an update that as these files are being placed when an external jar is running so we are not able to delete the files from UI level. Request to provide the feasibility to delete the files from UI level.\u003c/p\u003e\u003cp\u003eAs the jobs are running daily reports are being placed in the success folder. As we are not able to delete the files. this will cause a space issue which leads to job failures. So request you to check and implement this solution.\u003c/p\u003e\u003cp\u003ePlease test this in our Dev environment first before moving to Prod. Please let me know in case of any queries.\u003c/p\u003e",
+				"type": "note"
+			},
+			{
+				"id": "7508808012220451759",
+				"key": "feature_summary",
+				"name": "Feature Summary",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.559Z",
+				"updated_at": "2025-05-26T17:30:02.559Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012166909537",
+				"key": "use_cases",
+				"name": "Tech Design",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.546Z",
+				"updated_at": "2025-05-26T17:30:02.546Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012087155365",
+				"key": "acceptance_criteria",
+				"name": "Acceptance Criteria",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.527Z",
+				"updated_at": "2025-05-26T17:30:02.527Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012274170311",
+				"key": "goal__business_value",
+				"name": "Goal / Business Value",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.570Z",
+				"updated_at": "2025-05-26T17:30:02.570Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012320461332",
+				"key": "success_metrics",
+				"name": "Success Metrics",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.581Z",
+				"updated_at": "2025-05-26T17:30:02.581Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012381622481",
+				"key": "product_announcement",
+				"name": "Product Announcement",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.595Z",
+				"updated_at": "2025-05-26T17:30:02.595Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012429278209",
+				"key": "any_existing_solutions",
+				"name": "Any existing solution(s)",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.607Z",
+				"updated_at": "2025-05-26T17:30:02.607Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012472820704",
+				"key": "competitive_intel",
+				"name": "Competitive Intel",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.617Z",
+				"updated_at": "2025-05-26T17:30:02.617Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012519611529",
+				"key": "personas",
+				"name": "Persona(s)",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.628Z",
+				"updated_at": "2025-05-26T17:30:02.628Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012566896473",
+				"key": "usecases",
+				"name": "Use-case(s)",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.639Z",
+				"updated_at": "2025-05-26T17:30:02.639Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012613546752",
+				"key": "high_level_interactionactivity_flow",
+				"name": "High level interaction/activity flow",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.650Z",
+				"updated_at": "2025-05-26T17:30:02.650Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012661335489",
+				"key": "user_interaction_and_design",
+				"name": "User interaction and design",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.661Z",
+				"updated_at": "2025-05-26T17:30:02.661Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012710684366",
+				"key": "assumptions",
+				"name": "Assumptions",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.672Z",
+				"updated_at": "2025-05-26T17:30:02.672Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012749898576",
+				"key": "notinscope__callouts",
+				"name": "Not-in-scope / Call-out(s)",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.682Z",
+				"updated_at": "2025-05-26T17:30:02.682Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012796752277",
+				"key": "best_practices_for_customers_adopting_the_solution",
+				"name": "Best practices for customers adopting the solution",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.693Z",
+				"updated_at": "2025-05-26T17:30:02.693Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012950701686",
+				"key": "impact_to_existing_customers__deployments",
+				"name": "Impact to existing customers / deployments",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.728Z",
+				"updated_at": "2025-05-26T17:30:02.728Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808013095477168",
+				"key": "packaging_training_and_deployment",
+				"name": "Packaging, Training and Deployment",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.762Z",
+				"updated_at": "2025-05-26T17:30:02.762Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012841845707",
+				"key": "references",
+				"name": "Reference(s)",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.704Z",
+				"updated_at": "2025-05-26T17:30:02.704Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			},
+			{
+				"id": "7508808012890252081",
+				"key": "open_questions",
+				"name": "Open Questions",
+				"updatedAt": "2025-05-26T17:30:02Z",
+				"body": "",
+				"editor_version": 1,
+				"created_at": "2025-05-26T17:30:02.714Z",
+				"updated_at": "2025-05-26T17:30:02.714Z",
+				"attachments": [],
+				"value": "",
+				"type": "note"
+			}
+		],
+		"time_tracking_events": [],
+		"feature_links": [],
+		"workflow_status_times": [
+			{
+				"status_id": "6937319353932816725",
+				"status_name": "New",
+				"started_at": "2025-04-03T17:39:27.748Z",
+				"ended_at": "2025-05-09T17:14:50.737Z"
+			},
+			{
+				"status_id": "6873537713221969862",
+				"status_name": "Under consideration",
+				"started_at": "2025-05-09T17:14:50.761Z",
+				"ended_at": "2025-05-28T11:39:53.949Z"
+			},
+			{
+				"status_id": "6873537713998717365",
+				"status_name": "In development",
+				"started_at": "2025-05-28T11:39:53.974Z",
+				"ended_at": "2025-05-28T12:00:32.664Z"
+			},
+			{
+				"status_id": "6873537714179536683",
+				"status_name": "Ready to ship",
+				"started_at": "2025-05-28T12:00:32.694Z",
+				"ended_at": "2025-05-28T12:00:32.972Z"
+			},
+			{
+				"status_id": "6873537714361832469",
+				"status_name": "Shipped",
+				"started_at": "2025-05-28T12:00:32.991Z",
+				"ended_at": "2025-06-12T15:14:00.006Z"
+			},
+			{
+				"status_id": "6873537713998717365",
+				"status_name": "In development",
+				"started_at": "2025-06-12T15:14:00.040Z",
+				"ended_at": "2025-06-23T14:42:03.269Z"
+			},
+			{
+				"status_id": "6873537714179536683",
+				"status_name": "Ready to ship",
+				"started_at": "2025-06-23T14:42:03.293Z",
+				"ended_at": null
+			}
+		],
+		"feature_only_original_estimate": null,
+		"feature_only_remaining_estimate": null,
+		"feature_only_work_done": null
+	}
+}
