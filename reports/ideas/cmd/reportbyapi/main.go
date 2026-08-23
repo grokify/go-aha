@@ -20,9 +20,15 @@ type Options struct {
 }
 
 func main() {
-	c := "goauth.json"
-	a := "AHA"
-	creds, err := goauth.NewCredentialsFromSetFile(c, a, true)
+	credsFile := os.Getenv("GOAUTH_SET_FILE")
+	if credsFile == "" {
+		credsFile = "goauth.json"
+	}
+	account := os.Getenv("GOAUTH_ACCOUNT")
+	if account == "" {
+		account = "AHA"
+	}
+	creds, err := goauth.NewCredentialsFromSetFile(credsFile, account, true)
 	logutil.FatalErr(err)
 	fmtutil.PrintJSON(creds)
 
@@ -30,7 +36,7 @@ func main() {
 	sc, err := creds.NewSimpleClient(context.Background())
 	logutil.FatalErr(err)
 
-	id := "7517215819393881564"
+	id := "CUSTOM-PIVOT-1"
 
 	sr := httpsimple.Request{
 		Method: http.MethodGet,
@@ -44,6 +50,7 @@ func main() {
 	fmt.Println(string(b))
 
 	err = os.WriteFile("output.json", b, 0600)
+	logutil.FatalErr(err)
 
 	fmt.Println(id)
 
