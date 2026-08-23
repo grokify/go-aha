@@ -1,6 +1,4 @@
-curl -H "Authorization: Bearer 1111111111" https://company.aha.io/api/v2/graphql
-
-curl -H "Authorization: Bearer REDACTED-TOKEN" https://company.aha.io/api/v2/graphql
+curl -H "Authorization: Bearer <your-api-token>" https://<your-subdomain>.aha.io/api/v2/graphql
 
 
 

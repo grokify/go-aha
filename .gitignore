@@ -31,3 +31,9 @@ _*
 *.xlsx
 ~$*
 .goauth.json
+
+# Generated report / API-response outputs (may contain live account data — never commit)
+/cmd/aha/accepted_ideas.json
+/reports/ideas/cmd/**/*.html
+/reports/ideas/cmd/reportbyapi/output.json
+/oag4/examples/feature_get_by_ref_num/*.json

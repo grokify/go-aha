@@ -33,18 +33,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	/*
-			ahaAccount := os.Getenv("AHA_ACCOUNT")
-			ahaAccount = "company"
-			ahaAccount = "company.aha.io/"
-			ahaAccount = "company"
-		 	ahaSvrURL := "https://company.aha.io/"
-			ahaSvrAPIURL := "https://company.aha.io/api/v1"
-			ahaHost := "company.aha.io"
-	*/
-	ahaSubdomain := "company"
-
-	apiToken := "REDACTED-TOKEN"
+	ahaSubdomain := os.Getenv("AHA_ACCOUNT")
+	apiToken := os.Getenv("AHA_API_KEY")
 
 	ctx := context.Background()
 	cfg, err := client.NewConfiguration(ahaSubdomain, apiToken)
@@ -53,10 +43,11 @@ func main() {
 	sc, err := client.NewSimpleClient(ahaSubdomain, apiToken)
 	logutil.FatalErr(err)
 
+	ahaAdminURL := fmt.Sprintf("https://%s.aha.io/", ahaSubdomain)
+
 	sr := httpsimple.Request{
 		Method: http.MethodGet,
-		// URL:    "https://company.aha.io/api/v1/features/7489142925063719555",
-		URL: "https://company.aha.io/api/v1/ideas/7458108264465258721",
+		URL:    ahaAdminURL + "api/v1/ideas/IDEA-1",
 	}
 
 	resp, err := sc.Do(ctx, sr)
@@ -68,13 +59,8 @@ func main() {
 	fmt.Println(string(b))
 
 	clt := aha.NewAPIClient(cfg)
-	//ahaIdeasPortalURL := "https://ideas.example.com/"
-	//ahaAdminURL := "https://company.aha.io/"
-	//ideaID := "7458108264465258721"
-	//ideaID = "EIC-I-6538"
 
-	ideaID := "EIC-I-3065"
-	ideaID = "EIC-I-3558"
+	ideaID := "IDEA-1"
 
 	res, err := ideas.QueryIdeaFeatureReleaseMetadata(clt, ideaID)
 	logutil.FatalErr(err)
