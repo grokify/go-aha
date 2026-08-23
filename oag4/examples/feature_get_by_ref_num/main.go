@@ -33,12 +33,9 @@ func main() {
 	}
 
 	ahaAccount := os.Getenv("AHA_ACCOUNT")
-	ahaAccount = "company"
-	ahaAccount = "company.aha.io/"
-	ahaAccount = "company"
-	ahaSvrURL := "https://company.aha.io/"
+	ahaSvrURL := fmt.Sprintf("https://%s.aha.io/", ahaAccount)
 
-	ahaKey := "REDACTED-TOKEN"
+	ahaKey := os.Getenv("AHA_API_KEY")
 
 	ctx := context.Background()
 
@@ -47,8 +44,7 @@ func main() {
 
 	sr := httpsimple.Request{
 		Method: http.MethodGet,
-		// URL:    "https://company.aha.io/api/v1/features/RECORD-ID",
-		URL: "https://company.aha.io/api/v1/ideas/RECORD-ID",
+		URL:    ahaSvrURL + "api/v1/ideas/IDEA-1",
 	}
 	sc := httpsimple.NewClient(hc, ahaSvrURL)
 	resp, err := sc.Do(ctx, sr)
@@ -63,11 +59,11 @@ func main() {
 			        "AHA": {
 		            "type": "oauth2",
 		            "service": "aha",
-		            "subdomain": "company",
+		            "subdomain": "<your-subdomain>",
 		            "oauth2": {
-		                "serverURL": "https://company.aha.io/",
+		                "serverURL": "https://<your-subdomain>.aha.io/",
 		                "token": {
-		                    "access_token": "REDACTED-TOKEN"
+		                    "access_token": "<your-api-token>"
 		                }
 		            }
 		        },
