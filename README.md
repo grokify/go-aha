@@ -49,14 +49,23 @@ This module provides Go client libraries for the Aha! API, generated using [Open
 
 ### Supported APIs
 
-The `oag7/aha` client supports the following API operations:
+The `oag7/aha` client supports the following API groups:
 
 | API | Operations |
 |-----|------------|
-| **Features** | `GetFeature`, `GetFeatures`, `GetReleaseFeatures` |
-| **Ideas** | `GetIdea`, `ListIdeas` |
-| **Products** | `GetProduct`, `GetProducts` |
-| **Releases** | `GetRelease`, `GetProductReleases`, `UpdateProductRelease` |
+| **Comments** | Create, Get, Update, Delete, and List by feature/idea/epic/goal/initiative/product/release |
+| **Custom Fields** | List definitions and options |
+| **Epics** | List, Get, Create, Update |
+| **Features** | List, Get, Create, Update, List feature ideas, List release features |
+| **Goals** | List, Get, Create, Update |
+| **Ideas** | List, Get, Update, Delete, endorsements, organizations, users, categories |
+| **Initiatives** | List, Get, Create, Update |
+| **Products** | List, Get, Create, Update |
+| **Releases** | List, Get, Create, Update |
+| **Requirements** | List, Get, Create, Update, Delete |
+| **Strategic Models** | List, Get, Create, Update |
+| **Users** | List, Get, current user |
+| **Workflows** | List product workflows |
 
 ## Installation
 
@@ -127,10 +136,8 @@ func main() {
 
 ## Examples
 
-### oag7 Examples (Recommended)
-
-- [`oag7/examples/features_get`](oag7/examples/features_get) - Get features
-- [`oag7/examples/idea_feature_release`](oag7/examples/idea_feature_release) - Work with ideas, features, and releases
+See the [SDK Quick Start](#sdk-quick-start) above and the [SDK Guide](docs/sdk/overview.md)
+for `oag7/aha` usage.
 
 ### oag4 Examples (Legacy)
 
