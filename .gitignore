@@ -37,3 +37,6 @@ _*
 /reports/ideas/cmd/**/*.html
 /reports/ideas/cmd/reportbyapi/output.json
 /oag4/examples/feature_get_by_ref_num/*.json
+
+# Generated MkDocs site output (served from the gh-pages branch, not main)
+/site/
