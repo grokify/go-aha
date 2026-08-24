@@ -4,16 +4,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** | A unique identifier for the product. | [optional] 
-**ReferencePrefix** | Pointer to **string** | The reference prefix slug for the product. | [optional] 
-**Name** | Pointer to **string** | The name for the product. | [optional] 
-**ProductLine** | Pointer to **bool** | Whether the product is a product line or not. | [optional] 
-**CreatedAt** | Pointer to **time.Time** | The date-time when the product was created. | [optional] 
-**UpdatedAt** | Pointer to **time.Time** | The date-time when the product was updated. | [optional] 
-**Url** | Pointer to **string** | User URL for the project. | [optional] 
-**Resource** | Pointer to **string** | User URL for the project. | [optional] 
-**HasIdeas** | Pointer to **bool** | Whether the product has ideas or not. | [optional] 
-**HasMasterFeatures** | Pointer to **bool** | Whether the product has master features or not. | [optional] 
+**Id** | Pointer to **string** |  | [optional] 
+**ReferencePrefix** | Pointer to **string** |  | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to [**DescriptionObject**](DescriptionObject.md) |  | [optional] 
+**ProductLine** | Pointer to **bool** |  | [optional] 
+**ParentId** | Pointer to **string** | ID of the parent product line | [optional] 
+**WorkspaceType** | Pointer to **string** | Type of workspace (product_workspace, it_workspace, marketing_workspace, etc.) | [optional] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] 
+**Url** | Pointer to **string** |  | [optional] 
+**Resource** | Pointer to **string** |  | [optional] 
+**HasIdeas** | Pointer to **bool** |  | [optional] 
+**HasMasterFeatures** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
@@ -109,6 +112,31 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
+### GetDescription
+
+`func (o *Product) GetDescription() DescriptionObject`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *Product) GetDescriptionOk() (*DescriptionObject, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *Product) SetDescription(v DescriptionObject)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *Product) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
+
 ### GetProductLine
 
 `func (o *Product) GetProductLine() bool`
@@ -133,6 +161,56 @@ SetProductLine sets ProductLine field to given value.
 `func (o *Product) HasProductLine() bool`
 
 HasProductLine returns a boolean if a field has been set.
+
+### GetParentId
+
+`func (o *Product) GetParentId() string`
+
+GetParentId returns the ParentId field if non-nil, zero value otherwise.
+
+### GetParentIdOk
+
+`func (o *Product) GetParentIdOk() (*string, bool)`
+
+GetParentIdOk returns a tuple with the ParentId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentId
+
+`func (o *Product) SetParentId(v string)`
+
+SetParentId sets ParentId field to given value.
+
+### HasParentId
+
+`func (o *Product) HasParentId() bool`
+
+HasParentId returns a boolean if a field has been set.
+
+### GetWorkspaceType
+
+`func (o *Product) GetWorkspaceType() string`
+
+GetWorkspaceType returns the WorkspaceType field if non-nil, zero value otherwise.
+
+### GetWorkspaceTypeOk
+
+`func (o *Product) GetWorkspaceTypeOk() (*string, bool)`
+
+GetWorkspaceTypeOk returns a tuple with the WorkspaceType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceType
+
+`func (o *Product) SetWorkspaceType(v string)`
+
+SetWorkspaceType sets WorkspaceType field to given value.
+
+### HasWorkspaceType
+
+`func (o *Product) HasWorkspaceType() bool`
+
+HasWorkspaceType returns a boolean if a field has been set.
 
 ### GetCreatedAt
 

@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -17,10 +17,122 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 // ProductsAPIService ProductsAPI service
 type ProductsAPIService service
+
+type ApiCreateProductRequest struct {
+	ctx                  context.Context
+	ApiService           *ProductsAPIService
+	productCreateRequest *ProductCreateRequest
+}
+
+func (r ApiCreateProductRequest) ProductCreateRequest(productCreateRequest ProductCreateRequest) ApiCreateProductRequest {
+	r.productCreateRequest = &productCreateRequest
+	return r
+}
+
+func (r ApiCreateProductRequest) Execute() (*ProductResponse, *http.Response, error) {
+	return r.ApiService.CreateProductExecute(r)
+}
+
+/*
+CreateProduct Create product
+
+Create a new product or product line
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateProductRequest
+*/
+func (a *ProductsAPIService) CreateProduct(ctx context.Context) ApiCreateProductRequest {
+	return ApiCreateProductRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return ProductResponse
+func (a *ProductsAPIService) CreateProductExecute(r ApiCreateProductRequest) (*ProductResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ProductResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.CreateProduct")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/products"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.productCreateRequest == nil {
+		return localVarReturnValue, nil, reportError("productCreateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.productCreateRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiGetProductRequest struct {
 	ctx        context.Context
@@ -35,10 +147,10 @@ func (r ApiGetProductRequest) Execute() (*ProductResponse, *http.Response, error
 /*
 GetProduct Get product
 
-Get product info
+Get a specific product by ID
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param productId Numeric ID, or key of the feature to be retrieved
+	@param productId Product ID or reference prefix
 	@return ApiGetProductRequest
 */
 func (a *ProductsAPIService) GetProduct(ctx context.Context, productId string) ApiGetProductRequest {
@@ -126,39 +238,51 @@ func (a *ProductsAPIService) GetProductExecute(r ApiGetProductRequest) (*Product
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetProductsRequest struct {
-	ctx        context.Context
-	ApiService *ProductsAPIService
-	page       *int32
-	perPage    *int32
+type ApiListProductsRequest struct {
+	ctx             context.Context
+	ApiService      *ProductsAPIService
+	updatedSince    *time.Time
+	withIdeaPortals *bool
+	page            *int32
+	perPage         *int32
 }
 
-// A specific page of results.
-func (r ApiGetProductsRequest) Page(page int32) ApiGetProductsRequest {
+// UTC timestamp (ISO8601). Only products updated after this time.
+func (r ApiListProductsRequest) UpdatedSince(updatedSince time.Time) ApiListProductsRequest {
+	r.updatedSince = &updatedSince
+	return r
+}
+
+// Set to true to list only products with idea portals
+func (r ApiListProductsRequest) WithIdeaPortals(withIdeaPortals bool) ApiListProductsRequest {
+	r.withIdeaPortals = &withIdeaPortals
+	return r
+}
+
+func (r ApiListProductsRequest) Page(page int32) ApiListProductsRequest {
 	r.page = &page
 	return r
 }
 
-// Number of results per page.
-func (r ApiGetProductsRequest) PerPage(perPage int32) ApiGetProductsRequest {
+func (r ApiListProductsRequest) PerPage(perPage int32) ApiListProductsRequest {
 	r.perPage = &perPage
 	return r
 }
 
-func (r ApiGetProductsRequest) Execute() (*ProductsResponse, *http.Response, error) {
-	return r.ApiService.GetProductsExecute(r)
+func (r ApiListProductsRequest) Execute() (*ProductsResponse, *http.Response, error) {
+	return r.ApiService.ListProductsExecute(r)
 }
 
 /*
-GetProducts Get products
+ListProducts List products
 
-Get products list
+Get all products (workspaces) including Aha! Develop teams
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetProductsRequest
+	@return ApiListProductsRequest
 */
-func (a *ProductsAPIService) GetProducts(ctx context.Context) ApiGetProductsRequest {
-	return ApiGetProductsRequest{
+func (a *ProductsAPIService) ListProducts(ctx context.Context) ApiListProductsRequest {
+	return ApiListProductsRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
@@ -167,7 +291,7 @@ func (a *ProductsAPIService) GetProducts(ctx context.Context) ApiGetProductsRequ
 // Execute executes the request
 //
 //	@return ProductsResponse
-func (a *ProductsAPIService) GetProductsExecute(r ApiGetProductsRequest) (*ProductsResponse, *http.Response, error) {
+func (a *ProductsAPIService) ListProductsExecute(r ApiListProductsRequest) (*ProductsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -175,7 +299,7 @@ func (a *ProductsAPIService) GetProductsExecute(r ApiGetProductsRequest) (*Produ
 		localVarReturnValue *ProductsResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.GetProducts")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.ListProducts")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -186,6 +310,12 @@ func (a *ProductsAPIService) GetProductsExecute(r ApiGetProductsRequest) (*Produ
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.updatedSince != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "updated_since", r.updatedSince, "form", "")
+	}
+	if r.withIdeaPortals != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "with_idea_portals", r.withIdeaPortals, "form", "")
+	}
 	if r.page != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	}
@@ -209,6 +339,121 @@ func (a *ProductsAPIService) GetProductsExecute(r ApiGetProductsRequest) (*Produ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateProductRequest struct {
+	ctx                  context.Context
+	ApiService           *ProductsAPIService
+	productId            string
+	productUpdateRequest *ProductUpdateRequest
+}
+
+func (r ApiUpdateProductRequest) ProductUpdateRequest(productUpdateRequest ProductUpdateRequest) ApiUpdateProductRequest {
+	r.productUpdateRequest = &productUpdateRequest
+	return r
+}
+
+func (r ApiUpdateProductRequest) Execute() (*ProductResponse, *http.Response, error) {
+	return r.ApiService.UpdateProductExecute(r)
+}
+
+/*
+UpdateProduct Update product
+
+Update an existing product
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Product ID or reference prefix
+	@return ApiUpdateProductRequest
+*/
+func (a *ProductsAPIService) UpdateProduct(ctx context.Context, productId string) ApiUpdateProductRequest {
+	return ApiUpdateProductRequest{
+		ApiService: a,
+		ctx:        ctx,
+		productId:  productId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return ProductResponse
+func (a *ProductsAPIService) UpdateProductExecute(r ApiUpdateProductRequest) (*ProductResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ProductResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProductsAPIService.UpdateProduct")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/products/{product_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", url.PathEscape(parameterValueToString(r.productId, "productId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.productUpdateRequest == nil {
+		return localVarReturnValue, nil, reportError("productUpdateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.productUpdateRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

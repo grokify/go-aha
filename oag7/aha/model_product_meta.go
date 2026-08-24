@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -20,15 +20,12 @@ var _ MappedNullable = &ProductMeta{}
 
 // ProductMeta struct for ProductMeta
 type ProductMeta struct {
-	// A unique identifier for the product.
-	Id *string `json:"id,omitempty"`
-	// The reference prefix slug for the product.
+	Id              *string `json:"id,omitempty"`
 	ReferencePrefix *string `json:"reference_prefix,omitempty"`
-	// The name for the product.
-	Name *string `json:"name,omitempty"`
-	// Whether the product is a product line or not.
-	ProductLine *bool `json:"product_line,omitempty"`
-	// The date-time when the product was created.
+	Name            *string `json:"name,omitempty"`
+	ProductLine     *bool   `json:"product_line,omitempty"`
+	// Type of workspace
+	WorkspaceType        *string    `json:"workspace_type,omitempty"`
 	CreatedAt            *time.Time `json:"created_at,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -180,6 +177,38 @@ func (o *ProductMeta) SetProductLine(v bool) {
 	o.ProductLine = &v
 }
 
+// GetWorkspaceType returns the WorkspaceType field value if set, zero value otherwise.
+func (o *ProductMeta) GetWorkspaceType() string {
+	if o == nil || IsNil(o.WorkspaceType) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceType
+}
+
+// GetWorkspaceTypeOk returns a tuple with the WorkspaceType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProductMeta) GetWorkspaceTypeOk() (*string, bool) {
+	if o == nil || IsNil(o.WorkspaceType) {
+		return nil, false
+	}
+	return o.WorkspaceType, true
+}
+
+// HasWorkspaceType returns a boolean if a field has been set.
+func (o *ProductMeta) HasWorkspaceType() bool {
+	if o != nil && !IsNil(o.WorkspaceType) {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceType gets a reference to the given string and assigns it to the WorkspaceType field.
+func (o *ProductMeta) SetWorkspaceType(v string) {
+	o.WorkspaceType = &v
+}
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *ProductMeta) GetCreatedAt() time.Time {
 	if o == nil || IsNil(o.CreatedAt) {
@@ -234,6 +263,9 @@ func (o ProductMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ProductLine) {
 		toSerialize["product_line"] = o.ProductLine
 	}
+	if !IsNil(o.WorkspaceType) {
+		toSerialize["workspace_type"] = o.WorkspaceType
+	}
 	if !IsNil(o.CreatedAt) {
 		toSerialize["created_at"] = o.CreatedAt
 	}
@@ -263,6 +295,7 @@ func (o *ProductMeta) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "reference_prefix")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "product_line")
+		delete(additionalProperties, "workspace_type")
 		delete(additionalProperties, "created_at")
 		o.AdditionalProperties = additionalProperties
 	}

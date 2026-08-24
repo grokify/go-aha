@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -12,7 +12,6 @@ package aha
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -21,12 +20,12 @@ var _ MappedNullable = &IntegrationField{}
 
 // IntegrationField struct for IntegrationField
 type IntegrationField struct {
-	Id                   string    `json:"id"`
-	Name                 string    `json:"name"`
-	Value                string    `json:"value"`
-	IntegrationId        string    `json:"integration_id"`
-	ServiceName          string    `json:"service_name"`
-	CreatedAt            time.Time `json:"created_at"`
+	Id                   *string    `json:"id,omitempty"`
+	Name                 *string    `json:"name,omitempty"`
+	Value                *string    `json:"value,omitempty"`
+	IntegrationId        *string    `json:"integration_id,omitempty"`
+	ServiceName          *string    `json:"service_name,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -36,14 +35,8 @@ type _IntegrationField IntegrationField
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIntegrationField(id string, name string, value string, integrationId string, serviceName string, createdAt time.Time) *IntegrationField {
+func NewIntegrationField() *IntegrationField {
 	this := IntegrationField{}
-	this.Id = id
-	this.Name = name
-	this.Value = value
-	this.IntegrationId = integrationId
-	this.ServiceName = serviceName
-	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -55,148 +48,196 @@ func NewIntegrationFieldWithDefaults() *IntegrationField {
 	return &this
 }
 
-// GetId returns the Id field value
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *IntegrationField) GetId() string {
-	if o == nil {
+	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
 	}
-
-	return o.Id
+	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id, true
 }
 
-// SetId sets field value
+// HasId returns a boolean if a field has been set.
+func (o *IntegrationField) HasId() bool {
+	if o != nil && !IsNil(o.Id) {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
 func (o *IntegrationField) SetId(v string) {
-	o.Id = v
+	o.Id = &v
 }
 
-// GetName returns the Name field value
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *IntegrationField) GetName() string {
-	if o == nil {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
-
-	return o.Name
+	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name, true
 }
 
-// SetName sets field value
+// HasName returns a boolean if a field has been set.
+func (o *IntegrationField) HasName() bool {
+	if o != nil && !IsNil(o.Name) {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
 func (o *IntegrationField) SetName(v string) {
-	o.Name = v
+	o.Name = &v
 }
 
-// GetValue returns the Value field value
+// GetValue returns the Value field value if set, zero value otherwise.
 func (o *IntegrationField) GetValue() string {
-	if o == nil {
+	if o == nil || IsNil(o.Value) {
 		var ret string
 		return ret
 	}
-
-	return o.Value
+	return *o.Value
 }
 
-// GetValueOk returns a tuple with the Value field value
+// GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetValueOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Value) {
 		return nil, false
 	}
-	return &o.Value, true
+	return o.Value, true
 }
 
-// SetValue sets field value
+// HasValue returns a boolean if a field has been set.
+func (o *IntegrationField) HasValue() bool {
+	if o != nil && !IsNil(o.Value) {
+		return true
+	}
+
+	return false
+}
+
+// SetValue gets a reference to the given string and assigns it to the Value field.
 func (o *IntegrationField) SetValue(v string) {
-	o.Value = v
+	o.Value = &v
 }
 
-// GetIntegrationId returns the IntegrationId field value
+// GetIntegrationId returns the IntegrationId field value if set, zero value otherwise.
 func (o *IntegrationField) GetIntegrationId() string {
-	if o == nil {
+	if o == nil || IsNil(o.IntegrationId) {
 		var ret string
 		return ret
 	}
-
-	return o.IntegrationId
+	return *o.IntegrationId
 }
 
-// GetIntegrationIdOk returns a tuple with the IntegrationId field value
+// GetIntegrationIdOk returns a tuple with the IntegrationId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetIntegrationIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.IntegrationId) {
 		return nil, false
 	}
-	return &o.IntegrationId, true
+	return o.IntegrationId, true
 }
 
-// SetIntegrationId sets field value
+// HasIntegrationId returns a boolean if a field has been set.
+func (o *IntegrationField) HasIntegrationId() bool {
+	if o != nil && !IsNil(o.IntegrationId) {
+		return true
+	}
+
+	return false
+}
+
+// SetIntegrationId gets a reference to the given string and assigns it to the IntegrationId field.
 func (o *IntegrationField) SetIntegrationId(v string) {
-	o.IntegrationId = v
+	o.IntegrationId = &v
 }
 
-// GetServiceName returns the ServiceName field value
+// GetServiceName returns the ServiceName field value if set, zero value otherwise.
 func (o *IntegrationField) GetServiceName() string {
-	if o == nil {
+	if o == nil || IsNil(o.ServiceName) {
 		var ret string
 		return ret
 	}
-
-	return o.ServiceName
+	return *o.ServiceName
 }
 
-// GetServiceNameOk returns a tuple with the ServiceName field value
+// GetServiceNameOk returns a tuple with the ServiceName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetServiceNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.ServiceName) {
 		return nil, false
 	}
-	return &o.ServiceName, true
+	return o.ServiceName, true
 }
 
-// SetServiceName sets field value
+// HasServiceName returns a boolean if a field has been set.
+func (o *IntegrationField) HasServiceName() bool {
+	if o != nil && !IsNil(o.ServiceName) {
+		return true
+	}
+
+	return false
+}
+
+// SetServiceName gets a reference to the given string and assigns it to the ServiceName field.
 func (o *IntegrationField) SetServiceName(v string) {
-	o.ServiceName = v
+	o.ServiceName = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *IntegrationField) GetCreatedAt() time.Time {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		var ret time.Time
 		return ret
 	}
-
-	return o.CreatedAt
+	return *o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *IntegrationField) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.CreatedAt) {
 		return nil, false
 	}
-	return &o.CreatedAt, true
+	return o.CreatedAt, true
 }
 
-// SetCreatedAt sets field value
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *IntegrationField) HasCreatedAt() bool {
+	if o != nil && !IsNil(o.CreatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
 func (o *IntegrationField) SetCreatedAt(v time.Time) {
-	o.CreatedAt = v
+	o.CreatedAt = &v
 }
 
 func (o IntegrationField) MarshalJSON() ([]byte, error) {
@@ -209,12 +250,24 @@ func (o IntegrationField) MarshalJSON() ([]byte, error) {
 
 func (o IntegrationField) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["id"] = o.Id
-	toSerialize["name"] = o.Name
-	toSerialize["value"] = o.Value
-	toSerialize["integration_id"] = o.IntegrationId
-	toSerialize["service_name"] = o.ServiceName
-	toSerialize["created_at"] = o.CreatedAt
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.Value) {
+		toSerialize["value"] = o.Value
+	}
+	if !IsNil(o.IntegrationId) {
+		toSerialize["integration_id"] = o.IntegrationId
+	}
+	if !IsNil(o.ServiceName) {
+		toSerialize["service_name"] = o.ServiceName
+	}
+	if !IsNil(o.CreatedAt) {
+		toSerialize["created_at"] = o.CreatedAt
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -224,32 +277,6 @@ func (o IntegrationField) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *IntegrationField) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"id",
-		"name",
-		"value",
-		"integration_id",
-		"service_name",
-		"created_at",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err
-	}
-
-	for _, requiredProperty := range requiredProperties {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
 	varIntegrationField := _IntegrationField{}
 
 	err = json.Unmarshal(data, &varIntegrationField)

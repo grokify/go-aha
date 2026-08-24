@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -19,30 +19,23 @@ var _ MappedNullable = &FeatureUpdate{}
 
 // FeatureUpdate struct for FeatureUpdate
 type FeatureUpdate struct {
-	// Name of the feature
-	Name *string `json:"name,omitempty"`
-	// Description of the feature and it can include HTML formatting.
-	Description *string `json:"description,omitempty"`
-	// Email address of user that created the feature.
-	CreatedBy *string `json:"created_by,omitempty"`
-	// Email address of user that is assigned the feature.
-	AssignedToUser *string `json:"assigned_to_user,omitempty"`
-	// Tags can be automatically assigned to the new feature. If more than one tag is used then tags should be separated by commas
-	Tags *string `json:"tags,omitempty"`
-	// Set the original estimated effort in a text format, you can use d, h, min (or 'p' for points) to indicate the units to use.
-	OriginalEstimateText *string `json:"original_estimate_text,omitempty"`
-	//  Set the remaining estimated effort in a text format, you can use d, h, min (or 'p' for points) to indicate the units to use.
-	RemainingEstimateText *string `json:"remaining_estimate_text,omitempty"`
-	// Date that work will start on the feature in format YYYY-MM-DD.
-	StartDate *string `json:"start_date,omitempty"`
-	// Date that work is due to be completed on the feature in format YYYY-MM-DD.
-	DueDate *string `json:"due_date,omitempty"`
-	// Name or id of release phase which the feature belongs to.
-	ReleasePhase *string `json:"release_phase,omitempty"`
-	// Name or id of initiative which the feature belongs to.
-	Initiative *string `json:"initiative,omitempty"`
-	// Name or id of master feature which the feature belongs to.
-	MasterFeature        *string `json:"master_feature,omitempty"`
+	Name           *string        `json:"name,omitempty"`
+	Description    *string        `json:"description,omitempty"`
+	WorkflowStatus *string        `json:"workflow_status,omitempty"`
+	AssignedToUser *string        `json:"assigned_to_user,omitempty"`
+	Tags           *string        `json:"tags,omitempty"`
+	StartDate      NullableString `json:"start_date,omitempty"`
+	DueDate        NullableString `json:"due_date,omitempty"`
+	// Release ID to move feature to
+	Release               *string  `json:"release,omitempty"`
+	OriginalEstimateText  *string  `json:"original_estimate_text,omitempty"`
+	RemainingEstimateText *string  `json:"remaining_estimate_text,omitempty"`
+	Initiative            *string  `json:"initiative,omitempty"`
+	ReleasePhase          *string  `json:"release_phase,omitempty"`
+	ProgressSource        *string  `json:"progress_source,omitempty"`
+	Progress              *float64 `json:"progress,omitempty"`
+	// Epic ID or name
+	Epic                 *string `json:"epic,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -129,36 +122,36 @@ func (o *FeatureUpdate) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetCreatedBy returns the CreatedBy field value if set, zero value otherwise.
-func (o *FeatureUpdate) GetCreatedBy() string {
-	if o == nil || IsNil(o.CreatedBy) {
+// GetWorkflowStatus returns the WorkflowStatus field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetWorkflowStatus() string {
+	if o == nil || IsNil(o.WorkflowStatus) {
 		var ret string
 		return ret
 	}
-	return *o.CreatedBy
+	return *o.WorkflowStatus
 }
 
-// GetCreatedByOk returns a tuple with the CreatedBy field value if set, nil otherwise
+// GetWorkflowStatusOk returns a tuple with the WorkflowStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureUpdate) GetCreatedByOk() (*string, bool) {
-	if o == nil || IsNil(o.CreatedBy) {
+func (o *FeatureUpdate) GetWorkflowStatusOk() (*string, bool) {
+	if o == nil || IsNil(o.WorkflowStatus) {
 		return nil, false
 	}
-	return o.CreatedBy, true
+	return o.WorkflowStatus, true
 }
 
-// HasCreatedBy returns a boolean if a field has been set.
-func (o *FeatureUpdate) HasCreatedBy() bool {
-	if o != nil && !IsNil(o.CreatedBy) {
+// HasWorkflowStatus returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasWorkflowStatus() bool {
+	if o != nil && !IsNil(o.WorkflowStatus) {
 		return true
 	}
 
 	return false
 }
 
-// SetCreatedBy gets a reference to the given string and assigns it to the CreatedBy field.
-func (o *FeatureUpdate) SetCreatedBy(v string) {
-	o.CreatedBy = &v
+// SetWorkflowStatus gets a reference to the given string and assigns it to the WorkflowStatus field.
+func (o *FeatureUpdate) SetWorkflowStatus(v string) {
+	o.WorkflowStatus = &v
 }
 
 // GetAssignedToUser returns the AssignedToUser field value if set, zero value otherwise.
@@ -225,6 +218,124 @@ func (o *FeatureUpdate) SetTags(v string) {
 	o.Tags = &v
 }
 
+// GetStartDate returns the StartDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *FeatureUpdate) GetStartDate() string {
+	if o == nil || IsNil(o.StartDate.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.StartDate.Get()
+}
+
+// GetStartDateOk returns a tuple with the StartDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *FeatureUpdate) GetStartDateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.StartDate.Get(), o.StartDate.IsSet()
+}
+
+// HasStartDate returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasStartDate() bool {
+	if o != nil && o.StartDate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetStartDate gets a reference to the given NullableString and assigns it to the StartDate field.
+func (o *FeatureUpdate) SetStartDate(v string) {
+	o.StartDate.Set(&v)
+}
+
+// SetStartDateNil sets the value for StartDate to be an explicit nil
+func (o *FeatureUpdate) SetStartDateNil() {
+	o.StartDate.Set(nil)
+}
+
+// UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
+func (o *FeatureUpdate) UnsetStartDate() {
+	o.StartDate.Unset()
+}
+
+// GetDueDate returns the DueDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *FeatureUpdate) GetDueDate() string {
+	if o == nil || IsNil(o.DueDate.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.DueDate.Get()
+}
+
+// GetDueDateOk returns a tuple with the DueDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *FeatureUpdate) GetDueDateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DueDate.Get(), o.DueDate.IsSet()
+}
+
+// HasDueDate returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasDueDate() bool {
+	if o != nil && o.DueDate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetDueDate gets a reference to the given NullableString and assigns it to the DueDate field.
+func (o *FeatureUpdate) SetDueDate(v string) {
+	o.DueDate.Set(&v)
+}
+
+// SetDueDateNil sets the value for DueDate to be an explicit nil
+func (o *FeatureUpdate) SetDueDateNil() {
+	o.DueDate.Set(nil)
+}
+
+// UnsetDueDate ensures that no value is present for DueDate, not even an explicit nil
+func (o *FeatureUpdate) UnsetDueDate() {
+	o.DueDate.Unset()
+}
+
+// GetRelease returns the Release field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetRelease() string {
+	if o == nil || IsNil(o.Release) {
+		var ret string
+		return ret
+	}
+	return *o.Release
+}
+
+// GetReleaseOk returns a tuple with the Release field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureUpdate) GetReleaseOk() (*string, bool) {
+	if o == nil || IsNil(o.Release) {
+		return nil, false
+	}
+	return o.Release, true
+}
+
+// HasRelease returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasRelease() bool {
+	if o != nil && !IsNil(o.Release) {
+		return true
+	}
+
+	return false
+}
+
+// SetRelease gets a reference to the given string and assigns it to the Release field.
+func (o *FeatureUpdate) SetRelease(v string) {
+	o.Release = &v
+}
+
 // GetOriginalEstimateText returns the OriginalEstimateText field value if set, zero value otherwise.
 func (o *FeatureUpdate) GetOriginalEstimateText() string {
 	if o == nil || IsNil(o.OriginalEstimateText) {
@@ -289,68 +400,36 @@ func (o *FeatureUpdate) SetRemainingEstimateText(v string) {
 	o.RemainingEstimateText = &v
 }
 
-// GetStartDate returns the StartDate field value if set, zero value otherwise.
-func (o *FeatureUpdate) GetStartDate() string {
-	if o == nil || IsNil(o.StartDate) {
+// GetInitiative returns the Initiative field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetInitiative() string {
+	if o == nil || IsNil(o.Initiative) {
 		var ret string
 		return ret
 	}
-	return *o.StartDate
+	return *o.Initiative
 }
 
-// GetStartDateOk returns a tuple with the StartDate field value if set, nil otherwise
+// GetInitiativeOk returns a tuple with the Initiative field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureUpdate) GetStartDateOk() (*string, bool) {
-	if o == nil || IsNil(o.StartDate) {
+func (o *FeatureUpdate) GetInitiativeOk() (*string, bool) {
+	if o == nil || IsNil(o.Initiative) {
 		return nil, false
 	}
-	return o.StartDate, true
+	return o.Initiative, true
 }
 
-// HasStartDate returns a boolean if a field has been set.
-func (o *FeatureUpdate) HasStartDate() bool {
-	if o != nil && !IsNil(o.StartDate) {
+// HasInitiative returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasInitiative() bool {
+	if o != nil && !IsNil(o.Initiative) {
 		return true
 	}
 
 	return false
 }
 
-// SetStartDate gets a reference to the given string and assigns it to the StartDate field.
-func (o *FeatureUpdate) SetStartDate(v string) {
-	o.StartDate = &v
-}
-
-// GetDueDate returns the DueDate field value if set, zero value otherwise.
-func (o *FeatureUpdate) GetDueDate() string {
-	if o == nil || IsNil(o.DueDate) {
-		var ret string
-		return ret
-	}
-	return *o.DueDate
-}
-
-// GetDueDateOk returns a tuple with the DueDate field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *FeatureUpdate) GetDueDateOk() (*string, bool) {
-	if o == nil || IsNil(o.DueDate) {
-		return nil, false
-	}
-	return o.DueDate, true
-}
-
-// HasDueDate returns a boolean if a field has been set.
-func (o *FeatureUpdate) HasDueDate() bool {
-	if o != nil && !IsNil(o.DueDate) {
-		return true
-	}
-
-	return false
-}
-
-// SetDueDate gets a reference to the given string and assigns it to the DueDate field.
-func (o *FeatureUpdate) SetDueDate(v string) {
-	o.DueDate = &v
+// SetInitiative gets a reference to the given string and assigns it to the Initiative field.
+func (o *FeatureUpdate) SetInitiative(v string) {
+	o.Initiative = &v
 }
 
 // GetReleasePhase returns the ReleasePhase field value if set, zero value otherwise.
@@ -385,68 +464,100 @@ func (o *FeatureUpdate) SetReleasePhase(v string) {
 	o.ReleasePhase = &v
 }
 
-// GetInitiative returns the Initiative field value if set, zero value otherwise.
-func (o *FeatureUpdate) GetInitiative() string {
-	if o == nil || IsNil(o.Initiative) {
+// GetProgressSource returns the ProgressSource field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetProgressSource() string {
+	if o == nil || IsNil(o.ProgressSource) {
 		var ret string
 		return ret
 	}
-	return *o.Initiative
+	return *o.ProgressSource
 }
 
-// GetInitiativeOk returns a tuple with the Initiative field value if set, nil otherwise
+// GetProgressSourceOk returns a tuple with the ProgressSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureUpdate) GetInitiativeOk() (*string, bool) {
-	if o == nil || IsNil(o.Initiative) {
+func (o *FeatureUpdate) GetProgressSourceOk() (*string, bool) {
+	if o == nil || IsNil(o.ProgressSource) {
 		return nil, false
 	}
-	return o.Initiative, true
+	return o.ProgressSource, true
 }
 
-// HasInitiative returns a boolean if a field has been set.
-func (o *FeatureUpdate) HasInitiative() bool {
-	if o != nil && !IsNil(o.Initiative) {
+// HasProgressSource returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasProgressSource() bool {
+	if o != nil && !IsNil(o.ProgressSource) {
 		return true
 	}
 
 	return false
 }
 
-// SetInitiative gets a reference to the given string and assigns it to the Initiative field.
-func (o *FeatureUpdate) SetInitiative(v string) {
-	o.Initiative = &v
+// SetProgressSource gets a reference to the given string and assigns it to the ProgressSource field.
+func (o *FeatureUpdate) SetProgressSource(v string) {
+	o.ProgressSource = &v
 }
 
-// GetMasterFeature returns the MasterFeature field value if set, zero value otherwise.
-func (o *FeatureUpdate) GetMasterFeature() string {
-	if o == nil || IsNil(o.MasterFeature) {
-		var ret string
+// GetProgress returns the Progress field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetProgress() float64 {
+	if o == nil || IsNil(o.Progress) {
+		var ret float64
 		return ret
 	}
-	return *o.MasterFeature
+	return *o.Progress
 }
 
-// GetMasterFeatureOk returns a tuple with the MasterFeature field value if set, nil otherwise
+// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FeatureUpdate) GetMasterFeatureOk() (*string, bool) {
-	if o == nil || IsNil(o.MasterFeature) {
+func (o *FeatureUpdate) GetProgressOk() (*float64, bool) {
+	if o == nil || IsNil(o.Progress) {
 		return nil, false
 	}
-	return o.MasterFeature, true
+	return o.Progress, true
 }
 
-// HasMasterFeature returns a boolean if a field has been set.
-func (o *FeatureUpdate) HasMasterFeature() bool {
-	if o != nil && !IsNil(o.MasterFeature) {
+// HasProgress returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasProgress() bool {
+	if o != nil && !IsNil(o.Progress) {
 		return true
 	}
 
 	return false
 }
 
-// SetMasterFeature gets a reference to the given string and assigns it to the MasterFeature field.
-func (o *FeatureUpdate) SetMasterFeature(v string) {
-	o.MasterFeature = &v
+// SetProgress gets a reference to the given float64 and assigns it to the Progress field.
+func (o *FeatureUpdate) SetProgress(v float64) {
+	o.Progress = &v
+}
+
+// GetEpic returns the Epic field value if set, zero value otherwise.
+func (o *FeatureUpdate) GetEpic() string {
+	if o == nil || IsNil(o.Epic) {
+		var ret string
+		return ret
+	}
+	return *o.Epic
+}
+
+// GetEpicOk returns a tuple with the Epic field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FeatureUpdate) GetEpicOk() (*string, bool) {
+	if o == nil || IsNil(o.Epic) {
+		return nil, false
+	}
+	return o.Epic, true
+}
+
+// HasEpic returns a boolean if a field has been set.
+func (o *FeatureUpdate) HasEpic() bool {
+	if o != nil && !IsNil(o.Epic) {
+		return true
+	}
+
+	return false
+}
+
+// SetEpic gets a reference to the given string and assigns it to the Epic field.
+func (o *FeatureUpdate) SetEpic(v string) {
+	o.Epic = &v
 }
 
 func (o FeatureUpdate) MarshalJSON() ([]byte, error) {
@@ -465,8 +576,8 @@ func (o FeatureUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
-	if !IsNil(o.CreatedBy) {
-		toSerialize["created_by"] = o.CreatedBy
+	if !IsNil(o.WorkflowStatus) {
+		toSerialize["workflow_status"] = o.WorkflowStatus
 	}
 	if !IsNil(o.AssignedToUser) {
 		toSerialize["assigned_to_user"] = o.AssignedToUser
@@ -474,26 +585,35 @@ func (o FeatureUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
+	if o.StartDate.IsSet() {
+		toSerialize["start_date"] = o.StartDate.Get()
+	}
+	if o.DueDate.IsSet() {
+		toSerialize["due_date"] = o.DueDate.Get()
+	}
+	if !IsNil(o.Release) {
+		toSerialize["release"] = o.Release
+	}
 	if !IsNil(o.OriginalEstimateText) {
 		toSerialize["original_estimate_text"] = o.OriginalEstimateText
 	}
 	if !IsNil(o.RemainingEstimateText) {
 		toSerialize["remaining_estimate_text"] = o.RemainingEstimateText
 	}
-	if !IsNil(o.StartDate) {
-		toSerialize["start_date"] = o.StartDate
-	}
-	if !IsNil(o.DueDate) {
-		toSerialize["due_date"] = o.DueDate
+	if !IsNil(o.Initiative) {
+		toSerialize["initiative"] = o.Initiative
 	}
 	if !IsNil(o.ReleasePhase) {
 		toSerialize["release_phase"] = o.ReleasePhase
 	}
-	if !IsNil(o.Initiative) {
-		toSerialize["initiative"] = o.Initiative
+	if !IsNil(o.ProgressSource) {
+		toSerialize["progress_source"] = o.ProgressSource
 	}
-	if !IsNil(o.MasterFeature) {
-		toSerialize["master_feature"] = o.MasterFeature
+	if !IsNil(o.Progress) {
+		toSerialize["progress"] = o.Progress
+	}
+	if !IsNil(o.Epic) {
+		toSerialize["epic"] = o.Epic
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -519,16 +639,19 @@ func (o *FeatureUpdate) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "description")
-		delete(additionalProperties, "created_by")
+		delete(additionalProperties, "workflow_status")
 		delete(additionalProperties, "assigned_to_user")
 		delete(additionalProperties, "tags")
-		delete(additionalProperties, "original_estimate_text")
-		delete(additionalProperties, "remaining_estimate_text")
 		delete(additionalProperties, "start_date")
 		delete(additionalProperties, "due_date")
-		delete(additionalProperties, "release_phase")
+		delete(additionalProperties, "release")
+		delete(additionalProperties, "original_estimate_text")
+		delete(additionalProperties, "remaining_estimate_text")
 		delete(additionalProperties, "initiative")
-		delete(additionalProperties, "master_feature")
+		delete(additionalProperties, "release_phase")
+		delete(additionalProperties, "progress_source")
+		delete(additionalProperties, "progress")
+		delete(additionalProperties, "epic")
 		o.AdditionalProperties = additionalProperties
 	}
 

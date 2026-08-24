@@ -39,7 +39,7 @@ var listProductsCmd = &cobra.Command{
 		apiClient := aha.NewAPIClient(cfg)
 		ctx := context.Background()
 
-		req := apiClient.ProductsAPI.GetProducts(ctx)
+		req := apiClient.ProductsAPI.ListProducts(ctx)
 
 		if productsPage > 0 {
 			req = req.Page(int32(productsPage))

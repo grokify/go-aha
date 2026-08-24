@@ -4,11 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** | A unique identifier for the product. | [optional] 
-**ReferencePrefix** | Pointer to **string** | The reference prefix slug for the product. | [optional] 
-**Name** | Pointer to **string** | The name for the product. | [optional] 
-**ProductLine** | Pointer to **bool** | Whether the product is a product line or not. | [optional] 
-**CreatedAt** | Pointer to **time.Time** | The date-time when the product was created. | [optional] 
+**Id** | Pointer to **string** |  | [optional] 
+**ReferencePrefix** | Pointer to **string** |  | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**ProductLine** | Pointer to **bool** |  | [optional] 
+**WorkspaceType** | Pointer to **string** | Type of workspace | [optional] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 
@@ -128,6 +129,31 @@ SetProductLine sets ProductLine field to given value.
 `func (o *ProductMeta) HasProductLine() bool`
 
 HasProductLine returns a boolean if a field has been set.
+
+### GetWorkspaceType
+
+`func (o *ProductMeta) GetWorkspaceType() string`
+
+GetWorkspaceType returns the WorkspaceType field if non-nil, zero value otherwise.
+
+### GetWorkspaceTypeOk
+
+`func (o *ProductMeta) GetWorkspaceTypeOk() (*string, bool)`
+
+GetWorkspaceTypeOk returns a tuple with the WorkspaceType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceType
+
+`func (o *ProductMeta) SetWorkspaceType(v string)`
+
+SetWorkspaceType sets WorkspaceType field to given value.
+
+### HasWorkspaceType
+
+`func (o *ProductMeta) HasWorkspaceType() bool`
+
+HasWorkspaceType returns a boolean if a field has been set.
 
 ### GetCreatedAt
 

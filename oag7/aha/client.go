@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -48,13 +48,31 @@ type APIClient struct {
 
 	// API Services
 
+	CommentsAPI *CommentsAPIService
+
+	CustomFieldsAPI *CustomFieldsAPIService
+
+	EpicsAPI *EpicsAPIService
+
 	FeaturesAPI *FeaturesAPIService
 
+	GoalsAPI *GoalsAPIService
+
 	IdeasAPI *IdeasAPIService
+
+	InitiativesAPI *InitiativesAPIService
 
 	ProductsAPI *ProductsAPIService
 
 	ReleasesAPI *ReleasesAPIService
+
+	RequirementsAPI *RequirementsAPIService
+
+	StrategicModelsAPI *StrategicModelsAPIService
+
+	UsersAPI *UsersAPIService
+
+	WorkflowsAPI *WorkflowsAPIService
 }
 
 type service struct {
@@ -73,10 +91,19 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.CommentsAPI = (*CommentsAPIService)(&c.common)
+	c.CustomFieldsAPI = (*CustomFieldsAPIService)(&c.common)
+	c.EpicsAPI = (*EpicsAPIService)(&c.common)
 	c.FeaturesAPI = (*FeaturesAPIService)(&c.common)
+	c.GoalsAPI = (*GoalsAPIService)(&c.common)
 	c.IdeasAPI = (*IdeasAPIService)(&c.common)
+	c.InitiativesAPI = (*InitiativesAPIService)(&c.common)
 	c.ProductsAPI = (*ProductsAPIService)(&c.common)
 	c.ReleasesAPI = (*ReleasesAPIService)(&c.common)
+	c.RequirementsAPI = (*RequirementsAPIService)(&c.common)
+	c.StrategicModelsAPI = (*StrategicModelsAPIService)(&c.common)
+	c.UsersAPI = (*UsersAPIService)(&c.common)
+	c.WorkflowsAPI = (*WorkflowsAPIService)(&c.common)
 
 	return c
 }
@@ -426,6 +453,11 @@ func (c *APIClient) prepareRequest(
 
 		// Walk through any authentication.
 
+		// AccessToken Authentication
+		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
+			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
+		}
+
 	}
 
 	for header, value := range c.cfg.DefaultHeader {
@@ -440,6 +472,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 	}
 	if s, ok := v.(*string); ok {
 		*s = string(b)
+		return nil
+	}
+	if r, ok := v.(*io.Reader); ok {
+		*r = bytes.NewReader(b)
+		return nil
+	}
+	// Must stay before the JSON branch: json.Unmarshal would base64-decode into *[]byte.
+	if p, ok := v.(*[]byte); ok {
+		*p = b
 		return nil
 	}
 	if f, ok := v.(*os.File); ok {

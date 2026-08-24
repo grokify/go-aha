@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -12,6 +12,7 @@ package aha
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // checks if the User type satisfies the MappedNullable interface at compile time
@@ -19,14 +20,12 @@ var _ MappedNullable = &User{}
 
 // User struct for User
 type User struct {
-	// First name of the user
-	FirstName *string `json:"first_name,omitempty"`
-	// Last name of the user
-	LastName *string `json:"last_name,omitempty"`
-	// Email of the user
-	Email *string `json:"email,omitempty"`
-	// Permissions of the user in the product one of: product_owner, contributor, reviewer, viewer, none
-	Role                 *string `json:"role,omitempty"`
+	Id                   *string    `json:"id,omitempty"`
+	FirstName            *string    `json:"first_name,omitempty"`
+	LastName             *string    `json:"last_name,omitempty"`
+	Email                *string    `json:"email,omitempty"`
+	Role                 *string    `json:"role,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -47,6 +46,38 @@ func NewUser() *User {
 func NewUserWithDefaults() *User {
 	this := User{}
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *User) GetId() string {
+	if o == nil || IsNil(o.Id) {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetIdOk() (*string, bool) {
+	if o == nil || IsNil(o.Id) {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *User) HasId() bool {
+	if o != nil && !IsNil(o.Id) {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *User) SetId(v string) {
+	o.Id = &v
 }
 
 // GetFirstName returns the FirstName field value if set, zero value otherwise.
@@ -177,6 +208,38 @@ func (o *User) SetRole(v string) {
 	o.Role = &v
 }
 
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+func (o *User) GetCreatedAt() time.Time {
+	if o == nil || IsNil(o.CreatedAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.CreatedAt
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetCreatedAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.CreatedAt) {
+		return nil, false
+	}
+	return o.CreatedAt, true
+}
+
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *User) HasCreatedAt() bool {
+	if o != nil && !IsNil(o.CreatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+func (o *User) SetCreatedAt(v time.Time) {
+	o.CreatedAt = &v
+}
+
 func (o User) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -187,6 +250,9 @@ func (o User) MarshalJSON() ([]byte, error) {
 
 func (o User) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
 	if !IsNil(o.FirstName) {
 		toSerialize["first_name"] = o.FirstName
 	}
@@ -198,6 +264,9 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Role) {
 		toSerialize["role"] = o.Role
+	}
+	if !IsNil(o.CreatedAt) {
+		toSerialize["created_at"] = o.CreatedAt
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -221,10 +290,12 @@ func (o *User) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
 		delete(additionalProperties, "first_name")
 		delete(additionalProperties, "last_name")
 		delete(additionalProperties, "email")
 		delete(additionalProperties, "role")
+		delete(additionalProperties, "created_at")
 		o.AdditionalProperties = additionalProperties
 	}
 

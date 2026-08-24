@@ -22,6 +22,19 @@ func Test_aha_IdeasAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
+	t.Run("Test IdeasAPIService DeleteIdea", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var ideaId string
+
+		httpRes, err := apiClient.IdeasAPI.DeleteIdea(context.Background(), ideaId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test IdeasAPIService GetIdea", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -36,11 +49,105 @@ func Test_aha_IdeasAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test IdeasAPIService GetIdeaOrganization", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var ideaOrganizationId string
+
+		resp, httpRes, err := apiClient.IdeasAPI.GetIdeaOrganization(context.Background(), ideaOrganizationId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService GetIdeaUser", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var ideaUserId string
+
+		resp, httpRes, err := apiClient.IdeasAPI.GetIdeaUser(context.Background(), ideaUserId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService ListIdeaEndorsements", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var ideaId string
+
+		resp, httpRes, err := apiClient.IdeasAPI.ListIdeaEndorsements(context.Background(), ideaId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService ListIdeaOrganizations", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.IdeasAPI.ListIdeaOrganizations(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService ListIdeaUsers", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.IdeasAPI.ListIdeaUsers(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test IdeasAPIService ListIdeas", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.IdeasAPI.ListIdeas(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService ListProductIdeaCategories", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var productId string
+
+		resp, httpRes, err := apiClient.IdeasAPI.ListProductIdeaCategories(context.Background(), productId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test IdeasAPIService UpdateIdea", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var ideaId string
+
+		resp, httpRes, err := apiClient.IdeasAPI.UpdateIdea(context.Background(), ideaId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

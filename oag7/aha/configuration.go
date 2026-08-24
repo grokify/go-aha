@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -28,6 +28,9 @@ func (c contextKey) String() string {
 }
 
 var (
+	// ContextAccessToken takes a string oauth2 access token as authentication for the request.
+	ContextAccessToken = contextKey("accesstoken")
+
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 
@@ -90,8 +93,14 @@ func NewConfiguration() *Configuration {
 		Debug:         false,
 		Servers: ServerConfigurations{
 			{
-				URL:         "https://secure.aha.io/api/v1",
-				Description: "No description provided",
+				URL:         "https://{subdomain}.aha.io/api/v1",
+				Description: "Aha.io API server",
+				Variables: map[string]ServerVariable{
+					"subdomain": {
+						Description:  "Your Aha account subdomain",
+						DefaultValue: "secure",
+					},
+				},
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{},

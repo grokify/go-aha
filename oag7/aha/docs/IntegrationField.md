@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**Name** | **string** |  | 
-**Value** | **string** |  | 
-**IntegrationId** | **string** |  | 
-**ServiceName** | **string** |  | 
-**CreatedAt** | **time.Time** |  | 
+**Id** | Pointer to **string** |  | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**Value** | Pointer to **string** |  | [optional] 
+**IntegrationId** | Pointer to **string** |  | [optional] 
+**ServiceName** | Pointer to **string** |  | [optional] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 
 ### NewIntegrationField
 
-`func NewIntegrationField(id string, name string, value string, integrationId string, serviceName string, createdAt time.Time, ) *IntegrationField`
+`func NewIntegrationField() *IntegrationField`
 
 NewIntegrationField instantiates a new IntegrationField object
 This constructor will assign default values to properties that have it defined,
@@ -49,6 +49,11 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *IntegrationField) HasId() bool`
+
+HasId returns a boolean if a field has been set.
 
 ### GetName
 
@@ -69,6 +74,11 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *IntegrationField) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 ### GetValue
 
@@ -89,6 +99,11 @@ and a boolean to check if the value has been set.
 
 SetValue sets Value field to given value.
 
+### HasValue
+
+`func (o *IntegrationField) HasValue() bool`
+
+HasValue returns a boolean if a field has been set.
 
 ### GetIntegrationId
 
@@ -109,6 +124,11 @@ and a boolean to check if the value has been set.
 
 SetIntegrationId sets IntegrationId field to given value.
 
+### HasIntegrationId
+
+`func (o *IntegrationField) HasIntegrationId() bool`
+
+HasIntegrationId returns a boolean if a field has been set.
 
 ### GetServiceName
 
@@ -129,6 +149,11 @@ and a boolean to check if the value has been set.
 
 SetServiceName sets ServiceName field to given value.
 
+### HasServiceName
+
+`func (o *IntegrationField) HasServiceName() bool`
+
+HasServiceName returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
@@ -149,6 +174,11 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
+### HasCreatedAt
+
+`func (o *IntegrationField) HasCreatedAt() bool`
+
+HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

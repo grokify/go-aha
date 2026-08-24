@@ -333,7 +333,7 @@ func buildReportFromIdea(idea aha.Idea) IdeaFeatureReport {
 
 	// Extract categories
 	for _, cat := range idea.Categories {
-		if name := strings.TrimSpace(cat.Name); name != "" {
+		if name := strings.TrimSpace(cat.GetName()); name != "" {
 			report.IdeaCategories = append(report.IdeaCategories, name)
 		}
 	}

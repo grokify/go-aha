@@ -5,29 +5,33 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
-**CreatedAt** | **time.Time** |  | 
-**CommentsCount** | Pointer to **int64** |  | [optional] 
-**CustomFields** | Pointer to [**[]CustomField**](CustomField.md) |  | [optional] 
-**DueDate** | Pointer to **string** | Due date in YYYY-MM-DD format. | [optional] 
-**Name** | **string** |  | 
-**ProductId** | Pointer to **string** |  | [optional] 
-**ProgressSource** | Pointer to **string** |  | [optional] 
 **ReferenceNum** | **string** |  | 
-**Release** | Pointer to [**Release**](Release.md) |  | [optional] 
-**Resource** | Pointer to **string** | API URL for the resource. | [optional] 
-**StartDate** | Pointer to **string** | Start date in YYYY-MM-DD format. | [optional] 
-**Tags** | Pointer to **[]string** |  | [optional] 
-**Url** | Pointer to **string** | Web UI URL for the resource. | [optional] 
-**UseRequirementsEstimates** | Pointer to **bool** |  | [optional] 
+**Name** | **string** |  | 
+**Description** | Pointer to [**DescriptionObject**](DescriptionObject.md) |  | [optional] 
+**CreatedAt** | **time.Time** |  | 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] 
+**StartDate** | Pointer to **NullableString** |  | [optional] 
+**DueDate** | Pointer to **NullableString** |  | [optional] 
+**ProductId** | Pointer to **string** |  | [optional] 
+**Url** | Pointer to **string** | Web UI URL | [optional] 
+**Resource** | Pointer to **string** | API URL | [optional] 
+**CommentsCount** | Pointer to **int64** |  | [optional] 
+**ProgressSource** | Pointer to **string** |  | [optional] 
+**Progress** | Pointer to **NullableFloat64** |  | [optional] 
 **WorkUnits** | Pointer to **int64** |  | [optional] 
-**WorkflowStatus** | Pointer to [**FeatureWorkflowStatus**](FeatureWorkflowStatus.md) |  | [optional] 
+**UseRequirementsEstimates** | Pointer to **bool** |  | [optional] 
+**Tags** | Pointer to **[]string** |  | [optional] 
+**WorkflowStatus** | Pointer to [**WorkflowStatus**](WorkflowStatus.md) |  | [optional] 
+**Release** | Pointer to [**Release**](Release.md) |  | [optional] 
+**AssignedToUser** | Pointer to [**NullableUser**](User.md) |  | [optional] 
+**CustomFields** | Pointer to [**[]CustomField**](CustomField.md) |  | [optional] 
 **IntegrationFields** | Pointer to [**[]IntegrationField**](IntegrationField.md) |  | [optional] 
 
 ## Methods
 
 ### NewFeature
 
-`func NewFeature(id string, createdAt time.Time, name string, referenceNum string, ) *Feature`
+`func NewFeature(id string, referenceNum string, name string, createdAt time.Time, ) *Feature`
 
 NewFeature instantiates a new Feature object
 This constructor will assign default values to properties that have it defined,
@@ -62,100 +66,25 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetCreatedAt
+### GetReferenceNum
 
-`func (o *Feature) GetCreatedAt() time.Time`
+`func (o *Feature) GetReferenceNum() string`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetReferenceNum returns the ReferenceNum field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetReferenceNumOk
 
-`func (o *Feature) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Feature) GetReferenceNumOk() (*string, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetReferenceNumOk returns a tuple with the ReferenceNum field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetReferenceNum
 
-`func (o *Feature) SetCreatedAt(v time.Time)`
+`func (o *Feature) SetReferenceNum(v string)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetReferenceNum sets ReferenceNum field to given value.
 
-
-### GetCommentsCount
-
-`func (o *Feature) GetCommentsCount() int64`
-
-GetCommentsCount returns the CommentsCount field if non-nil, zero value otherwise.
-
-### GetCommentsCountOk
-
-`func (o *Feature) GetCommentsCountOk() (*int64, bool)`
-
-GetCommentsCountOk returns a tuple with the CommentsCount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCommentsCount
-
-`func (o *Feature) SetCommentsCount(v int64)`
-
-SetCommentsCount sets CommentsCount field to given value.
-
-### HasCommentsCount
-
-`func (o *Feature) HasCommentsCount() bool`
-
-HasCommentsCount returns a boolean if a field has been set.
-
-### GetCustomFields
-
-`func (o *Feature) GetCustomFields() []CustomField`
-
-GetCustomFields returns the CustomFields field if non-nil, zero value otherwise.
-
-### GetCustomFieldsOk
-
-`func (o *Feature) GetCustomFieldsOk() (*[]CustomField, bool)`
-
-GetCustomFieldsOk returns a tuple with the CustomFields field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCustomFields
-
-`func (o *Feature) SetCustomFields(v []CustomField)`
-
-SetCustomFields sets CustomFields field to given value.
-
-### HasCustomFields
-
-`func (o *Feature) HasCustomFields() bool`
-
-HasCustomFields returns a boolean if a field has been set.
-
-### GetDueDate
-
-`func (o *Feature) GetDueDate() string`
-
-GetDueDate returns the DueDate field if non-nil, zero value otherwise.
-
-### GetDueDateOk
-
-`func (o *Feature) GetDueDateOk() (*string, bool)`
-
-GetDueDateOk returns a tuple with the DueDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDueDate
-
-`func (o *Feature) SetDueDate(v string)`
-
-SetDueDate sets DueDate field to given value.
-
-### HasDueDate
-
-`func (o *Feature) HasDueDate() bool`
-
-HasDueDate returns a boolean if a field has been set.
 
 ### GetName
 
@@ -177,125 +106,75 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetProductId
+### GetDescription
 
-`func (o *Feature) GetProductId() string`
+`func (o *Feature) GetDescription() DescriptionObject`
 
-GetProductId returns the ProductId field if non-nil, zero value otherwise.
+GetDescription returns the Description field if non-nil, zero value otherwise.
 
-### GetProductIdOk
+### GetDescriptionOk
 
-`func (o *Feature) GetProductIdOk() (*string, bool)`
+`func (o *Feature) GetDescriptionOk() (*DescriptionObject, bool)`
 
-GetProductIdOk returns a tuple with the ProductId field if it's non-nil, zero value otherwise
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetProductId
+### SetDescription
 
-`func (o *Feature) SetProductId(v string)`
+`func (o *Feature) SetDescription(v DescriptionObject)`
 
-SetProductId sets ProductId field to given value.
+SetDescription sets Description field to given value.
 
-### HasProductId
+### HasDescription
 
-`func (o *Feature) HasProductId() bool`
+`func (o *Feature) HasDescription() bool`
 
-HasProductId returns a boolean if a field has been set.
+HasDescription returns a boolean if a field has been set.
 
-### GetProgressSource
+### GetCreatedAt
 
-`func (o *Feature) GetProgressSource() string`
+`func (o *Feature) GetCreatedAt() time.Time`
 
-GetProgressSource returns the ProgressSource field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetProgressSourceOk
+### GetCreatedAtOk
 
-`func (o *Feature) GetProgressSourceOk() (*string, bool)`
+`func (o *Feature) GetCreatedAtOk() (*time.Time, bool)`
 
-GetProgressSourceOk returns a tuple with the ProgressSource field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetProgressSource
+### SetCreatedAt
 
-`func (o *Feature) SetProgressSource(v string)`
+`func (o *Feature) SetCreatedAt(v time.Time)`
 
-SetProgressSource sets ProgressSource field to given value.
+SetCreatedAt sets CreatedAt field to given value.
 
-### HasProgressSource
 
-`func (o *Feature) HasProgressSource() bool`
+### GetUpdatedAt
 
-HasProgressSource returns a boolean if a field has been set.
+`func (o *Feature) GetUpdatedAt() time.Time`
 
-### GetReferenceNum
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
 
-`func (o *Feature) GetReferenceNum() string`
+### GetUpdatedAtOk
 
-GetReferenceNum returns the ReferenceNum field if non-nil, zero value otherwise.
+`func (o *Feature) GetUpdatedAtOk() (*time.Time, bool)`
 
-### GetReferenceNumOk
-
-`func (o *Feature) GetReferenceNumOk() (*string, bool)`
-
-GetReferenceNumOk returns a tuple with the ReferenceNum field if it's non-nil, zero value otherwise
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReferenceNum
+### SetUpdatedAt
 
-`func (o *Feature) SetReferenceNum(v string)`
+`func (o *Feature) SetUpdatedAt(v time.Time)`
 
-SetReferenceNum sets ReferenceNum field to given value.
+SetUpdatedAt sets UpdatedAt field to given value.
 
+### HasUpdatedAt
 
-### GetRelease
+`func (o *Feature) HasUpdatedAt() bool`
 
-`func (o *Feature) GetRelease() Release`
-
-GetRelease returns the Release field if non-nil, zero value otherwise.
-
-### GetReleaseOk
-
-`func (o *Feature) GetReleaseOk() (*Release, bool)`
-
-GetReleaseOk returns a tuple with the Release field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRelease
-
-`func (o *Feature) SetRelease(v Release)`
-
-SetRelease sets Release field to given value.
-
-### HasRelease
-
-`func (o *Feature) HasRelease() bool`
-
-HasRelease returns a boolean if a field has been set.
-
-### GetResource
-
-`func (o *Feature) GetResource() string`
-
-GetResource returns the Resource field if non-nil, zero value otherwise.
-
-### GetResourceOk
-
-`func (o *Feature) GetResourceOk() (*string, bool)`
-
-GetResourceOk returns a tuple with the Resource field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResource
-
-`func (o *Feature) SetResource(v string)`
-
-SetResource sets Resource field to given value.
-
-### HasResource
-
-`func (o *Feature) HasResource() bool`
-
-HasResource returns a boolean if a field has been set.
+HasUpdatedAt returns a boolean if a field has been set.
 
 ### GetStartDate
 
@@ -322,30 +201,75 @@ SetStartDate sets StartDate field to given value.
 
 HasStartDate returns a boolean if a field has been set.
 
-### GetTags
+### SetStartDateNil
 
-`func (o *Feature) GetTags() []string`
+`func (o *Feature) SetStartDateNil(b bool)`
 
-GetTags returns the Tags field if non-nil, zero value otherwise.
+ SetStartDateNil sets the value for StartDate to be an explicit nil
 
-### GetTagsOk
+### UnsetStartDate
+`func (o *Feature) UnsetStartDate()`
 
-`func (o *Feature) GetTagsOk() (*[]string, bool)`
+UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
+### GetDueDate
 
-GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+`func (o *Feature) GetDueDate() string`
+
+GetDueDate returns the DueDate field if non-nil, zero value otherwise.
+
+### GetDueDateOk
+
+`func (o *Feature) GetDueDateOk() (*string, bool)`
+
+GetDueDateOk returns a tuple with the DueDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTags
+### SetDueDate
 
-`func (o *Feature) SetTags(v []string)`
+`func (o *Feature) SetDueDate(v string)`
 
-SetTags sets Tags field to given value.
+SetDueDate sets DueDate field to given value.
 
-### HasTags
+### HasDueDate
 
-`func (o *Feature) HasTags() bool`
+`func (o *Feature) HasDueDate() bool`
 
-HasTags returns a boolean if a field has been set.
+HasDueDate returns a boolean if a field has been set.
+
+### SetDueDateNil
+
+`func (o *Feature) SetDueDateNil(b bool)`
+
+ SetDueDateNil sets the value for DueDate to be an explicit nil
+
+### UnsetDueDate
+`func (o *Feature) UnsetDueDate()`
+
+UnsetDueDate ensures that no value is present for DueDate, not even an explicit nil
+### GetProductId
+
+`func (o *Feature) GetProductId() string`
+
+GetProductId returns the ProductId field if non-nil, zero value otherwise.
+
+### GetProductIdOk
+
+`func (o *Feature) GetProductIdOk() (*string, bool)`
+
+GetProductIdOk returns a tuple with the ProductId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProductId
+
+`func (o *Feature) SetProductId(v string)`
+
+SetProductId sets ProductId field to given value.
+
+### HasProductId
+
+`func (o *Feature) HasProductId() bool`
+
+HasProductId returns a boolean if a field has been set.
 
 ### GetUrl
 
@@ -372,31 +296,116 @@ SetUrl sets Url field to given value.
 
 HasUrl returns a boolean if a field has been set.
 
-### GetUseRequirementsEstimates
+### GetResource
 
-`func (o *Feature) GetUseRequirementsEstimates() bool`
+`func (o *Feature) GetResource() string`
 
-GetUseRequirementsEstimates returns the UseRequirementsEstimates field if non-nil, zero value otherwise.
+GetResource returns the Resource field if non-nil, zero value otherwise.
 
-### GetUseRequirementsEstimatesOk
+### GetResourceOk
 
-`func (o *Feature) GetUseRequirementsEstimatesOk() (*bool, bool)`
+`func (o *Feature) GetResourceOk() (*string, bool)`
 
-GetUseRequirementsEstimatesOk returns a tuple with the UseRequirementsEstimates field if it's non-nil, zero value otherwise
+GetResourceOk returns a tuple with the Resource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUseRequirementsEstimates
+### SetResource
 
-`func (o *Feature) SetUseRequirementsEstimates(v bool)`
+`func (o *Feature) SetResource(v string)`
 
-SetUseRequirementsEstimates sets UseRequirementsEstimates field to given value.
+SetResource sets Resource field to given value.
 
-### HasUseRequirementsEstimates
+### HasResource
 
-`func (o *Feature) HasUseRequirementsEstimates() bool`
+`func (o *Feature) HasResource() bool`
 
-HasUseRequirementsEstimates returns a boolean if a field has been set.
+HasResource returns a boolean if a field has been set.
 
+### GetCommentsCount
+
+`func (o *Feature) GetCommentsCount() int64`
+
+GetCommentsCount returns the CommentsCount field if non-nil, zero value otherwise.
+
+### GetCommentsCountOk
+
+`func (o *Feature) GetCommentsCountOk() (*int64, bool)`
+
+GetCommentsCountOk returns a tuple with the CommentsCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCommentsCount
+
+`func (o *Feature) SetCommentsCount(v int64)`
+
+SetCommentsCount sets CommentsCount field to given value.
+
+### HasCommentsCount
+
+`func (o *Feature) HasCommentsCount() bool`
+
+HasCommentsCount returns a boolean if a field has been set.
+
+### GetProgressSource
+
+`func (o *Feature) GetProgressSource() string`
+
+GetProgressSource returns the ProgressSource field if non-nil, zero value otherwise.
+
+### GetProgressSourceOk
+
+`func (o *Feature) GetProgressSourceOk() (*string, bool)`
+
+GetProgressSourceOk returns a tuple with the ProgressSource field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProgressSource
+
+`func (o *Feature) SetProgressSource(v string)`
+
+SetProgressSource sets ProgressSource field to given value.
+
+### HasProgressSource
+
+`func (o *Feature) HasProgressSource() bool`
+
+HasProgressSource returns a boolean if a field has been set.
+
+### GetProgress
+
+`func (o *Feature) GetProgress() float64`
+
+GetProgress returns the Progress field if non-nil, zero value otherwise.
+
+### GetProgressOk
+
+`func (o *Feature) GetProgressOk() (*float64, bool)`
+
+GetProgressOk returns a tuple with the Progress field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProgress
+
+`func (o *Feature) SetProgress(v float64)`
+
+SetProgress sets Progress field to given value.
+
+### HasProgress
+
+`func (o *Feature) HasProgress() bool`
+
+HasProgress returns a boolean if a field has been set.
+
+### SetProgressNil
+
+`func (o *Feature) SetProgressNil(b bool)`
+
+ SetProgressNil sets the value for Progress to be an explicit nil
+
+### UnsetProgress
+`func (o *Feature) UnsetProgress()`
+
+UnsetProgress ensures that no value is present for Progress, not even an explicit nil
 ### GetWorkUnits
 
 `func (o *Feature) GetWorkUnits() int64`
@@ -422,22 +431,72 @@ SetWorkUnits sets WorkUnits field to given value.
 
 HasWorkUnits returns a boolean if a field has been set.
 
+### GetUseRequirementsEstimates
+
+`func (o *Feature) GetUseRequirementsEstimates() bool`
+
+GetUseRequirementsEstimates returns the UseRequirementsEstimates field if non-nil, zero value otherwise.
+
+### GetUseRequirementsEstimatesOk
+
+`func (o *Feature) GetUseRequirementsEstimatesOk() (*bool, bool)`
+
+GetUseRequirementsEstimatesOk returns a tuple with the UseRequirementsEstimates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUseRequirementsEstimates
+
+`func (o *Feature) SetUseRequirementsEstimates(v bool)`
+
+SetUseRequirementsEstimates sets UseRequirementsEstimates field to given value.
+
+### HasUseRequirementsEstimates
+
+`func (o *Feature) HasUseRequirementsEstimates() bool`
+
+HasUseRequirementsEstimates returns a boolean if a field has been set.
+
+### GetTags
+
+`func (o *Feature) GetTags() []string`
+
+GetTags returns the Tags field if non-nil, zero value otherwise.
+
+### GetTagsOk
+
+`func (o *Feature) GetTagsOk() (*[]string, bool)`
+
+GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTags
+
+`func (o *Feature) SetTags(v []string)`
+
+SetTags sets Tags field to given value.
+
+### HasTags
+
+`func (o *Feature) HasTags() bool`
+
+HasTags returns a boolean if a field has been set.
+
 ### GetWorkflowStatus
 
-`func (o *Feature) GetWorkflowStatus() FeatureWorkflowStatus`
+`func (o *Feature) GetWorkflowStatus() WorkflowStatus`
 
 GetWorkflowStatus returns the WorkflowStatus field if non-nil, zero value otherwise.
 
 ### GetWorkflowStatusOk
 
-`func (o *Feature) GetWorkflowStatusOk() (*FeatureWorkflowStatus, bool)`
+`func (o *Feature) GetWorkflowStatusOk() (*WorkflowStatus, bool)`
 
 GetWorkflowStatusOk returns a tuple with the WorkflowStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWorkflowStatus
 
-`func (o *Feature) SetWorkflowStatus(v FeatureWorkflowStatus)`
+`func (o *Feature) SetWorkflowStatus(v WorkflowStatus)`
 
 SetWorkflowStatus sets WorkflowStatus field to given value.
 
@@ -446,6 +505,91 @@ SetWorkflowStatus sets WorkflowStatus field to given value.
 `func (o *Feature) HasWorkflowStatus() bool`
 
 HasWorkflowStatus returns a boolean if a field has been set.
+
+### GetRelease
+
+`func (o *Feature) GetRelease() Release`
+
+GetRelease returns the Release field if non-nil, zero value otherwise.
+
+### GetReleaseOk
+
+`func (o *Feature) GetReleaseOk() (*Release, bool)`
+
+GetReleaseOk returns a tuple with the Release field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRelease
+
+`func (o *Feature) SetRelease(v Release)`
+
+SetRelease sets Release field to given value.
+
+### HasRelease
+
+`func (o *Feature) HasRelease() bool`
+
+HasRelease returns a boolean if a field has been set.
+
+### GetAssignedToUser
+
+`func (o *Feature) GetAssignedToUser() User`
+
+GetAssignedToUser returns the AssignedToUser field if non-nil, zero value otherwise.
+
+### GetAssignedToUserOk
+
+`func (o *Feature) GetAssignedToUserOk() (*User, bool)`
+
+GetAssignedToUserOk returns a tuple with the AssignedToUser field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAssignedToUser
+
+`func (o *Feature) SetAssignedToUser(v User)`
+
+SetAssignedToUser sets AssignedToUser field to given value.
+
+### HasAssignedToUser
+
+`func (o *Feature) HasAssignedToUser() bool`
+
+HasAssignedToUser returns a boolean if a field has been set.
+
+### SetAssignedToUserNil
+
+`func (o *Feature) SetAssignedToUserNil(b bool)`
+
+ SetAssignedToUserNil sets the value for AssignedToUser to be an explicit nil
+
+### UnsetAssignedToUser
+`func (o *Feature) UnsetAssignedToUser()`
+
+UnsetAssignedToUser ensures that no value is present for AssignedToUser, not even an explicit nil
+### GetCustomFields
+
+`func (o *Feature) GetCustomFields() []CustomField`
+
+GetCustomFields returns the CustomFields field if non-nil, zero value otherwise.
+
+### GetCustomFieldsOk
+
+`func (o *Feature) GetCustomFieldsOk() (*[]CustomField, bool)`
+
+GetCustomFieldsOk returns a tuple with the CustomFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCustomFields
+
+`func (o *Feature) SetCustomFields(v []CustomField)`
+
+SetCustomFields sets CustomFields field to given value.
+
+### HasCustomFields
+
+`func (o *Feature) HasCustomFields() bool`
+
+HasCustomFields returns a boolean if a field has been set.
 
 ### GetIntegrationFields
 

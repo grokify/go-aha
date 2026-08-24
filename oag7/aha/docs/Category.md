@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**Name** | **string** |  | 
-**ParentId** | Pointer to **string** |  | [optional] 
+**Id** | Pointer to **string** |  | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**ParentId** | Pointer to **NullableString** |  | [optional] 
 **ProjectId** | Pointer to **string** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 
 ### NewCategory
 
-`func NewCategory(id string, name string, createdAt time.Time, ) *Category`
+`func NewCategory() *Category`
 
 NewCategory instantiates a new Category object
 This constructor will assign default values to properties that have it defined,
@@ -48,6 +48,11 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *Category) HasId() bool`
+
+HasId returns a boolean if a field has been set.
 
 ### GetName
 
@@ -68,6 +73,11 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *Category) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 ### GetParentId
 
@@ -94,6 +104,16 @@ SetParentId sets ParentId field to given value.
 
 HasParentId returns a boolean if a field has been set.
 
+### SetParentIdNil
+
+`func (o *Category) SetParentIdNil(b bool)`
+
+ SetParentIdNil sets the value for ParentId to be an explicit nil
+
+### UnsetParentId
+`func (o *Category) UnsetParentId()`
+
+UnsetParentId ensures that no value is present for ParentId, not even an explicit nil
 ### GetProjectId
 
 `func (o *Category) GetProjectId() string`
@@ -138,6 +158,11 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
+### HasCreatedAt
+
+`func (o *Category) HasCreatedAt() bool`
+
+HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
