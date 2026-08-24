@@ -10,13 +10,11 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/go-aha/sdk/overview/">
+        <link rel="canonical" href="https://grokify.github.io/go-aha/development/regenerating-the-client/">
       
       
-        <link rel="prev" href="../../cli/report/">
+        <link rel="prev" href="../../examples/sdk/">
       
-      
-        <link rel="next" href="../client/">
       
       
         
@@ -27,7 +25,7 @@
     
     
       
-        <title>Overview - go-aha</title>
+        <title>Regenerating the Client - go-aha</title>
       
     
     
@@ -78,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sdk-overview" class="md-skip">
+        <a href="#regenerating-the-openapi-client" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Regenerating the Client
             
           </span>
         </div>
@@ -658,8 +656,6 @@
       
   
   
-    
-  
   
   
     
@@ -672,11 +668,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -697,7 +695,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -712,37 +710,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../sdk/overview/" class="md-nav__link">
         
   
   
@@ -758,92 +729,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#packages" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Packages
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Basic Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-apis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Available APIs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#request-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Request Pattern
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#response-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Response Handling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -856,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client/" class="md-nav__link">
+      <a href="../../sdk/client/" class="md-nav__link">
         
   
   
@@ -884,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ideas/" class="md-nav__link">
+      <a href="../../sdk/ideas/" class="md-nav__link">
         
   
   
@@ -912,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../sdk/features/" class="md-nav__link">
         
   
   
@@ -940,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reports/" class="md-nav__link">
+      <a href="../../sdk/reports/" class="md-nav__link">
         
   
   
@@ -1089,8 +974,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -1101,13 +988,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1128,7 +1013,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1143,10 +1028,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../development/regenerating-the-client/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regenerating the Client
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1162,6 +1074,104 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-generator-command-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the generator command does
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-optional-fields-become-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important: optional fields become pointers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important: optional fields become pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consequences-for-hand-written-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences for hand-written wrappers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-regeneration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-regeneration checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1201,10 +1211,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#packages" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Packages
+        Prerequisites
       
     </span>
   </a>
@@ -1212,54 +1222,66 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Usage
+        Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-generator-command-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the generator command does
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#available-apis" class="md-nav__link">
+  <a href="#important-optional-fields-become-pointers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Available APIs
+        Important: optional fields become pointers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important: optional fields become pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consequences-for-hand-written-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences for hand-written wrappers
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#request-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Request Pattern
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#response-handling" class="md-nav__link">
+  <a href="#post-regeneration-checklist" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Response Handling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
+        Post-regeneration checklist
       
     </span>
   </a>
@@ -1286,134 +1308,104 @@
   
 
 
-<h1 id="sdk-overview">SDK Overview<a class="headerlink" href="#sdk-overview" title="Permanent link">&para;</a></h1>
-<p>The go-aha SDK provides programmatic access to the Aha! API in Go applications.</p>
-<h2 id="packages">Packages<a class="headerlink" href="#packages" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Package</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>oag7/aha</code></td>
-<td>Generated API client (OpenAPI Generator v7)</td>
-</tr>
-<tr>
-<td><code>oag7/client</code></td>
-<td>Client configuration helpers</td>
-</tr>
-<tr>
-<td><code>oag7/ideas</code></td>
-<td>High-level idea helpers and reports</td>
-</tr>
-<tr>
-<td><code>oag7/features</code></td>
-<td>Feature helper utilities</td>
-</tr>
-</tbody>
-</table>
-<h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="s">&quot;context&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="s">&quot;os&quot;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/go-aha/v3/oag7/aha&quot;</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="s">&quot;github.com/grokify/go-aha/v3/oag7/client&quot;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="c1">// Create configuration</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">cfg</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">NewConfiguration</span><span class="p">(</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;AHA_DOMAIN&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;AHA_API_KEY&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="c1">// Create API client</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nx">apiClient</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aha</span><span class="p">.</span><span class="nx">NewAPIClient</span><span class="p">(</span><span class="nx">cfg</span><span class="p">)</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="c1">// Use the client</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nx">ideas</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">apiClient</span><span class="p">.</span><span class="nx">IdeasAPI</span><span class="p">.</span><span class="nx">ListIdeas</span><span class="p">(</span><span class="nx">ctx</span><span class="p">).</span><span class="nx">Execute</span><span class="p">()</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">}</span>
-</code></pre></div>
-<h2 id="available-apis">Available APIs<a class="headerlink" href="#available-apis" title="Permanent link">&para;</a></h2>
-<p>The client provides access to these API services:</p>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>IdeasAPI</code></td>
-<td>Create, read, update ideas</td>
-</tr>
-<tr>
-<td><code>FeaturesAPI</code></td>
-<td>Manage features</td>
-</tr>
-<tr>
-<td><code>ProductsAPI</code></td>
-<td>List and get products</td>
-</tr>
-<tr>
-<td><code>ReleasesAPI</code></td>
-<td>Manage releases</td>
-</tr>
-</tbody>
-</table>
-<h2 id="request-pattern">Request Pattern<a class="headerlink" href="#request-pattern" title="Permanent link">&para;</a></h2>
-<p>All API methods follow a builder pattern:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Build the request with optional parameters</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">request</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">apiClient</span><span class="p">.</span><span class="nx">IdeasAPI</span><span class="p">.</span><span class="nx">ListIdeas</span><span class="p">(</span><span class="nx">ctx</span><span class="p">).</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">Q</span><span class="p">(</span><span class="s">&quot;search term&quot;</span><span class="p">).</span><span class="w">           </span><span class="c1">// Query string</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">WorkflowStatus</span><span class="p">(</span><span class="s">&quot;Planned&quot;</span><span class="p">).</span><span class="w">  </span><span class="c1">// Filter</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">Page</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="w">                    </span><span class="c1">// Pagination</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nx">PerPage</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">// Execute the request</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nx">response</span><span class="p">,</span><span class="w"> </span><span class="nx">httpResponse</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Execute</span><span class="p">()</span>
-</code></pre></div>
-<h2 id="response-handling">Response Handling<a class="headerlink" href="#response-handling" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">ideas</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">apiClient</span><span class="p">.</span><span class="nx">IdeasAPI</span><span class="p">.</span><span class="nx">ListIdeas</span><span class="p">(</span><span class="nx">ctx</span><span class="p">).</span><span class="nx">Execute</span><span class="p">()</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// Check for errors</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;API error: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">// Check HTTP status</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">if</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">StatusCode</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">400</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;HTTP error: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Status</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1">// Access data</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">idea</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">ideas</span><span class="p">.</span><span class="nx">Ideas</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">idea</span><span class="p">.</span><span class="nx">ReferenceNum</span><span class="p">,</span><span class="w"> </span><span class="nx">idea</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1">// Access pagination info</span>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="k">if</span><span class="w"> </span><span class="nx">ideas</span><span class="p">.</span><span class="nx">Pagination</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Page %d of %d\n&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nx">ideas</span><span class="p">.</span><span class="nx">Pagination</span><span class="p">.</span><span class="nx">GetCurrentPage</span><span class="p">(),</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="nx">ideas</span><span class="p">.</span><span class="nx">Pagination</span><span class="p">.</span><span class="nx">GetTotalPages</span><span class="p">())</span>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="p">}</span>
-</code></pre></div>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h1 id="regenerating-the-openapi-client">Regenerating the OpenAPI Client<a class="headerlink" href="#regenerating-the-openapi-client" title="Permanent link">&para;</a></h1>
+<p>The <code>oag7/aha</code> package is <strong>generated</strong> by <a href="https://openapi-generator.tech/">OpenAPI Generator</a>
+(currently <strong>7.24.0</strong>) from the spec at <code>codegen/openapi_spec.yaml</code>. Do not edit
+the generated files by hand — regenerate instead.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../client/">API Client</a> - Detailed client configuration</li>
-<li><a href="../ideas/">Ideas API</a> - Working with ideas</li>
-<li><a href="../features/">Features API</a> - Working with features</li>
-<li><a href="../reports/">Reports</a> - Generating reports</li>
+<li>Java (to run <code>openapi-generator-cli.jar</code>)</li>
+<li><code>codegen/openapi-generator-cli.jar</code> (the generator; see <code>codegen/openapi-generator-version.txt</code>)</li>
+<li>The updated spec at <code>codegen/openapi_spec.yaml</code></li>
 </ul>
+<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>codegen
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># 1. Generate the client into codegen/aha from openapi_spec.yaml</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>sh<span class="w"> </span>openapi-generator-command.sh
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># 2. Drop the standalone module files the generator emits — the client is part</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">#    of the parent go-aha module, not its own module.</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>rm<span class="w"> </span>aha/go.mod<span class="w"> </span>aha/go.sum
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nb">cd</span><span class="w"> </span>..
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># 3. Swap the old client for the new one</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>rm<span class="w"> </span>-rf<span class="w"> </span>oag7/aha
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>mv<span class="w"> </span>codegen/aha<span class="w"> </span>oag7/aha
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># 4. Resolve dependencies and verify</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>go<span class="w"> </span>mod<span class="w"> </span>tidy
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>go<span class="w"> </span>build<span class="w"> </span>./...
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./...
+</code></pre></div>
+<h3 id="what-the-generator-command-does">What the generator command does<a class="headerlink" href="#what-the-generator-command-does" title="Permanent link">&para;</a></h3>
+<p><code>codegen/openapi-generator-command.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>java<span class="w"> </span>-jar<span class="w"> </span>openapi-generator-cli.jar<span class="w"> </span>generate<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-i<span class="w"> </span>openapi_spec.yaml<span class="w"> </span>-g<span class="w"> </span>go<span class="w"> </span>-o<span class="w"> </span>aha<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--package-name<span class="o">=</span>aha<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--git-repo-id<span class="w"> </span>go-aha/v3/oag7/aha<span class="w"> </span>--git-user-id<span class="w"> </span>grokify<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--additional-properties<span class="o">=</span><span class="nv">disallowAdditionalPropertiesIfNotPresent</span><span class="o">=</span><span class="nb">false</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Append a helper the generator does not provide, then format:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n\nfunc (apiClient *APIClient) HTTPClient() *http.Client { return apiClient.cfg.HTTPClient }&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>aha/client.go
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>gofmt<span class="w"> </span>-s<span class="w"> </span>-w<span class="w"> </span>aha/*.go
+</code></pre></div>
+<h2 id="important-optional-fields-become-pointers">Important: optional fields become pointers<a class="headerlink" href="#important-optional-fields-become-pointers" title="Permanent link">&para;</a></h2>
+<p>OpenAPI Generator's Go generator renders schema properties based on whether they
+are in the schema's <code>required</code> list:</p>
+<table>
+<thead>
+<tr>
+<th>In <code>required</code>?</th>
+<th>Generated Go type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yes</td>
+<td>value, e.g. <code>string</code></td>
+</tr>
+<tr>
+<td>No (optional)</td>
+<td><strong>pointer</strong>, e.g. <code>*string</code> with <code>json:",omitempty"</code></td>
+</tr>
+</tbody>
+</table>
+<p>So a property that is not marked <code>required</code> in <code>codegen/openapi_spec.yaml</code>
+generates as a pointer. This is by design (it distinguishes "absent" from
+"empty"), and the generated model docs say so explicitly, e.g.:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>**ServiceName** | Pointer to **string** | | [optional]
+</code></pre></div>
+<h3 id="consequences-for-hand-written-wrappers">Consequences for hand-written wrappers<a class="headerlink" href="#consequences-for-hand-written-wrappers" title="Permanent link">&para;</a></h3>
+<p>Hand-written packages that wrap the generated client (<code>oag7/features</code>,
+<code>oag7/ideas</code>, …) must account for pointer fields. Two options:</p>
+<ol>
+<li><strong>Use the generated safe getters</strong> (recommended). Every optional field <code>X</code>
+   has a <code>GetX() T</code> method that returns the zero value when the pointer is nil:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// instead of: intf.ServiceName == &quot;jira&quot;   (fails: *string vs string)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">if</span><span class="w"> </span><span class="nx">intf</span><span class="p">.</span><span class="nx">GetServiceName</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;jira&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">intf</span><span class="p">.</span><span class="nx">GetName</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;key&quot;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">intf</span><span class="p">.</span><span class="nx">GetValue</span><span class="p">())</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>Mark the property <code>required</code> in the spec</strong>, then regenerate. The field
+   becomes a value type (<code>string</code>). Only do this when the API genuinely always
+   returns the field, and be aware it changes the generated type for every
+   consumer of that field.</li>
+</ol>
+<h2 id="post-regeneration-checklist">Post-regeneration checklist<a class="headerlink" href="#post-regeneration-checklist" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>go build ./...</code> — fix any wrapper breakage (usually pointer/value mismatches;
+   see above).</li>
+<li><code>go test ./...</code> — the generated <code>oag7/aha/test</code> suite should pass (its cases
+   are skipped stubs).</li>
+<li>Review renamed/removed schemas — the generator drops models the new spec no
+   longer defines (e.g. the old <code>*Wrap</code> envelopes were superseded by <code>*Response</code>).</li>
+<li>Update the README "Supported APIs" table if the surface changed.</li>
+<li><code>golangci-lint run</code> and commit the regenerated client and wrapper fixes.</li>
+</ol>
 
 
 
