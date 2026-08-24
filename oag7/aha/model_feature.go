@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -19,30 +19,32 @@ import (
 // checks if the Feature type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Feature{}
 
-// Feature
+// Feature struct for Feature
 type Feature struct {
-	Id            string        `json:"id"`
-	CreatedAt     time.Time     `json:"created_at"`
-	CommentsCount *int64        `json:"comments_count,omitempty"`
-	CustomFields  []CustomField `json:"custom_fields,omitempty"`
-	// Due date in YYYY-MM-DD format.
-	DueDate        *string  `json:"due_date,omitempty"`
-	Name           string   `json:"name"`
-	ProductId      *string  `json:"product_id,omitempty"`
-	ProgressSource *string  `json:"progress_source,omitempty"`
-	ReferenceNum   string   `json:"reference_num"`
-	Release        *Release `json:"release,omitempty"`
-	// API URL for the resource.
-	Resource *string `json:"resource,omitempty"`
-	// Start date in YYYY-MM-DD format.
-	StartDate *string  `json:"start_date,omitempty"`
-	Tags      []string `json:"tags,omitempty"`
-	// Web UI URL for the resource.
-	Url                      *string                `json:"url,omitempty"`
-	UseRequirementsEstimates *bool                  `json:"use_requirements_estimates,omitempty"`
-	WorkUnits                *int64                 `json:"work_units,omitempty"`
-	WorkflowStatus           *FeatureWorkflowStatus `json:"workflow_status,omitempty"`
-	IntegrationFields        []IntegrationField     `json:"integration_fields,omitempty"`
+	Id           string             `json:"id"`
+	ReferenceNum string             `json:"reference_num"`
+	Name         string             `json:"name"`
+	Description  *DescriptionObject `json:"description,omitempty"`
+	CreatedAt    time.Time          `json:"created_at"`
+	UpdatedAt    *time.Time         `json:"updated_at,omitempty"`
+	StartDate    NullableString     `json:"start_date,omitempty"`
+	DueDate      NullableString     `json:"due_date,omitempty"`
+	ProductId    *string            `json:"product_id,omitempty"`
+	// Web UI URL
+	Url *string `json:"url,omitempty"`
+	// API URL
+	Resource                 *string            `json:"resource,omitempty"`
+	CommentsCount            *int64             `json:"comments_count,omitempty"`
+	ProgressSource           *string            `json:"progress_source,omitempty"`
+	Progress                 NullableFloat64    `json:"progress,omitempty"`
+	WorkUnits                *int64             `json:"work_units,omitempty"`
+	UseRequirementsEstimates *bool              `json:"use_requirements_estimates,omitempty"`
+	Tags                     []string           `json:"tags,omitempty"`
+	WorkflowStatus           *WorkflowStatus    `json:"workflow_status,omitempty"`
+	Release                  *Release           `json:"release,omitempty"`
+	AssignedToUser           NullableUser       `json:"assigned_to_user,omitempty"`
+	CustomFields             []CustomField      `json:"custom_fields,omitempty"`
+	IntegrationFields        []IntegrationField `json:"integration_fields,omitempty"`
 	AdditionalProperties     map[string]interface{}
 }
 
@@ -52,12 +54,12 @@ type _Feature Feature
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFeature(id string, createdAt time.Time, name string, referenceNum string) *Feature {
+func NewFeature(id string, referenceNum string, name string, createdAt time.Time) *Feature {
 	this := Feature{}
 	this.Id = id
-	this.CreatedAt = createdAt
-	this.Name = name
 	this.ReferenceNum = referenceNum
+	this.Name = name
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -93,124 +95,28 @@ func (o *Feature) SetId(v string) {
 	o.Id = v
 }
 
-// GetCreatedAt returns the CreatedAt field value
-func (o *Feature) GetCreatedAt() time.Time {
+// GetReferenceNum returns the ReferenceNum field value
+func (o *Feature) GetReferenceNum() string {
 	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
-// and a boolean to check if the value has been set.
-func (o *Feature) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CreatedAt, true
-}
-
-// SetCreatedAt sets field value
-func (o *Feature) SetCreatedAt(v time.Time) {
-	o.CreatedAt = v
-}
-
-// GetCommentsCount returns the CommentsCount field value if set, zero value otherwise.
-func (o *Feature) GetCommentsCount() int64 {
-	if o == nil || IsNil(o.CommentsCount) {
-		var ret int64
-		return ret
-	}
-	return *o.CommentsCount
-}
-
-// GetCommentsCountOk returns a tuple with the CommentsCount field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Feature) GetCommentsCountOk() (*int64, bool) {
-	if o == nil || IsNil(o.CommentsCount) {
-		return nil, false
-	}
-	return o.CommentsCount, true
-}
-
-// HasCommentsCount returns a boolean if a field has been set.
-func (o *Feature) HasCommentsCount() bool {
-	if o != nil && !IsNil(o.CommentsCount) {
-		return true
-	}
-
-	return false
-}
-
-// SetCommentsCount gets a reference to the given int64 and assigns it to the CommentsCount field.
-func (o *Feature) SetCommentsCount(v int64) {
-	o.CommentsCount = &v
-}
-
-// GetCustomFields returns the CustomFields field value if set, zero value otherwise.
-func (o *Feature) GetCustomFields() []CustomField {
-	if o == nil || IsNil(o.CustomFields) {
-		var ret []CustomField
-		return ret
-	}
-	return o.CustomFields
-}
-
-// GetCustomFieldsOk returns a tuple with the CustomFields field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Feature) GetCustomFieldsOk() ([]CustomField, bool) {
-	if o == nil || IsNil(o.CustomFields) {
-		return nil, false
-	}
-	return o.CustomFields, true
-}
-
-// HasCustomFields returns a boolean if a field has been set.
-func (o *Feature) HasCustomFields() bool {
-	if o != nil && !IsNil(o.CustomFields) {
-		return true
-	}
-
-	return false
-}
-
-// SetCustomFields gets a reference to the given []CustomField and assigns it to the CustomFields field.
-func (o *Feature) SetCustomFields(v []CustomField) {
-	o.CustomFields = v
-}
-
-// GetDueDate returns the DueDate field value if set, zero value otherwise.
-func (o *Feature) GetDueDate() string {
-	if o == nil || IsNil(o.DueDate) {
 		var ret string
 		return ret
 	}
-	return *o.DueDate
+
+	return o.ReferenceNum
 }
 
-// GetDueDateOk returns a tuple with the DueDate field value if set, nil otherwise
+// GetReferenceNumOk returns a tuple with the ReferenceNum field value
 // and a boolean to check if the value has been set.
-func (o *Feature) GetDueDateOk() (*string, bool) {
-	if o == nil || IsNil(o.DueDate) {
+func (o *Feature) GetReferenceNumOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DueDate, true
+	return &o.ReferenceNum, true
 }
 
-// HasDueDate returns a boolean if a field has been set.
-func (o *Feature) HasDueDate() bool {
-	if o != nil && !IsNil(o.DueDate) {
-		return true
-	}
-
-	return false
-}
-
-// SetDueDate gets a reference to the given string and assigns it to the DueDate field.
-func (o *Feature) SetDueDate(v string) {
-	o.DueDate = &v
+// SetReferenceNum sets field value
+func (o *Feature) SetReferenceNum(v string) {
+	o.ReferenceNum = v
 }
 
 // GetName returns the Name field value
@@ -235,6 +141,180 @@ func (o *Feature) GetNameOk() (*string, bool) {
 // SetName sets field value
 func (o *Feature) SetName(v string) {
 	o.Name = v
+}
+
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *Feature) GetDescription() DescriptionObject {
+	if o == nil || IsNil(o.Description) {
+		var ret DescriptionObject
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetDescriptionOk() (*DescriptionObject, bool) {
+	if o == nil || IsNil(o.Description) {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *Feature) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given DescriptionObject and assigns it to the Description field.
+func (o *Feature) SetDescription(v DescriptionObject) {
+	o.Description = &v
+}
+
+// GetCreatedAt returns the CreatedAt field value
+func (o *Feature) GetCreatedAt() time.Time {
+	if o == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return o.CreatedAt
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// and a boolean to check if the value has been set.
+func (o *Feature) GetCreatedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CreatedAt, true
+}
+
+// SetCreatedAt sets field value
+func (o *Feature) SetCreatedAt(v time.Time) {
+	o.CreatedAt = v
+}
+
+// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
+func (o *Feature) GetUpdatedAt() time.Time {
+	if o == nil || IsNil(o.UpdatedAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.UpdatedAt
+}
+
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetUpdatedAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.UpdatedAt) {
+		return nil, false
+	}
+	return o.UpdatedAt, true
+}
+
+// HasUpdatedAt returns a boolean if a field has been set.
+func (o *Feature) HasUpdatedAt() bool {
+	if o != nil && !IsNil(o.UpdatedAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
+func (o *Feature) SetUpdatedAt(v time.Time) {
+	o.UpdatedAt = &v
+}
+
+// GetStartDate returns the StartDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Feature) GetStartDate() string {
+	if o == nil || IsNil(o.StartDate.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.StartDate.Get()
+}
+
+// GetStartDateOk returns a tuple with the StartDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Feature) GetStartDateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.StartDate.Get(), o.StartDate.IsSet()
+}
+
+// HasStartDate returns a boolean if a field has been set.
+func (o *Feature) HasStartDate() bool {
+	if o != nil && o.StartDate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetStartDate gets a reference to the given NullableString and assigns it to the StartDate field.
+func (o *Feature) SetStartDate(v string) {
+	o.StartDate.Set(&v)
+}
+
+// SetStartDateNil sets the value for StartDate to be an explicit nil
+func (o *Feature) SetStartDateNil() {
+	o.StartDate.Set(nil)
+}
+
+// UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
+func (o *Feature) UnsetStartDate() {
+	o.StartDate.Unset()
+}
+
+// GetDueDate returns the DueDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Feature) GetDueDate() string {
+	if o == nil || IsNil(o.DueDate.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.DueDate.Get()
+}
+
+// GetDueDateOk returns a tuple with the DueDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Feature) GetDueDateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DueDate.Get(), o.DueDate.IsSet()
+}
+
+// HasDueDate returns a boolean if a field has been set.
+func (o *Feature) HasDueDate() bool {
+	if o != nil && o.DueDate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetDueDate gets a reference to the given NullableString and assigns it to the DueDate field.
+func (o *Feature) SetDueDate(v string) {
+	o.DueDate.Set(&v)
+}
+
+// SetDueDateNil sets the value for DueDate to be an explicit nil
+func (o *Feature) SetDueDateNil() {
+	o.DueDate.Set(nil)
+}
+
+// UnsetDueDate ensures that no value is present for DueDate, not even an explicit nil
+func (o *Feature) UnsetDueDate() {
+	o.DueDate.Unset()
 }
 
 // GetProductId returns the ProductId field value if set, zero value otherwise.
@@ -269,92 +349,36 @@ func (o *Feature) SetProductId(v string) {
 	o.ProductId = &v
 }
 
-// GetProgressSource returns the ProgressSource field value if set, zero value otherwise.
-func (o *Feature) GetProgressSource() string {
-	if o == nil || IsNil(o.ProgressSource) {
+// GetUrl returns the Url field value if set, zero value otherwise.
+func (o *Feature) GetUrl() string {
+	if o == nil || IsNil(o.Url) {
 		var ret string
 		return ret
 	}
-	return *o.ProgressSource
+	return *o.Url
 }
 
-// GetProgressSourceOk returns a tuple with the ProgressSource field value if set, nil otherwise
+// GetUrlOk returns a tuple with the Url field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Feature) GetProgressSourceOk() (*string, bool) {
-	if o == nil || IsNil(o.ProgressSource) {
+func (o *Feature) GetUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.Url) {
 		return nil, false
 	}
-	return o.ProgressSource, true
+	return o.Url, true
 }
 
-// HasProgressSource returns a boolean if a field has been set.
-func (o *Feature) HasProgressSource() bool {
-	if o != nil && !IsNil(o.ProgressSource) {
+// HasUrl returns a boolean if a field has been set.
+func (o *Feature) HasUrl() bool {
+	if o != nil && !IsNil(o.Url) {
 		return true
 	}
 
 	return false
 }
 
-// SetProgressSource gets a reference to the given string and assigns it to the ProgressSource field.
-func (o *Feature) SetProgressSource(v string) {
-	o.ProgressSource = &v
-}
-
-// GetReferenceNum returns the ReferenceNum field value
-func (o *Feature) GetReferenceNum() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.ReferenceNum
-}
-
-// GetReferenceNumOk returns a tuple with the ReferenceNum field value
-// and a boolean to check if the value has been set.
-func (o *Feature) GetReferenceNumOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ReferenceNum, true
-}
-
-// SetReferenceNum sets field value
-func (o *Feature) SetReferenceNum(v string) {
-	o.ReferenceNum = v
-}
-
-// GetRelease returns the Release field value if set, zero value otherwise.
-func (o *Feature) GetRelease() Release {
-	if o == nil || IsNil(o.Release) {
-		var ret Release
-		return ret
-	}
-	return *o.Release
-}
-
-// GetReleaseOk returns a tuple with the Release field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Feature) GetReleaseOk() (*Release, bool) {
-	if o == nil || IsNil(o.Release) {
-		return nil, false
-	}
-	return o.Release, true
-}
-
-// HasRelease returns a boolean if a field has been set.
-func (o *Feature) HasRelease() bool {
-	if o != nil && !IsNil(o.Release) {
-		return true
-	}
-
-	return false
-}
-
-// SetRelease gets a reference to the given Release and assigns it to the Release field.
-func (o *Feature) SetRelease(v Release) {
-	o.Release = &v
+// SetUrl gets a reference to the given string and assigns it to the Url field.
+func (o *Feature) SetUrl(v string) {
+	o.Url = &v
 }
 
 // GetResource returns the Resource field value if set, zero value otherwise.
@@ -389,132 +413,111 @@ func (o *Feature) SetResource(v string) {
 	o.Resource = &v
 }
 
-// GetStartDate returns the StartDate field value if set, zero value otherwise.
-func (o *Feature) GetStartDate() string {
-	if o == nil || IsNil(o.StartDate) {
+// GetCommentsCount returns the CommentsCount field value if set, zero value otherwise.
+func (o *Feature) GetCommentsCount() int64 {
+	if o == nil || IsNil(o.CommentsCount) {
+		var ret int64
+		return ret
+	}
+	return *o.CommentsCount
+}
+
+// GetCommentsCountOk returns a tuple with the CommentsCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetCommentsCountOk() (*int64, bool) {
+	if o == nil || IsNil(o.CommentsCount) {
+		return nil, false
+	}
+	return o.CommentsCount, true
+}
+
+// HasCommentsCount returns a boolean if a field has been set.
+func (o *Feature) HasCommentsCount() bool {
+	if o != nil && !IsNil(o.CommentsCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetCommentsCount gets a reference to the given int64 and assigns it to the CommentsCount field.
+func (o *Feature) SetCommentsCount(v int64) {
+	o.CommentsCount = &v
+}
+
+// GetProgressSource returns the ProgressSource field value if set, zero value otherwise.
+func (o *Feature) GetProgressSource() string {
+	if o == nil || IsNil(o.ProgressSource) {
 		var ret string
 		return ret
 	}
-	return *o.StartDate
+	return *o.ProgressSource
 }
 
-// GetStartDateOk returns a tuple with the StartDate field value if set, nil otherwise
+// GetProgressSourceOk returns a tuple with the ProgressSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Feature) GetStartDateOk() (*string, bool) {
-	if o == nil || IsNil(o.StartDate) {
+func (o *Feature) GetProgressSourceOk() (*string, bool) {
+	if o == nil || IsNil(o.ProgressSource) {
 		return nil, false
 	}
-	return o.StartDate, true
+	return o.ProgressSource, true
 }
 
-// HasStartDate returns a boolean if a field has been set.
-func (o *Feature) HasStartDate() bool {
-	if o != nil && !IsNil(o.StartDate) {
+// HasProgressSource returns a boolean if a field has been set.
+func (o *Feature) HasProgressSource() bool {
+	if o != nil && !IsNil(o.ProgressSource) {
 		return true
 	}
 
 	return false
 }
 
-// SetStartDate gets a reference to the given string and assigns it to the StartDate field.
-func (o *Feature) SetStartDate(v string) {
-	o.StartDate = &v
+// SetProgressSource gets a reference to the given string and assigns it to the ProgressSource field.
+func (o *Feature) SetProgressSource(v string) {
+	o.ProgressSource = &v
 }
 
-// GetTags returns the Tags field value if set, zero value otherwise.
-func (o *Feature) GetTags() []string {
-	if o == nil || IsNil(o.Tags) {
-		var ret []string
+// GetProgress returns the Progress field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Feature) GetProgress() float64 {
+	if o == nil || IsNil(o.Progress.Get()) {
+		var ret float64
 		return ret
 	}
-	return o.Tags
+	return *o.Progress.Get()
 }
 
-// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
+// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Feature) GetTagsOk() ([]string, bool) {
-	if o == nil || IsNil(o.Tags) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Feature) GetProgressOk() (*float64, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Tags, true
+	return o.Progress.Get(), o.Progress.IsSet()
 }
 
-// HasTags returns a boolean if a field has been set.
-func (o *Feature) HasTags() bool {
-	if o != nil && !IsNil(o.Tags) {
+// HasProgress returns a boolean if a field has been set.
+func (o *Feature) HasProgress() bool {
+	if o != nil && o.Progress.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTags gets a reference to the given []string and assigns it to the Tags field.
-func (o *Feature) SetTags(v []string) {
-	o.Tags = v
+// SetProgress gets a reference to the given NullableFloat64 and assigns it to the Progress field.
+func (o *Feature) SetProgress(v float64) {
+	o.Progress.Set(&v)
 }
 
-// GetUrl returns the Url field value if set, zero value otherwise.
-func (o *Feature) GetUrl() string {
-	if o == nil || IsNil(o.Url) {
-		var ret string
-		return ret
-	}
-	return *o.Url
+// SetProgressNil sets the value for Progress to be an explicit nil
+func (o *Feature) SetProgressNil() {
+	o.Progress.Set(nil)
 }
 
-// GetUrlOk returns a tuple with the Url field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Feature) GetUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.Url) {
-		return nil, false
-	}
-	return o.Url, true
-}
-
-// HasUrl returns a boolean if a field has been set.
-func (o *Feature) HasUrl() bool {
-	if o != nil && !IsNil(o.Url) {
-		return true
-	}
-
-	return false
-}
-
-// SetUrl gets a reference to the given string and assigns it to the Url field.
-func (o *Feature) SetUrl(v string) {
-	o.Url = &v
-}
-
-// GetUseRequirementsEstimates returns the UseRequirementsEstimates field value if set, zero value otherwise.
-func (o *Feature) GetUseRequirementsEstimates() bool {
-	if o == nil || IsNil(o.UseRequirementsEstimates) {
-		var ret bool
-		return ret
-	}
-	return *o.UseRequirementsEstimates
-}
-
-// GetUseRequirementsEstimatesOk returns a tuple with the UseRequirementsEstimates field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Feature) GetUseRequirementsEstimatesOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseRequirementsEstimates) {
-		return nil, false
-	}
-	return o.UseRequirementsEstimates, true
-}
-
-// HasUseRequirementsEstimates returns a boolean if a field has been set.
-func (o *Feature) HasUseRequirementsEstimates() bool {
-	if o != nil && !IsNil(o.UseRequirementsEstimates) {
-		return true
-	}
-
-	return false
-}
-
-// SetUseRequirementsEstimates gets a reference to the given bool and assigns it to the UseRequirementsEstimates field.
-func (o *Feature) SetUseRequirementsEstimates(v bool) {
-	o.UseRequirementsEstimates = &v
+// UnsetProgress ensures that no value is present for Progress, not even an explicit nil
+func (o *Feature) UnsetProgress() {
+	o.Progress.Unset()
 }
 
 // GetWorkUnits returns the WorkUnits field value if set, zero value otherwise.
@@ -549,10 +552,74 @@ func (o *Feature) SetWorkUnits(v int64) {
 	o.WorkUnits = &v
 }
 
+// GetUseRequirementsEstimates returns the UseRequirementsEstimates field value if set, zero value otherwise.
+func (o *Feature) GetUseRequirementsEstimates() bool {
+	if o == nil || IsNil(o.UseRequirementsEstimates) {
+		var ret bool
+		return ret
+	}
+	return *o.UseRequirementsEstimates
+}
+
+// GetUseRequirementsEstimatesOk returns a tuple with the UseRequirementsEstimates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetUseRequirementsEstimatesOk() (*bool, bool) {
+	if o == nil || IsNil(o.UseRequirementsEstimates) {
+		return nil, false
+	}
+	return o.UseRequirementsEstimates, true
+}
+
+// HasUseRequirementsEstimates returns a boolean if a field has been set.
+func (o *Feature) HasUseRequirementsEstimates() bool {
+	if o != nil && !IsNil(o.UseRequirementsEstimates) {
+		return true
+	}
+
+	return false
+}
+
+// SetUseRequirementsEstimates gets a reference to the given bool and assigns it to the UseRequirementsEstimates field.
+func (o *Feature) SetUseRequirementsEstimates(v bool) {
+	o.UseRequirementsEstimates = &v
+}
+
+// GetTags returns the Tags field value if set, zero value otherwise.
+func (o *Feature) GetTags() []string {
+	if o == nil || IsNil(o.Tags) {
+		var ret []string
+		return ret
+	}
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetTagsOk() ([]string, bool) {
+	if o == nil || IsNil(o.Tags) {
+		return nil, false
+	}
+	return o.Tags, true
+}
+
+// HasTags returns a boolean if a field has been set.
+func (o *Feature) HasTags() bool {
+	if o != nil && !IsNil(o.Tags) {
+		return true
+	}
+
+	return false
+}
+
+// SetTags gets a reference to the given []string and assigns it to the Tags field.
+func (o *Feature) SetTags(v []string) {
+	o.Tags = v
+}
+
 // GetWorkflowStatus returns the WorkflowStatus field value if set, zero value otherwise.
-func (o *Feature) GetWorkflowStatus() FeatureWorkflowStatus {
+func (o *Feature) GetWorkflowStatus() WorkflowStatus {
 	if o == nil || IsNil(o.WorkflowStatus) {
-		var ret FeatureWorkflowStatus
+		var ret WorkflowStatus
 		return ret
 	}
 	return *o.WorkflowStatus
@@ -560,7 +627,7 @@ func (o *Feature) GetWorkflowStatus() FeatureWorkflowStatus {
 
 // GetWorkflowStatusOk returns a tuple with the WorkflowStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Feature) GetWorkflowStatusOk() (*FeatureWorkflowStatus, bool) {
+func (o *Feature) GetWorkflowStatusOk() (*WorkflowStatus, bool) {
 	if o == nil || IsNil(o.WorkflowStatus) {
 		return nil, false
 	}
@@ -576,9 +643,116 @@ func (o *Feature) HasWorkflowStatus() bool {
 	return false
 }
 
-// SetWorkflowStatus gets a reference to the given FeatureWorkflowStatus and assigns it to the WorkflowStatus field.
-func (o *Feature) SetWorkflowStatus(v FeatureWorkflowStatus) {
+// SetWorkflowStatus gets a reference to the given WorkflowStatus and assigns it to the WorkflowStatus field.
+func (o *Feature) SetWorkflowStatus(v WorkflowStatus) {
 	o.WorkflowStatus = &v
+}
+
+// GetRelease returns the Release field value if set, zero value otherwise.
+func (o *Feature) GetRelease() Release {
+	if o == nil || IsNil(o.Release) {
+		var ret Release
+		return ret
+	}
+	return *o.Release
+}
+
+// GetReleaseOk returns a tuple with the Release field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetReleaseOk() (*Release, bool) {
+	if o == nil || IsNil(o.Release) {
+		return nil, false
+	}
+	return o.Release, true
+}
+
+// HasRelease returns a boolean if a field has been set.
+func (o *Feature) HasRelease() bool {
+	if o != nil && !IsNil(o.Release) {
+		return true
+	}
+
+	return false
+}
+
+// SetRelease gets a reference to the given Release and assigns it to the Release field.
+func (o *Feature) SetRelease(v Release) {
+	o.Release = &v
+}
+
+// GetAssignedToUser returns the AssignedToUser field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Feature) GetAssignedToUser() User {
+	if o == nil || IsNil(o.AssignedToUser.Get()) {
+		var ret User
+		return ret
+	}
+	return *o.AssignedToUser.Get()
+}
+
+// GetAssignedToUserOk returns a tuple with the AssignedToUser field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Feature) GetAssignedToUserOk() (*User, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AssignedToUser.Get(), o.AssignedToUser.IsSet()
+}
+
+// HasAssignedToUser returns a boolean if a field has been set.
+func (o *Feature) HasAssignedToUser() bool {
+	if o != nil && o.AssignedToUser.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAssignedToUser gets a reference to the given NullableUser and assigns it to the AssignedToUser field.
+func (o *Feature) SetAssignedToUser(v User) {
+	o.AssignedToUser.Set(&v)
+}
+
+// SetAssignedToUserNil sets the value for AssignedToUser to be an explicit nil
+func (o *Feature) SetAssignedToUserNil() {
+	o.AssignedToUser.Set(nil)
+}
+
+// UnsetAssignedToUser ensures that no value is present for AssignedToUser, not even an explicit nil
+func (o *Feature) UnsetAssignedToUser() {
+	o.AssignedToUser.Unset()
+}
+
+// GetCustomFields returns the CustomFields field value if set, zero value otherwise.
+func (o *Feature) GetCustomFields() []CustomField {
+	if o == nil || IsNil(o.CustomFields) {
+		var ret []CustomField
+		return ret
+	}
+	return o.CustomFields
+}
+
+// GetCustomFieldsOk returns a tuple with the CustomFields field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Feature) GetCustomFieldsOk() ([]CustomField, bool) {
+	if o == nil || IsNil(o.CustomFields) {
+		return nil, false
+	}
+	return o.CustomFields, true
+}
+
+// HasCustomFields returns a boolean if a field has been set.
+func (o *Feature) HasCustomFields() bool {
+	if o != nil && !IsNil(o.CustomFields) {
+		return true
+	}
+
+	return false
+}
+
+// SetCustomFields gets a reference to the given []CustomField and assigns it to the CustomFields field.
+func (o *Feature) SetCustomFields(v []CustomField) {
+	o.CustomFields = v
 }
 
 // GetIntegrationFields returns the IntegrationFields field value if set, zero value otherwise.
@@ -624,47 +798,59 @@ func (o Feature) MarshalJSON() ([]byte, error) {
 func (o Feature) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
-	toSerialize["created_at"] = o.CreatedAt
-	if !IsNil(o.CommentsCount) {
-		toSerialize["comments_count"] = o.CommentsCount
-	}
-	if !IsNil(o.CustomFields) {
-		toSerialize["custom_fields"] = o.CustomFields
-	}
-	if !IsNil(o.DueDate) {
-		toSerialize["due_date"] = o.DueDate
-	}
+	toSerialize["reference_num"] = o.ReferenceNum
 	toSerialize["name"] = o.Name
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
+	toSerialize["created_at"] = o.CreatedAt
+	if !IsNil(o.UpdatedAt) {
+		toSerialize["updated_at"] = o.UpdatedAt
+	}
+	if o.StartDate.IsSet() {
+		toSerialize["start_date"] = o.StartDate.Get()
+	}
+	if o.DueDate.IsSet() {
+		toSerialize["due_date"] = o.DueDate.Get()
+	}
 	if !IsNil(o.ProductId) {
 		toSerialize["product_id"] = o.ProductId
-	}
-	if !IsNil(o.ProgressSource) {
-		toSerialize["progress_source"] = o.ProgressSource
-	}
-	toSerialize["reference_num"] = o.ReferenceNum
-	if !IsNil(o.Release) {
-		toSerialize["release"] = o.Release
-	}
-	if !IsNil(o.Resource) {
-		toSerialize["resource"] = o.Resource
-	}
-	if !IsNil(o.StartDate) {
-		toSerialize["start_date"] = o.StartDate
-	}
-	if !IsNil(o.Tags) {
-		toSerialize["tags"] = o.Tags
 	}
 	if !IsNil(o.Url) {
 		toSerialize["url"] = o.Url
 	}
-	if !IsNil(o.UseRequirementsEstimates) {
-		toSerialize["use_requirements_estimates"] = o.UseRequirementsEstimates
+	if !IsNil(o.Resource) {
+		toSerialize["resource"] = o.Resource
+	}
+	if !IsNil(o.CommentsCount) {
+		toSerialize["comments_count"] = o.CommentsCount
+	}
+	if !IsNil(o.ProgressSource) {
+		toSerialize["progress_source"] = o.ProgressSource
+	}
+	if o.Progress.IsSet() {
+		toSerialize["progress"] = o.Progress.Get()
 	}
 	if !IsNil(o.WorkUnits) {
 		toSerialize["work_units"] = o.WorkUnits
 	}
+	if !IsNil(o.UseRequirementsEstimates) {
+		toSerialize["use_requirements_estimates"] = o.UseRequirementsEstimates
+	}
+	if !IsNil(o.Tags) {
+		toSerialize["tags"] = o.Tags
+	}
 	if !IsNil(o.WorkflowStatus) {
 		toSerialize["workflow_status"] = o.WorkflowStatus
+	}
+	if !IsNil(o.Release) {
+		toSerialize["release"] = o.Release
+	}
+	if o.AssignedToUser.IsSet() {
+		toSerialize["assigned_to_user"] = o.AssignedToUser.Get()
+	}
+	if !IsNil(o.CustomFields) {
+		toSerialize["custom_fields"] = o.CustomFields
 	}
 	if !IsNil(o.IntegrationFields) {
 		toSerialize["integration_fields"] = o.IntegrationFields
@@ -683,9 +869,9 @@ func (o *Feature) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"id",
-		"created_at",
-		"name",
 		"reference_num",
+		"name",
+		"created_at",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -716,22 +902,26 @@ func (o *Feature) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
-		delete(additionalProperties, "created_at")
-		delete(additionalProperties, "comments_count")
-		delete(additionalProperties, "custom_fields")
-		delete(additionalProperties, "due_date")
-		delete(additionalProperties, "name")
-		delete(additionalProperties, "product_id")
-		delete(additionalProperties, "progress_source")
 		delete(additionalProperties, "reference_num")
-		delete(additionalProperties, "release")
-		delete(additionalProperties, "resource")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "created_at")
+		delete(additionalProperties, "updated_at")
 		delete(additionalProperties, "start_date")
-		delete(additionalProperties, "tags")
+		delete(additionalProperties, "due_date")
+		delete(additionalProperties, "product_id")
 		delete(additionalProperties, "url")
-		delete(additionalProperties, "use_requirements_estimates")
+		delete(additionalProperties, "resource")
+		delete(additionalProperties, "comments_count")
+		delete(additionalProperties, "progress_source")
+		delete(additionalProperties, "progress")
 		delete(additionalProperties, "work_units")
+		delete(additionalProperties, "use_requirements_estimates")
+		delete(additionalProperties, "tags")
 		delete(additionalProperties, "workflow_status")
+		delete(additionalProperties, "release")
+		delete(additionalProperties, "assigned_to_user")
+		delete(additionalProperties, "custom_fields")
 		delete(additionalProperties, "integration_fields")
 		o.AdditionalProperties = additionalProperties
 	}

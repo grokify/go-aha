@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -19,9 +19,8 @@ var _ MappedNullable = &CustomField{}
 
 // CustomField struct for CustomField
 type CustomField struct {
-	Key  *string `json:"key,omitempty"`
-	Name *string `json:"name,omitempty"`
-	// Value can be string, array, or other types depending on field type
+	Key                  *string     `json:"key,omitempty"`
+	Name                 *string     `json:"name,omitempty"`
 	Value                interface{} `json:"value,omitempty"`
 	Type                 *string     `json:"type,omitempty"`
 	AdditionalProperties map[string]interface{}

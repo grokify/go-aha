@@ -4,12 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** | Release name. | [optional] 
-**StartDate** | Pointer to **string** | Start date in YYYY-MM-DD format. | [optional] 
-**ReleaseDate** | Pointer to **string** | Release date in YYYY-MM-DD format. | [optional] 
-**DevelopmentStartedOn** | Pointer to **string** | Date Development started in format YYYY-MM-DD | [optional] 
-**ExternalReleaseDate** | Pointer to **string** | The external release date for this feature in format YYYY-MM-DD | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**StartDate** | Pointer to **NullableString** |  | [optional] 
+**ReleaseDate** | Pointer to **NullableString** |  | [optional] 
+**ExternalReleaseDate** | Pointer to **NullableString** |  | [optional] 
+**DevelopmentStartedOn** | Pointer to **string** |  | [optional] 
 **ParkingLot** | Pointer to **bool** |  | [optional] 
+**Theme** | Pointer to **string** | Theme of the release (may include HTML formatting). Also shown as the release description in the Aha! UI. | [optional] 
+**ProgressSource** | Pointer to **string** |  | [optional] 
+**Progress** | Pointer to **float64** |  | [optional] 
+**WorkflowStatus** | Pointer to **string** | Workflow status ID or name. Transitioning to the status the product&#39;s workflow defines as \&quot;released\&quot; is how a release becomes Released. | [optional] 
 
 ## Methods
 
@@ -80,6 +84,16 @@ SetStartDate sets StartDate field to given value.
 
 HasStartDate returns a boolean if a field has been set.
 
+### SetStartDateNil
+
+`func (o *ReleaseUpdate) SetStartDateNil(b bool)`
+
+ SetStartDateNil sets the value for StartDate to be an explicit nil
+
+### UnsetStartDate
+`func (o *ReleaseUpdate) UnsetStartDate()`
+
+UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
 ### GetReleaseDate
 
 `func (o *ReleaseUpdate) GetReleaseDate() string`
@@ -105,31 +119,16 @@ SetReleaseDate sets ReleaseDate field to given value.
 
 HasReleaseDate returns a boolean if a field has been set.
 
-### GetDevelopmentStartedOn
+### SetReleaseDateNil
 
-`func (o *ReleaseUpdate) GetDevelopmentStartedOn() string`
+`func (o *ReleaseUpdate) SetReleaseDateNil(b bool)`
 
-GetDevelopmentStartedOn returns the DevelopmentStartedOn field if non-nil, zero value otherwise.
+ SetReleaseDateNil sets the value for ReleaseDate to be an explicit nil
 
-### GetDevelopmentStartedOnOk
+### UnsetReleaseDate
+`func (o *ReleaseUpdate) UnsetReleaseDate()`
 
-`func (o *ReleaseUpdate) GetDevelopmentStartedOnOk() (*string, bool)`
-
-GetDevelopmentStartedOnOk returns a tuple with the DevelopmentStartedOn field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDevelopmentStartedOn
-
-`func (o *ReleaseUpdate) SetDevelopmentStartedOn(v string)`
-
-SetDevelopmentStartedOn sets DevelopmentStartedOn field to given value.
-
-### HasDevelopmentStartedOn
-
-`func (o *ReleaseUpdate) HasDevelopmentStartedOn() bool`
-
-HasDevelopmentStartedOn returns a boolean if a field has been set.
-
+UnsetReleaseDate ensures that no value is present for ReleaseDate, not even an explicit nil
 ### GetExternalReleaseDate
 
 `func (o *ReleaseUpdate) GetExternalReleaseDate() string`
@@ -155,6 +154,41 @@ SetExternalReleaseDate sets ExternalReleaseDate field to given value.
 
 HasExternalReleaseDate returns a boolean if a field has been set.
 
+### SetExternalReleaseDateNil
+
+`func (o *ReleaseUpdate) SetExternalReleaseDateNil(b bool)`
+
+ SetExternalReleaseDateNil sets the value for ExternalReleaseDate to be an explicit nil
+
+### UnsetExternalReleaseDate
+`func (o *ReleaseUpdate) UnsetExternalReleaseDate()`
+
+UnsetExternalReleaseDate ensures that no value is present for ExternalReleaseDate, not even an explicit nil
+### GetDevelopmentStartedOn
+
+`func (o *ReleaseUpdate) GetDevelopmentStartedOn() string`
+
+GetDevelopmentStartedOn returns the DevelopmentStartedOn field if non-nil, zero value otherwise.
+
+### GetDevelopmentStartedOnOk
+
+`func (o *ReleaseUpdate) GetDevelopmentStartedOnOk() (*string, bool)`
+
+GetDevelopmentStartedOnOk returns a tuple with the DevelopmentStartedOn field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDevelopmentStartedOn
+
+`func (o *ReleaseUpdate) SetDevelopmentStartedOn(v string)`
+
+SetDevelopmentStartedOn sets DevelopmentStartedOn field to given value.
+
+### HasDevelopmentStartedOn
+
+`func (o *ReleaseUpdate) HasDevelopmentStartedOn() bool`
+
+HasDevelopmentStartedOn returns a boolean if a field has been set.
+
 ### GetParkingLot
 
 `func (o *ReleaseUpdate) GetParkingLot() bool`
@@ -179,6 +213,106 @@ SetParkingLot sets ParkingLot field to given value.
 `func (o *ReleaseUpdate) HasParkingLot() bool`
 
 HasParkingLot returns a boolean if a field has been set.
+
+### GetTheme
+
+`func (o *ReleaseUpdate) GetTheme() string`
+
+GetTheme returns the Theme field if non-nil, zero value otherwise.
+
+### GetThemeOk
+
+`func (o *ReleaseUpdate) GetThemeOk() (*string, bool)`
+
+GetThemeOk returns a tuple with the Theme field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTheme
+
+`func (o *ReleaseUpdate) SetTheme(v string)`
+
+SetTheme sets Theme field to given value.
+
+### HasTheme
+
+`func (o *ReleaseUpdate) HasTheme() bool`
+
+HasTheme returns a boolean if a field has been set.
+
+### GetProgressSource
+
+`func (o *ReleaseUpdate) GetProgressSource() string`
+
+GetProgressSource returns the ProgressSource field if non-nil, zero value otherwise.
+
+### GetProgressSourceOk
+
+`func (o *ReleaseUpdate) GetProgressSourceOk() (*string, bool)`
+
+GetProgressSourceOk returns a tuple with the ProgressSource field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProgressSource
+
+`func (o *ReleaseUpdate) SetProgressSource(v string)`
+
+SetProgressSource sets ProgressSource field to given value.
+
+### HasProgressSource
+
+`func (o *ReleaseUpdate) HasProgressSource() bool`
+
+HasProgressSource returns a boolean if a field has been set.
+
+### GetProgress
+
+`func (o *ReleaseUpdate) GetProgress() float64`
+
+GetProgress returns the Progress field if non-nil, zero value otherwise.
+
+### GetProgressOk
+
+`func (o *ReleaseUpdate) GetProgressOk() (*float64, bool)`
+
+GetProgressOk returns a tuple with the Progress field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProgress
+
+`func (o *ReleaseUpdate) SetProgress(v float64)`
+
+SetProgress sets Progress field to given value.
+
+### HasProgress
+
+`func (o *ReleaseUpdate) HasProgress() bool`
+
+HasProgress returns a boolean if a field has been set.
+
+### GetWorkflowStatus
+
+`func (o *ReleaseUpdate) GetWorkflowStatus() string`
+
+GetWorkflowStatus returns the WorkflowStatus field if non-nil, zero value otherwise.
+
+### GetWorkflowStatusOk
+
+`func (o *ReleaseUpdate) GetWorkflowStatusOk() (*string, bool)`
+
+GetWorkflowStatusOk returns a tuple with the WorkflowStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkflowStatus
+
+`func (o *ReleaseUpdate) SetWorkflowStatus(v string)`
+
+SetWorkflowStatus sets WorkflowStatus field to given value.
+
+### HasWorkflowStatus
+
+`func (o *ReleaseUpdate) HasWorkflowStatus() bool`
+
+HasWorkflowStatus returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

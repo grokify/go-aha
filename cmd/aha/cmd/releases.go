@@ -44,7 +44,7 @@ var listReleasesCmd = &cobra.Command{
 		apiClient := aha.NewAPIClient(cfg)
 		ctx := context.Background()
 
-		req := apiClient.ReleasesAPI.GetProductReleases(ctx, releasesProductID)
+		req := apiClient.ReleasesAPI.ListProductReleases(ctx, releasesProductID)
 
 		if releasesPage > 0 {
 			req = req.Page(int32(releasesPage))

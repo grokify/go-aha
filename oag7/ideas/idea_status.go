@@ -75,7 +75,7 @@ func GetIdeaStatus(clt *aha.APIClient, ideaID, ideasPortalURL, ahaAdminURL strin
 	}
 
 	for _, cat := range info.Idea.Categories {
-		if name := strings.TrimSpace(cat.Name); name != "" {
+		if name := strings.TrimSpace(cat.GetName()); name != "" {
 			out.IdeaCategories = append(out.IdeaCategories, name)
 		}
 	}
@@ -106,11 +106,11 @@ func GetIdeaStatus(clt *aha.APIClient, ideaID, ideasPortalURL, ahaAdminURL strin
 		}
 
 		if finfo.Feature.WorkflowStatus != nil {
-			out.FeatureStatusName = *finfo.Feature.WorkflowStatus.Name
+			out.FeatureStatusName = finfo.Feature.WorkflowStatus.GetName()
 		}
 		if finfo.Feature.Release != nil {
-			out.ReleaseName = *finfo.Feature.Release.Name
-			out.ReleaseDate = *finfo.Feature.Release.ReleaseDate
+			out.ReleaseName = finfo.Feature.Release.GetName()
+			out.ReleaseDate = finfo.Feature.Release.GetReleaseDate()
 		}
 		fm := features.Feature(*finfo.Feature)
 		out.FeatureJiraKey = fm.JiraKey()

@@ -22,13 +22,13 @@ func Test_aha_ReleasesAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test ReleasesAPIService GetProductReleases", func(t *testing.T) {
+	t.Run("Test ReleasesAPIService CreateRelease", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var productId string
 
-		resp, httpRes, err := apiClient.ReleasesAPI.GetProductReleases(context.Background(), productId).Execute()
+		resp, httpRes, err := apiClient.ReleasesAPI.CreateRelease(context.Background(), productId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -50,14 +50,27 @@ func Test_aha_ReleasesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test ReleasesAPIService UpdateProductRelease", func(t *testing.T) {
+	t.Run("Test ReleasesAPIService ListProductReleases", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var productId string
+
+		resp, httpRes, err := apiClient.ReleasesAPI.ListProductReleases(context.Background(), productId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test ReleasesAPIService UpdateRelease", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
 		var releaseId string
 
-		resp, httpRes, err := apiClient.ReleasesAPI.UpdateProductRelease(context.Background(), productId, releaseId).Execute()
+		resp, httpRes, err := apiClient.ReleasesAPI.UpdateRelease(context.Background(), releaseId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -37,9 +37,7 @@ func (data *IdeaFeatureReleaseData) Metadata() *IdeaFeatureReleaseMetadata {
 		if data.Feature.Release.ReferenceNum != nil {
 			out.ReleaseRefNum = strings.TrimSpace(*data.Feature.Release.ReferenceNum)
 		}
-		if data.Feature.Release.ReleaseDate != nil {
-			out.ReleaseDate = *data.Feature.Release.ReleaseDate
-		}
+		out.ReleaseDate = data.Feature.Release.GetReleaseDate()
 	}
 	return out
 }
@@ -166,9 +164,7 @@ func QueryIdeaFeatureReleaseMetadata(client *aha.APIClient, ideaID string) (*Ide
 		if featureResp.Feature.Release.ReferenceNum != nil {
 			result.ReleaseRefNum = strings.TrimSpace(*featureResp.Feature.Release.ReferenceNum)
 		}
-		if featureResp.Feature.Release.ReleaseDate != nil {
-			result.ReleaseDate = *featureResp.Feature.Release.ReleaseDate
-		}
+		result.ReleaseDate = featureResp.Feature.Release.GetReleaseDate()
 	}
 
 	return result, nil

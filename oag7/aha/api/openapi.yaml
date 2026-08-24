@@ -1,15 +1,58 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  description: Articles that matter on social publishing platform
+  contact:
+    name: Grokify
+    url: https://github.com/grokify/aha-go
+  description: |
+    Go client for the Aha.io product management API.
+
+    This OpenAPI specification is used to generate the internal API client
+    via ogen. The public SDK provides ergonomic wrappers on top of the
+    generated client.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
   title: Aha.io API
   version: 1.0.0
 servers:
-- url: https://secure.aha.io/api/v1
+- description: Aha.io API server
+  url: "https://{subdomain}.aha.io/api/v1"
+  variables:
+    subdomain:
+      default: secure
+      description: Your Aha account subdomain
+security:
+- bearerAuth: []
+tags:
+- description: Comment management
+  name: Comments
+- description: Epic management
+  name: Epics
+- description: Feature management
+  name: Features
+- description: Goal management
+  name: Goals
+- description: Idea management
+  name: Ideas
+- description: Initiative management
+  name: Initiatives
+- description: Product (workspace) management
+  name: Products
+- description: Release management
+  name: Releases
+- description: Requirement management
+  name: Requirements
+- description: Strategic model management (canvases)
+  name: StrategicModels
+- description: User management
+  name: Users
+- description: Workflow and status management
+  name: Workflows
 paths:
   /features:
     get:
-      description: Get all features
-      operationId: getFeatures
+      description: Get all features with optional filtering
+      operationId: listFeatures
       parameters:
       - description: Sub-string to match against feature name or ID
         explode: true
@@ -19,8 +62,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: UTC timestamp (in ISO8601 format) that the updated_at field must
-          be larger than.
+      - description: UTC timestamp (ISO8601). Only features updated after this time.
         explode: true
         in: query
         name: updated_since
@@ -29,7 +71,7 @@ paths:
           format: date-time
           type: string
         style: form
-      - description: A string tag value.
+      - description: Filter by tag value
         explode: true
         in: query
         name: tag
@@ -37,7 +79,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: The ID or email address of user to return assigned features for.
+      - description: Filter by assigned user ID or email
         explode: true
         in: query
         name: assigned_to_user
@@ -45,7 +87,7 @@ paths:
         schema:
           type: string
         style: form
-      - description: A specific page of results.
+      - description: Page number
         explode: true
         in: query
         name: page
@@ -54,7 +96,7 @@ paths:
           format: int32
           type: integer
         style: form
-      - description: Number of results per page.
+      - description: Results per page
         explode: true
         in: query
         name: per_page
@@ -70,15 +112,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/FeaturesResponse"
           description: A list of features
-      summary: Get features
+      summary: List features
       tags:
       - Features
   /features/{feature_id}:
     get:
-      description: Get a specific feature
+      description: Get a specific feature by ID or reference number
       operationId: getFeature
       parameters:
-      - description: "Numeric ID, or key of the feature to be retrieved"
+      - description: "Numeric ID or reference number (e.g., PROD-123)"
         explode: false
         in: path
         name: feature_id
@@ -91,167 +133,47 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FeatureWrap"
-          description: Information for a specific release
+                $ref: "#/components/schemas/FeatureResponse"
+          description: Feature details
+        "404":
+          description: Feature not found
       summary: Get feature
       tags:
       - Features
-  /ideas:
-    get:
-      description: Get all ideas
-      operationId: listIdeas
+    put:
+      description: Update an existing feature
+      operationId: updateFeature
       parameters:
-      - description: Search term to match against the idea name
-        explode: true
-        in: query
-        name: q
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "When true, shows ideas that have been marked as spam. By default,\
-          \ no spam ideas will be shown."
-        explode: true
-        in: query
-        name: spam
-        required: false
-        schema:
-          type: boolean
-        style: form
-      - description: "When present, filters to ideas with the provided workflow status\
-          \ ID or name."
-        explode: true
-        in: query
-        name: workflow_status
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "Sorting of the list of ideas. Accepted values are recent, trending,\
-          \ or popular."
-        explode: true
-        in: query
-        name: sort
-        required: false
-        schema:
-          enum:
-          - recent
-          - trending
-          - popular
-          type: string
-        style: form
-      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas created\
-          \ before the timestamp will be returned."
-        explode: true
-        in: query
-        name: created_before
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas created\
-          \ after the timestamp will be returned."
-        explode: true
-        in: query
-        name: created_since
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: "UTC timestamp (in ISO8601 format). If provided, only ideas updated\
-          \ or created after the timestamp will be returned."
-        explode: true
-        in: query
-        name: updated_since
-        required: false
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: "String tag value. If provided, only ideas with the associated\
-          \ tag will be returned."
-        explode: true
-        in: query
-        name: tag
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "ID of a user. If provided, only ideas created by that user will\
-          \ be returned."
-        explode: true
-        in: query
-        name: user_id
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "ID of an idea user. If provided, only ideas created by that\
-          \ idea user will be returned."
-        explode: true
-        in: query
-        name: idea_user_id
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: A specific page of results.
-        explode: true
-        in: query
-        name: page
-        required: false
-        schema:
-          format: int32
-          type: integer
-        style: form
-      - description: Number of results per page.
-        explode: true
-        in: query
-        name: per_page
-        required: false
-        schema:
-          format: int32
-          type: integer
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/IdeasResponse"
-          description: A list of ideas
-      summary: List ideas
-      tags:
-      - Ideas
-  /ideas/{idea_id}:
-    get:
-      operationId: getIdea
-      parameters:
-      - explode: false
+      - description: Numeric ID or reference number
+        explode: false
         in: path
-        name: idea_id
+        name: feature_id
         required: true
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUpdateRequest"
+        required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/IdeaResponse"
-          description: OK
-      summary: Get Idea
+                $ref: "#/components/schemas/FeatureResponse"
+          description: Updated feature
+      summary: Update feature
       tags:
-      - Ideas
+      - Features
   /releases/{release_id}/features:
     get:
-      description: Get all features for a release
-      operationId: getReleaseFeatures
+      description: Get all features for a specific release
+      operationId: listReleaseFeatures
       parameters:
-      - description: "Numeric ID, or key of the release to retrieve features for"
+      - description: Release ID or reference number
         explode: false
         in: path
         name: release_id
@@ -259,8 +181,7 @@ paths:
         schema:
           type: string
         style: simple
-      - description: A specific page of results.
-        explode: true
+      - explode: true
         in: query
         name: page
         required: false
@@ -268,8 +189,7 @@ paths:
           format: int32
           type: integer
         style: form
-      - description: Number of results per page.
-        explode: true
+      - explode: true
         in: query
         name: per_page
         required: false
@@ -283,17 +203,61 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FeaturesResponse"
-          description: A list of features within a data envelope.
-      summary: Get all features for a release
+          description: A list of features in the release
+      summary: List features in release
       tags:
       - Features
-  /products:
-    get:
-      description: Get products list
-      operationId: getProducts
+    post:
+      description: Create a new feature in a release
+      operationId: createReleaseFeature
       parameters:
-      - description: A specific page of results.
+      - description: Release ID or reference number
+        explode: false
+        in: path
+        name: release_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureResponse"
+          description: Created feature
+      summary: Create feature in release
+      tags:
+      - Features
+  /epics:
+    get:
+      description: Get all epics with optional filtering
+      operationId: listEpics
+      parameters:
+      - description: Sub-string to match against epic name
         explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only epics updated after this time.
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
         in: query
         name: page
         required: false
@@ -301,8 +265,397 @@ paths:
           format: int32
           type: integer
         style: form
-      - description: Number of results per page.
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicsResponse"
+          description: A list of epics
+      summary: List epics
+      tags:
+      - Epics
+  /epics/{epic_id}:
+    get:
+      description: Get a specific epic by ID or reference number
+      operationId: getEpic
+      parameters:
+      - description: Epic ID or reference number
+        explode: false
+        in: path
+        name: epic_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+          description: Epic details
+        "404":
+          description: Epic not found
+      summary: Get epic
+      tags:
+      - Epics
+    put:
+      description: Update an existing epic
+      operationId: updateEpic
+      parameters:
+      - description: Epic ID or reference number
+        explode: false
+        in: path
+        name: epic_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EpicUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+          description: Updated epic
+      summary: Update epic
+      tags:
+      - Epics
+  /products/{product_id}/epics:
+    get:
+      description: Get all epics for a product
+      operationId: listProductEpics
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicsResponse"
+          description: A list of epics
+      summary: List product epics
+      tags:
+      - Epics
+  /releases/{release_id}/epics:
+    post:
+      description: Create a new epic in a release
+      operationId: createReleaseEpic
+      parameters:
+      - description: Release ID or reference number
+        explode: false
+        in: path
+        name: release_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EpicCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+          description: Created epic
+      summary: Create epic in release
+      tags:
+      - Epics
+  /ideas:
+    get:
+      description: Get all ideas with optional filtering
+      operationId: listIdeas
+      parameters:
+      - description: Search term to match against idea name
         explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "When true, shows ideas marked as spam"
+        explode: true
+        in: query
+        name: spam
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Filter by workflow status ID or name
+        explode: true
+        in: query
+        name: workflow_status
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Sort order
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - recent
+          - trending
+          - popular
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only ideas created before this time.
+        explode: true
+        in: query
+        name: created_before
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only ideas created after this time.
+        explode: true
+        in: query
+        name: created_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only ideas updated after this time.
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: Filter by tag value
+        explode: true
+        in: query
+        name: tag
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by creator user ID
+        explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by idea user ID
+        explode: true
+        in: query
+        name: idea_user_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - description: "Comma-separated list of additional idea fields to include in\
+          \ each list item (e.g. \"votes,categories,score\"). Aha's list endpoint\
+          \ omits these by default; passing this parameter overrides Aha's default\
+          \ field set rather than adding to it."
+        explode: true
+        in: query
+        name: fields
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeasResponse"
+          description: A list of ideas
+      summary: List ideas
+      tags:
+      - Ideas
+  /ideas/{idea_id}:
+    delete:
+      description: Delete an idea by ID
+      operationId: deleteIdea
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Idea deleted successfully
+      summary: Delete idea
+      tags:
+      - Ideas
+    get:
+      description: Get a specific idea by ID
+      operationId: getIdea
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaResponse"
+          description: Idea details
+      summary: Get idea
+      tags:
+      - Ideas
+    put:
+      description: Update an existing idea
+      operationId: updateIdea
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdeaUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaResponse"
+          description: Updated idea
+      summary: Update idea
+      tags:
+      - Ideas
+  /products/{product_id}/idea_categories:
+    get:
+      description: Get all idea categories for a product
+      operationId: listProductIdeaCategories
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaCategoriesResponse"
+          description: A list of idea categories
+      summary: List idea categories
+      tags:
+      - Ideas
+  /products:
+    get:
+      description: Get all products (workspaces) including Aha! Develop teams
+      operationId: listProducts
+      parameters:
+      - description: UTC timestamp (ISO8601). Only products updated after this time.
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: Set to true to list only products with idea portals
+        explode: true
+        in: query
+        name: with_idea_portals
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
         in: query
         name: per_page
         required: false
@@ -316,16 +669,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductsResponse"
-          description: A list of products objects within a data envelope.
-      summary: Get products
+          description: A list of products
+      summary: List products
+      tags:
+      - Products
+    post:
+      description: Create a new product or product line
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+          description: Created product
+      summary: Create product
       tags:
       - Products
   /products/{product_id}:
     get:
-      description: Get product info
+      description: Get a specific product by ID
       operationId: getProduct
       parameters:
-      - description: "Numeric ID, or key of the feature to be retrieved"
+      - description: Product ID or reference prefix
         explode: false
         in: path
         name: product_id
@@ -339,39 +711,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
-          description: A list of products objects within a data envelope.
+          description: Product details
       summary: Get product
       tags:
       - Products
-  /releases/{release_id}:
-    get:
-      description: Get a specific release
-      operationId: getRelease
+    put:
+      description: Update an existing product
+      operationId: updateProduct
       parameters:
-      - description: "Numeric ID, or key of the release to be retrieved"
-        explode: false
-        in: path
-        name: release_id
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ReleaseWrap"
-          description: Information for a specific release
-      summary: Get release
-      tags:
-      - Releases
-  /products/{product_id}/releases:
-    get:
-      description: Get releases for a product release
-      operationId: getProductReleases
-      parameters:
-      - description: "Numeric ID, or key of the product to retrieve releases for."
+      - description: Product ID or reference prefix
         explode: false
         in: path
         name: product_id
@@ -379,8 +727,36 @@ paths:
         schema:
           type: string
         style: simple
-      - description: A specific page of results.
-        explode: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+          description: Updated product
+      summary: Update product
+      tags:
+      - Products
+  /products/{product_id}/releases:
+    get:
+      description: Get all releases for a product
+      operationId: listProductReleases
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
         in: query
         name: page
         required: false
@@ -388,8 +764,7 @@ paths:
           format: int32
           type: integer
         style: form
-      - description: Number of results per page.
-        explode: true
+      - explode: true
         in: query
         name: per_page
         required: false
@@ -403,16 +778,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReleasesResponse"
-          description: Information for a specific release
-      summary: Get product releases
+          description: A list of releases
+      summary: List product releases
       tags:
       - Releases
-  /products/{product_id}/releases/{release_id}:
-    put:
-      description: Update a release
-      operationId: updateProductRelease
+    post:
+      description: Create a new release for a product
+      operationId: createRelease
       parameters:
-      - description: "Numeric ID, or key of the product to create the release in"
+      - description: Product ID or reference prefix
         explode: false
         in: path
         name: product_id
@@ -420,7 +794,73 @@ paths:
         schema:
           type: string
         style: simple
-      - description: "Numeric ID, or key of the release to be updated"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseCreateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseResponse"
+          description: Created release
+      summary: Create release
+      tags:
+      - Releases
+  /products/{product_id}/workflows:
+    get:
+      description: Get all workflows and their statuses for a product
+      operationId: listProductWorkflows
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowsResponse"
+          description: A list of workflows with statuses
+      summary: List product workflows
+      tags:
+      - Workflows
+  /releases/{release_id}:
+    get:
+      description: Get a specific release by ID
+      operationId: getRelease
+      parameters:
+      - description: Release ID or reference number
+        explode: false
+        in: path
+        name: release_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseResponse"
+          description: Release details
+      summary: Get release
+      tags:
+      - Releases
+    put:
+      description: Update an existing release
+      operationId: updateRelease
+      parameters:
+      - description: Release ID or reference number
         explode: false
         in: path
         name: release_id
@@ -432,162 +872,1414 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ReleaseUpdateWrap"
-        description: Release properties to update
+              $ref: "#/components/schemas/ReleaseUpdateRequest"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReleaseWrap"
-          description: Information for a specific release
-      summary: Update product release
+                $ref: "#/components/schemas/ReleaseResponse"
+          description: Updated release
+      summary: Update release
       tags:
       - Releases
+  /requirements/{requirement_id}:
+    delete:
+      description: Delete a requirement
+      operationId: deleteRequirement
+      parameters:
+      - description: Requirement ID or reference number
+        explode: false
+        in: path
+        name: requirement_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Requirement deleted
+      summary: Delete requirement
+      tags:
+      - Requirements
+    get:
+      description: Get a specific requirement by ID or reference number
+      operationId: getRequirement
+      parameters:
+      - description: Requirement ID or reference number
+        explode: false
+        in: path
+        name: requirement_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+          description: Requirement details
+        "404":
+          description: Requirement not found
+      summary: Get requirement
+      tags:
+      - Requirements
+    put:
+      description: Update an existing requirement
+      operationId: updateRequirement
+      parameters:
+      - description: Requirement ID or reference number
+        explode: false
+        in: path
+        name: requirement_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequirementUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+          description: Updated requirement
+      summary: Update requirement
+      tags:
+      - Requirements
+  /features/{feature_id}/requirements:
+    get:
+      description: Get all requirements for a feature
+      operationId: listFeatureRequirements
+      parameters:
+      - description: Feature ID or reference number
+        explode: false
+        in: path
+        name: feature_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementsResponse"
+          description: A list of requirements
+      summary: List feature requirements
+      tags:
+      - Requirements
+    post:
+      description: Create a new requirement for a feature
+      operationId: createFeatureRequirement
+      parameters:
+      - description: Feature ID or reference number
+        explode: false
+        in: path
+        name: feature_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequirementCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+          description: Created requirement
+      summary: Create requirement for feature
+      tags:
+      - Requirements
+  /comments/{comment_id}:
+    delete:
+      description: Delete a comment
+      operationId: deleteComment
+      parameters:
+      - description: Comment ID
+        explode: false
+        in: path
+        name: comment_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Comment deleted
+      summary: Delete comment
+      tags:
+      - Comments
+    get:
+      description: Get a specific comment by ID
+      operationId: getComment
+      parameters:
+      - description: Numeric ID of the comment
+        explode: false
+        in: path
+        name: comment_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+          description: Comment details
+        "404":
+          description: Comment not found
+      summary: Get comment
+      tags:
+      - Comments
+    put:
+      description: Update an existing comment
+      operationId: updateComment
+      parameters:
+      - description: Numeric ID of the comment
+        explode: false
+        in: path
+        name: comment_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+          description: Updated comment
+      summary: Update comment
+      tags:
+      - Comments
+  /products/{product_id}/comments:
+    get:
+      description: Get all comments in a product
+      operationId: listProductComments
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments in a product
+      tags:
+      - Comments
+  /features/{feature_id}/comments:
+    get:
+      description: Get all comments on a feature
+      operationId: listFeatureComments
+      parameters:
+      - description: Feature ID or reference number
+        explode: false
+        in: path
+        name: feature_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on a feature
+      tags:
+      - Comments
+    post:
+      description: Create a new comment on a feature
+      operationId: createFeatureComment
+      parameters:
+      - description: Feature ID or reference number
+        explode: false
+        in: path
+        name: feature_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+          description: Created comment
+      summary: Create comment on a feature
+      tags:
+      - Comments
+  /features/{feature_id}/ideas:
+    get:
+      description: Get all ideas that have been promoted to or linked with a feature
+      operationId: listFeatureIdeas
+      parameters:
+      - description: Feature ID or reference number
+        explode: false
+        in: path
+        name: feature_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeasResponse"
+          description: A list of ideas linked to the feature
+      summary: List ideas linked to a feature
+      tags:
+      - Features
+  /ideas/{idea_id}/comments:
+    get:
+      description: Get all comments on an idea
+      operationId: listIdeaComments
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on an idea
+      tags:
+      - Comments
+    post:
+      description: Create a new internal comment on an idea
+      operationId: createIdeaComment
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+          description: Created comment
+      summary: Create internal comment on an idea
+      tags:
+      - Comments
+  /ideas/{idea_id}/endorsements:
+    get:
+      description: "Get all endorsements (votes) on an idea, including voter identity"
+      operationId: listIdeaEndorsements
+      parameters:
+      - description: Idea ID or reference number
+        explode: false
+        in: path
+        name: idea_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaEndorsementsResponse"
+          description: A list of idea endorsements
+      summary: List endorsements (votes) on an idea
+      tags:
+      - Ideas
+  /idea_users:
+    get:
+      description: "Get all idea users (voter identities, account-wide, not idea-scoped)"
+      operationId: listIdeaUsers
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaUsersResponse"
+          description: A list of idea users
+      summary: List idea users (voter identities)
+      tags:
+      - Ideas
+  /idea_users/{idea_user_id}:
+    get:
+      operationId: getIdeaUser
+      parameters:
+      - explode: false
+        in: path
+        name: idea_user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaUserResponse"
+          description: An idea user
+      summary: Get an idea user by ID
+      tags:
+      - Ideas
+  /idea_organizations:
+    get:
+      description: "Get all idea organizations (account-wide, not idea-scoped). The\
+        \ list response omits email_domains/revenue/endorsements_count -- use getIdeaOrganization\
+        \ for those."
+      operationId: listIdeaOrganizations
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaOrganizationsResponse"
+          description: A list of idea organizations
+      summary: List idea organizations (customer/account records)
+      tags:
+      - Ideas
+  /idea_organizations/{idea_organization_id}:
+    get:
+      description: "Full detail, including email_domains and revenue, not present\
+        \ in the list response."
+      operationId: getIdeaOrganization
+      parameters:
+      - explode: false
+        in: path
+        name: idea_organization_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaOrganizationResponse"
+          description: An idea organization
+      summary: Get an idea organization by ID
+      tags:
+      - Ideas
+  /releases/{release_id}/comments:
+    get:
+      description: Get all comments on a release
+      operationId: listReleaseComments
+      parameters:
+      - description: Release ID or reference number
+        explode: false
+        in: path
+        name: release_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on a release
+      tags:
+      - Comments
+  /initiatives/{initiative_id}/comments:
+    get:
+      description: Get all comments on an initiative
+      operationId: listInitiativeComments
+      parameters:
+      - description: Initiative ID or reference number
+        explode: false
+        in: path
+        name: initiative_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on an initiative
+      tags:
+      - Comments
+  /epics/{epic_id}/comments:
+    get:
+      description: Get all comments on an epic
+      operationId: listEpicComments
+      parameters:
+      - description: Epic ID or reference number
+        explode: false
+        in: path
+        name: epic_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on an epic
+      tags:
+      - Comments
+  /goals/{goal_id}/comments:
+    get:
+      description: Get all comments on a goal
+      operationId: listGoalComments
+      parameters:
+      - description: Goal ID or reference number
+        explode: false
+        in: path
+        name: goal_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+          description: A list of comments
+      summary: List comments on a goal
+      tags:
+      - Comments
+  /initiatives:
+    get:
+      description: Get all initiatives with optional filtering
+      operationId: listInitiatives
+      parameters:
+      - description: Sub-string to match against initiative name
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only initiatives updated after this
+          time.
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativesResponse"
+          description: A list of initiatives
+      summary: List initiatives
+      tags:
+      - Initiatives
+  /initiatives/{initiative_id}:
+    get:
+      description: Get a specific initiative by ID or reference number
+      operationId: getInitiative
+      parameters:
+      - description: Initiative ID or reference number
+        explode: false
+        in: path
+        name: initiative_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+          description: Initiative details
+        "404":
+          description: Initiative not found
+      summary: Get initiative
+      tags:
+      - Initiatives
+    put:
+      description: Update an existing initiative
+      operationId: updateInitiative
+      parameters:
+      - description: Initiative ID or reference number
+        explode: false
+        in: path
+        name: initiative_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiativeUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+          description: Updated initiative
+      summary: Update initiative
+      tags:
+      - Initiatives
+  /products/{product_id}/initiatives:
+    get:
+      description: Get all initiatives for a product
+      operationId: listProductInitiatives
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativesResponse"
+          description: A list of initiatives
+      summary: List product initiatives
+      tags:
+      - Initiatives
+    post:
+      description: Create a new initiative in a product
+      operationId: createProductInitiative
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiativeCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+          description: Created initiative
+      summary: Create initiative in product
+      tags:
+      - Initiatives
+  /users:
+    get:
+      description: Get all users in the account
+      operationId: listUsers
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+          description: A list of users
+      summary: List users
+      tags:
+      - Users
+  /users/{user_id}:
+    get:
+      description: Get a specific user by ID
+      operationId: getUser
+      parameters:
+      - description: User ID or email
+        explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: User details
+      summary: Get user
+      tags:
+      - Users
+  /me:
+    get:
+      description: Get the currently authenticated user
+      operationId: getCurrentUser
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+          description: Current user details
+      summary: Get current user
+      tags:
+      - Users
+  /goals:
+    get:
+      description: Get all goals with optional filtering
+      operationId: listGoals
+      parameters:
+      - description: Sub-string to match against goal name
+        explode: true
+        in: query
+        name: q
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: UTC timestamp (ISO8601). Only goals updated after this time.
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalsResponse"
+          description: A list of goals
+      summary: List goals
+      tags:
+      - Goals
+  /goals/{goal_id}:
+    get:
+      description: Get a specific goal by ID or reference number
+      operationId: getGoal
+      parameters:
+      - description: Goal ID or reference number
+        explode: false
+        in: path
+        name: goal_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+          description: Goal details
+        "404":
+          description: Goal not found
+      summary: Get goal
+      tags:
+      - Goals
+    put:
+      description: Update an existing goal
+      operationId: updateGoal
+      parameters:
+      - description: Goal ID or reference number
+        explode: false
+        in: path
+        name: goal_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+          description: Updated goal
+      summary: Update goal
+      tags:
+      - Goals
+  /products/{product_id}/goals:
+    get:
+      description: Get all goals for a product
+      operationId: listProductGoals
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalsResponse"
+          description: A list of goals
+      summary: List product goals
+      tags:
+      - Goals
+    post:
+      description: Create a new goal in a product
+      operationId: createProductGoal
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+          description: Created goal
+      summary: Create goal in product
+      tags:
+      - Goals
+  /strategy_models:
+    get:
+      description: Get all strategic models (canvases) with optional filtering
+      operationId: listStrategicModels
+      parameters:
+      - description: "Filter by model kind (e.g., \"Opportunity\", \"Lean Canvas\"\
+          )"
+        explode: true
+        in: query
+        name: kind
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelsResponse"
+          description: A list of strategic models
+      summary: List strategic models
+      tags:
+      - StrategicModels
+  /strategy_models/{strategy_model_id}:
+    get:
+      description: Get a specific strategic model by ID or reference number
+      operationId: getStrategicModel
+      parameters:
+      - description: Strategic model ID or reference number
+        explode: false
+        in: path
+        name: strategy_model_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+          description: Strategic model details
+        "404":
+          description: Strategic model not found
+      summary: Get strategic model
+      tags:
+      - StrategicModels
+    put:
+      description: Update an existing strategic model
+      operationId: updateStrategicModel
+      parameters:
+      - description: Strategic model ID or reference number
+        explode: false
+        in: path
+        name: strategy_model_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+          description: Updated strategic model
+      summary: Update strategic model
+      tags:
+      - StrategicModels
+  /products/{product_id}/strategy_models:
+    get:
+      description: Get all strategic models for a product
+      operationId: listProductStrategicModels
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Filter by model kind
+        explode: true
+        in: query
+        name: kind
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelsResponse"
+          description: A list of strategic models
+      summary: List product strategic models
+      tags:
+      - StrategicModels
+    post:
+      description: Create a new strategic model in a product
+      operationId: createProductStrategicModel
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelCreateRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+          description: Created strategic model
+      summary: Create strategic model in product
+      tags:
+      - StrategicModels
+  /strategy_models/{strategy_model_id}/components/{component_id}:
+    put:
+      description: Update a component (block) within a strategic model
+      operationId: updateStrategicModelComponent
+      parameters:
+      - description: Strategic model ID or reference number
+        explode: false
+        in: path
+        name: strategy_model_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Component ID within the strategic model
+        explode: false
+        in: path
+        name: component_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelComponentUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelComponentResponse"
+          description: Updated component
+      summary: Update strategic model component
+      tags:
+      - StrategicModels
+  /custom_field_definitions:
+    get:
+      description: Returns all custom field definitions across all products
+      operationId: listCustomFieldDefinitions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldDefinitionListResponse"
+          description: List of custom field definitions
+      summary: List all custom field definitions
+      tags:
+      - CustomFields
+  /products/{product_id}/custom_field_definitions:
+    get:
+      description: Returns custom field definitions for a specific product
+      operationId: listProductCustomFieldDefinitions
+      parameters:
+      - description: Product ID or reference prefix
+        explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldDefinitionListResponse"
+          description: List of custom field definitions
+      summary: List custom field definitions for a product
+      tags:
+      - CustomFields
+  /custom_field_definitions/{id}/options:
+    get:
+      description: Returns available options for select/choice custom fields
+      operationId: listCustomFieldOptions
+      parameters:
+      - description: Custom field definition ID
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldOptionListResponse"
+          description: List of custom field options
+      summary: List options for a custom field
+      tags:
+      - CustomFields
 components:
   schemas:
-    FeatureWrap:
-      example:
-        feature:
-          workflow_status:
-            color: color
-            name: name
-            id: id
-            position: 1
-            complete: true
-          integration_fields:
-          - integration_id: integration_id
-            service_name: service_name
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-            value: value
-          - integration_id: integration_id
-            service_name: service_name
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-            value: value
-          reference_num: reference_num
-          use_requirements_estimates: true
-          resource: resource
-          custom_fields:
-          - name: name
-            type: type
-            value: ""
-            key: key
-          - name: name
-            type: type
-            value: ""
-            key: key
-          release:
-            reference_num: reference_num
-            release_date: 2000-01-23
-            resource: resource
-            name: name
-            id: id
-            external_release_date: 2000-01-23
-            released: true
-            parking_lot: true
-            url: url
-            start_date: 2000-01-23
-          due_date: 2000-01-23
-          created_at: 2000-01-23T04:56:07.000+00:00
-          url: url
-          progress_source: progress_source
-          tags:
-          - tags
-          - tags
-          work_units: 6
-          comments_count: 0
-          product_id: product_id
-          name: name
-          id: id
-          start_date: 2000-01-23
-      properties:
-        feature:
-          $ref: "#/components/schemas/Feature"
-      type: object
-    FeaturesResponse:
-      example:
-        features:
-        - reference_num: reference_num
-          resource: resource
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-          url: url
-        - reference_num: reference_num
-          resource: resource
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-          url: url
-        pagination:
-          total_records: 0
-          total_pages: 6
-          current_page: 1
-      properties:
-        features:
-          items:
-            $ref: "#/components/schemas/FeatureMeta"
-          type: array
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      type: object
-    ReleaseWrap:
-      example:
-        release:
-          reference_num: reference_num
-          release_date: 2000-01-23
-          resource: resource
-          name: name
-          id: id
-          external_release_date: 2000-01-23
-          released: true
-          parking_lot: true
-          url: url
-          start_date: 2000-01-23
-      properties:
-        release:
-          $ref: "#/components/schemas/Release"
-      type: object
-    ReleasesResponse:
-      example:
-        pagination:
-          total_records: 0
-          total_pages: 6
-          current_page: 1
-        releases:
-        - reference_num: reference_num
-          release_date: 2000-01-23
-          resource: resource
-          name: name
-          id: id
-          external_release_date: 2000-01-23
-          released: true
-          parking_lot: true
-          url: url
-          start_date: 2000-01-23
-        - reference_num: reference_num
-          release_date: 2000-01-23
-          resource: resource
-          name: name
-          id: id
-          external_release_date: 2000-01-23
-          released: true
-          parking_lot: true
-          url: url
-          start_date: 2000-01-23
-      properties:
-        releases:
-          items:
-            $ref: "#/components/schemas/Release"
-          type: array
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      type: object
     Pagination:
       example:
         total_records: 0
@@ -604,14 +2296,80 @@ components:
           format: int64
           type: integer
       type: object
-    FeatureMeta:
+    Feature:
       example:
-        reference_num: reference_num
-        resource: resource
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
         id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        product_id: product_id
         url: url
+        resource: resource
+        comments_count: 0
+        progress_source: progress_source
+        progress: 6.027456183070403
+        work_units: 1
+        use_requirements_estimates: true
+        tags:
+        - tags
+        - tags
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        release:
+          id: id
+          reference_num: reference_num
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          released: true
+          parking_lot: true
+          theme:
+            body: body
+            html_body: html_body
+          progress_source: progress_source
+          progress: 5.637376656633329
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          url: url
+          resource: resource
+        assigned_to_user: ""
+        custom_fields:
+        - key: key
+          name: name
+          value: ""
+          type: type
+        - key: key
+          name: name
+          value: ""
+          type: type
+        integration_fields:
+        - id: id
+          name: name
+          value: value
+          integration_id: integration_id
+          service_name: service_name
+          created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          name: name
+          value: value
+          integration_id: integration_id
+          service_name: service_name
+          created_at: 2000-01-23T04:56:07.000+00:00
       properties:
         id:
           type: string
@@ -619,139 +2377,3032 @@ components:
           type: string
         name:
           type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
         created_at:
           format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          format: date
+          nullable: true
+          type: string
+        product_id:
           type: string
         url:
+          description: Web UI URL
           type: string
         resource:
-          type: string
-      type: object
-    Feature:
-      description: ""
-      example:
-        workflow_status:
-          color: color
-          name: name
-          id: id
-          position: 1
-          complete: true
-        integration_fields:
-        - integration_id: integration_id
-          service_name: service_name
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-          value: value
-        - integration_id: integration_id
-          service_name: service_name
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-          value: value
-        reference_num: reference_num
-        use_requirements_estimates: true
-        resource: resource
-        custom_fields:
-        - name: name
-          type: type
-          value: ""
-          key: key
-        - name: name
-          type: type
-          value: ""
-          key: key
-        release:
-          reference_num: reference_num
-          release_date: 2000-01-23
-          resource: resource
-          name: name
-          id: id
-          external_release_date: 2000-01-23
-          released: true
-          parking_lot: true
-          url: url
-          start_date: 2000-01-23
-        due_date: 2000-01-23
-        created_at: 2000-01-23T04:56:07.000+00:00
-        url: url
-        progress_source: progress_source
-        tags:
-        - tags
-        - tags
-        work_units: 6
-        comments_count: 0
-        product_id: product_id
-        name: name
-        id: id
-        start_date: 2000-01-23
-      properties:
-        id:
-          type: string
-        created_at:
-          format: date-time
+          description: API URL
           type: string
         comments_count:
           format: int64
           type: integer
-        custom_fields:
-          items:
-            $ref: "#/components/schemas/CustomField"
-          type: array
-        due_date:
-          description: Due date in YYYY-MM-DD format.
-          format: date
-          type: string
-        name:
-          type: string
-        product_id:
-          type: string
         progress_source:
           type: string
-        reference_num:
-          type: string
-        release:
-          $ref: "#/components/schemas/Release"
-        resource:
-          description: API URL for the resource.
-          type: string
-        start_date:
-          description: Start date in YYYY-MM-DD format.
-          format: date
-          type: string
+        progress:
+          format: double
+          nullable: true
+          type: number
+        work_units:
+          format: int64
+          type: integer
+        use_requirements_estimates:
+          type: boolean
         tags:
           items:
             type: string
           type: array
-        url:
-          description: Web UI URL for the resource.
-          type: string
-        use_requirements_estimates:
-          type: boolean
-        work_units:
-          format: int64
-          type: integer
         workflow_status:
-          $ref: "#/components/schemas/FeatureWorkflowStatus"
+          $ref: "#/components/schemas/WorkflowStatus"
+        release:
+          $ref: "#/components/schemas/Release"
+        assigned_to_user:
+          allOf:
+          - $ref: "#/components/schemas/User"
+          nullable: true
+        custom_fields:
+          items:
+            $ref: "#/components/schemas/CustomField"
+          type: array
         integration_fields:
           items:
             $ref: "#/components/schemas/IntegrationField"
           type: array
-          x-stoplight:
-            id: qb1v3dvhw0rzr
       required:
       - created_at
       - id
       - name
       - reference_num
       type: object
-    FeatureWorkflowStatus:
+    FeatureMeta:
       example:
-        color: color
-        name: name
         id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    FeatureResponse:
+      example:
+        feature:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          product_id: product_id
+          url: url
+          resource: resource
+          comments_count: 0
+          progress_source: progress_source
+          progress: 6.027456183070403
+          work_units: 1
+          use_requirements_estimates: true
+          tags:
+          - tags
+          - tags
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          release:
+            id: id
+            reference_num: reference_num
+            name: name
+            start_date: 2000-01-23
+            release_date: 2000-01-23
+            external_release_date: 2000-01-23
+            released: true
+            parking_lot: true
+            theme:
+              body: body
+              html_body: html_body
+            progress_source: progress_source
+            progress: 5.637376656633329
+            workflow_status:
+              id: id
+              name: name
+              position: 5
+              complete: true
+              color: color
+            url: url
+            resource: resource
+          assigned_to_user: ""
+          custom_fields:
+          - key: key
+            name: name
+            value: ""
+            type: type
+          - key: key
+            name: name
+            value: ""
+            type: type
+          integration_fields:
+          - id: id
+            name: name
+            value: value
+            integration_id: integration_id
+            service_name: service_name
+            created_at: 2000-01-23T04:56:07.000+00:00
+          - id: id
+            name: name
+            value: value
+            integration_id: integration_id
+            service_name: service_name
+            created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        feature:
+          $ref: "#/components/schemas/Feature"
+      type: object
+    FeaturesResponse:
+      example:
+        features:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        features:
+          items:
+            $ref: "#/components/schemas/FeatureMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    FeatureCreateRequest:
+      example:
+        feature:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          assigned_to_user: assigned_to_user
+          tags: tags
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          original_estimate_text: original_estimate_text
+          initiative: initiative
+      properties:
+        feature:
+          $ref: "#/components/schemas/FeatureCreate"
+      required:
+      - feature
+      type: object
+    FeatureCreate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        assigned_to_user: assigned_to_user
+        tags: tags
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        original_estimate_text: original_estimate_text
+        initiative: initiative
+      properties:
+        name:
+          description: Feature name
+          type: string
+        description:
+          description: Feature description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        assigned_to_user:
+          description: User email to assign
+          type: string
+        tags:
+          description: Comma-separated tags
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          format: date
+          nullable: true
+          type: string
+        original_estimate_text:
+          description: "Effort estimate (e.g., 2d, 4h, 30min, 5p)"
+          type: string
+        initiative:
+          description: Initiative ID or name
+          type: string
+      required:
+      - name
+      type: object
+    FeatureUpdateRequest:
+      example:
+        feature:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          assigned_to_user: assigned_to_user
+          tags: tags
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          release: release
+          original_estimate_text: original_estimate_text
+          remaining_estimate_text: remaining_estimate_text
+          initiative: initiative
+          release_phase: release_phase
+          progress_source: progress_source
+          progress: 0.8008281904610115
+          epic: epic
+      properties:
+        feature:
+          $ref: "#/components/schemas/FeatureUpdate"
+      required:
+      - feature
+      type: object
+    FeatureUpdate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        assigned_to_user: assigned_to_user
+        tags: tags
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        release: release
+        original_estimate_text: original_estimate_text
+        remaining_estimate_text: remaining_estimate_text
+        initiative: initiative
+        release_phase: release_phase
+        progress_source: progress_source
+        progress: 0.8008281904610115
+        epic: epic
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          type: string
+        assigned_to_user:
+          type: string
+        tags:
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          format: date
+          nullable: true
+          type: string
+        release:
+          description: Release ID to move feature to
+          type: string
+        original_estimate_text:
+          type: string
+        remaining_estimate_text:
+          type: string
+        initiative:
+          type: string
+        release_phase:
+          type: string
+        progress_source:
+          type: string
+        progress:
+          format: double
+          type: number
+        epic:
+          description: Epic ID or name
+          type: string
+      type: object
+    IdeaUpdateRequest:
+      example:
+        idea:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          categories:
+          - categories
+          - categories
+          visibility: visibility
+      properties:
+        idea:
+          $ref: "#/components/schemas/IdeaUpdate"
+      required:
+      - idea
+      type: object
+    IdeaUpdate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        categories:
+        - categories
+        - categories
+        visibility: visibility
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        categories:
+          description: Category IDs or names
+          items:
+            type: string
+          type: array
+        visibility:
+          description: "Visibility (e.g., public, private)"
+          type: string
+      type: object
+    Comment:
+      example:
+        id: id
+        body: body
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        user:
+          id: id
+          first_name: first_name
+          last_name: last_name
+          email: email
+          role: product_owner
+          created_at: 2000-01-23T04:56:07.000+00:00
+        attachments:
+        - id: id
+          download_url: download_url
+          file_name: file_name
+          file_size: 0
+          content_type: content_type
+        - id: id
+          download_url: download_url
+          file_name: file_name
+          file_size: 0
+          content_type: content_type
+        url: url
+        resource: resource
+        commentable:
+          type: type
+          id: id
+          product_id: product_id
+          url: url
+          resource: resource
+      properties:
+        id:
+          type: string
+        body:
+          description: Comment text content
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        attachments:
+          items:
+            $ref: "#/components/schemas/Attachment"
+          type: array
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        commentable:
+          $ref: "#/components/schemas/Commentable"
+      required:
+      - body
+      - created_at
+      - id
+      - updated_at
+      type: object
+    CommentMeta:
+      example:
+        id: id
+        body: body
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        user:
+          id: id
+          first_name: first_name
+          last_name: last_name
+          email: email
+          role: product_owner
+          created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      type: object
+    Commentable:
+      description: The object that was commented on
+      example:
+        type: type
+        id: id
+        product_id: product_id
+        url: url
+        resource: resource
+      properties:
+        type:
+          description: "Type of commentable (Feature, Idea, Release, etc.)"
+          type: string
+        id:
+          type: string
+        product_id:
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    Attachment:
+      example:
+        id: id
+        download_url: download_url
+        file_name: file_name
+        file_size: 0
+        content_type: content_type
+      properties:
+        id:
+          type: string
+        download_url:
+          type: string
+        file_name:
+          type: string
+        file_size:
+          format: int64
+          type: integer
+        content_type:
+          type: string
+      type: object
+    CommentResponse:
+      example:
+        comment:
+          id: id
+          body: body
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          user:
+            id: id
+            first_name: first_name
+            last_name: last_name
+            email: email
+            role: product_owner
+            created_at: 2000-01-23T04:56:07.000+00:00
+          attachments:
+          - id: id
+            download_url: download_url
+            file_name: file_name
+            file_size: 0
+            content_type: content_type
+          - id: id
+            download_url: download_url
+            file_name: file_name
+            file_size: 0
+            content_type: content_type
+          url: url
+          resource: resource
+          commentable:
+            type: type
+            id: id
+            product_id: product_id
+            url: url
+            resource: resource
+      properties:
+        comment:
+          $ref: "#/components/schemas/Comment"
+      type: object
+    CommentsResponse:
+      example:
+        comments:
+        - id: id
+          body: body
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          user:
+            id: id
+            first_name: first_name
+            last_name: last_name
+            email: email
+            role: product_owner
+            created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          body: body
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          user:
+            id: id
+            first_name: first_name
+            last_name: last_name
+            email: email
+            role: product_owner
+            created_at: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        comments:
+          items:
+            $ref: "#/components/schemas/CommentMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    CommentCreateRequest:
+      example:
+        comment:
+          body: body
+      properties:
+        comment:
+          $ref: "#/components/schemas/CommentCreate"
+      required:
+      - comment
+      type: object
+    CommentCreate:
+      example:
+        body: body
+      properties:
+        body:
+          description: Comment text content
+          type: string
+      required:
+      - body
+      type: object
+    CommentUpdateRequest:
+      example:
+        comment:
+          body: body
+      properties:
+        comment:
+          $ref: "#/components/schemas/CommentUpdate"
+      required:
+      - comment
+      type: object
+    CommentUpdate:
+      example:
+        body: body
+      properties:
+        body:
+          description: Updated comment text content
+          type: string
+      type: object
+    DescriptionObject:
+      example:
+        body: body
+        html_body: html_body
+      properties:
+        body:
+          description: Plain text description
+          type: string
+        html_body:
+          description: HTML formatted description
+          type: string
+      type: object
+    Idea:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        votes: 0
+        score: 6
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        status_changed_at: 2000-01-23T04:56:07.000+00:00
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        categories:
+        - id: id
+          name: name
+          parent_id: parent_id
+          project_id: project_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          name: name
+          parent_id: parent_id
+          project_id: project_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+        feature:
+          id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          product_id: product_id
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        votes:
+          type: integer
+        score:
+          type: integer
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        status_changed_at:
+          format: date-time
+          type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        categories:
+          items:
+            $ref: "#/components/schemas/Category"
+          type: array
+        feature:
+          $ref: "#/components/schemas/IdeaFeature"
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      - updated_at
+      type: object
+    IdeaFeature:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        product_id: product_id
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+        product_id:
+          type: string
+      type: object
+    IdeaResponse:
+      example:
+        idea:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          votes: 0
+          score: 6
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          categories:
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          feature:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+            product_id: product_id
+      properties:
+        idea:
+          $ref: "#/components/schemas/Idea"
+      type: object
+    IdeasResponse:
+      example:
+        ideas:
+        - id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          votes: 0
+          score: 6
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          categories:
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          feature:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+            product_id: product_id
+        - id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          votes: 0
+          score: 6
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          categories:
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          - id: id
+            name: name
+            parent_id: parent_id
+            project_id: project_id
+            created_at: 2000-01-23T04:56:07.000+00:00
+          feature:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+            product_id: product_id
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        ideas:
+          items:
+            $ref: "#/components/schemas/Idea"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    IdeaCategoriesResponse:
+      example:
+        idea_categories:
+        - id: id
+          name: name
+          parent_id: parent_id
+          project_id: project_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          name: name
+          parent_id: parent_id
+          project_id: project_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        idea_categories:
+          items:
+            $ref: "#/components/schemas/IdeaCategory"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    IdeaCategory:
+      example:
+        id: id
+        name: name
+        parent_id: parent_id
+        project_id: project_id
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        parent_id:
+          nullable: true
+          type: string
+        project_id:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+      type: object
+    IdeaEndorsementsResponse:
+      example:
+        idea_endorsements:
+        - id: id
+          idea_id: idea_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          value: value
+          link: link
+          weight: 0
+          endorsed_by_portal_user:
+            id: id
+            name: name
+            email: email
+            created_at: 2000-01-23T04:56:07.000+00:00
+          endorsed_by_idea_user:
+            id: id
+            name: name
+            email: email
+            created_at: 2000-01-23T04:56:07.000+00:00
+            title: title
+        - id: id
+          idea_id: idea_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          value: value
+          link: link
+          weight: 0
+          endorsed_by_portal_user:
+            id: id
+            name: name
+            email: email
+            created_at: 2000-01-23T04:56:07.000+00:00
+          endorsed_by_idea_user:
+            id: id
+            name: name
+            email: email
+            created_at: 2000-01-23T04:56:07.000+00:00
+            title: title
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        idea_endorsements:
+          items:
+            $ref: "#/components/schemas/IdeaEndorsement"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    IdeaEndorsement:
+      example:
+        id: id
+        idea_id: idea_id
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        value: value
+        link: link
+        weight: 0
+        endorsed_by_portal_user:
+          id: id
+          name: name
+          email: email
+          created_at: 2000-01-23T04:56:07.000+00:00
+        endorsed_by_idea_user:
+          id: id
+          name: name
+          email: email
+          created_at: 2000-01-23T04:56:07.000+00:00
+          title: title
+      properties:
+        id:
+          type: string
+        idea_id:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        value:
+          nullable: true
+          type: string
+        link:
+          nullable: true
+          type: string
+        weight:
+          type: integer
+        endorsed_by_portal_user:
+          $ref: "#/components/schemas/EndorsementPortalUser"
+        endorsed_by_idea_user:
+          $ref: "#/components/schemas/EndorsementIdeaUser"
+      type: object
+    EndorsementPortalUser:
+      example:
+        id: id
+        name: name
+        email: email
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          format: email
+          type: string
+        created_at:
+          format: date-time
+          type: string
+      type: object
+    EndorsementIdeaUser:
+      example:
+        id: id
+        name: name
+        email: email
+        created_at: 2000-01-23T04:56:07.000+00:00
+        title: title
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          format: email
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        title:
+          nullable: true
+          type: string
+      type: object
+    IdeaOrganizationRef:
+      example:
+        id: id
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    IdeaUser:
+      example:
+        id: id
+        name: name
+        email: email
+        created_at: 2000-01-23T04:56:07.000+00:00
+        idea_organizations:
+        - id: id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          format: email
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        idea_organizations:
+          items:
+            $ref: "#/components/schemas/IdeaOrganizationRef"
+          type: array
+      type: object
+    IdeaUserResponse:
+      example:
+        idea_user:
+          id: id
+          name: name
+          email: email
+          created_at: 2000-01-23T04:56:07.000+00:00
+          idea_organizations:
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+      properties:
+        idea_user:
+          $ref: "#/components/schemas/IdeaUser"
+      type: object
+    IdeaUsersResponse:
+      example:
+        idea_users:
+        - id: id
+          name: name
+          email: email
+          created_at: 2000-01-23T04:56:07.000+00:00
+          idea_organizations:
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+        - id: id
+          name: name
+          email: email
+          created_at: 2000-01-23T04:56:07.000+00:00
+          idea_organizations:
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          - id: id
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        idea_users:
+          items:
+            $ref: "#/components/schemas/IdeaUser"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    IdeaOrganizationsResponse:
+      example:
+        idea_organizations:
+        - id: id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        idea_organizations:
+          items:
+            $ref: "#/components/schemas/IdeaOrganizationRef"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    IdeaOrganization:
+      example:
+        id: id
+        name: name
+        reference_num: reference_num
+        url: url
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        endorsements_count: 0
+        email_domains: email_domains
+        revenue: 6.027456183070403
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference_num:
+          type: string
+        url:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        endorsements_count:
+          type: integer
+        email_domains:
+          nullable: true
+          type: string
+        revenue:
+          format: double
+          nullable: true
+          type: number
+      type: object
+    IdeaOrganizationResponse:
+      example:
+        idea_organization:
+          id: id
+          name: name
+          reference_num: reference_num
+          url: url
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          endorsements_count: 0
+          email_domains: email_domains
+          revenue: 6.027456183070403
+      properties:
+        idea_organization:
+          $ref: "#/components/schemas/IdeaOrganization"
+      type: object
+    Epic:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        progress: 0.8008282
+        progress_source: progress_source
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        comments_count: 6
         position: 1
+        color: color
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        release:
+          id: id
+          reference_num: reference_num
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          released: true
+          parking_lot: true
+          theme:
+            body: body
+            html_body: html_body
+          progress_source: progress_source
+          progress: 5.637376656633329
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          url: url
+          resource: resource
+        initiative:
+          id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        tags:
+        - tags
+        - tags
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress:
+          description: Progress percentage (0-100)
+          format: float
+          nullable: true
+          type: number
+        progress_source:
+          description: Source of progress calculation
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          format: date
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        comments_count:
+          format: int64
+          type: integer
+        position:
+          format: int64
+          type: integer
+        color:
+          type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        release:
+          $ref: "#/components/schemas/Release"
+        initiative:
+          $ref: "#/components/schemas/InitiativeMeta"
+        tags:
+          items:
+            type: string
+          type: array
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      type: object
+    EpicMeta:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    EpicResponse:
+      example:
+        epic:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          progress: 0.8008282
+          progress_source: progress_source
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          comments_count: 6
+          position: 1
+          color: color
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          release:
+            id: id
+            reference_num: reference_num
+            name: name
+            start_date: 2000-01-23
+            release_date: 2000-01-23
+            external_release_date: 2000-01-23
+            released: true
+            parking_lot: true
+            theme:
+              body: body
+              html_body: html_body
+            progress_source: progress_source
+            progress: 5.637376656633329
+            workflow_status:
+              id: id
+              name: name
+              position: 5
+              complete: true
+              color: color
+            url: url
+            resource: resource
+          initiative:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          tags:
+          - tags
+          - tags
+      properties:
+        epic:
+          $ref: "#/components/schemas/Epic"
+      type: object
+    EpicsResponse:
+      example:
+        epics:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        epics:
+          items:
+            $ref: "#/components/schemas/EpicMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    EpicCreateRequest:
+      example:
+        epic:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          color: color
+          initiative: initiative
+      properties:
+        epic:
+          $ref: "#/components/schemas/EpicCreate"
+      required:
+      - epic
+      type: object
+    EpicCreate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        color: color
+        initiative: initiative
+      properties:
+        name:
+          description: Epic name
+          type: string
+        description:
+          description: Epic description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        start_date:
+          description: Epic start date
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          description: Epic due date
+          format: date
+          nullable: true
+          type: string
+        color:
+          description: Epic color
+          type: string
+        initiative:
+          description: Initiative ID or reference
+          type: string
+      required:
+      - name
+      type: object
+    EpicUpdateRequest:
+      example:
+        epic:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          start_date: 2000-01-23
+          due_date: 2000-01-23
+          progress: 0.8008282
+          color: color
+          initiative: initiative
+      properties:
+        epic:
+          $ref: "#/components/schemas/EpicUpdate"
+      required:
+      - epic
+      type: object
+    EpicUpdate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        start_date: 2000-01-23
+        due_date: 2000-01-23
+        progress: 0.8008282
+        color: color
+        initiative: initiative
+      properties:
+        name:
+          description: Epic name
+          type: string
+        description:
+          description: Epic description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        due_date:
+          format: date
+          nullable: true
+          type: string
+        progress:
+          description: Progress percentage (0-100) when progress_source is manual
+          format: float
+          type: number
+        color:
+          type: string
+        initiative:
+          description: Initiative ID or reference
+          type: string
+      type: object
+    Goal:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        progress: 0.8008282
+        progress_source: progress_source
+        status: status
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        time_frame:
+          id: id
+          name: name
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        custom_fields:
+        - key: key
+          name: name
+          value: ""
+          type: type
+        - key: key
+          name: name
+          value: ""
+          type: type
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress:
+          description: Progress percentage (0-100)
+          format: float
+          nullable: true
+          type: number
+        progress_source:
+          description: Source of progress calculation
+          type: string
+        status:
+          description: Goal status
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          format: date
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        time_frame:
+          $ref: "#/components/schemas/TimeFrame"
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        custom_fields:
+          items:
+            $ref: "#/components/schemas/CustomField"
+          type: array
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      type: object
+    GoalMeta:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    GoalResponse:
+      example:
+        goal:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          progress: 0.8008282
+          progress_source: progress_source
+          status: status
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          time_frame:
+            id: id
+            name: name
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          custom_fields:
+          - key: key
+            name: name
+            value: ""
+            type: type
+          - key: key
+            name: name
+            value: ""
+            type: type
+      properties:
+        goal:
+          $ref: "#/components/schemas/Goal"
+      type: object
+    GoalsResponse:
+      example:
+        goals:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        goals:
+          items:
+            $ref: "#/components/schemas/GoalMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    GoalCreateRequest:
+      example:
+        goal:
+          name: name
+          description: description
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          workflow_status: workflow_status
+      properties:
+        goal:
+          $ref: "#/components/schemas/GoalCreate"
+      required:
+      - goal
+      type: object
+    GoalCreate:
+      example:
+        name: name
+        description: description
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        workflow_status: workflow_status
+      properties:
+        name:
+          description: Goal name
+          type: string
+        description:
+          description: Goal description (HTML allowed)
+          type: string
+        start_date:
+          description: Goal start date
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          description: Goal end date
+          format: date
+          nullable: true
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+      required:
+      - name
+      type: object
+    GoalUpdateRequest:
+      example:
+        goal:
+          name: name
+          description: description
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          progress: 0.8008282
+          workflow_status: workflow_status
+      properties:
+        goal:
+          $ref: "#/components/schemas/GoalUpdate"
+      required:
+      - goal
+      type: object
+    GoalUpdate:
+      example:
+        name: name
+        description: description
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        progress: 0.8008282
+        workflow_status: workflow_status
+      properties:
+        name:
+          description: Goal name
+          type: string
+        description:
+          description: Goal description (HTML allowed)
+          type: string
+        start_date:
+          description: Goal start date
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          description: Goal end date
+          format: date
+          nullable: true
+          type: string
+        progress:
+          description: Progress percentage (0-100) when progress_source is manual
+          format: float
+          type: number
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+      type: object
+    TimeFrame:
+      example:
+        id: id
+        name: name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    Product:
+      example:
+        id: id
+        reference_prefix: reference_prefix
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        product_line: true
+        parent_id: parent_id
+        workspace_type: workspace_type
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        has_ideas: true
+        has_master_features: true
+      properties:
+        id:
+          type: string
+        reference_prefix:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        product_line:
+          type: boolean
+        parent_id:
+          description: ID of the parent product line
+          type: string
+        workspace_type:
+          description: "Type of workspace (product_workspace, it_workspace, marketing_workspace,\
+            \ etc.)"
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+        has_ideas:
+          type: boolean
+        has_master_features:
+          type: boolean
+      type: object
+    ProductMeta:
+      example:
+        id: id
+        reference_prefix: reference_prefix
+        name: name
+        product_line: true
+        workspace_type: workspace_type
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        reference_prefix:
+          type: string
+        name:
+          type: string
+        product_line:
+          type: boolean
+        workspace_type:
+          description: Type of workspace
+          type: string
+        created_at:
+          format: date-time
+          type: string
+      type: object
+    ProductResponse:
+      example:
+        product:
+          id: id
+          reference_prefix: reference_prefix
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          product_line: true
+          parent_id: parent_id
+          workspace_type: workspace_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          has_ideas: true
+          has_master_features: true
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+      type: object
+    ProductsResponse:
+      example:
+        products:
+        - id: id
+          reference_prefix: reference_prefix
+          name: name
+          product_line: true
+          workspace_type: workspace_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          reference_prefix: reference_prefix
+          name: name
+          product_line: true
+          workspace_type: workspace_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        products:
+          items:
+            $ref: "#/components/schemas/ProductMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ProductCreateRequest:
+      example:
+        product:
+          name: name
+          reference_prefix: reference_prefix
+          description: description
+          parent_id: parent_id
+          workspace_type: workspace_type
+          product_line: true
+          product_line_type: product_line_type
+      properties:
+        product:
+          $ref: "#/components/schemas/ProductCreate"
+      required:
+      - product
+      type: object
+    ProductCreate:
+      example:
+        name: name
+        reference_prefix: reference_prefix
+        description: description
+        parent_id: parent_id
+        workspace_type: workspace_type
+        product_line: true
+        product_line_type: product_line_type
+      properties:
+        name:
+          description: Name of the product
+          type: string
+        reference_prefix:
+          description: Abbreviation used as prefix on all features
+          type: string
+        description:
+          description: Description of the product (HTML allowed)
+          type: string
+        parent_id:
+          description: Numeric ID or prefix of parent product line
+          type: string
+        workspace_type:
+          description: "Type of workspace (product_workspace, it_workspace, marketing_workspace,\
+            \ etc.)"
+          type: string
+        product_line:
+          description: Set to true to create a product line
+          type: boolean
+        product_line_type:
+          description: Required if creating a product line
+          type: string
+      required:
+      - name
+      - reference_prefix
+      type: object
+    ProductUpdateRequest:
+      example:
+        product:
+          name: name
+          reference_prefix: reference_prefix
+          description: description
+          parent_id: parent_id
+          workspace_type: workspace_type
+      properties:
+        product:
+          $ref: "#/components/schemas/ProductUpdate"
+      required:
+      - product
+      type: object
+    ProductUpdate:
+      example:
+        name: name
+        reference_prefix: reference_prefix
+        description: description
+        parent_id: parent_id
+        workspace_type: workspace_type
+      properties:
+        name:
+          description: Name of the product
+          type: string
+        reference_prefix:
+          description: Abbreviation used as prefix on all features
+          type: string
+        description:
+          description: Description of the product (HTML allowed)
+          type: string
+        parent_id:
+          description: Numeric ID or prefix of parent product line
+          type: string
+        workspace_type:
+          description: Type of workspace
+          type: string
+      type: object
+    Requirement:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        position: 0
+        original_estimate: 6.0274563
+        remaining_estimate: 1.4658129
+        work_done: 5.962134
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        assigned_to_user: ""
+        feature:
+          id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        position:
+          format: int64
+          type: integer
+        original_estimate:
+          format: float
+          nullable: true
+          type: number
+        remaining_estimate:
+          format: float
+          nullable: true
+          type: number
+        work_done:
+          format: float
+          nullable: true
+          type: number
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        assigned_to_user:
+          allOf:
+          - $ref: "#/components/schemas/User"
+          nullable: true
+        feature:
+          $ref: "#/components/schemas/FeatureMeta"
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      type: object
+    RequirementMeta:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    RequirementResponse:
+      example:
+        requirement:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          position: 0
+          original_estimate: 6.0274563
+          remaining_estimate: 1.4658129
+          work_done: 5.962134
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          assigned_to_user: ""
+          feature:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+      properties:
+        requirement:
+          $ref: "#/components/schemas/Requirement"
+      type: object
+    RequirementsResponse:
+      example:
+        requirements:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        requirements:
+          items:
+            $ref: "#/components/schemas/RequirementMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    RequirementCreateRequest:
+      example:
+        requirement:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          assigned_to_user: assigned_to_user
+          original_estimate: 0.8008282
+      properties:
+        requirement:
+          $ref: "#/components/schemas/RequirementCreate"
+      required:
+      - requirement
+      type: object
+    RequirementCreate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        assigned_to_user: assigned_to_user
+        original_estimate: 0.8008282
+      properties:
+        name:
+          description: Requirement name
+          type: string
+        description:
+          description: Requirement description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        assigned_to_user:
+          description: User ID or email
+          type: string
+        original_estimate:
+          description: Original estimate in work units
+          format: float
+          type: number
+      required:
+      - name
+      type: object
+    RequirementUpdateRequest:
+      example:
+        requirement:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          assigned_to_user: assigned_to_user
+          original_estimate: 0.8008282
+          remaining_estimate: 6.0274563
+          work_done: 1.4658129
+      properties:
+        requirement:
+          $ref: "#/components/schemas/RequirementUpdate"
+      required:
+      - requirement
+      type: object
+    RequirementUpdate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        assigned_to_user: assigned_to_user
+        original_estimate: 0.8008282
+        remaining_estimate: 6.0274563
+        work_done: 1.4658129
+      properties:
+        name:
+          description: Requirement name
+          type: string
+        description:
+          description: Requirement description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        assigned_to_user:
+          description: User ID or email
+          type: string
+        original_estimate:
+          format: float
+          type: number
+        remaining_estimate:
+          format: float
+          type: number
+        work_done:
+          format: float
+          type: number
+      type: object
+    Release:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        start_date: 2000-01-23
+        release_date: 2000-01-23
+        external_release_date: 2000-01-23
+        released: true
+        parking_lot: true
+        theme:
+          body: body
+          html_body: html_body
+        progress_source: progress_source
+        progress: 5.637376656633329
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        release_date:
+          format: date
+          nullable: true
+          type: string
+        external_release_date:
+          format: date
+          nullable: true
+          type: string
+        released:
+          type: boolean
+        parking_lot:
+          type: boolean
+        theme:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress_source:
+          type: string
+        progress:
+          format: double
+          nullable: true
+          type: number
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    ReleaseResponse:
+      example:
+        release:
+          id: id
+          reference_num: reference_num
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          released: true
+          parking_lot: true
+          theme:
+            body: body
+            html_body: html_body
+          progress_source: progress_source
+          progress: 5.637376656633329
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          url: url
+          resource: resource
+      properties:
+        release:
+          $ref: "#/components/schemas/Release"
+      type: object
+    ReleasesResponse:
+      example:
+        releases:
+        - id: id
+          reference_num: reference_num
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          released: true
+          parking_lot: true
+          theme:
+            body: body
+            html_body: html_body
+          progress_source: progress_source
+          progress: 5.637376656633329
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          released: true
+          parking_lot: true
+          theme:
+            body: body
+            html_body: html_body
+          progress_source: progress_source
+          progress: 5.637376656633329
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        releases:
+          items:
+            $ref: "#/components/schemas/Release"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ReleaseUpdateRequest:
+      example:
+        release:
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          development_started_on: 2000-01-23
+          parking_lot: true
+          theme: theme
+          progress_source: progress_source
+          progress: 0.8008281904610115
+          workflow_status: workflow_status
+      properties:
+        release:
+          $ref: "#/components/schemas/ReleaseUpdate"
+      required:
+      - release
+      type: object
+    ReleaseUpdate:
+      example:
+        name: name
+        start_date: 2000-01-23
+        release_date: 2000-01-23
+        external_release_date: 2000-01-23
+        development_started_on: 2000-01-23
+        parking_lot: true
+        theme: theme
+        progress_source: progress_source
+        progress: 0.8008281904610115
+        workflow_status: workflow_status
+      properties:
+        name:
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        release_date:
+          format: date
+          nullable: true
+          type: string
+        external_release_date:
+          format: date
+          nullable: true
+          type: string
+        development_started_on:
+          format: date
+          type: string
+        parking_lot:
+          type: boolean
+        theme:
+          description: Theme of the release (may include HTML formatting). Also shown
+            as the release description in the Aha! UI.
+          type: string
+        progress_source:
+          type: string
+        progress:
+          format: double
+          type: number
+        workflow_status:
+          description: Workflow status ID or name. Transitioning to the status the
+            product's workflow defines as "released" is how a release becomes Released.
+          type: string
+      type: object
+    ReleaseCreateRequest:
+      example:
+        release:
+          name: name
+          start_date: 2000-01-23
+          release_date: 2000-01-23
+          external_release_date: 2000-01-23
+          development_started_on: 2000-01-23
+          parking_lot: true
+          theme: theme
+      properties:
+        release:
+          $ref: "#/components/schemas/ReleaseCreate"
+      required:
+      - release
+      type: object
+    ReleaseCreate:
+      example:
+        name: name
+        start_date: 2000-01-23
+        release_date: 2000-01-23
+        external_release_date: 2000-01-23
+        development_started_on: 2000-01-23
+        parking_lot: true
+        theme: theme
+      properties:
+        name:
+          type: string
+        start_date:
+          format: date
+          type: string
+        release_date:
+          format: date
+          type: string
+        external_release_date:
+          format: date
+          type: string
+        development_started_on:
+          format: date
+          type: string
+        parking_lot:
+          type: boolean
+        theme:
+          description: Theme of the release (may include HTML formatting)
+          type: string
+      required:
+      - name
+      type: object
+    Initiative:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        description:
+          body: body
+          html_body: html_body
+        color: color
+        position: 0
+        value: 6.027456183070403
+        effort: 1.4658129805029452
+        presented: true
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        progress: 5.962133916683182
+        progress_source: progress_source
+        url: url
+        resource: resource
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        workflow_status:
+          id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        epic:
+          id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        features:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        custom_fields:
+        - key: key
+          name: name
+          value: ""
+          type: type
+        - key: key
+          name: name
+          value: ""
+          type: type
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        color:
+          type: string
+        position:
+          format: int64
+          type: integer
+        value:
+          format: double
+          type: number
+        effort:
+          format: double
+          type: number
+        presented:
+          type: boolean
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          format: date
+          nullable: true
+          type: string
+        progress:
+          format: double
+          nullable: true
+          type: number
+        progress_source:
+          type: string
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        epic:
+          $ref: "#/components/schemas/EpicMeta"
+        features:
+          items:
+            $ref: "#/components/schemas/FeatureMeta"
+          type: array
+        custom_fields:
+          items:
+            $ref: "#/components/schemas/CustomField"
+          type: array
+      required:
+      - created_at
+      - id
+      - name
+      - reference_num
+      type: object
+    InitiativeMeta:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    InitiativeResponse:
+      example:
+        initiative:
+          id: id
+          reference_num: reference_num
+          name: name
+          description:
+            body: body
+            html_body: html_body
+          color: color
+          position: 0
+          value: 6.027456183070403
+          effort: 1.4658129805029452
+          presented: true
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          progress: 5.962133916683182
+          progress_source: progress_source
+          url: url
+          resource: resource
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          workflow_status:
+            id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          epic:
+            id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          features:
+          - id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          - id: id
+            reference_num: reference_num
+            name: name
+            created_at: 2000-01-23T04:56:07.000+00:00
+            url: url
+            resource: resource
+          custom_fields:
+          - key: key
+            name: name
+            value: ""
+            type: type
+          - key: key
+            name: name
+            value: ""
+            type: type
+      properties:
+        initiative:
+          $ref: "#/components/schemas/Initiative"
+      type: object
+    InitiativesResponse:
+      example:
+        initiatives:
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        initiatives:
+          items:
+            $ref: "#/components/schemas/InitiativeMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    InitiativeCreateRequest:
+      example:
+        initiative:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          value: 0.8008281904610115
+          effort: 6.027456183070403
+          color: color
+          presented: true
+      properties:
+        initiative:
+          $ref: "#/components/schemas/InitiativeCreate"
+      required:
+      - initiative
+      type: object
+    InitiativeCreate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        value: 0.8008281904610115
+        effort: 6.027456183070403
+        color: color
+        presented: true
+      properties:
+        name:
+          description: Initiative name
+          type: string
+        description:
+          description: Initiative description (HTML allowed)
+          type: string
+        workflow_status:
+          description: Workflow status ID or name
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          format: date
+          nullable: true
+          type: string
+        value:
+          format: double
+          type: number
+        effort:
+          format: double
+          type: number
+        color:
+          type: string
+        presented:
+          type: boolean
+      required:
+      - name
+      type: object
+    InitiativeUpdateRequest:
+      example:
+        initiative:
+          name: name
+          description: description
+          workflow_status: workflow_status
+          start_date: 2000-01-23
+          end_date: 2000-01-23
+          value: 0.8008281904610115
+          effort: 6.027456183070403
+          color: color
+          presented: true
+          progress_source: progress_source
+          progress: 1.4658129805029452
+      properties:
+        initiative:
+          $ref: "#/components/schemas/InitiativeUpdate"
+      required:
+      - initiative
+      type: object
+    InitiativeUpdate:
+      example:
+        name: name
+        description: description
+        workflow_status: workflow_status
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+        value: 0.8008281904610115
+        effort: 6.027456183070403
+        color: color
+        presented: true
+        progress_source: progress_source
+        progress: 1.4658129805029452
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          type: string
+        start_date:
+          format: date
+          nullable: true
+          type: string
+        end_date:
+          format: date
+          nullable: true
+          type: string
+        value:
+          format: double
+          type: number
+        effort:
+          format: double
+          type: number
+        color:
+          type: string
+        presented:
+          type: boolean
+        progress_source:
+          type: string
+        progress:
+          format: double
+          type: number
+      type: object
+    User:
+      example:
+        id: id
+        first_name: first_name
+        last_name: last_name
+        email: email
+        role: product_owner
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          format: email
+          type: string
+        role:
+          enum:
+          - product_owner
+          - contributor
+          - reviewer
+          - viewer
+          - none
+          type: string
+        created_at:
+          format: date-time
+          type: string
+      type: object
+    UserResponse:
+      example:
+        user:
+          id: id
+          first_name: first_name
+          last_name: last_name
+          email: email
+          role: product_owner
+          created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+      type: object
+    UsersResponse:
+      example:
+        users:
+        - id: id
+          first_name: first_name
+          last_name: last_name
+          email: email
+          role: product_owner
+          created_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          first_name: first_name
+          last_name: last_name
+          email: email
+          role: product_owner
+          created_at: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        users:
+          items:
+            $ref: "#/components/schemas/User"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    WorkflowStatus:
+      example:
+        id: id
+        name: name
+        position: 5
         complete: true
+        color: color
       properties:
         id:
           type: string
@@ -765,617 +5416,494 @@ components:
         color:
           type: string
       type: object
+    Workflow:
+      example:
+        id: id
+        name: name
+        workflow_statuses:
+        - id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+        - id: id
+          name: name
+          position: 5
+          complete: true
+          color: color
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        workflow_statuses:
+          items:
+            $ref: "#/components/schemas/WorkflowStatus"
+          type: array
+      required:
+      - id
+      - name
+      type: object
+    WorkflowsResponse:
+      example:
+        workflows:
+        - id: id
+          name: name
+          workflow_statuses:
+          - id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          - id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+        - id: id
+          name: name
+          workflow_statuses:
+          - id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+          - id: id
+            name: name
+            position: 5
+            complete: true
+            color: color
+      properties:
+        workflows:
+          items:
+            $ref: "#/components/schemas/Workflow"
+          type: array
+      type: object
+    Category:
+      example:
+        id: id
+        name: name
+        parent_id: parent_id
+        project_id: project_id
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        parent_id:
+          nullable: true
+          type: string
+        project_id:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+      type: object
     CustomField:
       example:
-        name: name
-        type: type
-        value: ""
         key: key
+        name: name
+        value: ""
+        type: type
       properties:
         key:
           type: string
         name:
           type: string
-        value:
-          description: "Value can be string, array, or other types depending on field\
-            \ type"
+        value: {}
         type:
           type: string
       type: object
-    ProductResponse:
+    CustomFieldDefinition:
       example:
-        product:
-          product_line: true
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          resource: resource
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          has_ideas: true
-          reference_prefix: reference_prefix
-          has_master_features: true
-          id: id
-          url: url
-      properties:
-        product:
-          $ref: "#/components/schemas/Product"
-      type: object
-    ProductsResponse:
-      example:
-        pagination:
-          total_records: 0
-          total_pages: 6
-          current_page: 1
-        products:
-        - product_line: true
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          reference_prefix: reference_prefix
-          id: id
-        - product_line: true
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          reference_prefix: reference_prefix
-          id: id
-      properties:
-        products:
-          items:
-            $ref: "#/components/schemas/ProductMeta"
-          type: array
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      type: object
-    ProductMeta:
-      example:
-        product_line: true
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
-        reference_prefix: reference_prefix
         id: id
-      properties:
-        id:
-          description: A unique identifier for the product.
-          type: string
-        reference_prefix:
-          description: The reference prefix slug for the product.
-          type: string
-        name:
-          description: The name for the product.
-          type: string
-        product_line:
-          description: Whether the product is a product line or not.
-          type: boolean
-        created_at:
-          description: The date-time when the product was created.
-          format: date-time
-          type: string
-      type: object
-    Product:
-      example:
-        product_line: true
-        updated_at: 2000-01-23T04:56:07.000+00:00
-        resource: resource
         name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
-        has_ideas: true
-        reference_prefix: reference_prefix
-        has_master_features: true
-        id: id
-        url: url
-      properties:
-        id:
-          description: A unique identifier for the product.
-          type: string
-        reference_prefix:
-          description: The reference prefix slug for the product.
-          type: string
-        name:
-          description: The name for the product.
-          type: string
-        product_line:
-          description: Whether the product is a product line or not.
-          type: boolean
-        created_at:
-          description: The date-time when the product was created.
-          format: date-time
-          type: string
-        updated_at:
-          description: The date-time when the product was updated.
-          format: date-time
-          type: string
-        url:
-          description: User URL for the project.
-          type: string
-        resource:
-          description: User URL for the project.
-          type: string
-        has_ideas:
-          description: Whether the product has ideas or not.
-          type: boolean
-        has_master_features:
-          description: Whether the product has master features or not.
-          type: boolean
-      type: object
-    Release:
-      example:
-        reference_num: reference_num
-        release_date: 2000-01-23
-        resource: resource
-        name: name
-        id: id
-        external_release_date: 2000-01-23
-        released: true
-        parking_lot: true
-        url: url
-        start_date: 2000-01-23
-      properties:
-        id:
-          description: A unique identifier for the release.
-          type: string
-        reference_num:
-          description: Release referenence number.
-          type: string
-        name:
-          description: Release name.
-          type: string
-        start_date:
-          description: Start date in YYYY-MM-DD format.
-          format: date
-          type: string
-        release_date:
-          description: Release date in YYYY-MM-DD format.
-          format: date
-          type: string
-        external_release_date:
-          description: External release date in YYYY-MM-DD format.
-          format: date
-          type: string
-        released:
-          type: boolean
-        parking_lot:
-          type: boolean
-        url:
-          description: Web URL for release.
-          type: string
-        resource:
-          description: API URL for release.
-          type: string
-      type: object
-    FeatureUpdate:
-      properties:
-        name:
-          description: Name of the feature
-          type: string
-        description:
-          description: Description of the feature and it can include HTML formatting.
-          type: string
-        created_by:
-          description: Email address of user that created the feature.
-          type: string
-        assigned_to_user:
-          description: Email address of user that is assigned the feature.
-          type: string
-        tags:
-          description: Tags can be automatically assigned to the new feature. If more
-            than one tag is used then tags should be separated by commas
-          type: string
-        original_estimate_text:
-          description: "Set the original estimated effort in a text format, you can\
-            \ use d, h, min (or 'p' for points) to indicate the units to use."
-          type: string
-        remaining_estimate_text:
-          description: " Set the remaining estimated effort in a text format, you\
-            \ can use d, h, min (or 'p' for points) to indicate the units to use."
-          type: string
-        start_date:
-          description: Date that work will start on the feature in format YYYY-MM-DD.
-          format: date
-          type: string
-        due_date:
-          description: Date that work is due to be completed on the feature in format
-            YYYY-MM-DD.
-          format: date
-          type: string
-        release_phase:
-          description: Name or id of release phase which the feature belongs to.
-          type: string
-        initiative:
-          description: Name or id of initiative which the feature belongs to.
-          type: string
-        master_feature:
-          description: Name or id of master feature which the feature belongs to.
-          type: string
-      type: object
-    ReleaseUpdateWrap:
-      example:
-        release:
-          release_date: 2000-01-23
-          name: name
-          development_started_on: 2000-01-23
-          external_release_date: 2000-01-23
-          parking_lot: true
-          start_date: 2000-01-23
-      properties:
-        release:
-          $ref: "#/components/schemas/ReleaseUpdate"
-      type: object
-    ReleaseUpdate:
-      example:
-        release_date: 2000-01-23
-        name: name
-        development_started_on: 2000-01-23
-        external_release_date: 2000-01-23
-        parking_lot: true
-        start_date: 2000-01-23
-      properties:
-        name:
-          description: Release name.
-          type: string
-        start_date:
-          description: Start date in YYYY-MM-DD format.
-          format: date
-          type: string
-        release_date:
-          description: Release date in YYYY-MM-DD format.
-          format: date
-          type: string
-        development_started_on:
-          description: Date Development started in format YYYY-MM-DD
-          format: date
-          type: string
-        external_release_date:
-          description: The external release date for this feature in format YYYY-MM-DD
-          format: date
-          type: string
-        parking_lot:
-          type: boolean
-      type: object
-    User:
-      properties:
-        first_name:
-          description: First name of the user
-          type: string
-        last_name:
-          description: Last name of the user
-          type: string
-        email:
-          description: Email of the user
-          format: email
-          type: string
-        role:
-          description: "Permissions of the user in the product one of: product_owner,\
-            \ contributor, reviewer, viewer, none"
-          enum:
-          - product_owner
-          - contributor
-          - reviewer
-          - viewer
-          - none
-          type: string
-      type: object
-    Idea:
-      example:
-        workflow_status:
-          color: color
-          name: name
-          id: id
-          position: 1
-          complete: true
-        reference_num: reference_num
-        feature:
-          reference_num: reference_num
-          resource: resource
-          product_id: product_id
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-          url: url
-        updated_at: 2000-01-23T04:56:07.000+00:00
-        status_changed_at: 2000-01-23T04:56:07.000+00:00
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
-        votes: 0
-        id: id
-        categories:
-        - project_id: project_id
-          parent_id: parent_id
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
-        - project_id: project_id
-          parent_id: parent_id
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          id: id
+        key: key
+        type: type
+        custom_fieldable_type: custom_fieldable_type
+        internal_name: internal_name
+        position: 0
+        api_type: api_type
+        allows_other_option: true
       properties:
         id:
           type: string
         name:
+          description: Display name of the field
           type: string
-          x-stoplight:
-            id: xy2abr9mr0ana
-        reference_num:
+        key:
+          description: Internal reference key
           type: string
-          x-stoplight:
-            id: vnzhmoi467bo4
-        feature:
-          $ref: "#/components/schemas/IdeaFeature"
-        workflow_status:
-          $ref: "#/components/schemas/FeatureWorkflowStatus"
-        categories:
-          items:
-            $ref: "#/components/schemas/Category"
-          type: array
-          x-stoplight:
-            id: yqniqpn1c4p4d
-        votes:
+        type:
+          description: "Field type (e.g., CustomFieldDefinitions::SelectConstant)"
+          type: string
+        custom_fieldable_type:
+          description: "Record type the field applies to (Feature, Initiative, etc.)"
+          type: string
+        internal_name:
+          description: Internal system name
+          nullable: true
+          type: string
+        position:
+          description: Display order position
           type: integer
-          x-stoplight:
-            id: 2n180oojj7huq
-        created_at:
-          format: date-time
+        api_type:
+          description: API type for the field
           type: string
-          x-stoplight:
-            id: qya5e73kh10r4
-        updated_at:
-          format: date-time
-          type: string
-          x-stoplight:
-            id: ocz06h2o0uqvl
-        status_changed_at:
-          format: date-time
-          type: string
-          x-stoplight:
-            id: hu2zt5zdeevyx
+        allows_other_option:
+          description: Whether "Other" option is allowed for select fields
+          type: boolean
       required:
-      - created_at
+      - custom_fieldable_type
       - id
+      - key
       - name
-      - reference_num
-      - status_changed_at
-      - updated_at
-      - votes
-      title: Idea
+      - type
       type: object
-      x-stoplight:
-        id: nf9fm5lpxxf4s
-    IdeaFeature:
+    CustomFieldDefinitionListResponse:
       example:
-        reference_num: reference_num
-        resource: resource
-        product_id: product_id
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
-        id: id
-        url: url
-      properties:
-        id:
-          type: string
-        reference_num:
-          type: string
-          x-stoplight:
-            id: pmhimgtx26aas
-        name:
-          type: string
-          x-stoplight:
-            id: z9am399tuulq3
-        created_at:
-          format: date-time
-          type: string
-          x-stoplight:
-            id: jojm2av3bym1c
-        url:
-          type: string
-          x-stoplight:
-            id: 1tdkq9chf148w
-        resource:
-          type: string
-          x-stoplight:
-            id: 7jkyt08wovxdi
-        product_id:
-          type: string
-          x-stoplight:
-            id: wm4pxsru6xxt2
-      title: IdeaFeature
-      type: object
-      x-stoplight:
-        id: vntws9p2k5dkr
-    IdeaResponse:
-      example:
-        idea:
-          workflow_status:
-            color: color
-            name: name
-            id: id
-            position: 1
-            complete: true
-          reference_num: reference_num
-          feature:
-            reference_num: reference_num
-            resource: resource
-            product_id: product_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-            url: url
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          status_changed_at: 2000-01-23T04:56:07.000+00:00
+        custom_field_definitions:
+        - id: id
           name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          votes: 0
-          id: id
-          categories:
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-      properties:
-        idea:
-          $ref: "#/components/schemas/Idea"
-      title: IdeaResponse
-      type: object
-      x-stoplight:
-        id: 6umhm6c92ofwo
-    IdeasResponse:
-      example:
-        pagination:
-          total_records: 0
-          total_pages: 6
-          current_page: 1
-        ideas:
-        - workflow_status:
-            color: color
-            name: name
-            id: id
-            position: 1
-            complete: true
-          reference_num: reference_num
-          feature:
-            reference_num: reference_num
-            resource: resource
-            product_id: product_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-            url: url
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          status_changed_at: 2000-01-23T04:56:07.000+00:00
+          key: key
+          type: type
+          custom_fieldable_type: custom_fieldable_type
+          internal_name: internal_name
+          position: 0
+          api_type: api_type
+          allows_other_option: true
+        - id: id
           name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          votes: 0
-          id: id
-          categories:
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-        - workflow_status:
-            color: color
-            name: name
-            id: id
-            position: 1
-            complete: true
-          reference_num: reference_num
-          feature:
-            reference_num: reference_num
-            resource: resource
-            product_id: product_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-            url: url
-          updated_at: 2000-01-23T04:56:07.000+00:00
-          status_changed_at: 2000-01-23T04:56:07.000+00:00
-          name: name
-          created_at: 2000-01-23T04:56:07.000+00:00
-          votes: 0
-          id: id
-          categories:
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
-          - project_id: project_id
-            parent_id: parent_id
-            name: name
-            created_at: 2000-01-23T04:56:07.000+00:00
-            id: id
+          key: key
+          type: type
+          custom_fieldable_type: custom_fieldable_type
+          internal_name: internal_name
+          position: 0
+          api_type: api_type
+          allows_other_option: true
       properties:
-        ideas:
+        custom_field_definitions:
           items:
-            $ref: "#/components/schemas/Idea"
+            $ref: "#/components/schemas/CustomFieldDefinition"
           type: array
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      title: IdeasResponse
       type: object
-    Category:
+    CustomFieldOption:
       example:
-        project_id: project_id
-        parent_id: parent_id
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
-        id: id
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          x-stoplight:
-            id: m5ml2rcn2rv13
-        parent_id:
-          type: string
-          x-stoplight:
-            id: ogf0nit71t2sx
-        project_id:
-          type: string
-          x-stoplight:
-            id: 46w8t67wzzf9p
-        created_at:
-          format: date-time
-          type: string
-          x-stoplight:
-            id: vri4toh9k6ooj
-      required:
-      - created_at
-      - id
-      - name
-      title: Category
-      type: object
-      x-stoplight:
-        id: 0hjhgc5e5t5vn
-    IntegrationField:
-      example:
-        integration_id: integration_id
-        service_name: service_name
-        name: name
-        created_at: 2000-01-23T04:56:07.000+00:00
         id: id
         value: value
+        position: 0
+        color: color
+      properties:
+        id:
+          type: string
+        value:
+          type: string
+        position:
+          type: integer
+        color:
+          nullable: true
+          type: string
+      type: object
+    CustomFieldOptionListResponse:
+      example:
+        custom_field_options:
+        - id: id
+          value: value
+          position: 0
+          color: color
+        - id: id
+          value: value
+          position: 0
+          color: color
+      properties:
+        custom_field_options:
+          items:
+            $ref: "#/components/schemas/CustomFieldOption"
+          type: array
+      type: object
+    IntegrationField:
+      example:
+        id: id
+        name: name
+        value: value
+        integration_id: integration_id
+        service_name: service_name
+        created_at: 2000-01-23T04:56:07.000+00:00
       properties:
         id:
           type: string
         name:
           type: string
-          x-stoplight:
-            id: qi2sp5tsn8fgz
         value:
           type: string
-          x-stoplight:
-            id: vuoakqlitqu50
         integration_id:
           type: string
-          x-stoplight:
-            id: e5rymy3feoytr
         service_name:
           type: string
-          x-stoplight:
-            id: 8tqiel27kzpi7
         created_at:
           format: date-time
           type: string
-          x-stoplight:
-            id: 0laij46vrkt7x
+      type: object
+    StrategicModel:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        kind: kind
+        description:
+          body: body
+          html_body: html_body
+        url: url
+        resource: resource
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        project:
+          id: id
+          reference_prefix: reference_prefix
+          name: name
+          product_line: true
+          workspace_type: workspace_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        components:
+        - id: id
+          name: name
+          description: description
+          position: 0
+        - id: id
+          name: name
+          description: description
+          position: 0
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        kind:
+          description: "Type of canvas (e.g., Opportunity, Lean Canvas, Business Model)"
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        url:
+          description: Web UI URL
+          type: string
+        resource:
+          description: API URL
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+        project:
+          $ref: "#/components/schemas/ProductMeta"
+        components:
+          items:
+            $ref: "#/components/schemas/StrategicModelComponent"
+          type: array
       required:
       - created_at
       - id
-      - integration_id
+      - kind
       - name
-      - service_name
-      - value
-      title: IntegrationField
+      - reference_num
       type: object
-      x-stoplight:
-        id: xltqkvpfjfhef
+    StrategicModelMeta:
+      example:
+        id: id
+        reference_num: reference_num
+        name: name
+        kind: kind
+        created_at: 2000-01-23T04:56:07.000+00:00
+        url: url
+        resource: resource
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        kind:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+      type: object
+    StrategicModelComponent:
+      description: A component (block) within a strategic model
+      example:
+        id: id
+        name: name
+        description: description
+        position: 0
+      properties:
+        id:
+          type: string
+        name:
+          description: "Block name (e.g., Users & Customers, Problems, Solutions)"
+          type: string
+        description:
+          description: Content of the block (HTML allowed)
+          type: string
+        position:
+          description: Display order position
+          format: int64
+          type: integer
+      type: object
+    StrategicModelResponse:
+      example:
+        strategy_model:
+          id: id
+          reference_num: reference_num
+          name: name
+          kind: kind
+          description:
+            body: body
+            html_body: html_body
+          url: url
+          resource: resource
+          created_at: 2000-01-23T04:56:07.000+00:00
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          project:
+            id: id
+            reference_prefix: reference_prefix
+            name: name
+            product_line: true
+            workspace_type: workspace_type
+            created_at: 2000-01-23T04:56:07.000+00:00
+          components:
+          - id: id
+            name: name
+            description: description
+            position: 0
+          - id: id
+            name: name
+            description: description
+            position: 0
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModel"
+      type: object
+    StrategicModelsResponse:
+      example:
+        strategy_models:
+        - id: id
+          reference_num: reference_num
+          name: name
+          kind: kind
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        - id: id
+          reference_num: reference_num
+          name: name
+          kind: kind
+          created_at: 2000-01-23T04:56:07.000+00:00
+          url: url
+          resource: resource
+        pagination:
+          total_records: 0
+          total_pages: 6
+          current_page: 1
+      properties:
+        strategy_models:
+          items:
+            $ref: "#/components/schemas/StrategicModelMeta"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    StrategicModelCreateRequest:
+      example:
+        strategy_model:
+          name: name
+          kind: kind
+          description: description
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModelCreate"
+      required:
+      - strategy_model
+      type: object
+    StrategicModelCreate:
+      example:
+        name: name
+        kind: kind
+        description: description
+      properties:
+        name:
+          description: Strategic model name
+          type: string
+        kind:
+          description: "Type of canvas (e.g., Opportunity, Lean Canvas)"
+          type: string
+        description:
+          description: Strategic model description
+          type: string
+      required:
+      - kind
+      - name
+      type: object
+    StrategicModelUpdateRequest:
+      example:
+        strategy_model:
+          name: name
+          description: description
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModelUpdate"
+      required:
+      - strategy_model
+      type: object
+    StrategicModelUpdate:
+      example:
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      type: object
+    StrategicModelComponentUpdateRequest:
+      example:
+        component:
+          description: description
+      properties:
+        component:
+          $ref: "#/components/schemas/StrategicModelComponentUpdate"
+      required:
+      - component
+      type: object
+    StrategicModelComponentUpdate:
+      example:
+        description: description
+      properties:
+        description:
+          description: Content of the block (HTML allowed)
+          type: string
+      type: object
+    StrategicModelComponentResponse:
+      example:
+        component:
+          id: id
+          name: name
+          description: description
+          position: 0
+      properties:
+        component:
+          $ref: "#/components/schemas/StrategicModelComponent"
+      type: object
+  securitySchemes:
+    bearerAuth:
+      description: Aha API key as bearer token
+      scheme: bearer
+      type: http

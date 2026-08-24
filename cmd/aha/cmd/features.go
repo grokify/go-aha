@@ -44,7 +44,7 @@ var listFeaturesCmd = &cobra.Command{
 		apiClient := aha.NewAPIClient(cfg)
 		ctx := context.Background()
 
-		req := apiClient.FeaturesAPI.GetFeatures(ctx)
+		req := apiClient.FeaturesAPI.ListFeatures(ctx)
 
 		if featuresQuery != "" {
 			req = req.Q(featuresQuery)

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Key** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
-**Value** | Pointer to **interface{}** | Value can be string, array, or other types depending on field type | [optional] 
+**Value** | Pointer to **interface{}** |  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
 
 ## Methods

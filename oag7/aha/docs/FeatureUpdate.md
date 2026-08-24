@@ -4,18 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** | Name of the feature | [optional] 
-**Description** | Pointer to **string** | Description of the feature and it can include HTML formatting. | [optional] 
-**CreatedBy** | Pointer to **string** | Email address of user that created the feature. | [optional] 
-**AssignedToUser** | Pointer to **string** | Email address of user that is assigned the feature. | [optional] 
-**Tags** | Pointer to **string** | Tags can be automatically assigned to the new feature. If more than one tag is used then tags should be separated by commas | [optional] 
-**OriginalEstimateText** | Pointer to **string** | Set the original estimated effort in a text format, you can use d, h, min (or &#39;p&#39; for points) to indicate the units to use. | [optional] 
-**RemainingEstimateText** | Pointer to **string** |  Set the remaining estimated effort in a text format, you can use d, h, min (or &#39;p&#39; for points) to indicate the units to use. | [optional] 
-**StartDate** | Pointer to **string** | Date that work will start on the feature in format YYYY-MM-DD. | [optional] 
-**DueDate** | Pointer to **string** | Date that work is due to be completed on the feature in format YYYY-MM-DD. | [optional] 
-**ReleasePhase** | Pointer to **string** | Name or id of release phase which the feature belongs to. | [optional] 
-**Initiative** | Pointer to **string** | Name or id of initiative which the feature belongs to. | [optional] 
-**MasterFeature** | Pointer to **string** | Name or id of master feature which the feature belongs to. | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**WorkflowStatus** | Pointer to **string** |  | [optional] 
+**AssignedToUser** | Pointer to **string** |  | [optional] 
+**Tags** | Pointer to **string** |  | [optional] 
+**StartDate** | Pointer to **NullableString** |  | [optional] 
+**DueDate** | Pointer to **NullableString** |  | [optional] 
+**Release** | Pointer to **string** | Release ID to move feature to | [optional] 
+**OriginalEstimateText** | Pointer to **string** |  | [optional] 
+**RemainingEstimateText** | Pointer to **string** |  | [optional] 
+**Initiative** | Pointer to **string** |  | [optional] 
+**ReleasePhase** | Pointer to **string** |  | [optional] 
+**ProgressSource** | Pointer to **string** |  | [optional] 
+**Progress** | Pointer to **float64** |  | [optional] 
+**Epic** | Pointer to **string** | Epic ID or name | [optional] 
 
 ## Methods
 
@@ -86,30 +89,30 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
-### GetCreatedBy
+### GetWorkflowStatus
 
-`func (o *FeatureUpdate) GetCreatedBy() string`
+`func (o *FeatureUpdate) GetWorkflowStatus() string`
 
-GetCreatedBy returns the CreatedBy field if non-nil, zero value otherwise.
+GetWorkflowStatus returns the WorkflowStatus field if non-nil, zero value otherwise.
 
-### GetCreatedByOk
+### GetWorkflowStatusOk
 
-`func (o *FeatureUpdate) GetCreatedByOk() (*string, bool)`
+`func (o *FeatureUpdate) GetWorkflowStatusOk() (*string, bool)`
 
-GetCreatedByOk returns a tuple with the CreatedBy field if it's non-nil, zero value otherwise
+GetWorkflowStatusOk returns a tuple with the WorkflowStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedBy
+### SetWorkflowStatus
 
-`func (o *FeatureUpdate) SetCreatedBy(v string)`
+`func (o *FeatureUpdate) SetWorkflowStatus(v string)`
 
-SetCreatedBy sets CreatedBy field to given value.
+SetWorkflowStatus sets WorkflowStatus field to given value.
 
-### HasCreatedBy
+### HasWorkflowStatus
 
-`func (o *FeatureUpdate) HasCreatedBy() bool`
+`func (o *FeatureUpdate) HasWorkflowStatus() bool`
 
-HasCreatedBy returns a boolean if a field has been set.
+HasWorkflowStatus returns a boolean if a field has been set.
 
 ### GetAssignedToUser
 
@@ -161,6 +164,101 @@ SetTags sets Tags field to given value.
 
 HasTags returns a boolean if a field has been set.
 
+### GetStartDate
+
+`func (o *FeatureUpdate) GetStartDate() string`
+
+GetStartDate returns the StartDate field if non-nil, zero value otherwise.
+
+### GetStartDateOk
+
+`func (o *FeatureUpdate) GetStartDateOk() (*string, bool)`
+
+GetStartDateOk returns a tuple with the StartDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStartDate
+
+`func (o *FeatureUpdate) SetStartDate(v string)`
+
+SetStartDate sets StartDate field to given value.
+
+### HasStartDate
+
+`func (o *FeatureUpdate) HasStartDate() bool`
+
+HasStartDate returns a boolean if a field has been set.
+
+### SetStartDateNil
+
+`func (o *FeatureUpdate) SetStartDateNil(b bool)`
+
+ SetStartDateNil sets the value for StartDate to be an explicit nil
+
+### UnsetStartDate
+`func (o *FeatureUpdate) UnsetStartDate()`
+
+UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
+### GetDueDate
+
+`func (o *FeatureUpdate) GetDueDate() string`
+
+GetDueDate returns the DueDate field if non-nil, zero value otherwise.
+
+### GetDueDateOk
+
+`func (o *FeatureUpdate) GetDueDateOk() (*string, bool)`
+
+GetDueDateOk returns a tuple with the DueDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDueDate
+
+`func (o *FeatureUpdate) SetDueDate(v string)`
+
+SetDueDate sets DueDate field to given value.
+
+### HasDueDate
+
+`func (o *FeatureUpdate) HasDueDate() bool`
+
+HasDueDate returns a boolean if a field has been set.
+
+### SetDueDateNil
+
+`func (o *FeatureUpdate) SetDueDateNil(b bool)`
+
+ SetDueDateNil sets the value for DueDate to be an explicit nil
+
+### UnsetDueDate
+`func (o *FeatureUpdate) UnsetDueDate()`
+
+UnsetDueDate ensures that no value is present for DueDate, not even an explicit nil
+### GetRelease
+
+`func (o *FeatureUpdate) GetRelease() string`
+
+GetRelease returns the Release field if non-nil, zero value otherwise.
+
+### GetReleaseOk
+
+`func (o *FeatureUpdate) GetReleaseOk() (*string, bool)`
+
+GetReleaseOk returns a tuple with the Release field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRelease
+
+`func (o *FeatureUpdate) SetRelease(v string)`
+
+SetRelease sets Release field to given value.
+
+### HasRelease
+
+`func (o *FeatureUpdate) HasRelease() bool`
+
+HasRelease returns a boolean if a field has been set.
+
 ### GetOriginalEstimateText
 
 `func (o *FeatureUpdate) GetOriginalEstimateText() string`
@@ -211,55 +309,30 @@ SetRemainingEstimateText sets RemainingEstimateText field to given value.
 
 HasRemainingEstimateText returns a boolean if a field has been set.
 
-### GetStartDate
+### GetInitiative
 
-`func (o *FeatureUpdate) GetStartDate() string`
+`func (o *FeatureUpdate) GetInitiative() string`
 
-GetStartDate returns the StartDate field if non-nil, zero value otherwise.
+GetInitiative returns the Initiative field if non-nil, zero value otherwise.
 
-### GetStartDateOk
+### GetInitiativeOk
 
-`func (o *FeatureUpdate) GetStartDateOk() (*string, bool)`
+`func (o *FeatureUpdate) GetInitiativeOk() (*string, bool)`
 
-GetStartDateOk returns a tuple with the StartDate field if it's non-nil, zero value otherwise
+GetInitiativeOk returns a tuple with the Initiative field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStartDate
+### SetInitiative
 
-`func (o *FeatureUpdate) SetStartDate(v string)`
+`func (o *FeatureUpdate) SetInitiative(v string)`
 
-SetStartDate sets StartDate field to given value.
+SetInitiative sets Initiative field to given value.
 
-### HasStartDate
+### HasInitiative
 
-`func (o *FeatureUpdate) HasStartDate() bool`
+`func (o *FeatureUpdate) HasInitiative() bool`
 
-HasStartDate returns a boolean if a field has been set.
-
-### GetDueDate
-
-`func (o *FeatureUpdate) GetDueDate() string`
-
-GetDueDate returns the DueDate field if non-nil, zero value otherwise.
-
-### GetDueDateOk
-
-`func (o *FeatureUpdate) GetDueDateOk() (*string, bool)`
-
-GetDueDateOk returns a tuple with the DueDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDueDate
-
-`func (o *FeatureUpdate) SetDueDate(v string)`
-
-SetDueDate sets DueDate field to given value.
-
-### HasDueDate
-
-`func (o *FeatureUpdate) HasDueDate() bool`
-
-HasDueDate returns a boolean if a field has been set.
+HasInitiative returns a boolean if a field has been set.
 
 ### GetReleasePhase
 
@@ -286,55 +359,80 @@ SetReleasePhase sets ReleasePhase field to given value.
 
 HasReleasePhase returns a boolean if a field has been set.
 
-### GetInitiative
+### GetProgressSource
 
-`func (o *FeatureUpdate) GetInitiative() string`
+`func (o *FeatureUpdate) GetProgressSource() string`
 
-GetInitiative returns the Initiative field if non-nil, zero value otherwise.
+GetProgressSource returns the ProgressSource field if non-nil, zero value otherwise.
 
-### GetInitiativeOk
+### GetProgressSourceOk
 
-`func (o *FeatureUpdate) GetInitiativeOk() (*string, bool)`
+`func (o *FeatureUpdate) GetProgressSourceOk() (*string, bool)`
 
-GetInitiativeOk returns a tuple with the Initiative field if it's non-nil, zero value otherwise
+GetProgressSourceOk returns a tuple with the ProgressSource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetInitiative
+### SetProgressSource
 
-`func (o *FeatureUpdate) SetInitiative(v string)`
+`func (o *FeatureUpdate) SetProgressSource(v string)`
 
-SetInitiative sets Initiative field to given value.
+SetProgressSource sets ProgressSource field to given value.
 
-### HasInitiative
+### HasProgressSource
 
-`func (o *FeatureUpdate) HasInitiative() bool`
+`func (o *FeatureUpdate) HasProgressSource() bool`
 
-HasInitiative returns a boolean if a field has been set.
+HasProgressSource returns a boolean if a field has been set.
 
-### GetMasterFeature
+### GetProgress
 
-`func (o *FeatureUpdate) GetMasterFeature() string`
+`func (o *FeatureUpdate) GetProgress() float64`
 
-GetMasterFeature returns the MasterFeature field if non-nil, zero value otherwise.
+GetProgress returns the Progress field if non-nil, zero value otherwise.
 
-### GetMasterFeatureOk
+### GetProgressOk
 
-`func (o *FeatureUpdate) GetMasterFeatureOk() (*string, bool)`
+`func (o *FeatureUpdate) GetProgressOk() (*float64, bool)`
 
-GetMasterFeatureOk returns a tuple with the MasterFeature field if it's non-nil, zero value otherwise
+GetProgressOk returns a tuple with the Progress field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMasterFeature
+### SetProgress
 
-`func (o *FeatureUpdate) SetMasterFeature(v string)`
+`func (o *FeatureUpdate) SetProgress(v float64)`
 
-SetMasterFeature sets MasterFeature field to given value.
+SetProgress sets Progress field to given value.
 
-### HasMasterFeature
+### HasProgress
 
-`func (o *FeatureUpdate) HasMasterFeature() bool`
+`func (o *FeatureUpdate) HasProgress() bool`
 
-HasMasterFeature returns a boolean if a field has been set.
+HasProgress returns a boolean if a field has been set.
+
+### GetEpic
+
+`func (o *FeatureUpdate) GetEpic() string`
+
+GetEpic returns the Epic field if non-nil, zero value otherwise.
+
+### GetEpicOk
+
+`func (o *FeatureUpdate) GetEpicOk() (*string, bool)`
+
+GetEpicOk returns a tuple with the Epic field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEpic
+
+`func (o *FeatureUpdate) SetEpic(v string)`
+
+SetEpic sets Epic field to given value.
+
+### HasEpic
+
+`func (o *FeatureUpdate) HasEpic() bool`
+
+HasEpic returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

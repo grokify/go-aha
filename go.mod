@@ -9,7 +9,7 @@ require (
 	github.com/grokify/goelastic v0.6.15
 	github.com/grokify/gogoogle v0.11.1
 	github.com/grokify/mogo v0.74.8
-	github.com/grokify/spectrum v1.20.7
+	github.com/grokify/spectrum v1.21.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/spf13/cobra v1.10.2

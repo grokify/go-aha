@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -20,26 +20,21 @@ var _ MappedNullable = &Product{}
 
 // Product struct for Product
 type Product struct {
-	// A unique identifier for the product.
-	Id *string `json:"id,omitempty"`
-	// The reference prefix slug for the product.
-	ReferencePrefix *string `json:"reference_prefix,omitempty"`
-	// The name for the product.
-	Name *string `json:"name,omitempty"`
-	// Whether the product is a product line or not.
-	ProductLine *bool `json:"product_line,omitempty"`
-	// The date-time when the product was created.
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	// The date-time when the product was updated.
-	UpdatedAt *time.Time `json:"updated_at,omitempty"`
-	// User URL for the project.
-	Url *string `json:"url,omitempty"`
-	// User URL for the project.
-	Resource *string `json:"resource,omitempty"`
-	// Whether the product has ideas or not.
-	HasIdeas *bool `json:"has_ideas,omitempty"`
-	// Whether the product has master features or not.
-	HasMasterFeatures    *bool `json:"has_master_features,omitempty"`
+	Id              *string            `json:"id,omitempty"`
+	ReferencePrefix *string            `json:"reference_prefix,omitempty"`
+	Name            *string            `json:"name,omitempty"`
+	Description     *DescriptionObject `json:"description,omitempty"`
+	ProductLine     *bool              `json:"product_line,omitempty"`
+	// ID of the parent product line
+	ParentId *string `json:"parent_id,omitempty"`
+	// Type of workspace (product_workspace, it_workspace, marketing_workspace, etc.)
+	WorkspaceType        *string    `json:"workspace_type,omitempty"`
+	CreatedAt            *time.Time `json:"created_at,omitempty"`
+	UpdatedAt            *time.Time `json:"updated_at,omitempty"`
+	Url                  *string    `json:"url,omitempty"`
+	Resource             *string    `json:"resource,omitempty"`
+	HasIdeas             *bool      `json:"has_ideas,omitempty"`
+	HasMasterFeatures    *bool      `json:"has_master_features,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -158,6 +153,38 @@ func (o *Product) SetName(v string) {
 	o.Name = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *Product) GetDescription() DescriptionObject {
+	if o == nil || IsNil(o.Description) {
+		var ret DescriptionObject
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Product) GetDescriptionOk() (*DescriptionObject, bool) {
+	if o == nil || IsNil(o.Description) {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *Product) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given DescriptionObject and assigns it to the Description field.
+func (o *Product) SetDescription(v DescriptionObject) {
+	o.Description = &v
+}
+
 // GetProductLine returns the ProductLine field value if set, zero value otherwise.
 func (o *Product) GetProductLine() bool {
 	if o == nil || IsNil(o.ProductLine) {
@@ -188,6 +215,70 @@ func (o *Product) HasProductLine() bool {
 // SetProductLine gets a reference to the given bool and assigns it to the ProductLine field.
 func (o *Product) SetProductLine(v bool) {
 	o.ProductLine = &v
+}
+
+// GetParentId returns the ParentId field value if set, zero value otherwise.
+func (o *Product) GetParentId() string {
+	if o == nil || IsNil(o.ParentId) {
+		var ret string
+		return ret
+	}
+	return *o.ParentId
+}
+
+// GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Product) GetParentIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ParentId) {
+		return nil, false
+	}
+	return o.ParentId, true
+}
+
+// HasParentId returns a boolean if a field has been set.
+func (o *Product) HasParentId() bool {
+	if o != nil && !IsNil(o.ParentId) {
+		return true
+	}
+
+	return false
+}
+
+// SetParentId gets a reference to the given string and assigns it to the ParentId field.
+func (o *Product) SetParentId(v string) {
+	o.ParentId = &v
+}
+
+// GetWorkspaceType returns the WorkspaceType field value if set, zero value otherwise.
+func (o *Product) GetWorkspaceType() string {
+	if o == nil || IsNil(o.WorkspaceType) {
+		var ret string
+		return ret
+	}
+	return *o.WorkspaceType
+}
+
+// GetWorkspaceTypeOk returns a tuple with the WorkspaceType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Product) GetWorkspaceTypeOk() (*string, bool) {
+	if o == nil || IsNil(o.WorkspaceType) {
+		return nil, false
+	}
+	return o.WorkspaceType, true
+}
+
+// HasWorkspaceType returns a boolean if a field has been set.
+func (o *Product) HasWorkspaceType() bool {
+	if o != nil && !IsNil(o.WorkspaceType) {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkspaceType gets a reference to the given string and assigns it to the WorkspaceType field.
+func (o *Product) SetWorkspaceType(v string) {
+	o.WorkspaceType = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -401,8 +492,17 @@ func (o Product) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
 	if !IsNil(o.ProductLine) {
 		toSerialize["product_line"] = o.ProductLine
+	}
+	if !IsNil(o.ParentId) {
+		toSerialize["parent_id"] = o.ParentId
+	}
+	if !IsNil(o.WorkspaceType) {
+		toSerialize["workspace_type"] = o.WorkspaceType
 	}
 	if !IsNil(o.CreatedAt) {
 		toSerialize["created_at"] = o.CreatedAt
@@ -447,7 +547,10 @@ func (o *Product) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "reference_prefix")
 		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
 		delete(additionalProperties, "product_line")
+		delete(additionalProperties, "parent_id")
+		delete(additionalProperties, "workspace_type")
 		delete(additionalProperties, "created_at")
 		delete(additionalProperties, "updated_at")
 		delete(additionalProperties, "url")
