@@ -48,6 +48,8 @@ nav:
   - Examples:
     - CLI Examples: examples/cli.md
     - SDK Examples: examples/sdk.md
+  - Development:
+    - Regenerating the Client: development/regenerating-the-client.md
 
 markdown_extensions:
   - pymdownx.highlight:
