@@ -50,6 +50,8 @@ nav:
     - SDK Examples: examples/sdk.md
   - Development:
     - Regenerating the Client: development/regenerating-the-client.md
+  - Releases:
+    - v3.4.0: releases/v3.4.0.md
 
 markdown_extensions:
   - pymdownx.highlight:
