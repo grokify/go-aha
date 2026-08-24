@@ -1,0 +1,3943 @@
+openapi: 3.0.3
+info:
+  title: Aha.io API
+  description: |
+    Go client for the Aha.io product management API.
+
+    This OpenAPI specification is used to generate the internal API client
+    via ogen. The public SDK provides ergonomic wrappers on top of the
+    generated client.
+  version: 1.0.0
+  contact:
+    name: Grokify
+    url: https://github.com/grokify/aha-go
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://{subdomain}.aha.io/api/v1
+    description: Aha.io API server
+    variables:
+      subdomain:
+        default: secure
+        description: Your Aha account subdomain
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Comments
+    description: Comment management
+  - name: Epics
+    description: Epic management
+  - name: Features
+    description: Feature management
+  - name: Goals
+    description: Goal management
+  - name: Ideas
+    description: Idea management
+  - name: Initiatives
+    description: Initiative management
+  - name: Products
+    description: Product (workspace) management
+  - name: Releases
+    description: Release management
+  - name: Requirements
+    description: Requirement management
+  - name: StrategicModels
+    description: Strategic model management (canvases)
+  - name: Users
+    description: User management
+  - name: Workflows
+    description: Workflow and status management
+
+paths:
+  /features:
+    get:
+      operationId: listFeatures
+      summary: List features
+      description: Get all features with optional filtering
+      tags:
+        - Features
+      parameters:
+        - name: q
+          in: query
+          description: Sub-string to match against feature name or ID
+          schema:
+            type: string
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only features updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: tag
+          in: query
+          description: Filter by tag value
+          schema:
+            type: string
+        - name: assigned_to_user
+          in: query
+          description: Filter by assigned user ID or email
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          description: Results per page
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of features
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeaturesResponse"
+
+  /features/{feature_id}:
+    get:
+      operationId: getFeature
+      summary: Get feature
+      description: Get a specific feature by ID or reference number
+      tags:
+        - Features
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Numeric ID or reference number (e.g., PROD-123)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Feature details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureResponse"
+        "404":
+          description: Feature not found
+
+    put:
+      operationId: updateFeature
+      summary: Update feature
+      description: Update an existing feature
+      tags:
+        - Features
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Numeric ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUpdateRequest"
+      responses:
+        "200":
+          description: Updated feature
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureResponse"
+
+  /releases/{release_id}/features:
+    get:
+      operationId: listReleaseFeatures
+      summary: List features in release
+      description: Get all features for a specific release
+      tags:
+        - Features
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of features in the release
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeaturesResponse"
+
+    post:
+      operationId: createReleaseFeature
+      summary: Create feature in release
+      description: Create a new feature in a release
+      tags:
+        - Features
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureCreateRequest"
+      responses:
+        "201":
+          description: Created feature
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureResponse"
+
+  /epics:
+    get:
+      operationId: listEpics
+      summary: List epics
+      description: Get all epics with optional filtering
+      tags:
+        - Epics
+      parameters:
+        - name: q
+          in: query
+          description: Sub-string to match against epic name
+          schema:
+            type: string
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only epics updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of epics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicsResponse"
+
+  /epics/{epic_id}:
+    get:
+      operationId: getEpic
+      summary: Get epic
+      description: Get a specific epic by ID or reference number
+      tags:
+        - Epics
+      parameters:
+        - name: epic_id
+          in: path
+          required: true
+          description: Epic ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Epic details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+        "404":
+          description: Epic not found
+
+    put:
+      operationId: updateEpic
+      summary: Update epic
+      description: Update an existing epic
+      tags:
+        - Epics
+      parameters:
+        - name: epic_id
+          in: path
+          required: true
+          description: Epic ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EpicUpdateRequest"
+      responses:
+        "200":
+          description: Updated epic
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+
+  /products/{product_id}/epics:
+    get:
+      operationId: listProductEpics
+      summary: List product epics
+      description: Get all epics for a product
+      tags:
+        - Epics
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of epics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicsResponse"
+
+  /releases/{release_id}/epics:
+    post:
+      operationId: createReleaseEpic
+      summary: Create epic in release
+      description: Create a new epic in a release
+      tags:
+        - Epics
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EpicCreateRequest"
+      responses:
+        "201":
+          description: Created epic
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpicResponse"
+
+  /ideas:
+    get:
+      operationId: listIdeas
+      summary: List ideas
+      description: Get all ideas with optional filtering
+      tags:
+        - Ideas
+      parameters:
+        - name: q
+          in: query
+          description: Search term to match against idea name
+          schema:
+            type: string
+        - name: spam
+          in: query
+          description: When true, shows ideas marked as spam
+          schema:
+            type: boolean
+        - name: workflow_status
+          in: query
+          description: Filter by workflow status ID or name
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [recent, trending, popular]
+        - name: created_before
+          in: query
+          description: UTC timestamp (ISO8601). Only ideas created before this time.
+          schema:
+            type: string
+            format: date-time
+        - name: created_since
+          in: query
+          description: UTC timestamp (ISO8601). Only ideas created after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only ideas updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: tag
+          in: query
+          description: Filter by tag value
+          schema:
+            type: string
+        - name: user_id
+          in: query
+          description: Filter by creator user ID
+          schema:
+            type: string
+        - name: idea_user_id
+          in: query
+          description: Filter by idea user ID
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: fields
+          in: query
+          description: >-
+            Comma-separated list of additional idea fields to include in each
+            list item (e.g. "votes,categories,score"). Aha's list endpoint
+            omits these by default; passing this parameter overrides Aha's
+            default field set rather than adding to it.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of ideas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeasResponse"
+
+  /ideas/{idea_id}:
+    get:
+      operationId: getIdea
+      summary: Get idea
+      description: Get a specific idea by ID
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Idea details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaResponse"
+
+    put:
+      operationId: updateIdea
+      summary: Update idea
+      description: Update an existing idea
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdeaUpdateRequest"
+      responses:
+        "200":
+          description: Updated idea
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaResponse"
+
+    delete:
+      operationId: deleteIdea
+      summary: Delete idea
+      description: Delete an idea by ID
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Idea deleted successfully
+
+  /products/{product_id}/idea_categories:
+    get:
+      operationId: listProductIdeaCategories
+      summary: List idea categories
+      description: Get all idea categories for a product
+      tags:
+        - Ideas
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of idea categories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaCategoriesResponse"
+
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: Get all products (workspaces) including Aha! Develop teams
+      tags:
+        - Products
+      parameters:
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only products updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: with_idea_portals
+          in: query
+          description: Set to true to list only products with idea portals
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductsResponse"
+
+    post:
+      operationId: createProduct
+      summary: Create product
+      description: Create a new product or product line
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreateRequest"
+      responses:
+        "200":
+          description: Created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+
+  /products/{product_id}:
+    get:
+      operationId: getProduct
+      summary: Get product
+      description: Get a specific product by ID
+      tags:
+        - Products
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+
+    put:
+      operationId: updateProduct
+      summary: Update product
+      description: Update an existing product
+      tags:
+        - Products
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateRequest"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+
+  /products/{product_id}/releases:
+    get:
+      operationId: listProductReleases
+      summary: List product releases
+      description: Get all releases for a product
+      tags:
+        - Releases
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of releases
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleasesResponse"
+
+    post:
+      operationId: createRelease
+      summary: Create release
+      description: Create a new release for a product
+      tags:
+        - Releases
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseCreateRequest"
+      responses:
+        "200":
+          description: Created release
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseResponse"
+
+  /products/{product_id}/workflows:
+    get:
+      operationId: listProductWorkflows
+      summary: List product workflows
+      description: Get all workflows and their statuses for a product
+      tags:
+        - Workflows
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of workflows with statuses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowsResponse"
+
+  /releases/{release_id}:
+    get:
+      operationId: getRelease
+      summary: Get release
+      description: Get a specific release by ID
+      tags:
+        - Releases
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Release details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseResponse"
+
+    put:
+      operationId: updateRelease
+      summary: Update release
+      description: Update an existing release
+      tags:
+        - Releases
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseUpdateRequest"
+      responses:
+        "200":
+          description: Updated release
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseResponse"
+
+  /requirements/{requirement_id}:
+    get:
+      operationId: getRequirement
+      summary: Get requirement
+      description: Get a specific requirement by ID or reference number
+      tags:
+        - Requirements
+      parameters:
+        - name: requirement_id
+          in: path
+          required: true
+          description: Requirement ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Requirement details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+        "404":
+          description: Requirement not found
+
+    put:
+      operationId: updateRequirement
+      summary: Update requirement
+      description: Update an existing requirement
+      tags:
+        - Requirements
+      parameters:
+        - name: requirement_id
+          in: path
+          required: true
+          description: Requirement ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequirementUpdateRequest"
+      responses:
+        "200":
+          description: Updated requirement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+
+    delete:
+      operationId: deleteRequirement
+      summary: Delete requirement
+      description: Delete a requirement
+      tags:
+        - Requirements
+      parameters:
+        - name: requirement_id
+          in: path
+          required: true
+          description: Requirement ID or reference number
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Requirement deleted
+
+  /features/{feature_id}/requirements:
+    get:
+      operationId: listFeatureRequirements
+      summary: List feature requirements
+      description: Get all requirements for a feature
+      tags:
+        - Requirements
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Feature ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of requirements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementsResponse"
+
+    post:
+      operationId: createFeatureRequirement
+      summary: Create requirement for feature
+      description: Create a new requirement for a feature
+      tags:
+        - Requirements
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Feature ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequirementCreateRequest"
+      responses:
+        "201":
+          description: Created requirement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequirementResponse"
+
+  /comments/{comment_id}:
+    get:
+      operationId: getComment
+      summary: Get comment
+      description: Get a specific comment by ID
+      tags:
+        - Comments
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Numeric ID of the comment
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Comment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "404":
+          description: Comment not found
+
+    put:
+      operationId: updateComment
+      summary: Update comment
+      description: Update an existing comment
+      tags:
+        - Comments
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Numeric ID of the comment
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentUpdateRequest"
+      responses:
+        "200":
+          description: Updated comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+
+    delete:
+      operationId: deleteComment
+      summary: Delete comment
+      description: Delete a comment
+      tags:
+        - Comments
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: Comment ID
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Comment deleted
+
+  /products/{product_id}/comments:
+    get:
+      operationId: listProductComments
+      summary: List comments in a product
+      description: Get all comments in a product
+      tags:
+        - Comments
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+  /features/{feature_id}/comments:
+    get:
+      operationId: listFeatureComments
+      summary: List comments on a feature
+      description: Get all comments on a feature
+      tags:
+        - Comments
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Feature ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+    post:
+      operationId: createFeatureComment
+      summary: Create comment on a feature
+      description: Create a new comment on a feature
+      tags:
+        - Comments
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Feature ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreateRequest"
+      responses:
+        "201":
+          description: Created comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+
+  /features/{feature_id}/ideas:
+    get:
+      operationId: listFeatureIdeas
+      summary: List ideas linked to a feature
+      description: Get all ideas that have been promoted to or linked with a feature
+      tags:
+        - Features
+      parameters:
+        - name: feature_id
+          in: path
+          required: true
+          description: Feature ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of ideas linked to the feature
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeasResponse"
+
+  /ideas/{idea_id}/comments:
+    get:
+      operationId: listIdeaComments
+      summary: List comments on an idea
+      description: Get all comments on an idea
+      tags:
+        - Comments
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+    post:
+      operationId: createIdeaComment
+      summary: Create internal comment on an idea
+      description: Create a new internal comment on an idea
+      tags:
+        - Comments
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreateRequest"
+      responses:
+        "201":
+          description: Created comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+
+  /ideas/{idea_id}/endorsements:
+    get:
+      operationId: listIdeaEndorsements
+      summary: List endorsements (votes) on an idea
+      description: Get all endorsements (votes) on an idea, including voter identity
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_id
+          in: path
+          required: true
+          description: Idea ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of idea endorsements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaEndorsementsResponse"
+
+  /idea_users:
+    get:
+      operationId: listIdeaUsers
+      summary: List idea users (voter identities)
+      description: Get all idea users (voter identities, account-wide, not idea-scoped)
+      tags:
+        - Ideas
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of idea users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaUsersResponse"
+
+  /idea_users/{idea_user_id}:
+    get:
+      operationId: getIdeaUser
+      summary: Get an idea user by ID
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An idea user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaUserResponse"
+
+  /idea_organizations:
+    get:
+      operationId: listIdeaOrganizations
+      summary: List idea organizations (customer/account records)
+      description: Get all idea organizations (account-wide, not idea-scoped). The list response omits email_domains/revenue/endorsements_count -- use getIdeaOrganization for those.
+      tags:
+        - Ideas
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of idea organizations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaOrganizationsResponse"
+
+  /idea_organizations/{idea_organization_id}:
+    get:
+      operationId: getIdeaOrganization
+      summary: Get an idea organization by ID
+      description: Full detail, including email_domains and revenue, not present in the list response.
+      tags:
+        - Ideas
+      parameters:
+        - name: idea_organization_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An idea organization
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaOrganizationResponse"
+
+  /releases/{release_id}/comments:
+    get:
+      operationId: listReleaseComments
+      summary: List comments on a release
+      description: Get all comments on a release
+      tags:
+        - Comments
+      parameters:
+        - name: release_id
+          in: path
+          required: true
+          description: Release ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+  /initiatives/{initiative_id}/comments:
+    get:
+      operationId: listInitiativeComments
+      summary: List comments on an initiative
+      description: Get all comments on an initiative
+      tags:
+        - Comments
+      parameters:
+        - name: initiative_id
+          in: path
+          required: true
+          description: Initiative ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+  /epics/{epic_id}/comments:
+    get:
+      operationId: listEpicComments
+      summary: List comments on an epic
+      description: Get all comments on an epic
+      tags:
+        - Comments
+      parameters:
+        - name: epic_id
+          in: path
+          required: true
+          description: Epic ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+  /goals/{goal_id}/comments:
+    get:
+      operationId: listGoalComments
+      summary: List comments on a goal
+      description: Get all comments on a goal
+      tags:
+        - Comments
+      parameters:
+        - name: goal_id
+          in: path
+          required: true
+          description: Goal ID or reference number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentsResponse"
+
+  /initiatives:
+    get:
+      operationId: listInitiatives
+      summary: List initiatives
+      description: Get all initiatives with optional filtering
+      tags:
+        - Initiatives
+      parameters:
+        - name: q
+          in: query
+          description: Sub-string to match against initiative name
+          schema:
+            type: string
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only initiatives updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of initiatives
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativesResponse"
+
+  /initiatives/{initiative_id}:
+    get:
+      operationId: getInitiative
+      summary: Get initiative
+      description: Get a specific initiative by ID or reference number
+      tags:
+        - Initiatives
+      parameters:
+        - name: initiative_id
+          in: path
+          required: true
+          description: Initiative ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Initiative details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+        "404":
+          description: Initiative not found
+
+    put:
+      operationId: updateInitiative
+      summary: Update initiative
+      description: Update an existing initiative
+      tags:
+        - Initiatives
+      parameters:
+        - name: initiative_id
+          in: path
+          required: true
+          description: Initiative ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiativeUpdateRequest"
+      responses:
+        "200":
+          description: Updated initiative
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+
+  /products/{product_id}/initiatives:
+    get:
+      operationId: listProductInitiatives
+      summary: List product initiatives
+      description: Get all initiatives for a product
+      tags:
+        - Initiatives
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of initiatives
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativesResponse"
+
+    post:
+      operationId: createProductInitiative
+      summary: Create initiative in product
+      description: Create a new initiative in a product
+      tags:
+        - Initiatives
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiativeCreateRequest"
+      responses:
+        "201":
+          description: Created initiative
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiativeResponse"
+
+  /users:
+    get:
+      operationId: listUsers
+      summary: List users
+      description: Get all users in the account
+      tags:
+        - Users
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersResponse"
+
+  /users/{user_id}:
+    get:
+      operationId: getUser
+      summary: Get user
+      description: Get a specific user by ID
+      tags:
+        - Users
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID or email
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+  /me:
+    get:
+      operationId: getCurrentUser
+      summary: Get current user
+      description: Get the currently authenticated user
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Current user details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+  /goals:
+    get:
+      operationId: listGoals
+      summary: List goals
+      description: Get all goals with optional filtering
+      tags:
+        - Goals
+      parameters:
+        - name: q
+          in: query
+          description: Sub-string to match against goal name
+          schema:
+            type: string
+        - name: updated_since
+          in: query
+          description: UTC timestamp (ISO8601). Only goals updated after this time.
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of goals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalsResponse"
+
+  /goals/{goal_id}:
+    get:
+      operationId: getGoal
+      summary: Get goal
+      description: Get a specific goal by ID or reference number
+      tags:
+        - Goals
+      parameters:
+        - name: goal_id
+          in: path
+          required: true
+          description: Goal ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Goal details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+        "404":
+          description: Goal not found
+
+    put:
+      operationId: updateGoal
+      summary: Update goal
+      description: Update an existing goal
+      tags:
+        - Goals
+      parameters:
+        - name: goal_id
+          in: path
+          required: true
+          description: Goal ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalUpdateRequest"
+      responses:
+        "200":
+          description: Updated goal
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+
+  /products/{product_id}/goals:
+    get:
+      operationId: listProductGoals
+      summary: List product goals
+      description: Get all goals for a product
+      tags:
+        - Goals
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of goals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalsResponse"
+
+    post:
+      operationId: createProductGoal
+      summary: Create goal in product
+      description: Create a new goal in a product
+      tags:
+        - Goals
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalCreateRequest"
+      responses:
+        "201":
+          description: Created goal
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalResponse"
+
+  /strategy_models:
+    get:
+      operationId: listStrategicModels
+      summary: List strategic models
+      description: Get all strategic models (canvases) with optional filtering
+      tags:
+        - StrategicModels
+      parameters:
+        - name: kind
+          in: query
+          description: Filter by model kind (e.g., "Opportunity", "Lean Canvas")
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of strategic models
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelsResponse"
+
+  /strategy_models/{strategy_model_id}:
+    get:
+      operationId: getStrategicModel
+      summary: Get strategic model
+      description: Get a specific strategic model by ID or reference number
+      tags:
+        - StrategicModels
+      parameters:
+        - name: strategy_model_id
+          in: path
+          required: true
+          description: Strategic model ID or reference number
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Strategic model details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+        "404":
+          description: Strategic model not found
+
+    put:
+      operationId: updateStrategicModel
+      summary: Update strategic model
+      description: Update an existing strategic model
+      tags:
+        - StrategicModels
+      parameters:
+        - name: strategy_model_id
+          in: path
+          required: true
+          description: Strategic model ID or reference number
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelUpdateRequest"
+      responses:
+        "200":
+          description: Updated strategic model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+
+  /products/{product_id}/strategy_models:
+    get:
+      operationId: listProductStrategicModels
+      summary: List product strategic models
+      description: Get all strategic models for a product
+      tags:
+        - StrategicModels
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+        - name: kind
+          in: query
+          description: Filter by model kind
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: A list of strategic models
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelsResponse"
+
+    post:
+      operationId: createProductStrategicModel
+      summary: Create strategic model in product
+      description: Create a new strategic model in a product
+      tags:
+        - StrategicModels
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID or reference prefix
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelCreateRequest"
+      responses:
+        "201":
+          description: Created strategic model
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelResponse"
+
+  /strategy_models/{strategy_model_id}/components/{component_id}:
+    put:
+      operationId: updateStrategicModelComponent
+      summary: Update strategic model component
+      description: Update a component (block) within a strategic model
+      tags:
+        - StrategicModels
+      parameters:
+        - name: strategy_model_id
+          in: path
+          required: true
+          description: Strategic model ID or reference number
+          schema:
+            type: string
+        - name: component_id
+          in: path
+          required: true
+          description: Component ID within the strategic model
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StrategicModelComponentUpdateRequest"
+      responses:
+        "200":
+          description: Updated component
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategicModelComponentResponse"
+
+  # Custom Field Definitions
+  /custom_field_definitions:
+    get:
+      operationId: listCustomFieldDefinitions
+      summary: List all custom field definitions
+      description: Returns all custom field definitions across all products
+      tags:
+        - CustomFields
+      responses:
+        "200":
+          description: List of custom field definitions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldDefinitionListResponse"
+
+  /products/{product_id}/custom_field_definitions:
+    get:
+      operationId: listProductCustomFieldDefinitions
+      summary: List custom field definitions for a product
+      description: Returns custom field definitions for a specific product
+      tags:
+        - CustomFields
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Product ID or reference prefix
+      responses:
+        "200":
+          description: List of custom field definitions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldDefinitionListResponse"
+
+  /custom_field_definitions/{id}/options:
+    get:
+      operationId: listCustomFieldOptions
+      summary: List options for a custom field
+      description: Returns available options for select/choice custom fields
+      tags:
+        - CustomFields
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Custom field definition ID
+      responses:
+        "200":
+          description: List of custom field options
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomFieldOptionListResponse"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Aha API key as bearer token
+
+  schemas:
+    # Pagination
+    Pagination:
+      type: object
+      properties:
+        total_records:
+          type: integer
+          format: int64
+        total_pages:
+          type: integer
+          format: int64
+        current_page:
+          type: integer
+          format: int64
+
+    # Feature schemas
+    Feature:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        product_id:
+          type: string
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        comments_count:
+          type: integer
+          format: int64
+        progress_source:
+          type: string
+        progress:
+          type: number
+          format: double
+          nullable: true
+        work_units:
+          type: integer
+          format: int64
+        use_requirements_estimates:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        release:
+          $ref: "#/components/schemas/Release"
+        assigned_to_user:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/User"
+        custom_fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/CustomField"
+        integration_fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/IntegrationField"
+
+    FeatureMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    FeatureResponse:
+      type: object
+      properties:
+        feature:
+          $ref: "#/components/schemas/Feature"
+
+    FeaturesResponse:
+      type: object
+      properties:
+        features:
+          type: array
+          items:
+            $ref: "#/components/schemas/FeatureMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    FeatureCreateRequest:
+      type: object
+      required:
+        - feature
+      properties:
+        feature:
+          $ref: "#/components/schemas/FeatureCreate"
+
+    FeatureCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Feature name
+        description:
+          type: string
+          description: Feature description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        assigned_to_user:
+          type: string
+          description: User email to assign
+        tags:
+          type: string
+          description: Comma-separated tags
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        original_estimate_text:
+          type: string
+          description: "Effort estimate (e.g., 2d, 4h, 30min, 5p)"
+        initiative:
+          type: string
+          description: Initiative ID or name
+
+    FeatureUpdateRequest:
+      type: object
+      required:
+        - feature
+      properties:
+        feature:
+          $ref: "#/components/schemas/FeatureUpdate"
+
+    FeatureUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          type: string
+        assigned_to_user:
+          type: string
+        tags:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        release:
+          type: string
+          description: Release ID to move feature to
+        original_estimate_text:
+          type: string
+        remaining_estimate_text:
+          type: string
+        initiative:
+          type: string
+        release_phase:
+          type: string
+        progress_source:
+          type: string
+        progress:
+          type: number
+          format: double
+        epic:
+          type: string
+          description: Epic ID or name
+
+    # Idea update schemas
+    IdeaUpdateRequest:
+      type: object
+      required:
+        - idea
+      properties:
+        idea:
+          $ref: "#/components/schemas/IdeaUpdate"
+
+    IdeaUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        categories:
+          type: array
+          items:
+            type: string
+          description: Category IDs or names
+        visibility:
+          type: string
+          description: Visibility (e.g., public, private)
+
+    # Comment schemas
+    Comment:
+      type: object
+      required:
+        - id
+        - body
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+          description: Comment text content
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          $ref: "#/components/schemas/User"
+        attachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attachment"
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        commentable:
+          $ref: "#/components/schemas/Commentable"
+
+    CommentMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+
+    Commentable:
+      type: object
+      description: The object that was commented on
+      properties:
+        type:
+          type: string
+          description: "Type of commentable (Feature, Idea, Release, etc.)"
+        id:
+          type: string
+        product_id:
+          type: string
+        url:
+          type: string
+        resource:
+          type: string
+
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        download_url:
+          type: string
+        file_name:
+          type: string
+        file_size:
+          type: integer
+          format: int64
+        content_type:
+          type: string
+
+    CommentResponse:
+      type: object
+      properties:
+        comment:
+          $ref: "#/components/schemas/Comment"
+
+    CommentsResponse:
+      type: object
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/CommentMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    CommentCreateRequest:
+      type: object
+      required:
+        - comment
+      properties:
+        comment:
+          $ref: "#/components/schemas/CommentCreate"
+
+    CommentCreate:
+      type: object
+      required:
+        - body
+      properties:
+        body:
+          type: string
+          description: Comment text content
+
+    CommentUpdateRequest:
+      type: object
+      required:
+        - comment
+      properties:
+        comment:
+          $ref: "#/components/schemas/CommentUpdate"
+
+    CommentUpdate:
+      type: object
+      properties:
+        body:
+          type: string
+          description: Updated comment text content
+
+    # Description can be either a string or an object with body/html_body fields
+    # The Aha API returns description as an object for Ideas but sometimes as a string
+    DescriptionObject:
+      type: object
+      properties:
+        body:
+          type: string
+          description: Plain text description
+        html_body:
+          type: string
+          description: HTML formatted description
+
+    # Idea schemas
+    Idea:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        votes:
+          type: integer
+        score:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        status_changed_at:
+          type: string
+          format: date-time
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+        feature:
+          $ref: "#/components/schemas/IdeaFeature"
+
+    IdeaFeature:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+        product_id:
+          type: string
+
+    IdeaResponse:
+      type: object
+      properties:
+        idea:
+          $ref: "#/components/schemas/Idea"
+
+    IdeasResponse:
+      type: object
+      properties:
+        ideas:
+          type: array
+          items:
+            $ref: "#/components/schemas/Idea"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    IdeaCategoriesResponse:
+      type: object
+      properties:
+        idea_categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaCategory"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    IdeaCategory:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        parent_id:
+          type: string
+          nullable: true
+        project_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    # Idea endorsement (vote) schemas. "Votes" in the Aha UI/portal are
+    # called "endorsements" in the API. Each endorsement carries two
+    # near-identical voter identity records: the portal-side account
+    # (endorsed_by_portal_user) and Aha's internal contact record
+    # (endorsed_by_idea_user) -- distinct from the User schema above, which
+    # models internal Aha seat holders (first_name/last_name/role), not
+    # portal voters.
+    IdeaEndorsementsResponse:
+      type: object
+      properties:
+        idea_endorsements:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaEndorsement"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    IdeaEndorsement:
+      type: object
+      properties:
+        id:
+          type: string
+        idea_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        value:
+          type: string
+          nullable: true
+        link:
+          type: string
+          nullable: true
+        weight:
+          type: integer
+        endorsed_by_portal_user:
+          $ref: "#/components/schemas/EndorsementPortalUser"
+        endorsed_by_idea_user:
+          $ref: "#/components/schemas/EndorsementIdeaUser"
+
+    EndorsementPortalUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+
+    EndorsementIdeaUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+        title:
+          type: string
+          nullable: true
+
+    # Idea user (voter identity) and idea organization (customer/account)
+    # schemas. Both are account-wide, bulk-listable resources, not scoped to
+    # a single idea -- like Users/Products, not like Comments/Endorsements.
+    # IdeaOrganizationRef is the light shape embedded on IdeaUser and
+    # returned by the idea_organizations list endpoint; IdeaOrganization
+    # (full detail, via the single-GET endpoint only) adds email_domains,
+    # revenue, endorsements_count, reference_num, and description.
+    IdeaOrganizationRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    IdeaUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+        idea_organizations:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaOrganizationRef"
+
+    IdeaUserResponse:
+      type: object
+      properties:
+        idea_user:
+          $ref: "#/components/schemas/IdeaUser"
+
+    IdeaUsersResponse:
+      type: object
+      properties:
+        idea_users:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaUser"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    IdeaOrganizationsResponse:
+      type: object
+      properties:
+        idea_organizations:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaOrganizationRef"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    IdeaOrganization:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference_num:
+          type: string
+        url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        endorsements_count:
+          type: integer
+        email_domains:
+          type: string
+          nullable: true
+        revenue:
+          type: number
+          format: double
+          nullable: true
+
+    IdeaOrganizationResponse:
+      type: object
+      properties:
+        idea_organization:
+          $ref: "#/components/schemas/IdeaOrganization"
+
+    # Epic schemas
+    Epic:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress:
+          type: number
+          format: float
+          nullable: true
+          description: Progress percentage (0-100)
+        progress_source:
+          type: string
+          description: Source of progress calculation
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        comments_count:
+          type: integer
+          format: int64
+        position:
+          type: integer
+          format: int64
+        color:
+          type: string
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        release:
+          $ref: "#/components/schemas/Release"
+        initiative:
+          $ref: "#/components/schemas/InitiativeMeta"
+        tags:
+          type: array
+          items:
+            type: string
+
+    EpicMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    EpicResponse:
+      type: object
+      properties:
+        epic:
+          $ref: "#/components/schemas/Epic"
+
+    EpicsResponse:
+      type: object
+      properties:
+        epics:
+          type: array
+          items:
+            $ref: "#/components/schemas/EpicMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    EpicCreateRequest:
+      type: object
+      required:
+        - epic
+      properties:
+        epic:
+          $ref: "#/components/schemas/EpicCreate"
+
+    EpicCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Epic name
+        description:
+          type: string
+          description: Epic description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        start_date:
+          type: string
+          format: date
+          nullable: true
+          description: Epic start date
+        due_date:
+          type: string
+          format: date
+          nullable: true
+          description: Epic due date
+        color:
+          type: string
+          description: Epic color
+        initiative:
+          type: string
+          description: Initiative ID or reference
+
+    EpicUpdateRequest:
+      type: object
+      required:
+        - epic
+      properties:
+        epic:
+          $ref: "#/components/schemas/EpicUpdate"
+
+    EpicUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Epic name
+        description:
+          type: string
+          description: Epic description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        progress:
+          type: number
+          format: float
+          description: Progress percentage (0-100) when progress_source is manual
+        color:
+          type: string
+        initiative:
+          type: string
+          description: Initiative ID or reference
+
+    # Goal schemas
+    Goal:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress:
+          type: number
+          format: float
+          nullable: true
+          description: Progress percentage (0-100)
+        progress_source:
+          type: string
+          description: Source of progress calculation
+        status:
+          type: string
+          description: Goal status
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        time_frame:
+          $ref: "#/components/schemas/TimeFrame"
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        custom_fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/CustomField"
+
+    GoalMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    GoalResponse:
+      type: object
+      properties:
+        goal:
+          $ref: "#/components/schemas/Goal"
+
+    GoalsResponse:
+      type: object
+      properties:
+        goals:
+          type: array
+          items:
+            $ref: "#/components/schemas/GoalMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    GoalCreateRequest:
+      type: object
+      required:
+        - goal
+      properties:
+        goal:
+          $ref: "#/components/schemas/GoalCreate"
+
+    GoalCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Goal name
+        description:
+          type: string
+          description: Goal description (HTML allowed)
+        start_date:
+          type: string
+          format: date
+          nullable: true
+          description: Goal start date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+          description: Goal end date
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+
+    GoalUpdateRequest:
+      type: object
+      required:
+        - goal
+      properties:
+        goal:
+          $ref: "#/components/schemas/GoalUpdate"
+
+    GoalUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Goal name
+        description:
+          type: string
+          description: Goal description (HTML allowed)
+        start_date:
+          type: string
+          format: date
+          nullable: true
+          description: Goal start date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+          description: Goal end date
+        progress:
+          type: number
+          format: float
+          description: Progress percentage (0-100) when progress_source is manual
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+
+    TimeFrame:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    # Product schemas
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_prefix:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+          description: Product description (HTML allowed)
+        product_line:
+          type: boolean
+        parent_id:
+          type: string
+          description: ID of the parent product line
+        workspace_type:
+          type: string
+          description: Type of workspace (product_workspace, it_workspace, marketing_workspace, etc.)
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+        has_ideas:
+          type: boolean
+        has_master_features:
+          type: boolean
+
+    ProductMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_prefix:
+          type: string
+        name:
+          type: string
+        product_line:
+          type: boolean
+        workspace_type:
+          type: string
+          description: Type of workspace
+        created_at:
+          type: string
+          format: date-time
+
+    ProductResponse:
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+
+    ProductsResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    ProductCreateRequest:
+      type: object
+      required:
+        - product
+      properties:
+        product:
+          $ref: "#/components/schemas/ProductCreate"
+
+    ProductCreate:
+      type: object
+      required:
+        - name
+        - reference_prefix
+      properties:
+        name:
+          type: string
+          description: Name of the product
+        reference_prefix:
+          type: string
+          description: Abbreviation used as prefix on all features
+        description:
+          type: string
+          description: Description of the product (HTML allowed)
+        parent_id:
+          type: string
+          description: Numeric ID or prefix of parent product line
+        workspace_type:
+          type: string
+          description: Type of workspace (product_workspace, it_workspace, marketing_workspace, etc.)
+        product_line:
+          type: boolean
+          description: Set to true to create a product line
+        product_line_type:
+          type: string
+          description: Required if creating a product line
+
+    ProductUpdateRequest:
+      type: object
+      required:
+        - product
+      properties:
+        product:
+          $ref: "#/components/schemas/ProductUpdate"
+
+    ProductUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the product
+        reference_prefix:
+          type: string
+          description: Abbreviation used as prefix on all features
+        description:
+          type: string
+          description: Description of the product (HTML allowed)
+        parent_id:
+          type: string
+          description: Numeric ID or prefix of parent product line
+        workspace_type:
+          type: string
+          description: Type of workspace
+
+    # Requirement schemas
+    Requirement:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        position:
+          type: integer
+          format: int64
+        original_estimate:
+          type: number
+          format: float
+          nullable: true
+        remaining_estimate:
+          type: number
+          format: float
+          nullable: true
+        work_done:
+          type: number
+          format: float
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        assigned_to_user:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/User"
+        feature:
+          $ref: "#/components/schemas/FeatureMeta"
+
+    RequirementMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    RequirementResponse:
+      type: object
+      properties:
+        requirement:
+          $ref: "#/components/schemas/Requirement"
+
+    RequirementsResponse:
+      type: object
+      properties:
+        requirements:
+          type: array
+          items:
+            $ref: "#/components/schemas/RequirementMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    RequirementCreateRequest:
+      type: object
+      required:
+        - requirement
+      properties:
+        requirement:
+          $ref: "#/components/schemas/RequirementCreate"
+
+    RequirementCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Requirement name
+        description:
+          type: string
+          description: Requirement description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        assigned_to_user:
+          type: string
+          description: User ID or email
+        original_estimate:
+          type: number
+          format: float
+          description: Original estimate in work units
+
+    RequirementUpdateRequest:
+      type: object
+      required:
+        - requirement
+      properties:
+        requirement:
+          $ref: "#/components/schemas/RequirementUpdate"
+
+    RequirementUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Requirement name
+        description:
+          type: string
+          description: Requirement description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        assigned_to_user:
+          type: string
+          description: User ID or email
+        original_estimate:
+          type: number
+          format: float
+        remaining_estimate:
+          type: number
+          format: float
+        work_done:
+          type: number
+          format: float
+
+    # Release schemas
+    Release:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        release_date:
+          type: string
+          format: date
+          nullable: true
+        external_release_date:
+          type: string
+          format: date
+          nullable: true
+        released:
+          type: boolean
+        parking_lot:
+          type: boolean
+        theme:
+          $ref: "#/components/schemas/DescriptionObject"
+        progress_source:
+          type: string
+        progress:
+          type: number
+          format: double
+          nullable: true
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        url:
+          type: string
+        resource:
+          type: string
+
+    ReleaseResponse:
+      type: object
+      properties:
+        release:
+          $ref: "#/components/schemas/Release"
+
+    ReleasesResponse:
+      type: object
+      properties:
+        releases:
+          type: array
+          items:
+            $ref: "#/components/schemas/Release"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    ReleaseUpdateRequest:
+      type: object
+      required:
+        - release
+      properties:
+        release:
+          $ref: "#/components/schemas/ReleaseUpdate"
+
+    ReleaseUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        release_date:
+          type: string
+          format: date
+          nullable: true
+        external_release_date:
+          type: string
+          format: date
+          nullable: true
+        development_started_on:
+          type: string
+          format: date
+        parking_lot:
+          type: boolean
+        theme:
+          type: string
+          description: Theme of the release (may include HTML formatting). Also shown as the release description in the Aha! UI.
+        progress_source:
+          type: string
+        progress:
+          type: number
+          format: double
+        workflow_status:
+          type: string
+          description: Workflow status ID or name. Transitioning to the status the product's workflow defines as "released" is how a release becomes Released.
+
+    ReleaseCreateRequest:
+      type: object
+      required:
+        - release
+      properties:
+        release:
+          $ref: "#/components/schemas/ReleaseCreate"
+
+    ReleaseCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        start_date:
+          type: string
+          format: date
+        release_date:
+          type: string
+          format: date
+        external_release_date:
+          type: string
+          format: date
+        development_started_on:
+          type: string
+          format: date
+        parking_lot:
+          type: boolean
+        theme:
+          type: string
+          description: Theme of the release (may include HTML formatting)
+
+    # Initiative schemas
+    Initiative:
+      type: object
+      required:
+        - id
+        - name
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        description:
+          $ref: '#/components/schemas/DescriptionObject'
+        color:
+          type: string
+        position:
+          type: integer
+          format: int64
+        value:
+          type: number
+          format: double
+        effort:
+          type: number
+          format: double
+        presented:
+          type: boolean
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        progress:
+          type: number
+          format: double
+          nullable: true
+        progress_source:
+          type: string
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        workflow_status:
+          $ref: "#/components/schemas/WorkflowStatus"
+        epic:
+          $ref: "#/components/schemas/EpicMeta"
+        features:
+          type: array
+          items:
+            $ref: "#/components/schemas/FeatureMeta"
+        custom_fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/CustomField"
+
+    InitiativeMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    InitiativeResponse:
+      type: object
+      properties:
+        initiative:
+          $ref: "#/components/schemas/Initiative"
+
+    InitiativesResponse:
+      type: object
+      properties:
+        initiatives:
+          type: array
+          items:
+            $ref: "#/components/schemas/InitiativeMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    InitiativeCreateRequest:
+      type: object
+      required:
+        - initiative
+      properties:
+        initiative:
+          $ref: "#/components/schemas/InitiativeCreate"
+
+    InitiativeCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Initiative name
+        description:
+          type: string
+          description: Initiative description (HTML allowed)
+        workflow_status:
+          type: string
+          description: Workflow status ID or name
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        value:
+          type: number
+          format: double
+        effort:
+          type: number
+          format: double
+        color:
+          type: string
+        presented:
+          type: boolean
+
+    InitiativeUpdateRequest:
+      type: object
+      required:
+        - initiative
+      properties:
+        initiative:
+          $ref: "#/components/schemas/InitiativeUpdate"
+
+    InitiativeUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        workflow_status:
+          type: string
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        value:
+          type: number
+          format: double
+        effort:
+          type: number
+          format: double
+        color:
+          type: string
+        presented:
+          type: boolean
+        progress_source:
+          type: string
+        progress:
+          type: number
+          format: double
+
+    # User schemas
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [product_owner, contributor, reviewer, viewer, none]
+        created_at:
+          type: string
+          format: date-time
+
+    UserResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+
+    UsersResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    # Supporting schemas
+    WorkflowStatus:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        position:
+          type: integer
+          format: int64
+        complete:
+          type: boolean
+        color:
+          type: string
+
+    Workflow:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        workflow_statuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkflowStatus"
+
+    WorkflowsResponse:
+      type: object
+      properties:
+        workflows:
+          type: array
+          items:
+            $ref: "#/components/schemas/Workflow"
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        parent_id:
+          type: string
+          nullable: true
+        project_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CustomField:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        value: {}
+        type:
+          type: string
+
+    CustomFieldDefinition:
+      type: object
+      required:
+        - id
+        - name
+        - key
+        - type
+        - custom_fieldable_type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: Display name of the field
+        key:
+          type: string
+          description: Internal reference key
+        type:
+          type: string
+          description: Field type (e.g., CustomFieldDefinitions::SelectConstant)
+        custom_fieldable_type:
+          type: string
+          description: Record type the field applies to (Feature, Initiative, etc.)
+        internal_name:
+          type: string
+          nullable: true
+          description: Internal system name
+        position:
+          type: integer
+          description: Display order position
+        api_type:
+          type: string
+          description: API type for the field
+        allows_other_option:
+          type: boolean
+          description: Whether "Other" option is allowed for select fields
+
+    CustomFieldDefinitionListResponse:
+      type: object
+      properties:
+        custom_field_definitions:
+          type: array
+          items:
+            $ref: "#/components/schemas/CustomFieldDefinition"
+
+    CustomFieldOption:
+      type: object
+      properties:
+        id:
+          type: string
+        value:
+          type: string
+        position:
+          type: integer
+        color:
+          type: string
+          nullable: true
+
+    CustomFieldOptionListResponse:
+      type: object
+      properties:
+        custom_field_options:
+          type: array
+          items:
+            $ref: "#/components/schemas/CustomFieldOption"
+
+    IntegrationField:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+        integration_id:
+          type: string
+        service_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    # Strategic Model schemas
+    StrategicModel:
+      type: object
+      required:
+        - id
+        - name
+        - kind
+        - reference_num
+        - created_at
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        kind:
+          type: string
+          description: "Type of canvas (e.g., Opportunity, Lean Canvas, Business Model)"
+        description:
+          $ref: "#/components/schemas/DescriptionObject"
+        url:
+          type: string
+          description: Web UI URL
+        resource:
+          type: string
+          description: API URL
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        project:
+          $ref: "#/components/schemas/ProductMeta"
+        components:
+          type: array
+          items:
+            $ref: "#/components/schemas/StrategicModelComponent"
+
+    StrategicModelMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        reference_num:
+          type: string
+        name:
+          type: string
+        kind:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url:
+          type: string
+        resource:
+          type: string
+
+    StrategicModelComponent:
+      type: object
+      description: A component (block) within a strategic model
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: "Block name (e.g., Users & Customers, Problems, Solutions)"
+        description:
+          type: string
+          description: Content of the block (HTML allowed)
+        position:
+          type: integer
+          format: int64
+          description: Display order position
+
+    StrategicModelResponse:
+      type: object
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModel"
+
+    StrategicModelsResponse:
+      type: object
+      properties:
+        strategy_models:
+          type: array
+          items:
+            $ref: "#/components/schemas/StrategicModelMeta"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    StrategicModelCreateRequest:
+      type: object
+      required:
+        - strategy_model
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModelCreate"
+
+    StrategicModelCreate:
+      type: object
+      required:
+        - name
+        - kind
+      properties:
+        name:
+          type: string
+          description: Strategic model name
+        kind:
+          type: string
+          description: "Type of canvas (e.g., Opportunity, Lean Canvas)"
+        description:
+          type: string
+          description: Strategic model description
+
+    StrategicModelUpdateRequest:
+      type: object
+      required:
+        - strategy_model
+      properties:
+        strategy_model:
+          $ref: "#/components/schemas/StrategicModelUpdate"
+
+    StrategicModelUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    StrategicModelComponentUpdateRequest:
+      type: object
+      required:
+        - component
+      properties:
+        component:
+          $ref: "#/components/schemas/StrategicModelComponentUpdate"
+
+    StrategicModelComponentUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Content of the block (HTML allowed)
+
+    StrategicModelComponentResponse:
+      type: object
+      properties:
+        component:
+          $ref: "#/components/schemas/StrategicModelComponent"
