@@ -144,7 +144,7 @@ Key fields in the `aha.Idea` struct:
 | `Id` | `string` | Unique identifier |
 | `ReferenceNum` | `string` | Human-readable reference (e.g., IDEA-123) |
 | `Name` | `string` | Idea title |
-| `WorkflowStatus` | `*FeatureWorkflowStatus` | Current status |
+| `WorkflowStatus` | `*WorkflowStatus` | Current status |
 | `Votes` | `*int32` | Vote count |
 | `Categories` | `[]Category` | Assigned categories |
 | `Feature` | `*IdeaFeature` | Promoted feature (if any) |

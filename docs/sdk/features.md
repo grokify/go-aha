@@ -6,7 +6,7 @@
 
 ```go
 ctx := context.Background()
-features, _, err := apiClient.FeaturesAPI.GetFeatures(ctx).Execute()
+features, _, err := apiClient.FeaturesAPI.ListFeatures(ctx).Execute()
 if err != nil {
     return err
 }
@@ -19,7 +19,7 @@ for _, feature := range features.Features {
 ### With Filters
 
 ```go
-features, _, err := apiClient.FeaturesAPI.GetFeatures(ctx).
+features, _, err := apiClient.FeaturesAPI.ListFeatures(ctx).
     Q("payment").                    // Search query
     Tag("Q1-2024").                  // Tag filter
     AssignedToUser("user@email.com"). // Assignee filter
@@ -77,7 +77,7 @@ Key fields in the `aha.Feature` struct:
 | `Id` | `string` | Unique identifier |
 | `ReferenceNum` | `string` | Human-readable reference (e.g., FEAT-123) |
 | `Name` | `string` | Feature title |
-| `WorkflowStatus` | `*FeatureWorkflowStatus` | Current status |
+| `WorkflowStatus` | `*WorkflowStatus` | Current status |
 | `Release` | `*Release` | Assigned release |
 | `StartDate` | `*string` | Start date (YYYY-MM-DD) |
 | `DueDate` | `*string` | Due date (YYYY-MM-DD) |
@@ -109,10 +109,8 @@ if jiraKey != "" {
 
 ```go
 for _, field := range feature.IntegrationFields {
-    if field.ServiceName != nil && *field.ServiceName == "Jira" {
-        if field.Name != nil && *field.Name == "key" {
-            fmt.Printf("Jira Key: %s\n", field.GetValue())
-        }
+    if field.GetServiceName() == "Jira" && field.GetName() == "key" {
+        fmt.Printf("Jira Key: %s\n", field.GetValue())
     }
 }
 ```
@@ -123,6 +121,6 @@ Get features for a specific release:
 
 ```go
 features, _, err := apiClient.FeaturesAPI.
-    GetReleaseFeatures(ctx, "release-id").
+    ListReleaseFeatures(ctx, "release-id").
     Execute()
 ```
