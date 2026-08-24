@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -22,7 +22,226 @@ import (
 // ReleasesAPIService ReleasesAPI service
 type ReleasesAPIService service
 
-type ApiGetProductReleasesRequest struct {
+type ApiCreateReleaseRequest struct {
+	ctx                  context.Context
+	ApiService           *ReleasesAPIService
+	productId            string
+	releaseCreateRequest *ReleaseCreateRequest
+}
+
+func (r ApiCreateReleaseRequest) ReleaseCreateRequest(releaseCreateRequest ReleaseCreateRequest) ApiCreateReleaseRequest {
+	r.releaseCreateRequest = &releaseCreateRequest
+	return r
+}
+
+func (r ApiCreateReleaseRequest) Execute() (*ReleaseResponse, *http.Response, error) {
+	return r.ApiService.CreateReleaseExecute(r)
+}
+
+/*
+CreateRelease Create release
+
+Create a new release for a product
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Product ID or reference prefix
+	@return ApiCreateReleaseRequest
+*/
+func (a *ReleasesAPIService) CreateRelease(ctx context.Context, productId string) ApiCreateReleaseRequest {
+	return ApiCreateReleaseRequest{
+		ApiService: a,
+		ctx:        ctx,
+		productId:  productId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return ReleaseResponse
+func (a *ReleasesAPIService) CreateReleaseExecute(r ApiCreateReleaseRequest) (*ReleaseResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleaseResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.CreateRelease")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/products/{product_id}/releases"
+	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", url.PathEscape(parameterValueToString(r.productId, "productId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.releaseCreateRequest == nil {
+		return localVarReturnValue, nil, reportError("releaseCreateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.releaseCreateRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetReleaseRequest struct {
+	ctx        context.Context
+	ApiService *ReleasesAPIService
+	releaseId  string
+}
+
+func (r ApiGetReleaseRequest) Execute() (*ReleaseResponse, *http.Response, error) {
+	return r.ApiService.GetReleaseExecute(r)
+}
+
+/*
+GetRelease Get release
+
+Get a specific release by ID
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseId Release ID or reference number
+	@return ApiGetReleaseRequest
+*/
+func (a *ReleasesAPIService) GetRelease(ctx context.Context, releaseId string) ApiGetReleaseRequest {
+	return ApiGetReleaseRequest{
+		ApiService: a,
+		ctx:        ctx,
+		releaseId:  releaseId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return ReleaseResponse
+func (a *ReleasesAPIService) GetReleaseExecute(r ApiGetReleaseRequest) (*ReleaseResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleaseResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.GetRelease")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/releases/{release_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", url.PathEscape(parameterValueToString(r.releaseId, "releaseId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListProductReleasesRequest struct {
 	ctx        context.Context
 	ApiService *ReleasesAPIService
 	productId  string
@@ -30,33 +249,31 @@ type ApiGetProductReleasesRequest struct {
 	perPage    *int32
 }
 
-// A specific page of results.
-func (r ApiGetProductReleasesRequest) Page(page int32) ApiGetProductReleasesRequest {
+func (r ApiListProductReleasesRequest) Page(page int32) ApiListProductReleasesRequest {
 	r.page = &page
 	return r
 }
 
-// Number of results per page.
-func (r ApiGetProductReleasesRequest) PerPage(perPage int32) ApiGetProductReleasesRequest {
+func (r ApiListProductReleasesRequest) PerPage(perPage int32) ApiListProductReleasesRequest {
 	r.perPage = &perPage
 	return r
 }
 
-func (r ApiGetProductReleasesRequest) Execute() (*ReleasesResponse, *http.Response, error) {
-	return r.ApiService.GetProductReleasesExecute(r)
+func (r ApiListProductReleasesRequest) Execute() (*ReleasesResponse, *http.Response, error) {
+	return r.ApiService.ListProductReleasesExecute(r)
 }
 
 /*
-GetProductReleases Get product releases
+ListProductReleases List product releases
 
-Get releases for a product release
+Get all releases for a product
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param productId Numeric ID, or key of the product to retrieve releases for.
-	@return ApiGetProductReleasesRequest
+	@param productId Product ID or reference prefix
+	@return ApiListProductReleasesRequest
 */
-func (a *ReleasesAPIService) GetProductReleases(ctx context.Context, productId string) ApiGetProductReleasesRequest {
-	return ApiGetProductReleasesRequest{
+func (a *ReleasesAPIService) ListProductReleases(ctx context.Context, productId string) ApiListProductReleasesRequest {
+	return ApiListProductReleasesRequest{
 		ApiService: a,
 		ctx:        ctx,
 		productId:  productId,
@@ -66,7 +283,7 @@ func (a *ReleasesAPIService) GetProductReleases(ctx context.Context, productId s
 // Execute executes the request
 //
 //	@return ReleasesResponse
-func (a *ReleasesAPIService) GetProductReleasesExecute(r ApiGetProductReleasesRequest) (*ReleasesResponse, *http.Response, error) {
+func (a *ReleasesAPIService) ListProductReleasesExecute(r ApiListProductReleasesRequest) (*ReleasesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -74,7 +291,7 @@ func (a *ReleasesAPIService) GetProductReleasesExecute(r ApiGetProductReleasesRe
 		localVarReturnValue *ReleasesResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.GetProductReleases")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.ListProductReleases")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -146,27 +363,33 @@ func (a *ReleasesAPIService) GetProductReleasesExecute(r ApiGetProductReleasesRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetReleaseRequest struct {
-	ctx        context.Context
-	ApiService *ReleasesAPIService
-	releaseId  string
+type ApiUpdateReleaseRequest struct {
+	ctx                  context.Context
+	ApiService           *ReleasesAPIService
+	releaseId            string
+	releaseUpdateRequest *ReleaseUpdateRequest
 }
 
-func (r ApiGetReleaseRequest) Execute() (*ReleaseWrap, *http.Response, error) {
-	return r.ApiService.GetReleaseExecute(r)
+func (r ApiUpdateReleaseRequest) ReleaseUpdateRequest(releaseUpdateRequest ReleaseUpdateRequest) ApiUpdateReleaseRequest {
+	r.releaseUpdateRequest = &releaseUpdateRequest
+	return r
+}
+
+func (r ApiUpdateReleaseRequest) Execute() (*ReleaseResponse, *http.Response, error) {
+	return r.ApiService.UpdateReleaseExecute(r)
 }
 
 /*
-GetRelease Get release
+UpdateRelease Update release
 
-Get a specific release
+Update an existing release
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param releaseId Numeric ID, or key of the release to be retrieved
-	@return ApiGetReleaseRequest
+	@param releaseId Release ID or reference number
+	@return ApiUpdateReleaseRequest
 */
-func (a *ReleasesAPIService) GetRelease(ctx context.Context, releaseId string) ApiGetReleaseRequest {
-	return ApiGetReleaseRequest{
+func (a *ReleasesAPIService) UpdateRelease(ctx context.Context, releaseId string) ApiUpdateReleaseRequest {
+	return ApiUpdateReleaseRequest{
 		ApiService: a,
 		ctx:        ctx,
 		releaseId:  releaseId,
@@ -175,16 +398,16 @@ func (a *ReleasesAPIService) GetRelease(ctx context.Context, releaseId string) A
 
 // Execute executes the request
 //
-//	@return ReleaseWrap
-func (a *ReleasesAPIService) GetReleaseExecute(r ApiGetReleaseRequest) (*ReleaseWrap, *http.Response, error) {
+//	@return ReleaseResponse
+func (a *ReleasesAPIService) UpdateReleaseExecute(r ApiUpdateReleaseRequest) (*ReleaseResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
+		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *ReleaseWrap
+		localVarReturnValue *ReleaseResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.GetRelease")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.UpdateRelease")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -195,123 +418,8 @@ func (a *ReleasesAPIService) GetReleaseExecute(r ApiGetReleaseRequest) (*Release
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateProductReleaseRequest struct {
-	ctx               context.Context
-	ApiService        *ReleasesAPIService
-	productId         string
-	releaseId         string
-	releaseUpdateWrap *ReleaseUpdateWrap
-}
-
-// Release properties to update
-func (r ApiUpdateProductReleaseRequest) ReleaseUpdateWrap(releaseUpdateWrap ReleaseUpdateWrap) ApiUpdateProductReleaseRequest {
-	r.releaseUpdateWrap = &releaseUpdateWrap
-	return r
-}
-
-func (r ApiUpdateProductReleaseRequest) Execute() (*ReleaseWrap, *http.Response, error) {
-	return r.ApiService.UpdateProductReleaseExecute(r)
-}
-
-/*
-UpdateProductRelease Update product release
-
-Update a release
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param productId Numeric ID, or key of the product to create the release in
-	@param releaseId Numeric ID, or key of the release to be updated
-	@return ApiUpdateProductReleaseRequest
-*/
-func (a *ReleasesAPIService) UpdateProductRelease(ctx context.Context, productId string, releaseId string) ApiUpdateProductReleaseRequest {
-	return ApiUpdateProductReleaseRequest{
-		ApiService: a,
-		ctx:        ctx,
-		productId:  productId,
-		releaseId:  releaseId,
-	}
-}
-
-// Execute executes the request
-//
-//	@return ReleaseWrap
-func (a *ReleasesAPIService) UpdateProductReleaseExecute(r ApiUpdateProductReleaseRequest) (*ReleaseWrap, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodPut
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *ReleaseWrap
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReleasesAPIService.UpdateProductRelease")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/products/{product_id}/releases/{release_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", url.PathEscape(parameterValueToString(r.productId, "productId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"release_id"+"}", url.PathEscape(parameterValueToString(r.releaseId, "releaseId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.releaseUpdateWrap == nil {
-		return localVarReturnValue, nil, reportError("releaseUpdateWrap is required and must be specified")
+	if r.releaseUpdateRequest == nil {
+		return localVarReturnValue, nil, reportError("releaseUpdateRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -332,7 +440,7 @@ func (a *ReleasesAPIService) UpdateProductReleaseExecute(r ApiUpdateProductRelea
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.releaseUpdateWrap
+	localVarPostBody = r.releaseUpdateRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

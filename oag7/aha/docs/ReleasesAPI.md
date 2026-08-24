@@ -4,17 +4,18 @@ All URIs are relative to *https://secure.aha.io/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetProductReleases**](ReleasesAPI.md#GetProductReleases) | **Get** /products/{product_id}/releases | Get product releases
+[**CreateRelease**](ReleasesAPI.md#CreateRelease) | **Post** /products/{product_id}/releases | Create release
 [**GetRelease**](ReleasesAPI.md#GetRelease) | **Get** /releases/{release_id} | Get release
-[**UpdateProductRelease**](ReleasesAPI.md#UpdateProductRelease) | **Put** /products/{product_id}/releases/{release_id} | Update product release
+[**ListProductReleases**](ReleasesAPI.md#ListProductReleases) | **Get** /products/{product_id}/releases | List product releases
+[**UpdateRelease**](ReleasesAPI.md#UpdateRelease) | **Put** /releases/{release_id} | Update release
 
 
 
-## GetProductReleases
+## CreateRelease
 
-> ReleasesResponse GetProductReleases(ctx, productId).Page(page).PerPage(perPage).Execute()
+> ReleaseResponse CreateRelease(ctx, productId).ReleaseCreateRequest(releaseCreateRequest).Execute()
 
-Get product releases
+Create release
 
 
 
@@ -27,23 +28,22 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/grokify/go-aha/v3/oag7/aha"
 )
 
 func main() {
-	productId := "productId_example" // string | Numeric ID, or key of the product to retrieve releases for.
-	page := int32(56) // int32 | A specific page of results. (optional)
-	perPage := int32(56) // int32 | Number of results per page. (optional)
+	productId := "productId_example" // string | Product ID or reference prefix
+	releaseCreateRequest := *openapiclient.NewReleaseCreateRequest(*openapiclient.NewReleaseCreate("Name_example")) // ReleaseCreateRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReleasesAPI.GetProductReleases(context.Background(), productId).Page(page).PerPage(perPage).Execute()
+	resp, r, err := apiClient.ReleasesAPI.CreateRelease(context.Background(), productId).ReleaseCreateRequest(releaseCreateRequest).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.GetProductReleases``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.CreateRelease``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetProductReleases`: ReleasesResponse
-	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.GetProductReleases`: %v\n", resp)
+	// response from `CreateRelease`: ReleaseResponse
+	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.CreateRelease`: %v\n", resp)
 }
 ```
 
@@ -53,30 +53,29 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**productId** | **string** | Numeric ID, or key of the product to retrieve releases for. | 
+**productId** | **string** | Product ID or reference prefix | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetProductReleasesRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCreateReleaseRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **page** | **int32** | A specific page of results. | 
- **perPage** | **int32** | Number of results per page. | 
+ **releaseCreateRequest** | [**ReleaseCreateRequest**](ReleaseCreateRequest.md) |  | 
 
 ### Return type
 
-[**ReleasesResponse**](ReleasesResponse.md)
+[**ReleaseResponse**](ReleaseResponse.md)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -86,7 +85,7 @@ No authorization required
 
 ## GetRelease
 
-> ReleaseWrap GetRelease(ctx, releaseId).Execute()
+> ReleaseResponse GetRelease(ctx, releaseId).Execute()
 
 Get release
 
@@ -101,11 +100,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/grokify/go-aha/v3/oag7/aha"
 )
 
 func main() {
-	releaseId := "releaseId_example" // string | Numeric ID, or key of the release to be retrieved
+	releaseId := "releaseId_example" // string | Release ID or reference number
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -114,7 +113,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.GetRelease``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRelease`: ReleaseWrap
+	// response from `GetRelease`: ReleaseResponse
 	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.GetRelease`: %v\n", resp)
 }
 ```
@@ -125,7 +124,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**releaseId** | **string** | Numeric ID, or key of the release to be retrieved | 
+**releaseId** | **string** | Release ID or reference number | 
 
 ### Other Parameters
 
@@ -138,11 +137,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ReleaseWrap**](ReleaseWrap.md)
+[**ReleaseResponse**](ReleaseResponse.md)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -154,11 +153,11 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## UpdateProductRelease
+## ListProductReleases
 
-> ReleaseWrap UpdateProductRelease(ctx, productId, releaseId).ReleaseUpdateWrap(releaseUpdateWrap).Execute()
+> ReleasesResponse ListProductReleases(ctx, productId).Page(page).PerPage(perPage).Execute()
 
-Update product release
+List product releases
 
 
 
@@ -171,23 +170,23 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/grokify/go-aha/v3/oag7/aha"
 )
 
 func main() {
-	productId := "productId_example" // string | Numeric ID, or key of the product to create the release in
-	releaseId := "releaseId_example" // string | Numeric ID, or key of the release to be updated
-	releaseUpdateWrap := *openapiclient.NewReleaseUpdateWrap() // ReleaseUpdateWrap | Release properties to update
+	productId := "productId_example" // string | Product ID or reference prefix
+	page := int32(56) // int32 |  (optional)
+	perPage := int32(56) // int32 |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReleasesAPI.UpdateProductRelease(context.Background(), productId, releaseId).ReleaseUpdateWrap(releaseUpdateWrap).Execute()
+	resp, r, err := apiClient.ReleasesAPI.ListProductReleases(context.Background(), productId).Page(page).PerPage(perPage).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.UpdateProductRelease``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.ListProductReleases``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateProductRelease`: ReleaseWrap
-	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.UpdateProductRelease`: %v\n", resp)
+	// response from `ListProductReleases`: ReleasesResponse
+	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.ListProductReleases`: %v\n", resp)
 }
 ```
 
@@ -197,27 +196,98 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**productId** | **string** | Numeric ID, or key of the product to create the release in | 
-**releaseId** | **string** | Numeric ID, or key of the release to be updated | 
+**productId** | **string** | Product ID or reference prefix | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUpdateProductReleaseRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiListProductReleasesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
-
- **releaseUpdateWrap** | [**ReleaseUpdateWrap**](ReleaseUpdateWrap.md) | Release properties to update | 
+ **page** | **int32** |  | 
+ **perPage** | **int32** |  | 
 
 ### Return type
 
-[**ReleaseWrap**](ReleaseWrap.md)
+[**ReleasesResponse**](ReleasesResponse.md)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateRelease
+
+> ReleaseResponse UpdateRelease(ctx, releaseId).ReleaseUpdateRequest(releaseUpdateRequest).Execute()
+
+Update release
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/grokify/go-aha/v3/oag7/aha"
+)
+
+func main() {
+	releaseId := "releaseId_example" // string | Release ID or reference number
+	releaseUpdateRequest := *openapiclient.NewReleaseUpdateRequest(*openapiclient.NewReleaseUpdate()) // ReleaseUpdateRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ReleasesAPI.UpdateRelease(context.Background(), releaseId).ReleaseUpdateRequest(releaseUpdateRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ReleasesAPI.UpdateRelease``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateRelease`: ReleaseResponse
+	fmt.Fprintf(os.Stdout, "Response from `ReleasesAPI.UpdateRelease`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**releaseId** | **string** | Release ID or reference number | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateReleaseRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **releaseUpdateRequest** | [**ReleaseUpdateRequest**](ReleaseUpdateRequest.md) |  | 
+
+### Return type
+
+[**ReleaseResponse**](ReleaseResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

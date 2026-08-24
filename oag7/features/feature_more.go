@@ -16,8 +16,8 @@ type Feature aha.Feature
 
 func (f Feature) JiraKey() string {
 	for _, intf := range f.IntegrationFields {
-		if intf.ServiceName == IntegrationServiceNameJira && intf.Name == IntegrationServiceNameJiraKey {
-			return strings.TrimSpace(intf.Value)
+		if intf.GetServiceName() == IntegrationServiceNameJira && intf.GetName() == IntegrationServiceNameJiraKey {
+			return strings.TrimSpace(intf.GetValue())
 		}
 	}
 	return ""
@@ -25,8 +25,8 @@ func (f Feature) JiraKey() string {
 
 func (f Feature) JiraURL() string {
 	for _, intf := range f.IntegrationFields {
-		if intf.ServiceName == IntegrationServiceNameJira && intf.Name == IntegrationServiceNameJiraURL {
-			return strings.TrimSpace(intf.Value)
+		if intf.GetServiceName() == IntegrationServiceNameJira && intf.GetName() == IntegrationServiceNameJiraURL {
+			return strings.TrimSpace(intf.GetValue())
 		}
 	}
 	return ""

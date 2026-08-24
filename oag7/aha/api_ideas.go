@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -23,6 +23,98 @@ import (
 // IdeasAPIService IdeasAPI service
 type IdeasAPIService service
 
+type ApiDeleteIdeaRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	ideaId     string
+}
+
+func (r ApiDeleteIdeaRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteIdeaExecute(r)
+}
+
+/*
+DeleteIdea Delete idea
+
+Delete an idea by ID
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaId Idea ID or reference number
+	@return ApiDeleteIdeaRequest
+*/
+func (a *IdeasAPIService) DeleteIdea(ctx context.Context, ideaId string) ApiDeleteIdeaRequest {
+	return ApiDeleteIdeaRequest{
+		ApiService: a,
+		ctx:        ctx,
+		ideaId:     ideaId,
+	}
+}
+
+// Execute executes the request
+func (a *IdeasAPIService) DeleteIdeaExecute(r ApiDeleteIdeaRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.DeleteIdea")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ideas/{idea_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"idea_id"+"}", url.PathEscape(parameterValueToString(r.ideaId, "ideaId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiGetIdeaRequest struct {
 	ctx        context.Context
 	ApiService *IdeasAPIService
@@ -34,10 +126,12 @@ func (r ApiGetIdeaRequest) Execute() (*IdeaResponse, *http.Response, error) {
 }
 
 /*
-GetIdea Get Idea
+GetIdea Get idea
+
+Get a specific idea by ID
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param ideaId
+	@param ideaId Idea ID or reference number
 	@return ApiGetIdeaRequest
 */
 func (a *IdeasAPIService) GetIdea(ctx context.Context, ideaId string) ApiGetIdeaRequest {
@@ -125,6 +219,570 @@ func (a *IdeasAPIService) GetIdeaExecute(r ApiGetIdeaRequest) (*IdeaResponse, *h
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetIdeaOrganizationRequest struct {
+	ctx                context.Context
+	ApiService         *IdeasAPIService
+	ideaOrganizationId string
+}
+
+func (r ApiGetIdeaOrganizationRequest) Execute() (*IdeaOrganizationResponse, *http.Response, error) {
+	return r.ApiService.GetIdeaOrganizationExecute(r)
+}
+
+/*
+GetIdeaOrganization Get an idea organization by ID
+
+Full detail, including email_domains and revenue, not present in the list response.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaOrganizationId
+	@return ApiGetIdeaOrganizationRequest
+*/
+func (a *IdeasAPIService) GetIdeaOrganization(ctx context.Context, ideaOrganizationId string) ApiGetIdeaOrganizationRequest {
+	return ApiGetIdeaOrganizationRequest{
+		ApiService:         a,
+		ctx:                ctx,
+		ideaOrganizationId: ideaOrganizationId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaOrganizationResponse
+func (a *IdeasAPIService) GetIdeaOrganizationExecute(r ApiGetIdeaOrganizationRequest) (*IdeaOrganizationResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaOrganizationResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.GetIdeaOrganization")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/idea_organizations/{idea_organization_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"idea_organization_id"+"}", url.PathEscape(parameterValueToString(r.ideaOrganizationId, "ideaOrganizationId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetIdeaUserRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	ideaUserId string
+}
+
+func (r ApiGetIdeaUserRequest) Execute() (*IdeaUserResponse, *http.Response, error) {
+	return r.ApiService.GetIdeaUserExecute(r)
+}
+
+/*
+GetIdeaUser Get an idea user by ID
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaUserId
+	@return ApiGetIdeaUserRequest
+*/
+func (a *IdeasAPIService) GetIdeaUser(ctx context.Context, ideaUserId string) ApiGetIdeaUserRequest {
+	return ApiGetIdeaUserRequest{
+		ApiService: a,
+		ctx:        ctx,
+		ideaUserId: ideaUserId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaUserResponse
+func (a *IdeasAPIService) GetIdeaUserExecute(r ApiGetIdeaUserRequest) (*IdeaUserResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaUserResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.GetIdeaUser")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/idea_users/{idea_user_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"idea_user_id"+"}", url.PathEscape(parameterValueToString(r.ideaUserId, "ideaUserId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListIdeaEndorsementsRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	ideaId     string
+	page       *int32
+	perPage    *int32
+}
+
+func (r ApiListIdeaEndorsementsRequest) Page(page int32) ApiListIdeaEndorsementsRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiListIdeaEndorsementsRequest) PerPage(perPage int32) ApiListIdeaEndorsementsRequest {
+	r.perPage = &perPage
+	return r
+}
+
+func (r ApiListIdeaEndorsementsRequest) Execute() (*IdeaEndorsementsResponse, *http.Response, error) {
+	return r.ApiService.ListIdeaEndorsementsExecute(r)
+}
+
+/*
+ListIdeaEndorsements List endorsements (votes) on an idea
+
+Get all endorsements (votes) on an idea, including voter identity
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaId Idea ID or reference number
+	@return ApiListIdeaEndorsementsRequest
+*/
+func (a *IdeasAPIService) ListIdeaEndorsements(ctx context.Context, ideaId string) ApiListIdeaEndorsementsRequest {
+	return ApiListIdeaEndorsementsRequest{
+		ApiService: a,
+		ctx:        ctx,
+		ideaId:     ideaId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaEndorsementsResponse
+func (a *IdeasAPIService) ListIdeaEndorsementsExecute(r ApiListIdeaEndorsementsRequest) (*IdeaEndorsementsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaEndorsementsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.ListIdeaEndorsements")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ideas/{idea_id}/endorsements"
+	localVarPath = strings.Replace(localVarPath, "{"+"idea_id"+"}", url.PathEscape(parameterValueToString(r.ideaId, "ideaId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListIdeaOrganizationsRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	page       *int32
+	perPage    *int32
+}
+
+func (r ApiListIdeaOrganizationsRequest) Page(page int32) ApiListIdeaOrganizationsRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiListIdeaOrganizationsRequest) PerPage(perPage int32) ApiListIdeaOrganizationsRequest {
+	r.perPage = &perPage
+	return r
+}
+
+func (r ApiListIdeaOrganizationsRequest) Execute() (*IdeaOrganizationsResponse, *http.Response, error) {
+	return r.ApiService.ListIdeaOrganizationsExecute(r)
+}
+
+/*
+ListIdeaOrganizations List idea organizations (customer/account records)
+
+Get all idea organizations (account-wide, not idea-scoped). The list response omits email_domains/revenue/endorsements_count -- use getIdeaOrganization for those.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListIdeaOrganizationsRequest
+*/
+func (a *IdeasAPIService) ListIdeaOrganizations(ctx context.Context) ApiListIdeaOrganizationsRequest {
+	return ApiListIdeaOrganizationsRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaOrganizationsResponse
+func (a *IdeasAPIService) ListIdeaOrganizationsExecute(r ApiListIdeaOrganizationsRequest) (*IdeaOrganizationsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaOrganizationsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.ListIdeaOrganizations")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/idea_organizations"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListIdeaUsersRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	page       *int32
+	perPage    *int32
+}
+
+func (r ApiListIdeaUsersRequest) Page(page int32) ApiListIdeaUsersRequest {
+	r.page = &page
+	return r
+}
+
+func (r ApiListIdeaUsersRequest) PerPage(perPage int32) ApiListIdeaUsersRequest {
+	r.perPage = &perPage
+	return r
+}
+
+func (r ApiListIdeaUsersRequest) Execute() (*IdeaUsersResponse, *http.Response, error) {
+	return r.ApiService.ListIdeaUsersExecute(r)
+}
+
+/*
+ListIdeaUsers List idea users (voter identities)
+
+Get all idea users (voter identities, account-wide, not idea-scoped)
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListIdeaUsersRequest
+*/
+func (a *IdeasAPIService) ListIdeaUsers(ctx context.Context) ApiListIdeaUsersRequest {
+	return ApiListIdeaUsersRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaUsersResponse
+func (a *IdeasAPIService) ListIdeaUsersExecute(r ApiListIdeaUsersRequest) (*IdeaUsersResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaUsersResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.ListIdeaUsers")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/idea_users"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiListIdeasRequest struct {
 	ctx            context.Context
 	ApiService     *IdeasAPIService
@@ -140,77 +798,82 @@ type ApiListIdeasRequest struct {
 	ideaUserId     *string
 	page           *int32
 	perPage        *int32
+	fields         *string
 }
 
-// Search term to match against the idea name
+// Search term to match against idea name
 func (r ApiListIdeasRequest) Q(q string) ApiListIdeasRequest {
 	r.q = &q
 	return r
 }
 
-// When true, shows ideas that have been marked as spam. By default, no spam ideas will be shown.
+// When true, shows ideas marked as spam
 func (r ApiListIdeasRequest) Spam(spam bool) ApiListIdeasRequest {
 	r.spam = &spam
 	return r
 }
 
-// When present, filters to ideas with the provided workflow status ID or name.
+// Filter by workflow status ID or name
 func (r ApiListIdeasRequest) WorkflowStatus(workflowStatus string) ApiListIdeasRequest {
 	r.workflowStatus = &workflowStatus
 	return r
 }
 
-// Sorting of the list of ideas. Accepted values are recent, trending, or popular.
+// Sort order
 func (r ApiListIdeasRequest) Sort(sort string) ApiListIdeasRequest {
 	r.sort = &sort
 	return r
 }
 
-// UTC timestamp (in ISO8601 format). If provided, only ideas created before the timestamp will be returned.
+// UTC timestamp (ISO8601). Only ideas created before this time.
 func (r ApiListIdeasRequest) CreatedBefore(createdBefore time.Time) ApiListIdeasRequest {
 	r.createdBefore = &createdBefore
 	return r
 }
 
-// UTC timestamp (in ISO8601 format). If provided, only ideas created after the timestamp will be returned.
+// UTC timestamp (ISO8601). Only ideas created after this time.
 func (r ApiListIdeasRequest) CreatedSince(createdSince time.Time) ApiListIdeasRequest {
 	r.createdSince = &createdSince
 	return r
 }
 
-// UTC timestamp (in ISO8601 format). If provided, only ideas updated or created after the timestamp will be returned.
+// UTC timestamp (ISO8601). Only ideas updated after this time.
 func (r ApiListIdeasRequest) UpdatedSince(updatedSince time.Time) ApiListIdeasRequest {
 	r.updatedSince = &updatedSince
 	return r
 }
 
-// String tag value. If provided, only ideas with the associated tag will be returned.
+// Filter by tag value
 func (r ApiListIdeasRequest) Tag(tag string) ApiListIdeasRequest {
 	r.tag = &tag
 	return r
 }
 
-// ID of a user. If provided, only ideas created by that user will be returned.
+// Filter by creator user ID
 func (r ApiListIdeasRequest) UserId(userId string) ApiListIdeasRequest {
 	r.userId = &userId
 	return r
 }
 
-// ID of an idea user. If provided, only ideas created by that idea user will be returned.
+// Filter by idea user ID
 func (r ApiListIdeasRequest) IdeaUserId(ideaUserId string) ApiListIdeasRequest {
 	r.ideaUserId = &ideaUserId
 	return r
 }
 
-// A specific page of results.
 func (r ApiListIdeasRequest) Page(page int32) ApiListIdeasRequest {
 	r.page = &page
 	return r
 }
 
-// Number of results per page.
 func (r ApiListIdeasRequest) PerPage(perPage int32) ApiListIdeasRequest {
 	r.perPage = &perPage
+	return r
+}
+
+// Comma-separated list of additional idea fields to include in each list item (e.g. \&quot;votes,categories,score\&quot;). Aha&#39;s list endpoint omits these by default; passing this parameter overrides Aha&#39;s default field set rather than adding to it.
+func (r ApiListIdeasRequest) Fields(fields string) ApiListIdeasRequest {
+	r.fields = &fields
 	return r
 }
 
@@ -221,7 +884,7 @@ func (r ApiListIdeasRequest) Execute() (*IdeasResponse, *http.Response, error) {
 /*
 ListIdeas List ideas
 
-Get all ideas
+Get all ideas with optional filtering
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListIdeasRequest
@@ -291,6 +954,9 @@ func (a *IdeasAPIService) ListIdeasExecute(r ApiListIdeasRequest) (*IdeasRespons
 	if r.perPage != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
 	}
+	if r.fields != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "fields", r.fields, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -308,6 +974,225 @@ func (a *IdeasAPIService) ListIdeasExecute(r ApiListIdeasRequest) (*IdeasRespons
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListProductIdeaCategoriesRequest struct {
+	ctx        context.Context
+	ApiService *IdeasAPIService
+	productId  string
+}
+
+func (r ApiListProductIdeaCategoriesRequest) Execute() (*IdeaCategoriesResponse, *http.Response, error) {
+	return r.ApiService.ListProductIdeaCategoriesExecute(r)
+}
+
+/*
+ListProductIdeaCategories List idea categories
+
+Get all idea categories for a product
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param productId Product ID or reference prefix
+	@return ApiListProductIdeaCategoriesRequest
+*/
+func (a *IdeasAPIService) ListProductIdeaCategories(ctx context.Context, productId string) ApiListProductIdeaCategoriesRequest {
+	return ApiListProductIdeaCategoriesRequest{
+		ApiService: a,
+		ctx:        ctx,
+		productId:  productId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaCategoriesResponse
+func (a *IdeasAPIService) ListProductIdeaCategoriesExecute(r ApiListProductIdeaCategoriesRequest) (*IdeaCategoriesResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaCategoriesResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.ListProductIdeaCategories")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/products/{product_id}/idea_categories"
+	localVarPath = strings.Replace(localVarPath, "{"+"product_id"+"}", url.PathEscape(parameterValueToString(r.productId, "productId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateIdeaRequest struct {
+	ctx               context.Context
+	ApiService        *IdeasAPIService
+	ideaId            string
+	ideaUpdateRequest *IdeaUpdateRequest
+}
+
+func (r ApiUpdateIdeaRequest) IdeaUpdateRequest(ideaUpdateRequest IdeaUpdateRequest) ApiUpdateIdeaRequest {
+	r.ideaUpdateRequest = &ideaUpdateRequest
+	return r
+}
+
+func (r ApiUpdateIdeaRequest) Execute() (*IdeaResponse, *http.Response, error) {
+	return r.ApiService.UpdateIdeaExecute(r)
+}
+
+/*
+UpdateIdea Update idea
+
+Update an existing idea
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ideaId Idea ID or reference number
+	@return ApiUpdateIdeaRequest
+*/
+func (a *IdeasAPIService) UpdateIdea(ctx context.Context, ideaId string) ApiUpdateIdeaRequest {
+	return ApiUpdateIdeaRequest{
+		ApiService: a,
+		ctx:        ctx,
+		ideaId:     ideaId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return IdeaResponse
+func (a *IdeasAPIService) UpdateIdeaExecute(r ApiUpdateIdeaRequest) (*IdeaResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *IdeaResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IdeasAPIService.UpdateIdea")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ideas/{idea_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"idea_id"+"}", url.PathEscape(parameterValueToString(r.ideaId, "ideaId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.ideaUpdateRequest == nil {
+		return localVarReturnValue, nil, reportError("ideaUpdateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.ideaUpdateRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

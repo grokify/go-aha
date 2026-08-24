@@ -1,7 +1,7 @@
 /*
 Aha.io API
 
-Articles that matter on social publishing platform
+Go client for the Aha.io product management API.  This OpenAPI specification is used to generate the internal API client via ogen. The public SDK provides ergonomic wrappers on top of the generated client.
 
 API version: 1.0.0
 */
@@ -19,17 +19,18 @@ var _ MappedNullable = &ReleaseUpdate{}
 
 // ReleaseUpdate struct for ReleaseUpdate
 type ReleaseUpdate struct {
-	// Release name.
-	Name *string `json:"name,omitempty"`
-	// Start date in YYYY-MM-DD format.
-	StartDate *string `json:"start_date,omitempty"`
-	// Release date in YYYY-MM-DD format.
-	ReleaseDate *string `json:"release_date,omitempty"`
-	// Date Development started in format YYYY-MM-DD
-	DevelopmentStartedOn *string `json:"development_started_on,omitempty"`
-	// The external release date for this feature in format YYYY-MM-DD
-	ExternalReleaseDate  *string `json:"external_release_date,omitempty"`
-	ParkingLot           *bool   `json:"parking_lot,omitempty"`
+	Name                 *string        `json:"name,omitempty"`
+	StartDate            NullableString `json:"start_date,omitempty"`
+	ReleaseDate          NullableString `json:"release_date,omitempty"`
+	ExternalReleaseDate  NullableString `json:"external_release_date,omitempty"`
+	DevelopmentStartedOn *string        `json:"development_started_on,omitempty"`
+	ParkingLot           *bool          `json:"parking_lot,omitempty"`
+	// Theme of the release (may include HTML formatting). Also shown as the release description in the Aha! UI.
+	Theme          *string  `json:"theme,omitempty"`
+	ProgressSource *string  `json:"progress_source,omitempty"`
+	Progress       *float64 `json:"progress,omitempty"`
+	// Workflow status ID or name. Transitioning to the status the product's workflow defines as \"released\" is how a release becomes Released.
+	WorkflowStatus       *string `json:"workflow_status,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -84,68 +85,133 @@ func (o *ReleaseUpdate) SetName(v string) {
 	o.Name = &v
 }
 
-// GetStartDate returns the StartDate field value if set, zero value otherwise.
+// GetStartDate returns the StartDate field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ReleaseUpdate) GetStartDate() string {
-	if o == nil || IsNil(o.StartDate) {
+	if o == nil || IsNil(o.StartDate.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.StartDate
+	return *o.StartDate.Get()
 }
 
 // GetStartDateOk returns a tuple with the StartDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ReleaseUpdate) GetStartDateOk() (*string, bool) {
-	if o == nil || IsNil(o.StartDate) {
+	if o == nil {
 		return nil, false
 	}
-	return o.StartDate, true
+	return o.StartDate.Get(), o.StartDate.IsSet()
 }
 
 // HasStartDate returns a boolean if a field has been set.
 func (o *ReleaseUpdate) HasStartDate() bool {
-	if o != nil && !IsNil(o.StartDate) {
+	if o != nil && o.StartDate.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetStartDate gets a reference to the given string and assigns it to the StartDate field.
+// SetStartDate gets a reference to the given NullableString and assigns it to the StartDate field.
 func (o *ReleaseUpdate) SetStartDate(v string) {
-	o.StartDate = &v
+	o.StartDate.Set(&v)
 }
 
-// GetReleaseDate returns the ReleaseDate field value if set, zero value otherwise.
+// SetStartDateNil sets the value for StartDate to be an explicit nil
+func (o *ReleaseUpdate) SetStartDateNil() {
+	o.StartDate.Set(nil)
+}
+
+// UnsetStartDate ensures that no value is present for StartDate, not even an explicit nil
+func (o *ReleaseUpdate) UnsetStartDate() {
+	o.StartDate.Unset()
+}
+
+// GetReleaseDate returns the ReleaseDate field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ReleaseUpdate) GetReleaseDate() string {
-	if o == nil || IsNil(o.ReleaseDate) {
+	if o == nil || IsNil(o.ReleaseDate.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ReleaseDate
+	return *o.ReleaseDate.Get()
 }
 
 // GetReleaseDateOk returns a tuple with the ReleaseDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ReleaseUpdate) GetReleaseDateOk() (*string, bool) {
-	if o == nil || IsNil(o.ReleaseDate) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ReleaseDate, true
+	return o.ReleaseDate.Get(), o.ReleaseDate.IsSet()
 }
 
 // HasReleaseDate returns a boolean if a field has been set.
 func (o *ReleaseUpdate) HasReleaseDate() bool {
-	if o != nil && !IsNil(o.ReleaseDate) {
+	if o != nil && o.ReleaseDate.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetReleaseDate gets a reference to the given string and assigns it to the ReleaseDate field.
+// SetReleaseDate gets a reference to the given NullableString and assigns it to the ReleaseDate field.
 func (o *ReleaseUpdate) SetReleaseDate(v string) {
-	o.ReleaseDate = &v
+	o.ReleaseDate.Set(&v)
+}
+
+// SetReleaseDateNil sets the value for ReleaseDate to be an explicit nil
+func (o *ReleaseUpdate) SetReleaseDateNil() {
+	o.ReleaseDate.Set(nil)
+}
+
+// UnsetReleaseDate ensures that no value is present for ReleaseDate, not even an explicit nil
+func (o *ReleaseUpdate) UnsetReleaseDate() {
+	o.ReleaseDate.Unset()
+}
+
+// GetExternalReleaseDate returns the ExternalReleaseDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ReleaseUpdate) GetExternalReleaseDate() string {
+	if o == nil || IsNil(o.ExternalReleaseDate.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ExternalReleaseDate.Get()
+}
+
+// GetExternalReleaseDateOk returns a tuple with the ExternalReleaseDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ReleaseUpdate) GetExternalReleaseDateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ExternalReleaseDate.Get(), o.ExternalReleaseDate.IsSet()
+}
+
+// HasExternalReleaseDate returns a boolean if a field has been set.
+func (o *ReleaseUpdate) HasExternalReleaseDate() bool {
+	if o != nil && o.ExternalReleaseDate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetExternalReleaseDate gets a reference to the given NullableString and assigns it to the ExternalReleaseDate field.
+func (o *ReleaseUpdate) SetExternalReleaseDate(v string) {
+	o.ExternalReleaseDate.Set(&v)
+}
+
+// SetExternalReleaseDateNil sets the value for ExternalReleaseDate to be an explicit nil
+func (o *ReleaseUpdate) SetExternalReleaseDateNil() {
+	o.ExternalReleaseDate.Set(nil)
+}
+
+// UnsetExternalReleaseDate ensures that no value is present for ExternalReleaseDate, not even an explicit nil
+func (o *ReleaseUpdate) UnsetExternalReleaseDate() {
+	o.ExternalReleaseDate.Unset()
 }
 
 // GetDevelopmentStartedOn returns the DevelopmentStartedOn field value if set, zero value otherwise.
@@ -180,38 +246,6 @@ func (o *ReleaseUpdate) SetDevelopmentStartedOn(v string) {
 	o.DevelopmentStartedOn = &v
 }
 
-// GetExternalReleaseDate returns the ExternalReleaseDate field value if set, zero value otherwise.
-func (o *ReleaseUpdate) GetExternalReleaseDate() string {
-	if o == nil || IsNil(o.ExternalReleaseDate) {
-		var ret string
-		return ret
-	}
-	return *o.ExternalReleaseDate
-}
-
-// GetExternalReleaseDateOk returns a tuple with the ExternalReleaseDate field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ReleaseUpdate) GetExternalReleaseDateOk() (*string, bool) {
-	if o == nil || IsNil(o.ExternalReleaseDate) {
-		return nil, false
-	}
-	return o.ExternalReleaseDate, true
-}
-
-// HasExternalReleaseDate returns a boolean if a field has been set.
-func (o *ReleaseUpdate) HasExternalReleaseDate() bool {
-	if o != nil && !IsNil(o.ExternalReleaseDate) {
-		return true
-	}
-
-	return false
-}
-
-// SetExternalReleaseDate gets a reference to the given string and assigns it to the ExternalReleaseDate field.
-func (o *ReleaseUpdate) SetExternalReleaseDate(v string) {
-	o.ExternalReleaseDate = &v
-}
-
 // GetParkingLot returns the ParkingLot field value if set, zero value otherwise.
 func (o *ReleaseUpdate) GetParkingLot() bool {
 	if o == nil || IsNil(o.ParkingLot) {
@@ -244,6 +278,134 @@ func (o *ReleaseUpdate) SetParkingLot(v bool) {
 	o.ParkingLot = &v
 }
 
+// GetTheme returns the Theme field value if set, zero value otherwise.
+func (o *ReleaseUpdate) GetTheme() string {
+	if o == nil || IsNil(o.Theme) {
+		var ret string
+		return ret
+	}
+	return *o.Theme
+}
+
+// GetThemeOk returns a tuple with the Theme field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReleaseUpdate) GetThemeOk() (*string, bool) {
+	if o == nil || IsNil(o.Theme) {
+		return nil, false
+	}
+	return o.Theme, true
+}
+
+// HasTheme returns a boolean if a field has been set.
+func (o *ReleaseUpdate) HasTheme() bool {
+	if o != nil && !IsNil(o.Theme) {
+		return true
+	}
+
+	return false
+}
+
+// SetTheme gets a reference to the given string and assigns it to the Theme field.
+func (o *ReleaseUpdate) SetTheme(v string) {
+	o.Theme = &v
+}
+
+// GetProgressSource returns the ProgressSource field value if set, zero value otherwise.
+func (o *ReleaseUpdate) GetProgressSource() string {
+	if o == nil || IsNil(o.ProgressSource) {
+		var ret string
+		return ret
+	}
+	return *o.ProgressSource
+}
+
+// GetProgressSourceOk returns a tuple with the ProgressSource field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReleaseUpdate) GetProgressSourceOk() (*string, bool) {
+	if o == nil || IsNil(o.ProgressSource) {
+		return nil, false
+	}
+	return o.ProgressSource, true
+}
+
+// HasProgressSource returns a boolean if a field has been set.
+func (o *ReleaseUpdate) HasProgressSource() bool {
+	if o != nil && !IsNil(o.ProgressSource) {
+		return true
+	}
+
+	return false
+}
+
+// SetProgressSource gets a reference to the given string and assigns it to the ProgressSource field.
+func (o *ReleaseUpdate) SetProgressSource(v string) {
+	o.ProgressSource = &v
+}
+
+// GetProgress returns the Progress field value if set, zero value otherwise.
+func (o *ReleaseUpdate) GetProgress() float64 {
+	if o == nil || IsNil(o.Progress) {
+		var ret float64
+		return ret
+	}
+	return *o.Progress
+}
+
+// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReleaseUpdate) GetProgressOk() (*float64, bool) {
+	if o == nil || IsNil(o.Progress) {
+		return nil, false
+	}
+	return o.Progress, true
+}
+
+// HasProgress returns a boolean if a field has been set.
+func (o *ReleaseUpdate) HasProgress() bool {
+	if o != nil && !IsNil(o.Progress) {
+		return true
+	}
+
+	return false
+}
+
+// SetProgress gets a reference to the given float64 and assigns it to the Progress field.
+func (o *ReleaseUpdate) SetProgress(v float64) {
+	o.Progress = &v
+}
+
+// GetWorkflowStatus returns the WorkflowStatus field value if set, zero value otherwise.
+func (o *ReleaseUpdate) GetWorkflowStatus() string {
+	if o == nil || IsNil(o.WorkflowStatus) {
+		var ret string
+		return ret
+	}
+	return *o.WorkflowStatus
+}
+
+// GetWorkflowStatusOk returns a tuple with the WorkflowStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReleaseUpdate) GetWorkflowStatusOk() (*string, bool) {
+	if o == nil || IsNil(o.WorkflowStatus) {
+		return nil, false
+	}
+	return o.WorkflowStatus, true
+}
+
+// HasWorkflowStatus returns a boolean if a field has been set.
+func (o *ReleaseUpdate) HasWorkflowStatus() bool {
+	if o != nil && !IsNil(o.WorkflowStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetWorkflowStatus gets a reference to the given string and assigns it to the WorkflowStatus field.
+func (o *ReleaseUpdate) SetWorkflowStatus(v string) {
+	o.WorkflowStatus = &v
+}
+
 func (o ReleaseUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
@@ -257,20 +419,32 @@ func (o ReleaseUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	if !IsNil(o.StartDate) {
-		toSerialize["start_date"] = o.StartDate
+	if o.StartDate.IsSet() {
+		toSerialize["start_date"] = o.StartDate.Get()
 	}
-	if !IsNil(o.ReleaseDate) {
-		toSerialize["release_date"] = o.ReleaseDate
+	if o.ReleaseDate.IsSet() {
+		toSerialize["release_date"] = o.ReleaseDate.Get()
+	}
+	if o.ExternalReleaseDate.IsSet() {
+		toSerialize["external_release_date"] = o.ExternalReleaseDate.Get()
 	}
 	if !IsNil(o.DevelopmentStartedOn) {
 		toSerialize["development_started_on"] = o.DevelopmentStartedOn
 	}
-	if !IsNil(o.ExternalReleaseDate) {
-		toSerialize["external_release_date"] = o.ExternalReleaseDate
-	}
 	if !IsNil(o.ParkingLot) {
 		toSerialize["parking_lot"] = o.ParkingLot
+	}
+	if !IsNil(o.Theme) {
+		toSerialize["theme"] = o.Theme
+	}
+	if !IsNil(o.ProgressSource) {
+		toSerialize["progress_source"] = o.ProgressSource
+	}
+	if !IsNil(o.Progress) {
+		toSerialize["progress"] = o.Progress
+	}
+	if !IsNil(o.WorkflowStatus) {
+		toSerialize["workflow_status"] = o.WorkflowStatus
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -297,9 +471,13 @@ func (o *ReleaseUpdate) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "start_date")
 		delete(additionalProperties, "release_date")
-		delete(additionalProperties, "development_started_on")
 		delete(additionalProperties, "external_release_date")
+		delete(additionalProperties, "development_started_on")
 		delete(additionalProperties, "parking_lot")
+		delete(additionalProperties, "theme")
+		delete(additionalProperties, "progress_source")
+		delete(additionalProperties, "progress")
+		delete(additionalProperties, "workflow_status")
 		o.AdditionalProperties = additionalProperties
 	}
 
