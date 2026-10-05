@@ -8,7 +8,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.27.1
 	github.com/grokify/goelastic v0.6.15
 	github.com/grokify/gogoogle v0.11.1
-	github.com/grokify/mogo v0.74.9
+	github.com/grokify/mogo v0.75.0
 	github.com/grokify/spectrum v1.21.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -41,7 +41,7 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.3.21 // indirect
 	github.com/googleapis/gax-go/v2 v2.24.0 // indirect
 	github.com/grokify/base36 v1.0.5 // indirect
-	github.com/huandu/xstrings v1.6.0 // indirect
+	github.com/huandu/xstrings v1.6.1 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.4.1 // indirect
